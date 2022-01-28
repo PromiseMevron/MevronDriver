@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.Auth
+package com.mevron.rides.driver.auth
 
 import java.lang.NumberFormatException
 
@@ -25,7 +25,7 @@ object AuthUtil {
 
     fun validateFullName(name: String): Boolean {
         val fullName = name.split(" ")
-        return  name.contains(" ") && fullName.isNotEmpty() && fullName.size > 1
+        return  name.contains(" ") && fullName.isNotEmpty() && fullName.size > 2
     }
 
 

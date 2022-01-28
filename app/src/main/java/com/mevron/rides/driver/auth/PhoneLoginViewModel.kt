@@ -1,7 +1,7 @@
-package com.mevron.rides.driver.Auth
+package com.mevron.rides.driver.auth
 
 import androidx.lifecycle.ViewModel
 
 class PhoneLoginViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+
 }

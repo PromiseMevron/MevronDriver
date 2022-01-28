@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MevronDriver">
         <activity
-            android:name=".Auth.AuthActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:name=".auth.AuthActivity"
             android:exported="false" />
 
         <meta-data

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_graph"
+    app:startDestination="@id/phoneLoginFragment">
+
+    <fragment
+        android:id="@+id/phoneLoginFragment"
+        android:name="com.mevron.rides.driver.auth.PhoneLoginFragment"
+        tools:layout="@layout/phone_login_fragment"
+        android:label="PhoneLoginFragment" >
+        <action
+            android:id="@+id/action_phoneLoginFragment_to_OTPFragment"
+            app:destination="@id/OTPFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/OTPFragment"
+        tools:layout="@layout/o_t_fragment"
+        android:name="com.mevron.rides.driver.auth.OTPFragment"
+        android:label="OTPFragment" >
+        <argument
+            android:name="phone"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_OTPFragment_to_accountCreationFragment"
+            app:destination="@id/accountCreationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountCreationFragment"
+        android:name="com.mevron.rides.driver.auth.AccountCreationFragment"
+        android:label="account_creation_fragment"
+        tools:layout="@layout/account_creation_fragment" />
+</navigation>
