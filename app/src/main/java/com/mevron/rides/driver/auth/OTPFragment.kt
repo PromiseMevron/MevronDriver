@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.auth
 
 import android.app.Dialog
+import android.content.Context
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.mevron.rides.driver.App
 
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.auth.model.ValidateOTPRequest
 import com.mevron.rides.driver.databinding.OTFragmentBinding
+import com.mevron.rides.driver.remote.GenericStatus
+import com.mevron.rides.driver.util.Constants
+import com.mevron.rides.driver.util.Constants.TOKEN
 import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +31,7 @@ class OTPFragment : Fragment() {
         fun newInstance() = OTPFragment()
     }
 
-    private lateinit var viewModel: OTViewModel
+    private val viewModel: OTViewModel by viewModels()
     private lateinit var binding: OTFragmentBinding
     private var phoneNumber = ""
     var phoneWrite = ""
@@ -44,24 +53,27 @@ class OTPFragment : Fragment() {
         phoneWrite = arguments?.let { OTPFragmentArgs.fromBundle(it).phone }!!
         phoneWrite = "${context?.getString(R.string.we_have_sent_you_a_six_digit_code_on_your)}${phoneNumber}"
         binding.text2.text = phoneWrite
+
         binding.otpView.setOtpCompletionListener {
-            //   val data = ValidateOTPRequest(code = it, phoneNumber =phoneNumber)
-            //  validateOTP(data)
-            binding.incorrectNumber.visibility = View.INVISIBLE
+            val data = ValidateOTPRequest(code = it, phoneNumber = phoneNumber)
+             validateOTP(data)
+       /*     binding.incorrectNumber.visibility = View.INVISIBLE
             binding.nextButton.setImageResource(R.drawable.next_enabled)
-            binding.nextButton.isEnabled = true
+            binding.nextButton.isEnabled = true*/
         }
 
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
+        binding.nextButton.isEnabled = true
         binding.nextButton.setOnClickListener {
-            findNavController().navigate(R.id.action_OTPFragment_to_accountCreationFragment)
+            val action = OTPFragmentDirections.actionOTPFragmentToAccountCreationFragment(phoneNumber)
+            findNavController().navigate(action)
         }
 
     }
 
-    /*  fun validateOTP(data: ValidateOTPRequest){
+      fun validateOTP(data: ValidateOTPRequest){
           toggleBusyDialog(true,"Submitting Data...")
           viewModel.validateOTP(data).observe(viewLifecycleOwner, Observer {
               it.let { res ->
@@ -97,7 +109,7 @@ class OTPFragment : Fragment() {
               }
           })
 
-      }*/
+      }
 
     private fun toggleBusyDialog(busy: Boolean, desc: String? = null){
         if(busy){

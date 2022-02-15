@@ -2,6 +2,7 @@ package com.mevron.rides.driver.auth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.content.ContentResolver
 import com.mevron.rides.driver.R
 import dagger.hilt.android.AndroidEntryPoint
 

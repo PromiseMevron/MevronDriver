@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.13072916666666667" />
         <entry key="app/src/main/res/drawable-v24/ic_back_button.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_email.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_otp.xml" value="0.2222222222222222" />
@@ -10,14 +11,40 @@
         <entry key="app/src/main/res/drawable-v24/ic_resend_unenabled.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/incorrect_number.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/rounded_corner.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/drawable/ic_indicator_1.xml" value="0.2523076923076923" />
+        <entry key="app/src/main/res/drawable/ic_indicator_2.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_resend.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable/ic_vector.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable/next_unenabled.xml" value="0.2222222222222222" />
-        <entry key="app/src/main/res/layout/account_creation_fragment.xml" value="0.22604166666666667" />
+        <entry key="app/src/main/res/drawable/rounded_corner.xml" value="0.1375" />
+        <entry key="app/src/main/res/drawable/rounded_corner_field.xml" value="0.1375" />
+        <entry key="app/src/main/res/drawable/rounded_corner_field_red.xml" value="0.1953125" />
+        <entry key="app/src/main/res/layout/account_creation_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_auth.xml" value="0.12083333333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.20208333333333334" />
+        <entry key="app/src/main/res/layout/add_vehicle_fragment.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/auth_success_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/car_add_items.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/car_add_items_bottom.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/car_color_add.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/car_model_items_bottom.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/car_year_items_bottom.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/card_add_items.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/color_item.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/dialog_busy_layout.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/doc_chooser_layout.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/o_t_fragment.xml" value="0.24010416666666667" />
-        <entry key="app/src/main/res/layout/phone_login_fragment.xml" value="0.22604166666666667" />
+        <entry key="app/src/main/res/layout/phone_login_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/regist1_fragment.xml" value="0.2616033755274262" />
+        <entry key="app/src/main/res/layout/social_security_fragment.xml" value="0.35694444444444445" />
+        <entry key="app/src/main/res/layout/spinner_dropdown_layout.xml" value="0.1796875" />
+        <entry key="app/src/main/res/layout/upload_docum_fragment.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/upload_insurance_fragment.xml" value="0.22604166666666667" />
+        <entry key="app/src/main/res/layout/upload_licence_fragment.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/upload_profile_fragment.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/upload_sticker_fragment.xml" value="0.22604166666666667" />
+        <entry key="app/src/main/res/layout/vehicle_register_item.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/xml/file_paths.xml" value="0.11041666666666666" />
       </map>
     </option>
   </component>
@@ -26,5 +53,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.165" />
+      </ProjectState>
+    </option>
   </component>
 </project>

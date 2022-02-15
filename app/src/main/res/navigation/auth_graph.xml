@@ -30,5 +30,80 @@
         android:id="@+id/accountCreationFragment"
         android:name="com.mevron.rides.driver.auth.AccountCreationFragment"
         android:label="account_creation_fragment"
-        tools:layout="@layout/account_creation_fragment" />
+        tools:layout="@layout/account_creation_fragment" >
+        <action
+            android:id="@+id/action_accountCreationFragment_to_regist1Fragment"
+            app:destination="@id/regist1Fragment" />
+        <argument
+            android:name="phone"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/regist1Fragment"
+        android:name="com.mevron.rides.driver.auth.Regist1Fragment"
+        android:label="regist1_fragment"
+        tools:layout="@layout/regist1_fragment" >
+        <action
+            android:id="@+id/action_regist1Fragment_to_addVehicleFragment"
+            app:destination="@id/addVehicleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addVehicleFragment"
+        android:name="com.mevron.rides.driver.auth.AddVehicleFragment"
+        android:label="add_vehicle_fragment"
+        tools:layout="@layout/add_vehicle_fragment" >
+        <action
+            android:id="@+id/action_addVehicleFragment_to_uploadDocumFragment"
+            app:destination="@id/uploadDocumFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadDocumFragment"
+        android:name="com.mevron.rides.driver.auth.UploadLicenceFragment"
+        android:label="upload_docum_fragment"
+        tools:layout="@layout/upload_licence_fragment" >
+        <action
+            android:id="@+id/action_uploadDocumFragment_to_uploadInsuranceFragment"
+            app:destination="@id/uploadInsuranceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadInsuranceFragment"
+        android:name="com.mevron.rides.driver.auth.UploadInsuranceFragment"
+        android:label="upload_insurance_fragment"
+        tools:layout="@layout/upload_insurance_fragment" >
+        <action
+            android:id="@+id/action_uploadInsuranceFragment_to_uploadStickerFragment"
+            app:destination="@id/uploadStickerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadStickerFragment"
+        android:name="com.mevron.rides.driver.auth.UploadStickerFragment"
+        android:label="upload_sticker_fragment"
+        tools:layout="@layout/upload_sticker_fragment" >
+        <action
+            android:id="@+id/action_uploadStickerFragment_to_uploadProfileFragment"
+            app:destination="@id/uploadProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/uploadProfileFragment"
+        android:name="com.mevron.rides.driver.auth.UploadProfileFragment"
+        android:label="upload_profile_fragment"
+        tools:layout="@layout/upload_profile_fragment" >
+        <action
+            android:id="@+id/action_uploadProfileFragment_to_socialSecurityFragment"
+            app:destination="@id/socialSecurityFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/socialSecurityFragment"
+        android:name="com.mevron.rides.driver.auth.SocialSecurityFragment"
+        tools:layout="@layout/social_security_fragment"
+        android:label="SocialSecurityFragment" >
+        <action
+            android:id="@+id/action_socialSecurityFragment_to_authSuccessFragment"
+            app:destination="@id/authSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authSuccessFragment"
+        android:name="com.mevron.rides.driver.auth.AuthSuccessFragment"
+        android:label="auth_success_fragment"
+        tools:layout="@layout/auth_success_fragment" />
 </navigation>

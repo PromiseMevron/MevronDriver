@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:behavior_hideable="true"
+    android:id="@+id/bottomSheet"
+    android:background="@drawable/rounded_corner"
+    app:behavior_peekHeight="@dimen/_500sdp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+   >
+
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_field"
+        android:id="@+id/search_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_20sdp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        android:layout_marginTop="@dimen/_12sdp"
+        tools:listitem="@layout/card_add_items"
+        android:id="@+id/recycler_view"
+        tools:itemCount="10"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

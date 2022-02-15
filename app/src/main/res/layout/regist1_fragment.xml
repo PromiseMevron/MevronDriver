@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".auth.Regist1Fragment">
+
+    <ImageButton
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:backgroundTint="@android:color/transparent"
+        android:id="@+id/back_button"
+        android:src="@drawable/ic_back_button"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/back_button"/>
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/driver_registration"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/_14ssp"
+        android:gravity="center"
+        android:textColor="#383838"
+        app:layout_constraintBottom_toBottomOf="@id/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/back_button"
+        tools:targetApi="p" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/step_1_of_4"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/_14ssp"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textColor="#2A2A72"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_15sdp"
+        app:layout_constraintTop_toBottomOf="@id/back_button"
+        tools:targetApi="p" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_330sdp"
+        android:id="@+id/recycler_view"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/text2"
+        android:layout_marginTop="@dimen/_40sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/_230sdp"
+                    android:layout_height="match_parent"
+                    android:elevation="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    android:id="@+id/has_a_call">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:src="@drawable/has_car"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:id="@+id/regis_type"/>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/text11"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/i_have_a_car"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textSize="@dimen/_18ssp"
+                                android:textFontWeight="600"
+
+                                android:gravity="center"
+                                android:textColor="#8A8A8A"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:layout_marginStart="@dimen/_12sdp"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:targetApi="p" />
+
+                            <TextView
+                                android:id="@+id/text12"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/you_own_or_planning_to_purchase_a_vehicle_or_vehicles_and_will_drive_yourself_but_might_also_employ_others_to_drive_your_vehicle"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textSize="@dimen/_10ssp"
+                                android:layout_marginTop="@dimen/_4sdp"
+                                android:textColor="#8A8A8A"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:layout_marginStart="@dimen/_12sdp"
+                                android:layout_marginEnd="@dimen/_12sdp"
+                                app:layout_constraintTop_toBottomOf="@id/text11"
+                                tools:targetApi="p" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_next_arrow"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:layout_marginEnd="@dimen/_20sdp"
+                                android:layout_marginBottom="@dimen/_15sdp"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/_230sdp"
+                    android:layout_height="match_parent"
+                    android:elevation="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    android:id="@+id/need_a_call">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.5"
+                            android:src="@drawable/need_car"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/text21"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/i_need_a_car"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textSize="@dimen/_18ssp"
+                                android:textFontWeight="600"
+
+                                android:gravity="center"
+                                android:textColor="#8A8A8A"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:layout_marginStart="@dimen/_12sdp"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:targetApi="p" />
+
+                            <TextView
+                                android:id="@+id/text22"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/i_want_to_be_employed_as_a_driver_by_one_of_mevron_s_partners_and_drive_for_them_on_mevron_s_fleet_partners"
+                                android:fontFamily="@font/poppins_regular"
+                                android:textSize="@dimen/_10ssp"
+                                android:layout_marginTop="@dimen/_4sdp"
+                                android:textColor="#8A8A8A"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:layout_marginStart="@dimen/_12sdp"
+                                android:layout_marginEnd="@dimen/_12sdp"
+                                app:layout_constraintTop_toBottomOf="@id/text21"
+                                tools:targetApi="p" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_next_arrow"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:layout_marginEnd="@dimen/_20sdp"
+                                android:layout_marginBottom="@dimen/_15sdp"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <View
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="match_parent"/>
+
+
+            </LinearLayout>
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </HorizontalScrollView>
+
+    <ImageView
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_indicator_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view"
+        android:layout_marginTop="@dimen/_8sdp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -50,4 +50,38 @@
     <string name="e_g_john_doe">e.g. John Doe</string>
     <string name="city">City</string>
     <string name="referal">Referral Code (Optional)</string>
+
+    <string name="driver_registration">Driver Registration</string>
+    <string name="step_1_of_4">Step 1 of 4</string>
+    <string name="i_have_a_car">I have a car</string>
+    <string name="you_own_or_planning_to_purchase_a_vehicle_or_vehicles_and_will_drive_yourself_but_might_also_employ_others_to_drive_your_vehicle">You own or planning to purchase a vehicle or vehicles and will drive yourself but might also employ others to drive your vehicle</string>
+    <string name="i_need_a_car">I need a car</string>
+    <string name="i_want_to_be_employed_as_a_driver_by_one_of_mevron_s_partners_and_drive_for_them_on_mevron_s_fleet_partners">I want to be employed as a driver by one of mevron’s partners and drive for them on Mevron\'s Fleet Partners.</string>
+
+    <string name="step_2_of_4">Step 2 of 4</string>
+    <string name="add_your_vehicle">Add your vehicle</string>
+    <string name="your_vehicle_must_be_2005_or_newer_and_at_least_4_doors_and_not_salvaged">Your vehicle must be 2005 or newer and at least 4 doors and not salvaged.</string>
+    <string name="make">Make</string>
+    <string name="model">Model</string>
+    <string name="year">Year</string>
+    <string name="color">Color</string>
+    <string name="licence_plate_number">Licence Plate Number</string>
+    <string name="continue_text">Continue</string>
+
+    <string name="step_3_of_4">Step 3 of 4</string>
+    <string name="make_sure_your_driver_s_licence_is_not_expired_please_click_a_clearer_photo_and_avoid_using_flash">Make sure your Driver’s Licence is not expired. Please click a clearer photo and avoid using flash.</string>
+    <string name="submit">Submit</string>
+    <string name="re_upload">Re-upload</string>
+    <string name="make_sure_your_name_vin_insurance_company_and_expiration_date_are_clear_and_visible">Make sure your name, VIN, insurance company, and expiration date are clear and visible</string>
+    <string name="make_sure_your_vehicle_s_make_model_year_license_plate_vin_and_expiration_are_clear_and_visible">Make sure your vehicle’s make, model, year, license plate, VIN and expiration are clear and visible</string>
+    <string name="make_sure_you_show_your_full_face_and_sholders_and_take_off_your_sunglasses_or_hat">Make sure you show your full face and sholders and take off your sunglasses or hat.</string>
+
+    <string name="submit_if_readable">Submit this image if you think it’s readable or tap on re-upload button to upload another one.</string>
+    <string name="submit_if_lit">Submit this image if you think it’s well-lit, else tap on Re-upload button to upload another one.</string>
+    <string name="step_4_of_4">Step 4 of 4</string>
+    <string name="social_security_number">Social Security Number</string>
+    <string name="we_ll_need_to_pay_you_and_to_run_your_background_check_it_won_t_be_used_for_credit_check">We’ll need to pay you and to run your background check, it won’t be used for credit check.</string>
+    <string name="your_application_is_submitted_and_is_under_review">Your application is submitted and is under review.</string>
+    <string name="you_will_be_notified_with_application_status_or_check_the_status_by_going_to_settings">You will be notified with application status or check the status by going to Settings.</string>
+    <string name="explore_the_app">Explore the app</string>
 </resources>
