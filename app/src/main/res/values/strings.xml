@@ -84,4 +84,16 @@
     <string name="your_application_is_submitted_and_is_under_review">Your application is submitted and is under review.</string>
     <string name="you_will_be_notified_with_application_status_or_check_the_status_by_going_to_settings">You will be notified with application status or check the status by going to Settings.</string>
     <string name="explore_the_app">Explore the app</string>
+    <string name="documents">Documents</string>
+    <string name="driver_documents">Driver Documents</string>
+    <string name="driving_licence">Driving Licence</string>
+    <string name="profile_photo">Profile Photo</string>
+
+    <string name="vehicle_registration_sticker">Vehicle Registration sticker</string>
+    <string name="vehicle_insurance">Vehicle Insurance</string>
+    <string name="accept_ride">Accept Ride</string>
+
+    <string name="tap_here_to_cancel_this_ride_if_rider_don_t_show_up">Tap here to cancel this ride, if rider don’t show up.</string>
+    <string name="waiting_for_the_rider">Waiting for the rider</string>
+    <string name="ride_in_progress">Ride in Progress</string>
 </resources>

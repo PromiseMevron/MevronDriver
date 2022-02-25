@@ -226,7 +226,6 @@
         android:paddingStart="@dimen/_10sdp"
         android:paddingEnd="@dimen/_10sdp"
         android:layout_height="52dp"
-
         android:layout_weight="2"
         android:id="@+id/city_rider"
         android:hint="Lagos"

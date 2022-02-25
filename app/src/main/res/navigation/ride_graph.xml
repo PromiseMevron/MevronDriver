@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ride_graph"
+    app:startDestination="@id/rideRequestFragment">
+
+    <fragment
+        android:id="@+id/rideRequestFragment"
+        android:name="com.mevron.rides.driver.ride.RideRequestFragment"
+        android:label="ride_request_fragment"
+        tools:layout="@layout/ride_request_fragment" />
+</navigation>

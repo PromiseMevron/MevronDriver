@@ -134,6 +134,7 @@ class UploadLicenceFragment : Fragment() {
         }else{
             mDialog?.dismiss()
         }
+
     }
 
 
