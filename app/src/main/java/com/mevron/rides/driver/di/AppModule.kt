@@ -36,8 +36,8 @@ object AppModule {
             .writeTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(Interceptor { chain ->
                 val sPref= App.ApplicationContext.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
-              //  val token = sPref.getString(TOKEN, null)
-                val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImVtYWlsIjoiIiwibmFtZSI6IiIsInV1aWQiOiI3Zjc0NjQxOS1iYTgwLTRjMjctYTZkMy1jOTBjYTRjNjRkYzciLCJwaG9uZU51bWJlciI6IjIzNDgwNjU3NTc1ODgiLCJ0eXBlIjoiZHJpdmVyIiwiaWF0IjoxNjQ0MjUyNTE1fQ.H_6V_aBD16_Hp6GKekAixGb1Y0fwFxsRlFNvH27UdCo"
+               // val token = sPref.getString(TOKEN, null)
+                val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiIiLCJuYW1lIjoiIiwidXVpZCI6ImYwZDY0YjdlLTgzYTctNGZjMi05MDk4LTY3YTQ1ZmU3YTIxOCIsInBob25lTnVtYmVyIjoiMjM0ODA2NTc1NzU5OCIsInR5cGUiOiJkcml2ZXIiLCJpYXQiOjE2NDYyODMwMzV9.R0kRthCbGquGRkI4RB8M8i8IbyG1qRyT5gRitxH3jEE"
                 val newRequest: Request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer $token")
                     .addHeader("Accept", "application/json")

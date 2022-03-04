@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        app:layout_constraintTop_toBottomOf="@id/earning_text"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:id="@+id/earning_card"
+        app:cardCornerRadius="@dimen/_4sdp"
+        app:cardElevation="@dimen/_5sdp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.github.lzyzsd.circleprogress.ArcProgress
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/_14sdp"
+                app:arc_stroke_width="@dimen/_5sdp"
+                android:background="@android:color/transparent"
+                app:arc_finished_color="#0B973A"
+                app:arc_unfinished_color="#1A000000"
+                app:arc_text_color="#383838"
+                app:arc_bottom_text=""
+                app:arc_progress="44"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="center"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Ends on Monday"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:id="@+id/end_day"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/_8ssp"
+                android:textFontWeight="600"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:textColor="#9c9c9c"
+                tools:targetApi="p" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/end_day"
+                android:text="@string/weekly_goal"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:id="@+id/weekly_goal_text"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/_10ssp"
+                android:textFontWeight="600"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:textColor="#4e4e4e"
+                tools:targetApi="p" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/weekly_goal_text"
+                android:text="Earn $200/week"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:id="@+id/weekly_goal"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/_10ssp"
+                android:textFontWeight="600"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:textColor="#4e4e4e"
+                tools:targetApi="p" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/weekly_goal"
+                android:text="$87 earned out of $200"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:id="@+id/earned_amount"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/_9ssp"
+                android:textFontWeight="600"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="#0B973A"
+                tools:targetApi="p" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

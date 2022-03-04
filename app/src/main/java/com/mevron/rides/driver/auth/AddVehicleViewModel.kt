@@ -3,8 +3,7 @@ package com.mevron.rides.driver.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mevron.rides.driver.auth.model.CreateAccountRequest
-import com.mevron.rides.driver.auth.model.CreateResponse
+import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.auth.model.VehicleAddRequest
 import com.mevron.rides.driver.auth.model.caryear.GetCarYear
 import com.mevron.rides.driver.auth.model.getcar.GetCallsResponse
@@ -22,9 +21,9 @@ import javax.inject.Inject
 class AddVehicleViewModel @Inject constructor (private val repository: MevronRepo)  : ViewModel() {
 
 
-    fun addVehicle(data: VehicleAddRequest): LiveData<GenericStatus<CreateResponse>> {
+    fun addVehicle(data: VehicleAddRequest): LiveData<GenericStatus<GeneralResponse>> {
 
-        val result = MutableLiveData<GenericStatus<CreateResponse>>()
+        val result = MutableLiveData<GenericStatus<GeneralResponse>>()
 
         CoroutineScope(Dispatchers.IO).launch {
             try{

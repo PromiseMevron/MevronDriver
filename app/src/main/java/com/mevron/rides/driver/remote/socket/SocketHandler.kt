@@ -7,7 +7,7 @@ import java.net.URISyntaxException
 
 object SocketHandler {
 
-    lateinit var mSocket: Socket
+     var mSocket: Socket? = null
 
     @Synchronized
     fun setSocket(uiid: String, lat: String, lng: String) {
@@ -23,17 +23,17 @@ object SocketHandler {
     }
 
     @Synchronized
-    fun getSocket(): Socket {
+    fun getSocket(): Socket? {
         return mSocket
     }
 
     @Synchronized
     fun establishConnection() {
-        mSocket.connect()
+        mSocket?.connect()
     }
 
     @Synchronized
     fun closeConnection() {
-        mSocket.disconnect()
+        mSocket?.disconnect()
     }
 }

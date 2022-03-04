@@ -31,9 +31,6 @@ class AuthActivity : AppCompatActivity() {
         }
 
 
-        val intent = Intent(this, LocationService::class.java) // Build the intent for the service
-        ContextCompat.startForegroundService(this, intent)
-
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

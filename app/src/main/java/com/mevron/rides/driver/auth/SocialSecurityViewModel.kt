@@ -3,10 +3,8 @@ package com.mevron.rides.driver.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mevron.rides.driver.auth.model.CreateResponse
-import com.mevron.rides.driver.auth.model.OTPResponse
+import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.auth.model.SecurityNumRequest
-import com.mevron.rides.driver.auth.model.ValidateOTPRequest
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.remote.HTTPErrorHandler
 import com.mevron.rides.driver.remote.MevronRepo
@@ -20,9 +18,9 @@ import javax.inject.Inject
 class SocialSecurityViewModel  @Inject constructor (private val repository: MevronRepo) : ViewModel() {
 
 
-    fun uploadNum(data: SecurityNumRequest): LiveData<GenericStatus<CreateResponse>> {
+    fun uploadNum(data: SecurityNumRequest): LiveData<GenericStatus<GeneralResponse>> {
 
-        val result = MutableLiveData<GenericStatus<CreateResponse>>()
+        val result = MutableLiveData<GenericStatus<GeneralResponse>>()
 
         CoroutineScope(Dispatchers.IO).launch {
             try{

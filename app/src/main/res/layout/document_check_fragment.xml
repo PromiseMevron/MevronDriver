@@ -8,10 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
-
-
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -103,7 +99,6 @@
             android:layout_height="@dimen/_20sdp"
             android:src="@drawable/ic_next"
             app:layout_constraintTop_toTopOf="parent"
-
             android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"/>
 

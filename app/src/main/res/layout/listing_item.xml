@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_90sdp"
+        app:layout_constraintTop_toBottomOf="@id/earning_text"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:id="@+id/earning_card"
+        app:cardCornerRadius="@dimen/_4sdp"
+        app:cardElevation="@dimen/_5sdp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_vector_opp"
+                android:id="@+id/image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginStart="@dimen/_14sdp"/>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/_14sdp"
+                app:layout_constraintStart_toEndOf="@id/image"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/image"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textAlignment="textStart"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="Soccer night at Jonty’s FCB"
+                    android:id="@+id/end_day"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/_12ssp"
+                    android:textFontWeight="600"
+                    android:textColor="#383838"
+                    tools:targetApi="p" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textAlignment="textStart"
+                    app:layout_constraintTop_toBottomOf="@id/end_day"
+                    android:text="Get faster requests from 10:00PM at Jonty’s FCB, Hamline Ave N"
+                    android:id="@+id/weekly_goal_text"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textFontWeight="600"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:textColor="#666666"
+                    tools:targetApi="p" />
+
+
+
+            </LinearLayout>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

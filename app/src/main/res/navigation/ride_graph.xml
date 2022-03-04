@@ -3,11 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ride_graph"
-    app:startDestination="@id/rideRequestFragment">
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mevron.rides.driver.home.HomeFragment"
+        tools:layout="@layout/home_fragment"
+        android:label="HomeFragment" />
+
 
     <fragment
         android:id="@+id/rideRequestFragment"
         android:name="com.mevron.rides.driver.ride.RideRequestFragment"
         android:label="ride_request_fragment"
         tools:layout="@layout/ride_request_fragment" />
+    <fragment
+        android:id="@+id/documentCheckFragment"
+        android:name="com.mevron.rides.driver.auth.DocumentCheckFragment"
+        android:label="document_check_fragment"
+        tools:layout="@layout/document_check_fragment" /><action android:id="@+id/action_global_documentCheckFragment" app:destination="@id/documentCheckFragment"/>
+
 </navigation>

@@ -1,5 +1,5 @@
 package com.mevron.rides.driver.auth.model
 
-data class CreateResponse(
+data class GeneralResponse(
     val success: SuccessXX
 )

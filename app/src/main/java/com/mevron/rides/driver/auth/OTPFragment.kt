@@ -2,6 +2,7 @@ package com.mevron.rides.driver.auth
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,8 +20,10 @@ import com.mevron.rides.driver.R
 import com.mevron.rides.driver.auth.model.ValidateOTPRequest
 import com.mevron.rides.driver.databinding.OTFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
+import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.util.Constants
 import com.mevron.rides.driver.util.Constants.TOKEN
+import com.mevron.rides.driver.util.Constants.UUID
 import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +39,7 @@ class OTPFragment : Fragment() {
     private var phoneNumber = ""
     var phoneWrite = ""
     private var mDialog: Dialog? = null
+    private var isNew = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,8 +71,13 @@ class OTPFragment : Fragment() {
         }
         binding.nextButton.isEnabled = true
         binding.nextButton.setOnClickListener {
-            val action = OTPFragmentDirections.actionOTPFragmentToAccountCreationFragment(phoneNumber)
-            findNavController().navigate(action)
+            if (isNew){
+                val action = OTPFragmentDirections.actionOTPFragmentToAccountCreationFragment(phoneNumber)
+                findNavController().navigate(action)
+            }else{
+                startActivity(Intent(activity, RideActivity::class.java))
+                activity?.finish()
+            }
         }
 
     }
@@ -96,6 +105,9 @@ class OTPFragment : Fragment() {
                           val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
                           val editor = sPref.edit()
                           editor.putString(TOKEN, res.data?.success?.data?.accessToken)
+                          editor.putString(UUID, res.data?.success?.data?.uuid)
+                          val type = (res.data?.success?.data?.riderType ?: "").lowercase()
+                          isNew = type == "new"
                           //TOKENhhh
                           //  editor.putString("TOKENhhh", resource.data?.data?.token)
                           editor.apply()

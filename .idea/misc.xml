@@ -11,25 +11,38 @@
         <entry key="app/src/main/res/drawable-v24/ic_resend_unenabled.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/incorrect_number.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/rounded_corner.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/drawable/ic_add_account.xml" value="0.1875" />
+        <entry key="app/src/main/res/drawable/ic_alert.xml" value="0.1875" />
         <entry key="app/src/main/res/drawable/ic_cancel_x.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_curved_image_large.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_curved_view.xml" value="0.2523076923076923" />
+        <entry key="app/src/main/res/drawable/ic_drive.xml" value="0.146" />
+        <entry key="app/src/main/res/drawable/ic_drive_un.xml" value="0.146" />
+        <entry key="app/src/main/res/drawable/ic_earning.xml" value="0.146" />
+        <entry key="app/src/main/res/drawable/ic_earning_un.xml" value="0.146" />
+        <entry key="app/src/main/res/drawable/ic_go_online.xml" value="0.2225" />
+        <entry key="app/src/main/res/drawable/ic_gradient_back.xml" value="0.1875" />
         <entry key="app/src/main/res/drawable/ic_handle.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_icon_call.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_icon_message.xml" value="0.2523076923076923" />
+        <entry key="app/src/main/res/drawable/ic_icons_right.xml" value="0.1095" />
         <entry key="app/src/main/res/drawable/ic_indicator_1.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_indicator_2.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_next_red.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_resend.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/drawable/ic_stop_new_ride.xml" value="0.25625" />
         <entry key="app/src/main/res/drawable/ic_vector.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/drawable/ic_vector_benefit.xml" value="0.1875" />
         <entry key="app/src/main/res/drawable/ic_year_ok.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/next_unenabled.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable/rounded_corner.xml" value="0.1375" />
         <entry key="app/src/main/res/drawable/rounded_corner_all.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/rounded_corner_field.xml" value="0.1375" />
         <entry key="app/src/main/res/drawable/rounded_corner_field_red.xml" value="0.1953125" />
+        <entry key="app/src/main/res/drawable/rounded_corner_rating.xml" value="0.24444444444444444" />
         <entry key="app/src/main/res/layout/account_creation_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_auth.xml" value="0.12083333333333333" />
+        <entry key="app/src/main/res/layout/activity_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/activity_ride.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/add_vehicle_fragment.xml" value="0.165" />
@@ -44,11 +57,16 @@
         <entry key="app/src/main/res/layout/dialog_busy_layout.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/doc_chooser_layout.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/document_check_fragment.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/home_bottom.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/home_fragment.xml" value="0.2716049382716049" />
+        <entry key="app/src/main/res/layout/learn_item.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/listing_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/o_t_fragment.xml" value="0.24010416666666667" />
-        <entry key="app/src/main/res/layout/on_ride_bottom.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/on_ride_bottom.xml" value="0.25" />
         <entry key="app/src/main/res/layout/phone_login_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/regist1_fragment.xml" value="0.2616033755274262" />
         <entry key="app/src/main/res/layout/ride_request_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/schedule_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/social_security_fragment.xml" value="0.35694444444444445" />
         <entry key="app/src/main/res/layout/spinner_dropdown_layout.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/upload_docum_fragment.xml" value="0.165" />
@@ -57,6 +75,7 @@
         <entry key="app/src/main/res/layout/upload_profile_fragment.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/upload_sticker_fragment.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/vehicle_register_item.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/weekly_item.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/xml/file_paths.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.2203125" />
       </map>
@@ -67,5 +86,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.3900169204737733" />
+      </ProjectState>
+    </option>
   </component>
 </project>

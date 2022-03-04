@@ -1,11 +1,16 @@
 package com.mevron.rides.driver.service
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.location.LocationListener
 import android.os.Bundle
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat
+import com.mevron.rides.driver.util.Constants
 
 
 class LocationHelper {
@@ -14,6 +19,16 @@ class LocationHelper {
 
     @SuppressLint("MissingPermission")
     fun startListeningUserLocation(context: Context, myListener: MyLocationListener) {
+
+        if (context.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
+            != PackageManager.PERMISSION_GRANTED && context.let {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
+            } != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+
         val mLocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val locationListener: LocationListener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
