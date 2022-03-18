@@ -319,21 +319,21 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
     <include
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/add_car_bottom"
         layout="@layout/car_add_items_bottom" />
     <include
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/add_car_model"
         layout="@layout/car_model_items_bottom" />
 
     <include
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/add_car_year"
         layout="@layout/car_year_items_bottom" />
 
     <include
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/add_color"
         layout="@layout/car_color_add" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

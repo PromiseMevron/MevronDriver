@@ -37,7 +37,7 @@ object AppModule {
             .addInterceptor(Interceptor { chain ->
                 val sPref= App.ApplicationContext.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
                // val token = sPref.getString(TOKEN, null)
-                val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiIiLCJuYW1lIjoiIiwidXVpZCI6ImYwZDY0YjdlLTgzYTctNGZjMi05MDk4LTY3YTQ1ZmU3YTIxOCIsInBob25lTnVtYmVyIjoiMjM0ODA2NTc1NzU5OCIsInR5cGUiOiJkcml2ZXIiLCJpYXQiOjE2NDYyODMwMzV9.R0kRthCbGquGRkI4RB8M8i8IbyG1qRyT5gRitxH3jEE"
+                val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiIiLCJuYW1lIjoiIiwidXVpZCI6Ijg3Yjg2YTA1LTQ1Y2ItNDBkZS1hMWJmLTkyZmQ4MzYyNTg4OCIsInBob25lTnVtYmVyIjoiMjM0NzAzMzUwNTAxMyIsInR5cGUiOiJkcml2ZXIiLCJpYXQiOjE2NDYzNTY4NDh9.icyUCSLOxulAxTsNl_AqJzY4E4_9YXxl9zf_1LaTXcQ"
                 val newRequest: Request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer $token")
                     .addHeader("Accept", "application/json")

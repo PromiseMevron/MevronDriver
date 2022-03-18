@@ -1,17 +1,15 @@
 package com.mevron.rides.driver.service
 
-import android.Manifest
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.mevron.rides.driver.App
@@ -20,6 +18,7 @@ import com.mevron.rides.driver.auth.AuthActivity
 import com.mevron.rides.driver.remote.socket.SocketHandler
 import com.mevron.rides.driver.util.Constants
 import io.socket.client.Socket
+import org.json.JSONObject
 
 class LocationService: Service() {
 
@@ -31,6 +30,7 @@ class LocationService: Service() {
     val uuid = sPref.getString(Constants.UUID, null)
     val lati = sPref.getString(Constants.LAT, null)
     val lng = sPref.getString(Constants.LNG, null)
+    val tripID = sPref.getString(Constants.TRIP_ID, null)
 
     val isServiceStarted: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -49,11 +49,9 @@ class LocationService: Service() {
         super.onCreate()
         context = this
 
-        if (uuid != null && lati != null && lng != null) {
-            SocketHandler.setSocket(uiid = uuid, lng = lng, lat = lati)
-            SocketHandler.establishConnection()
+
             mSocket = SocketHandler.getSocket()
-        }
+
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -96,24 +94,48 @@ class LocationService: Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         isServiceStarted.value = true
+        val uuid = sPref.getString(Constants.UUID, null)
+        val lati = sPref.getString(Constants.LAT, null)
+        val lng = sPref.getString(Constants.LNG, null)
 
         if (uuid != null && lati != null && lng != null) {
-            SocketHandler.setSocket(uiid = uuid, lng = lng, lat = lati)
-            SocketHandler.establishConnection()
-            mSocket = SocketHandler.getSocket()
+         //   mSocket = SocketHandler.getSocket()
         }
+
+        mSocket = SocketHandler.getSocket()
 
 
         LocationHelper().startListeningUserLocation(
             this, object : MyLocationListener {
                 override fun onLocationChanged(location: Location?) {
+                  //  Toast.makeText(context, "2323", Toast.LENGTH_SHORT).show()
                     mLocation = location
                     mLocation?.let {
-                        if (uuid != null && lati != null && lng != null && mSocket != null) {
-                            val update = UpdateLocationModel(lat = it.latitude.toString(), long = it.longitude.toString(), uuid = uuid)
+                      //  Toast.makeText(context, "4444", Toast.LENGTH_SHORT).show()
+
+
+                        val update = UpdateLocationModel(lat = it.latitude.toString(), long = it.longitude.toString(), uuid = uuid)
                             val json = Gson().toJson(update)
-                            mSocket!!.emit("driver_location", json)
-                        }
+                        /**
+                         *    val lat: String,
+                        val long: String,
+                        val uuid: String? = null,
+                        val trip_id: String? = null
+                         */
+
+                        val jo = JSONObject()
+                        jo.put("lat", it.latitude.toString())
+                        jo.put("long", it.longitude.toString())
+                        jo.put("uuid", uuid)
+                        jo.put("trip_id", tripID)
+
+                            mSocket?.emit("driver_location", jo)
+
+                            val update2 = UpdateLocationModel(lat = it.latitude.toString(), long = it.longitude.toString(), trip_id = tripID)
+                            val json2 = Gson().toJson(update2)
+                            mSocket?.emit("trip_status", jo)
+
+
                     }
                 }
             })
@@ -125,7 +147,7 @@ class LocationService: Service() {
     override fun onDestroy() {
         super.onDestroy()
         isServiceStarted.value = false
-       SocketHandler.closeConnection()
+    //   SocketHandler.closeConnection()
 
     }
 

@@ -370,7 +370,12 @@ fun Fragment.getGeoLocation(location: Array<LocationModel>, gMap: GoogleMap, isA
                 response.body().let {
                     val directionsPayload = it
                     if (directionsPayload != null) {
-                        plotPolyLines(directionsPayload, gMap, addMarker)
+                        if (isArrival){
+                            plotPolyLinesForDriverArrival(directionsPayload, gMap, addMarker)
+                        }else{
+                            plotPolyLines(directionsPayload, gMap, addMarker)
+                        }
+
 
                     }
                     else {
@@ -416,13 +421,99 @@ fun Fragment.plotPolyLines(geoDirections: GeoDirectionsResponse, gMap: GoogleMap
 
     //   val boundsUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding)
     //   gMap.animateCamera(boundsUpdate)
-    val rectLine = PolylineOptions().width(20f).color(ContextCompat.getColor(requireContext(), R.color.primary))
+    val rectLine = PolylineOptions().width(8f).color(ContextCompat.getColor(requireContext(), R.color.primary))
     for (step in steps) { rectLine.add(step) }
     // gMap.clear()
     gMap.addPolyline(rectLine)
 }
 
+fun Fragment.plotPolyLinesForDriverArrival(geoDirections: GeoDirectionsResponse, gMap: GoogleMap,  addMarker: (GeoDirectionsResponse) -> Unit){
+    val steps: ArrayList<LatLng> = ArrayList()
 
+    if (geoDirections.routes.isNullOrEmpty()) {
+        return
+    }
+    addMarker(geoDirections)
+
+    val geoBounds = geoDirections.routes?.get(0)?.bounds
+    val geoSteps = geoDirections.routes?.get(0)?.legs?.get(0)?.steps
+
+    geoSteps?.forEach { geoStep ->
+        steps.addAll(decodePolyline(geoStep.polyline?.points!!))
+    }
+
+
+
+    val endLocation = geoDirections.routes?.get(0)?.legs?.get(0)?.endLocation
+    val startLocation = geoDirections.routes?.get(0)?.legs?.get(0)?.startLocation
+
+
+    val builder = LatLngBounds.Builder()
+    builder.include(LatLng(geoBounds?.northeast?.lat ?: 0.0, geoBounds?.northeast?.lng ?: 0.0))
+    builder.include(LatLng(geoBounds?.southwest?.lat ?: 0.0, geoBounds?.southwest?.lng ?: 0.0))
+
+    val bounds = builder.build()
+    val width = resources.displayMetrics.widthPixels
+    val height = resources.displayMetrics.heightPixels
+    val padding = (width * 0.3).toInt()
+
+
+
+
+        val rectLine = PolylineOptions().width(8f).color(ContextCompat.getColor(requireContext(), R.color.primary))
+        for (step in steps) { rectLine.add(step) }
+        gMap.addPolyline(rectLine)
+
+   /* var rectLine2 = PolylineOptions().width(8f).color(ContextCompat.getColor(requireContext(), R.color.primary))
+    for (step in steps) { rectLine2.add(step) }
+    gMap.addPolyline(rectLine2)
+
+
+    val polylineAnimator = AnimationUtils.polyLineAnimator()
+    polylineAnimator.addUpdateListener { valueAnimator ->
+        val percentValue = (valueAnimator.animatedValue as Int)
+        val index = (rectLine?.points!!.size * (percentValue / 100.0f)).toInt()
+        rectLine2?.points = rectLine.points!!.subList(0, index)
+    }
+    polylineAnimator.start()*/
+
+        val marker =  MarkerOptions()
+            .position(LatLng(steps[(steps.size - 1)].latitude, steps[(steps.size - 1)].longitude))
+            .icon(bitmapFromVector(R.drawable.ic_map_circle_blue))
+        gMap.addMarker(marker)
+
+    val marker3 =  MarkerOptions()
+        .position(LatLng(startLocation?.lat ?: 0.0, startLocation?.lng ?: 0.0))
+        .icon(bitmapFromVector( R.drawable.group))
+
+
+
+  /*  val valueAnimator = AnimationUtils.cabAnimator()
+    valueAnimator.addUpdateListener { va ->
+        val multiplier = va.animatedFraction
+        if (currentLatLngFromServer != null && previousLatLngFromServer != null) {
+
+            val nextLocation = LatLng(
+                multiplier * currentLatLngFromServer!!.latitude + (1 - multiplier) * previousLatLngFromServer!!.latitude,
+                multiplier * currentLatLngFromServer!!.longitude + (1 - multiplier) * previousLatLngFromServer!!.longitude
+            )
+            movingCabMarker?.position = nextLocation
+            movingCabMarker?.setAnchor(0.5f, 0.5f)
+            val rotation = MapUtils.getRotation(previousLatLngFromServer!!, nextLocation)
+            if (!rotation.isNaN()) {
+                movingCabMarker?.rotation = rotation
+            }
+            animateCamera(nextLocation)
+        }
+    }
+    valueAnimator.start()*/
+
+
+
+
+    //gMap.addMarker(marker3)
+
+}
 
 
 private fun decodePolyline(encoded: String): ArrayList<LatLng> {
@@ -476,3 +567,4 @@ fun Fragment.toggleBusyDialog(busy: Boolean, desc: String? = null){
         mDialog?.dismiss()
     }
 }
+

@@ -1,7 +1,7 @@
 package com.mevron.rides.driver.remote
 
 data class TripManagementModel(
-    val code: String,
+    val code: String? = null,
     val trip_id: String,
-    val type: String? = null
+    val type: String
 )

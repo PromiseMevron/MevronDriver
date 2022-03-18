@@ -15,11 +15,25 @@
         android:id="@+id/rideRequestFragment"
         android:name="com.mevron.rides.driver.ride.RideRequestFragment"
         android:label="ride_request_fragment"
-        tools:layout="@layout/ride_request_fragment" />
+        tools:layout="@layout/ride_request_fragment" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="startLocation"
+            app:argType="com.mevron.rides.driver.util.LocationModel" />
+        <argument
+            android:name="endLocation"
+            app:argType="com.mevron.rides.driver.util.LocationModel" />
+        <argument
+            android:name="verify"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/documentCheckFragment"
         android:name="com.mevron.rides.driver.auth.DocumentCheckFragment"
         android:label="document_check_fragment"
         tools:layout="@layout/document_check_fragment" /><action android:id="@+id/action_global_documentCheckFragment" app:destination="@id/documentCheckFragment"/>
+    <action android:id="@+id/action_global_rideRequestFragment" app:destination="@id/rideRequestFragment" />
 
 </navigation>

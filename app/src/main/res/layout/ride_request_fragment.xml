@@ -10,7 +10,7 @@ xmlns:tools="http://schemas.android.com/tools">
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#fff"
     tools:context=".ride.RideRequestFragment">
 
 
@@ -33,30 +33,42 @@ xmlns:tools="http://schemas.android.com/tools">
 
 
 
-
-        <ImageButton
-            android:id="@+id/drawer_button"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_30sdp"
             android:layout_marginBottom="@dimen/_260sdp"
-            android:background="@android:color/transparent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_back_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="@dimen/_20sdp"
+            android:visibility="invisible"
+            android:id="@+id/drawer_button">
+
+            <ImageButton
+                android:padding="@dimen/_10sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_vector_close"
+                />
+
+        </androidx.cardview.widget.CardView>
+
+
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_270sdp"
+
             android:background="@drawable/rounded_corner_all"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="@dimen/_30sdp"
             android:layout_marginStart="@dimen/_14sdp"
             android:layout_marginEnd="@dimen/_14sdp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/bottom_sheet_accept_ride">
 
             <Button
@@ -196,20 +208,14 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:textSize="@dimen/_10ssp"
                     android:id="@+id/km_away"/>
 
-
-
             </LinearLayout>
-
-
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/bottom_sheet_start_ride">
@@ -234,7 +240,7 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_70sdp"
                     android:id="@+id/cancel_layout"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginStart="@dimen/_14sdp"
                     android:layout_marginEnd="@dimen/_14sdp"
@@ -345,7 +351,7 @@ xmlns:tools="http://schemas.android.com/tools">
                     app:inner_color="@color/white"
                     app:outer_color="#2A2A72"
                     app:text_size="@dimen/_12ssp"
-                    app:animation_duration="-1"
+                    app:animation_duration="0"
                     android:layout_marginEnd="@dimen/_14sdp"
                     android:layout_marginStart="@dimen/_14sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -358,10 +364,79 @@ xmlns:tools="http://schemas.android.com/tools">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:id="@+id/navigate_card"
+            android:visibility="gone"
+            app:cardCornerRadius="@dimen/_4sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_height="@dimen/_90sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFA901">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        tools:text="Pickup is 4 min away"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textSize="@dimen/_14ssp"
+                        android:gravity="center"
+                        android:id="@+id/distance"
+                        android:textFontWeight="600"
+                        android:textColor="#ffffff"
+                        android:lineHeight="@dimen/_10sdp"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        tools:targetApi="p" />
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        tools:text="Pickup is 4 min away"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textSize="@dimen/_14ssp"
+                        android:maxLines="2"
+                        android:gravity="center"
+                        android:id="@+id/direction"
+                        android:textFontWeight="600"
+                        android:textColor="#ffffff"
+                        android:lineHeight="@dimen/_15sdp"
+                        tools:targetApi="p" />
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <include
+        android:id="@+id/mevron_arrived_bottom"
+        layout="@layout/on_arrive_bottom" />
 
+    <include
+
+        android:id="@+id/mevron_home_bottom"
+        layout="@layout/on_ride_bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

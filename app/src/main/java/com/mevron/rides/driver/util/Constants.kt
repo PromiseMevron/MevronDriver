@@ -11,6 +11,7 @@ object Constants {
     const val UUID = "UUID"
     const val LAT = "LAT"
     const val LNG = "LNG"
+    const val TRIP_ID = "TRIP_ID"
     const val LOCATION_REQUEST_CODE = 4555
     const val REQUEST_TAKE_PHOTO = 1
     const val REQUEST_PICK_IMAGE = 2
