@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_190sdp">
+
+    <RatingBar
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:id="@+id/rating"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_18sdp"
+        android:layout_marginStart="@dimen/_14sdp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:src="@drawable/ic_avatar"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_18sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/avatar"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Promise Ochornma, Promise Ochornma Promise Ochornma Promise Ochornma Promise Ochornma "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="textStart"
+        app:layout_constraintTop_toBottomOf="@id/rating"
+        android:fontFamily="@font/poppins_semibold"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:textSize="@dimen/_13ssp"
+        android:textColor="#383838"
+        android:maxLines="1"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:lineHeight="@dimen/_28sdp"
+        android:id="@+id/review"
+        android:textFontWeight="600"
+        tools:targetApi="p" />
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Promise Ochornma, Promise Ochornma Promise Ochornma Promise Ochornma Promise Ochornma ma Promise Ochornma Promise Ochornma Promise Ochornma "
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="textStart"
+        app:layout_constraintTop_toBottomOf="@id/review"
+        android:fontFamily="@font/poppins_semibold"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:textSize="@dimen/_10ssp"
+        android:textColor="#8a8a8a"
+        android:maxLines="3"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:lineHeight="@dimen/_15sdp"
+        android:id="@+id/rate_detail"
+        android:textFontWeight="600"
+        tools:targetApi="p" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_24sdp"
+        android:id="@+id/bullet_recycler"
+        tools:listitem="@layout/bullet_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rate_detail"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f2f2f2"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_14sdp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

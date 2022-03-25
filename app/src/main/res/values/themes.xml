@@ -19,4 +19,8 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+
+    <style name="NavigationViewStyle">
+        <item name="android:textSize">25sp</item>
+    </style>
 </resources>

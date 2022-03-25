@@ -1,7 +1,10 @@
 package com.mevron.rides.driver.di
 
 import android.content.Context
+import androidx.room.Room
 import com.mevron.rides.driver.App
+import com.mevron.rides.driver.localdb.MevronDao
+import com.mevron.rides.driver.localdb.MevronDatabase
 import com.mevron.rides.driver.remote.MevronAPI
 import com.mevron.rides.driver.remote.MevronRepo
 import com.mevron.rides.driver.util.Constants.BASE_URL
@@ -10,6 +13,7 @@ import com.mevron.rides.driver.util.Constants.TOKEN
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -61,8 +65,25 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun mainReop(api: MevronAPI): MevronRepo {
-        return MevronRepo(api = api)
+    fun mainReop(api: MevronAPI, dao: MevronDao): MevronRepo {
+        return MevronRepo(api = api, dao = dao)
     }
+
+
+    @Singleton
+    @Provides
+    fun provideMevronDatabase(
+        @ApplicationContext context: Context
+    ) = Room.databaseBuilder(context, MevronDatabase::class.java, "mevron_database_rider")
+        .fallbackToDestructiveMigration()
+        .build()
+
+
+
+    @Singleton
+    @Provides
+    fun provideMevronDao(
+        database: MevronDatabase
+    ) = database.addDAO()
 
 }

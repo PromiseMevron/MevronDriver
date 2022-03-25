@@ -65,6 +65,11 @@ fun EditText.getString(): String{
     return this.text.toString()
 }
 
+fun View.hideKeyboard() {
+    val hideAction = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    hideAction.hideSoftInputFromWindow(windowToken, 0)
+}
+
 private fun Context.hasPermission(permission: String): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         ActivityCompat.checkSelfPermission(this, permission)

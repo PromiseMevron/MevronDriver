@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:elevation="@dimen/_10sdp"
+        android:background="#2A2A72"
+        android:backgroundTint="#2A2A72"
+        app:cardCornerRadius="@dimen/_4sdp"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp">
+
+
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RatingBar
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:id="@+id/rating"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_14sdp"/>
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Promise Ochornma, Promise Ochornma Promise Ochornma Promise Ochornma Promise Ochornma "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/rating"
+        android:fontFamily="@font/poppins_semibold"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:textSize="@dimen/_18ssp"
+        android:textColor="#ffffff"
+        android:maxLines="3"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:lineHeight="@dimen/_28sdp"
+        android:id="@+id/review"
+        android:textFontWeight="600"
+        tools:targetApi="p" />
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="4 days"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/review"
+        android:fontFamily="@font/poppins_semibold"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:textSize="@dimen/_10ssp"
+        android:textColor="#ffffff"
+        android:maxLines="3"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:lineHeight="@dimen/_28sdp"
+        android:id="@+id/date"
+        android:textFontWeight="600"
+        tools:targetApi="p" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

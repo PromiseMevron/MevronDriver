@@ -6,11 +6,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="wrap_content">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:paddingBottom="@dimen/_30sdp"
     >
 

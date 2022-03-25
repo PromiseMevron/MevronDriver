@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".sidemenu.DriverPrefrenceFragment">
+
+    <ImageButton
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:backgroundTint="@android:color/transparent"
+        android:id="@+id/back_button"
+        android:src="@drawable/ic_back_button"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/back_button"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/driving_preferences"
+        android:textColor="#383838"
+        app:layout_constraintStart_toStartOf="@id/back_button"
+        app:layout_constraintTop_toBottomOf="@id/back_button"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:textSize="@dimen/_20ssp"
+        android:fontFamily="@font/poppins_regular"
+        android:textFontWeight="600"
+        android:lineHeight="@dimen/_42sdp"
+        android:id="@+id/state_of_location"
+        tools:targetApi="p" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_78sdp"
+        android:id="@+id/prefereed_map"
+        app:layout_constraintTop_toBottomOf="@id/state_of_location"
+        android:layout_marginTop="@dimen/_20sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/driving_preferences"
+                android:textColor="#383838"
+                android:textSize="@dimen/_14ssp"
+                android:fontFamily="@font/poppins_regular"
+                android:textFontWeight="400"
+                android:lineHeight="@dimen/_22sdp"
+                tools:targetApi="p" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/google_map"
+                android:textColor="#666666"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/poppins_regular"
+                android:textFontWeight="400"
+                android:id="@+id/prefreed_map"
+                android:lineHeight="@dimen/_18sdp"
+                tools:targetApi="p" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_next"
+            android:layout_marginEnd="@dimen/_14sdp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_78sdp"
+        android:id="@+id/accept_cash"
+        app:layout_constraintTop_toBottomOf="@id/prefereed_map">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accept_cash"
+                android:textColor="#383838"
+                android:textSize="@dimen/_14ssp"
+                android:fontFamily="@font/poppins_regular"
+                android:textFontWeight="400"
+                android:lineHeight="@dimen/_22sdp"
+                tools:targetApi="p" />
+
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_26sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/accept_cash_button"
+            android:checked="true"
+            app:track="@drawable/custom_track"
+            android:thumb="@drawable/custom_thumb"
+            android:layout_marginEnd="@dimen/_14sdp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_78sdp"
+        android:id="@+id/accept_trip"
+        app:layout_constraintTop_toBottomOf="@id/accept_cash">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auto_accept_trips"
+                android:textColor="#383838"
+                android:textSize="@dimen/_14ssp"
+                android:fontFamily="@font/poppins_regular"
+                android:textFontWeight="400"
+                android:lineHeight="@dimen/_22sdp"
+                tools:targetApi="p" />
+
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_26sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/accept_trip_button"
+            android:checked="false"
+            app:track="@drawable/custom_track"
+            android:thumb="@drawable/custom_thumb"
+            android:layout_marginEnd="@dimen/_14sdp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_78sdp"
+        android:id="@+id/exclude_low"
+        app:layout_constraintTop_toBottomOf="@id/accept_trip">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/exclude_low_rated_riders"
+                android:textColor="#383838"
+                android:textSize="@dimen/_14ssp"
+                android:fontFamily="@font/poppins_regular"
+                android:textFontWeight="400"
+                android:lineHeight="@dimen/_22sdp"
+                tools:targetApi="p" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/don_t_show_requests_from_riders_with_low_ratings"
+                android:textColor="#666666"
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginEnd="@dimen/_70sdp"
+                android:fontFamily="@font/poppins_regular"
+                android:textFontWeight="400"
+                android:lineHeight="@dimen/_18sdp"
+                tools:targetApi="p" />
+
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_26sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/low_trip_button"
+            android:checked="false"
+            app:track="@drawable/custom_track"
+            android:thumb="@drawable/custom_thumb"
+            android:layout_marginEnd="@dimen/_14sdp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_78sdp"
+        android:id="@+id/long_ride"
+        app:layout_constraintTop_toBottomOf="@id/exclude_low">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/long_distance_trips"
+                android:textColor="#383838"
+                android:textSize="@dimen/_14ssp"
+                android:fontFamily="@font/poppins_regular"
+                android:textFontWeight="400"
+                android:lineHeight="@dimen/_22sdp"
+                tools:targetApi="p" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_trips_which_will_be_more_than_45min"
+                android:textColor="#666666"
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginEnd="@dimen/_70sdp"
+                android:fontFamily="@font/poppins_regular"
+                android:textFontWeight="400"
+                android:lineHeight="@dimen/_18sdp"
+                tools:targetApi="p" />
+
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_26sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/long_ride_button"
+            android:checked="false"
+            app:track="@drawable/custom_track"
+            android:thumb="@drawable/custom_thumb"
+            android:layout_marginEnd="@dimen/_14sdp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_52sdp"
+        android:id="@+id/save_prefrence"
+        app:layout_constraintTop_toBottomOf="@id/long_ride"
+        android:layout_marginTop="@dimen/_70sdp"
+        android:textAllCaps="false"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:text="@string/save"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_20sdp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/save_prefrence"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+</layout>

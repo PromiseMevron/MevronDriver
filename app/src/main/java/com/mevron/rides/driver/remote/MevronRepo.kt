@@ -1,16 +1,22 @@
 package com.mevron.rides.driver.remote
 
+import androidx.lifecycle.LiveData
 import com.mevron.rides.driver.auth.model.*
 import com.mevron.rides.driver.auth.model.caryear.GetCarYear
 import com.mevron.rides.driver.auth.model.getcar.GetCallsResponse
 import com.mevron.rides.driver.auth.model.getmodel.GetModelResponse
 import com.mevron.rides.driver.home.model.HomeScreenResponse
 import com.mevron.rides.driver.home.model.documents.DocumentStatusResponse
+import com.mevron.rides.driver.localdb.MevronDao
+import com.mevron.rides.driver.localdb.SavedAddress
+import com.mevron.rides.driver.remote.model.GetSavedAddresss
+import com.mevron.rides.driver.remote.model.SaveAddressRequest
+import com.mevron.rides.driver.remote.model.UpdateAddress
 import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
 
-class MevronRepo @Inject constructor (private val api: MevronAPI) {
+class MevronRepo @Inject constructor (private val api: MevronAPI, private val dao: MevronDao) {
 
     suspend fun registerPhone(data: RegisterBody): Response<RegisterResponse> {
         return api.registerPhone(data)
@@ -79,6 +85,34 @@ class MevronRepo @Inject constructor (private val api: MevronAPI) {
 
     suspend fun getDocumentStatus(): Response<DocumentStatusResponse>{
         return  api.getDocumentStatus()
+    }
+
+    suspend fun saveAddress(data: SaveAddressRequest): Response<GeneralResponse> {
+        return api.saveAddress(data)
+    }
+
+    suspend fun getAddress(): Response<GetSavedAddresss> {
+        return api.getAddress()
+    }
+
+    suspend fun saveAddressInDb(add: SavedAddress) {
+        dao.insert(add)
+    }
+
+    suspend fun deleteAllAdd() {
+        dao.deleteAllAddress()
+    }
+
+    suspend fun updataAddInDB(add: SavedAddress) {
+        dao.update(add)
+    }
+
+    suspend fun updataAdd(path: String, add: UpdateAddress): Response<GeneralResponse> {
+        return api.updateAddress(path, add)
+    }
+
+    fun getllAddress(): LiveData<MutableList<SavedAddress>> {
+        return dao.getAllAddress()
     }
 
 

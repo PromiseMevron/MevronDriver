@@ -62,6 +62,11 @@ class UploadProfileFragment : Fragment() {
             activity?.onBackPressed()
         }
 
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bitmap>("key")?.observe(viewLifecycleOwner) {result ->
+            // Do something with the result.
+            binding.uploadedImage.setImageBitmap(result)
+        }
+
         binding.reUpload.setOnClickListener {
             showImagePickerDialog()
         }
@@ -70,7 +75,8 @@ class UploadProfileFragment : Fragment() {
         }
 
         binding.upload.setOnClickListener {
-            uploadData()
+           // uploadData()
+            findNavController().navigate(R.id.action_uploadProfileFragment_to_faceLivenessDetectionFragment)
         }
     }
 

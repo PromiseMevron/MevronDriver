@@ -91,6 +91,9 @@
         <action
             android:id="@+id/action_uploadProfileFragment_to_socialSecurityFragment"
             app:destination="@id/socialSecurityFragment" />
+        <action
+            android:id="@+id/action_uploadProfileFragment_to_faceLivenessDetectionFragment"
+            app:destination="@id/faceLivenessDetectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/socialSecurityFragment"
@@ -106,4 +109,9 @@
         android:name="com.mevron.rides.driver.auth.AuthSuccessFragment"
         android:label="auth_success_fragment"
         tools:layout="@layout/auth_success_fragment" />
+    <fragment
+        android:id="@+id/faceLivenessDetectionFragment"
+        tools:layout="@layout/fragment_face_liveness_detection"
+        android:name="com.mevron.rides.driver.auth.livedetect.FaceLivenessDetectionFragment"
+        android:label="FaceLivenessDetectionFragment" />
 </navigation>

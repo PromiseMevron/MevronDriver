@@ -6,6 +6,9 @@ import com.mevron.rides.driver.auth.model.getcar.GetCallsResponse
 import com.mevron.rides.driver.auth.model.getmodel.GetModelResponse
 import com.mevron.rides.driver.home.model.HomeScreenResponse
 import com.mevron.rides.driver.home.model.documents.DocumentStatusResponse
+import com.mevron.rides.driver.remote.model.GetSavedAddresss
+import com.mevron.rides.driver.remote.model.SaveAddressRequest
+import com.mevron.rides.driver.remote.model.UpdateAddress
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -64,6 +67,16 @@ interface MevronAPI {
 
     @POST("api/v1/driver/auth/document-status")
     suspend fun getDocumentStatus(): Response<DocumentStatusResponse>
+
+
+    @POST("api/v1/driver/auth/savedPlaces")
+    suspend fun saveAddress(@Body data: SaveAddressRequest):Response<GeneralResponse>
+
+    @GET("api/v1/driver/auth/savedPlaces")
+    suspend fun getAddress():Response<GetSavedAddresss>
+
+    @POST("api/v1/driver/auth/savedPlaces/{uiid}")
+    suspend fun updateAddress(@Path("uiid") identifier: String, @Body data: UpdateAddress): Response<GeneralResponse>
 
 
 

@@ -14,10 +14,13 @@ import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -55,6 +58,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private  var lat1: Double = 0.0
     private  var lng1: Double = 0.0
     private var theStatus = false
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var drawer: ImageButton
 
 
     private var mCircle: Circle? = null
@@ -245,6 +250,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     override fun onStart() {
         super.onStart()
+        drawerLayout = activity?.findViewById(R.id.drawer_layout)!!
+        drawer = binding.drawerButton
+        drawer.setOnClickListener {
+
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+
+                drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+
+                drawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
         getState()
         val intent = Intent(context, LocationService::class.java)
         activity?.bindService(intent, connection, Context.BIND_AUTO_CREATE)

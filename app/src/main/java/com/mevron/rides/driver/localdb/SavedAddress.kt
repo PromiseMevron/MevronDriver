@@ -1,8 +1,11 @@
 package com.mevron.rides.driver.localdb
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "saved_address")
 data class SavedAddress(
     var type: String,
@@ -14,4 +17,4 @@ data class SavedAddress(
 
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null
-)
+): Parcelable

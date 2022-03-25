@@ -35,5 +35,73 @@
         android:label="document_check_fragment"
         tools:layout="@layout/document_check_fragment" /><action android:id="@+id/action_global_documentCheckFragment" app:destination="@id/documentCheckFragment"/>
     <action android:id="@+id/action_global_rideRequestFragment" app:destination="@id/rideRequestFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        tools:layout="@layout/settings_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        tools:layout="@layout/profile_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_faceLivenessDetectionFragment2"
+            app:destination="@id/faceLivenessDetectionFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/faceLivenessDetectionFragment2"
+        tools:layout="@layout/fragment_face_liveness_detection"
+        android:name="com.mevron.rides.driver.auth.livedetect.FaceLivenessDetectionFragment"
+        android:label="FaceLivenessDetectionFragment" />
+    <fragment
+        android:id="@+id/addSavedPlaceFragment"
+        tools:layout="@layout/add_saved_place_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.AddSavedPlaceFragment"
+        android:label="AddSavedPlaceFragment" >
+        <action
+            android:id="@+id/action_addSavedPlaceFragment_to_updateAddressFragment"
+            app:destination="@id/updateAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/saveAddressFragment"
+        tools:layout="@layout/save_address_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.SaveAddressFragment"
+        android:label="SaveAddressFragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="placeholder"
+            app:argType="string" />
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/saveAddressDetailsFragment"
+        tools:layout="@layout/save_address_details_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.SaveAddressDetailsFragment"
+        android:label="SaveAddressDetailsFragment" >
+
+        <argument android:name="location"
+            app:argType="com.mevron.rides.driver.util.LocationModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateAddressFragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.UpdateAddressFragment"
+        android:label="update_address_fragment"
+        tools:layout="@layout/update_address_fragment" >
+        <argument
+            android:name="address"
+            app:argType="com.mevron.rides.driver.localdb.SavedAddress" />
+    </fragment>
+    <action android:id="@+id/action_global_addSavedPlaceFragment" app:destination="@id/addSavedPlaceFragment" />
+    <action android:id="@+id/action_global_saveAddressFragment" app:destination="@id/saveAddressFragment" />
+    <action android:id="@+id/action_global_saveAddressDetailsFragment" app:destination="@id/saveAddressDetailsFragment" />
 
 </navigation>

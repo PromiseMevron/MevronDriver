@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_82sdp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_car"
+        android:id="@+id/car"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_14sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_14sdp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:layout_marginEnd="@dimen/_70sdp"
+        android:text="Ride to West Field Cafe"
+        android:id="@+id/location"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_14sdp"
+        app:layout_constraintStart_toEndOf="@id/car"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/_12ssp"
+        android:textFontWeight="600"
+        android:maxLines="1"
+        android:textColor="#383838"
+        tools:targetApi="p" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="02:00pm"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/_9ssp"
+        android:id="@+id/time"
+        app:layout_constraintTop_toBottomOf="@id/location"
+        android:layout_marginStart="@dimen/_14sdp"
+        app:layout_constraintStart_toEndOf="@id/car"
+        android:textFontWeight="600"
+        android:maxLines="1"
+        android:textColor="#666666"
+        tools:targetApi="p" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="$2.02"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="@dimen/_12ssp"
+        android:id="@+id/amount"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="@dimen/_14sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:textFontWeight="600"
+        android:maxLines="1"
+        android:textColor="#8a8a8a"
+        tools:targetApi="p" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
