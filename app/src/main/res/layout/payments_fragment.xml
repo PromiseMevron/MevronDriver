@@ -6,6 +6,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -213,7 +214,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Add a Payment Method"
+                android:text="ECOBank"
                 android:lineHeight="@dimen/_24sdp"
                 app:layout_constraintStart_toEndOf="@id/image"
                 android:fontFamily="@font/poppins_medium"
@@ -229,7 +230,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Add a Payment Method"
+                android:text="*****123"
                 app:layout_constraintStart_toEndOf="@id/image"
                 android:fontFamily="@font/poppins_medium"
                 android:textSize="@dimen/_10ssp"

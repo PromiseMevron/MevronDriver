@@ -8,6 +8,7 @@ object Constants {
     const val DATABASE_NAME = "alphally_db"
     const val SHARED_PREF_KEY = "alphally"
     const val TOKEN = "TOKEN"
+    const val EMAIL = "EMAIL"
     const val UUID = "UUID"
     const val LAT = "LAT"
     const val LNG = "LNG"

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_280sdp"
+    app:behavior_hideable="true"
+    android:id="@+id/bottomSheet"
+    android:visibility="invisible"
+    android:background="@drawable/rounded_corner"
+    app:behavior_peekHeight="@dimen/_280sdp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_handle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/select_your_navigation_app"
+        android:textColor="#383838"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textSize="@dimen/_18ssp"
+        android:fontFamily="@font/poppins_regular"
+        android:textFontWeight="600"
+        android:lineHeight="@dimen/_42sdp"
+        android:id="@+id/state_of_location"
+        tools:targetApi="p" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:text="@string/choose_an_external_navigation_app_which_will_help_you_during_trip_navigation"
+        android:textColor="#666666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/state_of_location"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:textSize="@dimen/_9ssp"
+        android:fontFamily="@font/poppins_regular"
+        android:textFontWeight="600"
+        android:lineHeight="@dimen/_16sdp"
+        android:id="@+id/state_of_location2"
+        tools:targetApi="p" />
+
+
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp"
+        app:layout_constraintTop_toBottomOf="@id/state_of_location2"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:id="@+id/google_map"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginEnd="@dimen/_14sdp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:src="@drawable/google_map"
+            android:id="@+id/goo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/google_map"
+            android:textColor="#383838"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/goo"
+            android:layout_marginStart="@dimen/_9sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/_13ssp"
+            android:fontFamily="@font/poppins_regular"
+            android:textFontWeight="600"
+            tools:targetApi="p" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkgoo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:checked="false"
+            android:text=" "
+            android:visibility="visible"
+            android:button="@drawable/custom_checkbox" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f2f2f2"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp"
+        app:layout_constraintTop_toBottomOf="@id/google_map"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:id="@+id/maze_map"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginEnd="@dimen/_14sdp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:src="@drawable/maze_map"
+            android:id="@+id/maz"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/waze"
+            android:textColor="#383838"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/maz"
+            android:layout_marginStart="@dimen/_9sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/_13ssp"
+            android:fontFamily="@font/poppins_regular"
+            android:textFontWeight="600"
+            tools:targetApi="p" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkwaze"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:checked="false"
+            android:text=" "
+            android:visibility="visible"
+            android:button="@drawable/custom_checkbox" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

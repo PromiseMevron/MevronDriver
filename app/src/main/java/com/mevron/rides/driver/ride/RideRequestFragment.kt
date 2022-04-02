@@ -79,7 +79,7 @@ class RideRequestFragment : Fragment(), OnMapReadyCallback , LocationListener,
             }
         }
         start = arguments?.let { RideRequestFragmentArgs.fromBundle(it).startLocation }!!
-        end = arguments?.let { RideRequestFragmentArgs.fromBundle(it).startLocation }!!
+        end = arguments?.let { RideRequestFragmentArgs.fromBundle(it).endLocation }!!
         rideId = arguments?.let { RideRequestFragmentArgs.fromBundle(it).id }!!
         verify = arguments?.let { RideRequestFragmentArgs.fromBundle(it).verify }!!
         val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
@@ -176,7 +176,7 @@ class RideRequestFragment : Fragment(), OnMapReadyCallback , LocationListener,
             locations.add(location1)
             locations.add(location2)
             val cu = CameraUpdateFactory.newLatLngBounds(bounds, 20)
-            gMap.animateCamera(cu)
+          //  gMap.animateCamera(cu)
 
             gMap.animateCamera(cu)
             var ads = arrayOf<LocationModel>()
@@ -243,6 +243,20 @@ class RideRequestFragment : Fragment(), OnMapReadyCallback , LocationListener,
     fun addDirection(){
         val dire = direction.routes?.get(0)?.legs?.get(0)?.steps?.get(0)?.instructions ?: ""
         val dire2 = direction.routes?.get(0)?.legs?.get(0)?.distance?.text
+
+        val builder = LatLngBounds.Builder()
+        builder.include(LatLng(direction.routes?.get(0)?.bounds?.northeast?.lat ?: 0.0, direction.routes?.get(0)?.bounds?.northeast?.lng ?: 0.0))
+        builder.include(LatLng(direction.routes?.get(0)?.bounds?.southwest?.lat ?: 0.0, direction.routes?.get(0)?.bounds?.southwest?.lat ?: 0.0))
+
+        val bounds = builder.build()
+        val width = resources.displayMetrics.widthPixels
+        val height = resources.displayMetrics.heightPixels
+        val padding = (width * 0.3).toInt()
+
+        val boundsUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding)
+        gMap.moveCamera(boundsUpdate)
+
+
         binding.direction.text = HtmlCompat.fromHtml(dire, 0)
         binding.distance.text = dire2 ?: ""
         if (direction.routes?.get(0)?.legs?.get(0)?.steps?.get(0)?.distance?.value ?: 0 < 30){

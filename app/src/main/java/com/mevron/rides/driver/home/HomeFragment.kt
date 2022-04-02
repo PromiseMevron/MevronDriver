@@ -413,7 +413,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
                 val action = HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2, verify)
                 findNavController().navigate(action)
                 if (theStatus){
-                  //  val action = HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2)
+                 //   val action = HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2)
                    // findNavController().navigate(action)
                 }
 

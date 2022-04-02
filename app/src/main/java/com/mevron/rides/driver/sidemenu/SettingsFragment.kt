@@ -16,13 +16,12 @@ class SettingsFragment : Fragment() {
         fun newInstance() = SettingsFragment()
     }
 
-    private lateinit var viewModel: SettingsViewModel
     private lateinit var binding:SettingsFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.settings_fragment, container, false)
         return binding.root
     }
@@ -41,6 +40,26 @@ class SettingsFragment : Fragment() {
 
         binding.document.setOnClickListener {
             findNavController().navigate(R.id.action_global_documentCheckFragment)
+        }
+
+        binding.profileImage.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_profileDetailsFragment)
+        }
+
+        binding.addEmerg.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_emergencyFragment)
+        }
+
+        binding.vehicle.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_vehicleFragment)
+        }
+
+        binding.addPayment.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_paymentsFragment)
+        }
+
+        binding.driverPreferr.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_driverPrefrenceFragment)
         }
 
 

@@ -43,6 +43,21 @@
         <action
             android:id="@+id/action_settingsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_driverPrefrenceFragment"
+            app:destination="@id/driverPrefrenceFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_emergencyFragment"
+            app:destination="@id/emergencyFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_profileDetailsFragment"
+            app:destination="@id/profileDetailsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_paymentsFragment"
+            app:destination="@id/paymentsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_vehicleFragment"
+            app:destination="@id/vehicleFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -103,5 +118,122 @@
     <action android:id="@+id/action_global_addSavedPlaceFragment" app:destination="@id/addSavedPlaceFragment" />
     <action android:id="@+id/action_global_saveAddressFragment" app:destination="@id/saveAddressFragment" />
     <action android:id="@+id/action_global_saveAddressDetailsFragment" app:destination="@id/saveAddressDetailsFragment" />
+    <fragment
+        android:id="@+id/bankDetailFragment"
+        tools:layout="@layout/bank_detail_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.BankDetailFragment"
+        android:label="BankDetailFragment" />
+    <fragment
+        android:id="@+id/addVehicleFragment2"
+        tools:layout="@layout/add_vehicle_fragment2"
+        android:name="com.mevron.rides.driver.sidemenu.AddVehicleFragment"
+        android:label="AddVehicleFragment" />
+    <fragment
+        android:id="@+id/cardDetailsFragment"
+        tools:layout="@layout/card_details_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.CardDetailsFragment"
+        android:label="CardDetailsFragment" >
+        <argument
+            android:name="data"
+            app:argType="com.mevron.rides.driver.remote.model.getcard.Data" />
+    </fragment>
+    <fragment
+        android:id="@+id/driverPrefrenceFragment"
+        tools:layout="@layout/driver_prefrence_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.DriverPrefrenceFragment"
+        android:label="DriverPrefrenceFragment" />
+    <fragment
+        android:id="@+id/paymentsFragment"
+        android:name="com.mevron.rides.driver.sidemenu.PaymentsFragment"
+        tools:layout="@layout/payments_fragment"
+        android:label="PaymentsFragment" >
+        <action
+            android:id="@+id/action_paymentsFragment_to_bankDetailFragment"
+            app:destination="@id/bankDetailFragment" />
+        <action
+            android:id="@+id/action_paymentsFragment_to_cardDetailsFragment"
+            app:destination="@id/cardDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/my_rides_fragment"
+        tools:layout="@layout/ride_activity_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.RideActivityFragment"
+        android:label="RideActivityFragment" />
+    <fragment
+        android:id="@+id/allReviewFragment"
+        android:name="com.mevron.rides.driver.sidemenu.AllReviewFragment"
+        android:label="all_review_fragment"
+        tools:layout="@layout/all_review_fragment" />
+    <fragment
+        android:id="@+id/profileDetailsFragment"
+        android:name="com.mevron.rides.driver.sidemenu.ProfileDetailsFragment"
+        android:label="profile_details_fragment"
+        tools:layout="@layout/profile_details_fragment" >
+        <action
+            android:id="@+id/action_profileDetailsFragment_to_allReviewFragment"
+            app:destination="@id/allReviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vehicleDetailsFragment"
+        android:name="com.mevron.rides.driver.sidemenu.VehicleDetailsFragment"
+        android:label="vehicle_details_fragment"
+        tools:layout="@layout/vehicle_details_fragment" >
+        <action
+            android:id="@+id/action_vehicleDetailsFragment_to_vehicleImagesFragment"
+            app:destination="@id/vehicleImagesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vehicleFragment"
+        android:name="com.mevron.rides.driver.sidemenu.VehicleFragment"
+        android:label="vehicle_fragment"
+        tools:layout="@layout/vehicle_fragment" >
+        <action
+            android:id="@+id/action_vehicleFragment_to_vehicleDetailsFragment"
+            app:destination="@id/vehicleDetailsFragment" />
+        <action
+            android:id="@+id/action_vehicleFragment_to_addVehicleFragment2"
+            app:destination="@id/addVehicleFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/vehicleImagesFragment"
+        android:name="com.mevron.rides.driver.sidemenu.VehicleImagesFragment"
+        android:label="vehicle_images_fragment"
+        tools:layout="@layout/vehicle_images_fragment" />
+    <fragment
+        android:id="@+id/emergencyFragment"
+        android:name="com.mevron.rides.driver.sidemenu.EmergencyFragment"
+        android:label="emergency_fragment"
+        tools:layout="@layout/emergency_fragment" >
+        <action
+            android:id="@+id/action_emergencyFragment_to_addEmergencyContactFragment"
+            app:destination="@id/addEmergencyContactFragment" />
+        <action
+            android:id="@+id/action_emergencyFragment_to_updateEmergencyFragment"
+            app:destination="@id/updateEmergencyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.mevron.rides.driver.sidemenu.NotificationFragment"
+        android:label="notification_fragment"
+        tools:layout="@layout/notification_fragment" />
+    <fragment
+        android:id="@+id/addEmergencyContactFragment"
+        tools:layout="@layout/add_emergency_contact_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.AddEmergencyContactFragment"
+        android:label="AddEmergencyContactFragment" />
+    <fragment
+        android:id="@+id/updateEmergencyFragment"
+        android:name="com.mevron.rides.driver.sidemenu.UpdateEmergencyFragment"
+        android:label="update_emergency_fragment"
+        tools:layout="@layout/update_emergency_fragment" >
+        <argument
+            android:name="data"
+            app:argType="com.mevron.rides.driver.sidemenu.model.Data" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpFragment"
+        tools:layout="@layout/help_fragment"
+        android:name="com.mevron.rides.driver.sidemenu.HelpFragment"
+        android:label="HelpFragment" />
 
 </navigation>

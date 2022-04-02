@@ -179,6 +179,11 @@ class AccountCreationFragment : Fragment() {
         }
 
         findNavController().navigate(R.id.action_accountCreationFragment_to_regist1Fragment)
+        val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
+        val editor = sPref.edit()
+        editor.putString(Constants.EMAIL, email)
+        editor?.apply()
+
 
       /*  toggleBusyDialog(true,"Submitting Data...")
         viewModel.createAccount(data).observe(viewLifecycleOwner, Observer {
@@ -197,6 +202,10 @@ class AccountCreationFragment : Fragment() {
                     }
                     is  GenericStatus.Success ->{
                         toggleBusyDialog(false)
+                           val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
+        val editor = sPref.edit()
+        editor.putString(Constants.EMAIL, email)
+        editor?.apply()
                         findNavController().navigate(R.id.action_accountCreationFragment_to_regist1Fragment)
                     }
                 }

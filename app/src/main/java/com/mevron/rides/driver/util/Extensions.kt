@@ -426,10 +426,20 @@ fun Fragment.plotPolyLines(geoDirections: GeoDirectionsResponse, gMap: GoogleMap
 
     //   val boundsUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding)
     //   gMap.animateCamera(boundsUpdate)
-    val rectLine = PolylineOptions().width(8f).color(ContextCompat.getColor(requireContext(), R.color.primary))
+    var rectLine = PolylineOptions().width(8f).color(ContextCompat.getColor(requireContext(), R.color.primary))
     for (step in steps) { rectLine.add(step) }
     // gMap.clear()
+   /* val thePolyline = gMap.addPolyline(rectLine)
+    val polylineAnimator = AnimationUtils.polyLineAnimator()
+    polylineAnimator.addUpdateListener { valueAnimator ->
+        val percentValue = (valueAnimator.animatedValue as Int)
+        val index = (rectLine?.points!!.size) * (percentValue / 100.0f).toInt()
+       // rectLine?.points = rectLine?.points!!.subList(0, index)
+    }
+    polylineAnimator.start()*/
+
     gMap.addPolyline(rectLine)
+
 }
 
 fun Fragment.plotPolyLinesForDriverArrival(geoDirections: GeoDirectionsResponse, gMap: GoogleMap,  addMarker: (GeoDirectionsResponse) -> Unit){

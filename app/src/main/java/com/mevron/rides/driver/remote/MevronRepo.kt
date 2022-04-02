@@ -12,6 +12,14 @@ import com.mevron.rides.driver.localdb.SavedAddress
 import com.mevron.rides.driver.remote.model.GetSavedAddresss
 import com.mevron.rides.driver.remote.model.SaveAddressRequest
 import com.mevron.rides.driver.remote.model.UpdateAddress
+import com.mevron.rides.driver.remote.model.getcard.AddCard
+import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
+import com.mevron.rides.driver.sidemenu.model.AddContactRequest
+import com.mevron.rides.driver.sidemenu.model.GetContactsResponse
+import com.mevron.rides.driver.sidemenu.model.NotificationResponse
+import com.mevron.rides.driver.sidemenu.model.emerg.UpdateEmergencyContact
+import com.mevron.rides.driver.sidemenu.model.pref.GetPrefrenceModel
+import com.mevron.rides.driver.sidemenu.model.pref.UpdatePrefrenceRequest
 import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
@@ -115,5 +123,72 @@ class MevronRepo @Inject constructor (private val api: MevronAPI, private val da
         return dao.getAllAddress()
     }
 
+
+    suspend fun saveEmergency(data: AddContactRequest): Response<GeneralResponse> {
+        return api.saveEmergency(data)
+    }
+
+
+
+    suspend fun getEmergency(): Response<GetContactsResponse> {
+        return api.getEmergency()
+    }
+
+    suspend fun updateEmergency(data: UpdateEmergencyContact, id: String): Response<GeneralResponse> {
+        return api.updateEmergency(id = id, data = data)
+    }
+
+    suspend fun deleteEmergency(id: String): Response<GeneralResponse> {
+        return api.deleteEmergency(id = id)
+    }
+
+    suspend fun getPromo(): Response<GeneralResponse> {
+        return api.getPromo()
+    }
+
+
+    suspend fun getNotification(): Response<NotificationResponse> {
+        return api.getNotifications()
+    }
+
+
+    suspend fun getAllVehicle(): Response<GeneralResponse> {
+        return api.getAllVehicles()
+    }
+
+
+    suspend fun getAVehicle(id: String): Response<GeneralResponse> {
+        return api.getAVehicles(id)
+    }
+
+
+    suspend fun deleteVehicle(id: String): Response<GeneralResponse> {
+        return api.deleteVehicles(id)
+    }
+
+    suspend fun getCards(): Response<GetCardResponse> {
+        return api.getCards()
+    }
+
+    suspend fun addCard(data: AddCard): Response<GeneralResponse> {
+        return api.addCard(data)
+    }
+
+    suspend fun deleteCard(id: String): Response<GeneralResponse> {
+        return api.deleteCard(id)
+    }
+
+    suspend fun setPreference(data: UpdatePrefrenceRequest): Response<GeneralResponse> {
+        return api.setPreference(data)
+    }
+
+    suspend fun getPreference(email: String, token: String): Response<GetPrefrenceModel> {
+        return api.getPreference(email = email, token = token)
+    }
+
+
+    suspend fun getAllTrips(startDate: String, endDate: String): Response<GeneralResponse>{
+        return api.getAllTrips(startDate = startDate, endDate = endDate)
+    }
 
 }

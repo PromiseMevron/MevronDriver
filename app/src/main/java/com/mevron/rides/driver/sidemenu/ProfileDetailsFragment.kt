@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.databinding.ProfileDetailsFragmentBinding
 
 class ProfileDetailsFragment : Fragment() {
 
@@ -15,18 +17,22 @@ class ProfileDetailsFragment : Fragment() {
     }
 
     private lateinit var viewModel: ProfileDetailsViewModel
+    private lateinit var binding: ProfileDetailsFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.profile_details_fragment, container, false)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.profile_details_fragment, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ProfileDetailsViewModel::class.java)
-        // TODO: Use the ViewModel
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.backButton.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
 }

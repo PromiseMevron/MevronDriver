@@ -9,6 +9,14 @@ import com.mevron.rides.driver.home.model.documents.DocumentStatusResponse
 import com.mevron.rides.driver.remote.model.GetSavedAddresss
 import com.mevron.rides.driver.remote.model.SaveAddressRequest
 import com.mevron.rides.driver.remote.model.UpdateAddress
+import com.mevron.rides.driver.remote.model.getcard.AddCard
+import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
+import com.mevron.rides.driver.sidemenu.model.AddContactRequest
+import com.mevron.rides.driver.sidemenu.model.GetContactsResponse
+import com.mevron.rides.driver.sidemenu.model.NotificationResponse
+import com.mevron.rides.driver.sidemenu.model.emerg.UpdateEmergencyContact
+import com.mevron.rides.driver.sidemenu.model.pref.GetPrefrenceModel
+import com.mevron.rides.driver.sidemenu.model.pref.UpdatePrefrenceRequest
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -78,6 +86,55 @@ interface MevronAPI {
     @POST("api/v1/driver/auth/savedPlaces/{uiid}")
     suspend fun updateAddress(@Path("uiid") identifier: String, @Body data: UpdateAddress): Response<GeneralResponse>
 
+    @POST("api/v1/driver/auth/emergency-contacts")
+    suspend fun saveEmergency(@Body data: AddContactRequest): Response<GeneralResponse>
 
+    @GET("api/v1/driver/auth/emergency-contacts")
+    suspend fun getEmergency(): Response<GetContactsResponse>
+
+    @POST("api/v1/driver/auth/emergency-contacts/{uiid}")
+    suspend fun updateEmergency(@Path("uiid") id: String, data: UpdateEmergencyContact): Response<GeneralResponse>
+
+
+    @DELETE("api/v1/driver/auth/emergency-contacts/{uiid}")
+    suspend fun deleteEmergency(@Path("uiid") id: String): Response<GeneralResponse>
+
+    @GET("/api/v1/driver/auth/promo-code")
+    suspend fun getPromo(): Response<GeneralResponse>
+
+    @GET("/api/v1/driver/auth/notifications?page=1")
+    suspend fun getNotifications(): Response<NotificationResponse>
+
+
+    @GET("api/v1/driver/auth/vehicles")
+    suspend fun getAllVehicles(): Response<GeneralResponse>
+
+    @GET("api/v1/driver/auth/vehicle/view/{uiid}")
+    suspend fun getAVehicles(@Path("uiid") id: String): Response<GeneralResponse>
+
+
+    @DELETE("/api/v1/driver/auth/vehicle/remove/{uiid}")
+    suspend fun deleteVehicles(@Path("uiid") id: String): Response<GeneralResponse>
+
+
+    @GET("api/v1/driver/auth/payment-method")
+    suspend fun getCards(): Response<GetCardResponse>
+
+    @DELETE("api/v1/driver/auth/payment-method/{uiid}/remove")
+    suspend fun deleteCard(@Path("uiid") identifier: String): Response<GeneralResponse>
+
+
+    @POST("api/v1/driver/auth/payment-method/create")
+    suspend fun addCard(@Body data: AddCard): Response<GeneralResponse>
+
+    @POST("/api/v1/driver/auth/set-preference")
+    suspend fun setPreference(@Body data: UpdatePrefrenceRequest): Response<GeneralResponse>
+
+    @GET("/api/v1/driver/auth/get-preference")
+    suspend fun getPreference(@Query("email") email: String, @Query("token") token: String): Response<GetPrefrenceModel>
+
+
+    @GET("api/v1/driver/auth/trips")
+    suspend fun getAllTrips(@Query("startDate") startDate: String, @Query("endDate") endDate: String): Response<GeneralResponse>
 
 }

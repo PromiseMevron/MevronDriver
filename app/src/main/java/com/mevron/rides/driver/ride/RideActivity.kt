@@ -21,6 +21,7 @@ import com.google.gson.Gson
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.util.Constants
+import com.mevron.rides.driver.util.Screen
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
@@ -48,7 +49,9 @@ class RideActivity : AppCompatActivity() {
         setContentView(R.layout.activity_ride)
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
-
+        val widthOfNav = (Screen.width) * 0.9
+        navView.layoutParams.width = widthOfNav.toInt()
+        navView.requestLayout()
         navController = findNavController(R.id.nav_host_fragment)
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
