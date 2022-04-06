@@ -69,6 +69,11 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
 
+    //mapbox
+    implementation 'com.mapbox.maps:android:10.4.0'
+
+
+
     //Dimension
     implementation 'com.intuit.ssp:ssp-android:1.0.5'
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
@@ -154,8 +159,10 @@ dependencies {
     //implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.0.0'
     implementation("com.google.guava:guava:31.0.1-android")
 
-
-
+//mapbox
+    implementation ('com.mapbox.maps:android:10.4.0'){
+        exclude group: 'group_name', module: 'module_name'
+    }
 
     //socket.io
     implementation ('io.socket:socket.io-client:2.0.0') {
