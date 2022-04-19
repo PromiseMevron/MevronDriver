@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth.model
+package com.mevron.rides.driver.authentication.domain.model
 
 import com.google.gson.annotations.SerializedName
 
