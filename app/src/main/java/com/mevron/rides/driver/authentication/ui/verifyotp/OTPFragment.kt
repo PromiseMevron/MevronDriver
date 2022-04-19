@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.App
 
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.auth.model.ValidateOTPRequest
+import com.mevron.rides.driver.auth.model.VerifyOTPRequest
 import com.mevron.rides.driver.databinding.OTFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.ride.RideActivity
@@ -59,7 +59,7 @@ class OTPFragment : Fragment() {
         binding.text2.text = phoneWrite
 
         binding.otpView.setOtpCompletionListener {
-            val data = ValidateOTPRequest(code = it, phoneNumber = phoneNumber)
+            val data = VerifyOTPRequest(code = it, phoneNumber = phoneNumber)
              validateOTP(data)
        /*     binding.incorrectNumber.visibility = View.INVISIBLE
             binding.nextButton.setImageResource(R.drawable.next_enabled)
@@ -82,7 +82,7 @@ class OTPFragment : Fragment() {
 
     }
 
-      fun validateOTP(data: ValidateOTPRequest){
+      fun validateOTP(data: VerifyOTPRequest){
           toggleBusyDialog(true,"Submitting Data...")
           viewModel.validateOTP(data).observe(viewLifecycleOwner, Observer {
               it.let { res ->

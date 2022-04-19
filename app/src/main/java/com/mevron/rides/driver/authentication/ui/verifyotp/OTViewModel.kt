@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mevron.rides.driver.auth.model.OTPResponse
-import com.mevron.rides.driver.auth.model.ValidateOTPRequest
+import com.mevron.rides.driver.auth.model.VerifyOTPRequest
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.remote.HTTPErrorHandler
 import com.mevron.rides.driver.remote.MevronRepo
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class OTViewModel  @Inject constructor (private val repository: MevronRepo) : ViewModel() {
 
 
-    fun validateOTP(data: ValidateOTPRequest): LiveData<GenericStatus<OTPResponse>> {
+    fun validateOTP(data: VerifyOTPRequest): LiveData<GenericStatus<OTPResponse>> {
 
         val result = MutableLiveData<GenericStatus<OTPResponse>>()
 
