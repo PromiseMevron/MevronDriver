@@ -1,7 +1,7 @@
-package com.mevron.rides.driver.authentication.rig.domain.usecase
+package com.mevron.rides.driver.authentication.domain.usecase
 
-import com.mevron.rides.driver.auth.model.VerifyOTPRequest
-import com.mevron.rides.driver.authentication.rig.domain.repository.IAuthRepository
+import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
+import com.mevron.rides.driver.authentication.domain.repository.IAuthRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

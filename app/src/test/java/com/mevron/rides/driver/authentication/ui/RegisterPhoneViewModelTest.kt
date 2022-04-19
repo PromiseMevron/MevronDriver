@@ -1,9 +1,10 @@
-package com.mevron.rides.driver.authentication.rig.ui
+package com.mevron.rides.driver.authentication.ui
 
 import app.cash.turbine.test
-import com.mevron.rides.driver.authentication.rig.domain.usecase.RegisterPhoneUseCase
-import com.mevron.rides.driver.authentication.rig.ui.event.RegisterPhoneEvent
-import com.mevron.rides.driver.authentication.rig.ui.state.RegisterPhoneState
+import com.mevron.rides.driver.authentication.domain.usecase.RegisterPhoneUseCase
+import com.mevron.rides.driver.authentication.ui.registerphone.event.RegisterPhoneEvent
+import com.mevron.rides.driver.authentication.ui.registerphone.RegisterPhoneViewModel
+import com.mevron.rides.driver.authentication.ui.registerphone.state.RegisterPhoneState
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -34,13 +35,13 @@ class RegisterPhoneViewModelTest {
     fun `when RegisterPhoneViewModel#updateState is invoked - state is updated`() = runBlocking {
         viewModel.updateState(loading = true, countryCode = "code")
         viewModel.state.test {
-            assertEquals(RegisterPhoneState.empty().copy(loading = true, countryCode = "code"), awaitItem())
+            assertEquals(RegisterPhoneState.EMPTY.copy(loading = true, countryCode = "code"), awaitItem())
         }
     }
 
     @Test
     fun `when RegisterPhoneViewModel#onEvent is invoked for RegisterPhone  - ViewModel process event`() {
-        viewModel.onEvent(RegisterPhoneEvent.RegisterPhoneClick)
+        viewModel.onEvent(RegisterPhoneEvent.NextButtonClick)
         coVerify { useCase(any()) }
     }
 }
