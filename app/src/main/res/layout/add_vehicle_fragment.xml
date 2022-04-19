@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".auth.AccountCreationFragment">
+            tools:context=".authentication.ui.createaccount.AccountCreationFragment">
 
             <ImageButton
                 android:layout_width="@dimen/_45sdp"

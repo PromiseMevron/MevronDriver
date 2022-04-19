@@ -4,6 +4,8 @@ import com.mevron.rides.driver.auth.model.*
 import com.mevron.rides.driver.auth.model.caryear.GetCarYear
 import com.mevron.rides.driver.auth.model.getcar.GetCallsResponse
 import com.mevron.rides.driver.auth.model.getmodel.GetModelResponse
+import com.mevron.rides.driver.authentication.domain.model.CreateAccountRequest
+import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
 import com.mevron.rides.driver.home.model.HomeScreenResponse
 import com.mevron.rides.driver.home.model.documents.DocumentStatusResponse
 import com.mevron.rides.driver.remote.model.GetSavedAddresss
@@ -27,7 +29,7 @@ interface MevronAPI {
     suspend fun registerPhone(@Body data: RegisterBody): Response<RegisterResponse>
 
     @POST("api/v1/driver/validate-otp")
-    suspend fun verifyOTP(@Body data: ValidateOTPRequest): Response<OTPResponse>
+    suspend fun verifyOTP(@Body data: VerifyOTPRequest): Response<OTPResponse>
 
     @POST("api/v1/driver/auth/update-account")
     suspend fun createAccount(@Body data: CreateAccountRequest): Response<GeneralResponse>
