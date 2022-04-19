@@ -93,12 +93,9 @@ class PhoneLoginFragment : Fragment() {
             )
         }
 
-        binding.nextButton.setOnClickListener { registerPhoneViewModel.onEvent(RegisterPhoneEvent.NextButtonClick) }
-
-//        binding.nextButton.clicks().take(1).onEach {
-//            registerPhoneViewModel.onEvent(RegisterPhoneEvent.NextButtonClick)
-//        }.launchIn(lifecycleScope)
-
+        binding.nextButton.clicks().take(1).onEach {
+            registerPhoneViewModel.onEvent(RegisterPhoneEvent.NextButtonClick)
+        }.launchIn(lifecycleScope)
     }
 
     private fun updateNextButtonImageResource(isValidNumber: Boolean) {
@@ -177,5 +174,6 @@ class PhoneLoginFragment : Fragment() {
             PhoneLoginFragmentDirections.actionPhoneLoginFragmentToOTPFragment(phoneAndCountryCode)
         binding.phoneNumber.setText("")
         findNavController().navigate(action)
+        registerPhoneViewModel.updateState(requestSuccess = false)
     }
 }

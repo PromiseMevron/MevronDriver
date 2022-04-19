@@ -14,6 +14,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -24,7 +25,7 @@ class RegisterPhoneViewModel @Inject constructor(
     private val mutableState: MutableStateFlow<RegisterPhoneState> =
         MutableStateFlow(RegisterPhoneState.EMPTY)
 
-    val state: SharedFlow<RegisterPhoneState>
+    val state: StateFlow<RegisterPhoneState>
         get() = mutableState
 
     private fun registerPhone(request: RegisterPhoneRequest) {
@@ -56,7 +57,6 @@ class RegisterPhoneViewModel @Inject constructor(
             RegisterPhoneEvent.NextButtonClick -> {
                 registerPhone(mutableState.value.buildRequest())
             }
-            else -> {}
         }
     }
 
