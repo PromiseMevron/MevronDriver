@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.authentication.ui.verifyotp
 
 import android.app.Dialog
 import android.content.Context
@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.App
 
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.auth.model.VerifyOTPRequest
+import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
 import com.mevron.rides.driver.databinding.OTFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.ride.RideActivity
@@ -35,6 +35,8 @@ class OTPFragment : Fragment() {
     }
 
     private val viewModel: OTViewModel by viewModels()
+    private val verifyOTPViewModel: VerifyOTPViewModel by viewModels()
+
     private lateinit var binding: OTFragmentBinding
     private var phoneNumber = ""
     var phoneWrite = ""
@@ -72,7 +74,10 @@ class OTPFragment : Fragment() {
         binding.nextButton.isEnabled = true
         binding.nextButton.setOnClickListener {
             if (isNew){
-                val action = OTPFragmentDirections.actionOTPFragmentToAccountCreationFragment(phoneNumber)
+                val action =
+                    OTPFragmentDirections.actionOTPFragmentToAccountCreationFragment(
+                        phoneNumber
+                    )
                 findNavController().navigate(action)
             }else{
                 startActivity(Intent(activity, RideActivity::class.java))
