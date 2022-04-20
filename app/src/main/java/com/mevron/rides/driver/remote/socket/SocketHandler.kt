@@ -21,7 +21,7 @@ object SocketHandler {
 // This will allow your Android Emulator and physical device at your home to connect to the server
             val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
             val uuid = sPref.getString(Constants.UUID, null)
-            mSocket = IO.socket("http://staging.mevron.com:8082/?uuid=87b86a05-45cb-40de-a1bf-92fd83625888&lat=6.6000652&long=3.2390875")
+            mSocket = IO.socket("http://staging.mevron.com:8083/?uuid=87b86a05-45cb-40de-a1bf-92fd83625888&lat=6.6000652&long=3.2390875")
         } catch (e: URISyntaxException) {
 
         }

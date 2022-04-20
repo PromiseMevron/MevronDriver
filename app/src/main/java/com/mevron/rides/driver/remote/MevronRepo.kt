@@ -5,6 +5,8 @@ import com.mevron.rides.driver.auth.model.*
 import com.mevron.rides.driver.auth.model.caryear.GetCarYear
 import com.mevron.rides.driver.auth.model.getcar.GetCallsResponse
 import com.mevron.rides.driver.auth.model.getmodel.GetModelResponse
+import com.mevron.rides.driver.authentication.domain.model.CreateAccountRequest
+import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
 import com.mevron.rides.driver.home.model.HomeScreenResponse
 import com.mevron.rides.driver.home.model.documents.DocumentStatusResponse
 import com.mevron.rides.driver.localdb.MevronDao
@@ -31,7 +33,7 @@ class MevronRepo @Inject constructor (private val api: MevronAPI, private val da
 
     }
 
-    suspend fun validateOTP(data: ValidateOTPRequest): Response<OTPResponse> {
+    suspend fun validateOTP(data: VerifyOTPRequest): Response<OTPResponse> {
         return api.verifyOTP(data)
 
     }

@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.authentication.ui.createaccount
 
 import android.app.Activity
 import android.app.Dialog
@@ -8,27 +8,19 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.auth.model.CreateAccountRequest
+import com.mevron.rides.driver.authentication.domain.model.CreateAccountRequest
 import com.mevron.rides.driver.databinding.AccountCreationFragmentBinding
-import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,7 +49,9 @@ class AccountCreationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        phoneNumber = arguments?.let { AccountCreationFragmentArgs.fromBundle(it).phone }!!
+        phoneNumber = arguments?.let { AccountCreationFragmentArgs.fromBundle(
+            it
+        ).phone }!!
     //    Places.initialize(context?.applicationContext, "AIzaSyACHmEwJsDug1l3_IDU_E4WEN4Qo_i_NoE")
      /*   val launchSomeActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {

@@ -4,7 +4,7 @@ object Constants {
 
    // const val BASE_URL = "https://mevron-driver.herokuapp.com/"
     //
-    const val BASE_URL = "http://staging.mevron.com:8082/"
+    const val BASE_URL = "http://staging.mevron.com:8083/"
     const val DATABASE_NAME = "alphally_db"
     const val SHARED_PREF_KEY = "alphally"
     const val TOKEN = "TOKEN"
