@@ -1,9 +1,7 @@
 package com.mevron.rides.driver.authentication.ui.verifyotp
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,21 +9,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.mevron.rides.driver.App
-
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
+import com.mevron.rides.driver.authentication.ui.verifyotp.event.VerifyOTPEvent
 import com.mevron.rides.driver.databinding.OTFragmentBinding
-import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.ride.RideActivity
-import com.mevron.rides.driver.util.Constants
-import com.mevron.rides.driver.util.Constants.TOKEN
-import com.mevron.rides.driver.util.Constants.UUID
 import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class OTPFragment : Fragment() {
@@ -34,8 +29,9 @@ class OTPFragment : Fragment() {
         fun newInstance() = OTPFragment()
     }
 
-    private val viewModel: OTViewModel by viewModels()
-    private val verifyOTPViewModel: VerifyOTPViewModel by viewModels()
+
+  //  private val verifyOTPViewModel: VerifyOTPViewModel by viewModels()
+    private val verifyOTPViewModel by viewModels<VerifyOTPViewModel>()
 
     private lateinit var binding: OTFragmentBinding
     private var phoneNumber = ""
@@ -59,13 +55,32 @@ class OTPFragment : Fragment() {
         phoneWrite = arguments?.let { OTPFragmentArgs.fromBundle(it).phone }!!
         phoneWrite = "${context?.getString(R.string.we_have_sent_you_a_six_digit_code_on_your)}${phoneNumber}"
         binding.text2.text = phoneWrite
+        verifyOTPViewModel.updateState(phoneNumber = phoneNumber)
+
 
         binding.otpView.setOtpCompletionListener {
-            val data = VerifyOTPRequest(code = it, phoneNumber = phoneNumber)
-             validateOTP(data)
-       /*     binding.incorrectNumber.visibility = View.INVISIBLE
-            binding.nextButton.setImageResource(R.drawable.next_enabled)
-            binding.nextButton.isEnabled = true*/
+            verifyOTPViewModel.updateState(code = it)
+            verifyOTPViewModel.onEvent(VerifyOTPEvent.OnOTPComplete)
+        }
+
+        lifecycleScope.launchWhenResumed {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                verifyOTPViewModel.state.collect { state ->
+                    toggleBusyDialog(
+                        state.isLoading,
+                        desc = if (state.isLoading) "Submitting Data..." else null
+                    )
+
+                    if (state.error.isNotEmpty()) {
+                        handleError(state.error)
+                    }
+
+                    if (state.isRequestSuccess) {
+                        handleSuccess(state.isNew)
+                    }
+
+                }
+            }
         }
 
         binding.backButton.setOnClickListener {
@@ -87,7 +102,7 @@ class OTPFragment : Fragment() {
 
     }
 
-      fun validateOTP(data: VerifyOTPRequest){
+     /* fun validateOTP(data: VerifyOTPRequest){
           toggleBusyDialog(true,"Submitting Data...")
           viewModel.validateOTP(data).observe(viewLifecycleOwner, Observer {
               it.let { res ->
@@ -126,7 +141,7 @@ class OTPFragment : Fragment() {
               }
           })
 
-      }
+      }*/
 
     private fun toggleBusyDialog(busy: Boolean, desc: String? = null){
         if(busy){
@@ -143,6 +158,31 @@ class OTPFragment : Fragment() {
             mDialog?.show()
         }else{
             mDialog?.dismiss()
+        }
+    }
+
+    private fun handleError(message: String) {
+        binding.incorrectNumber.visibility = View.VISIBLE
+        binding.nextButton.setImageResource(R.drawable.next_unenabled)
+        binding.nextButton.isEnabled = false
+        Snackbar
+            .make(binding.root, message, Snackbar.LENGTH_LONG)
+            .setAction("Retry") {
+                verifyOTPViewModel.onEvent(VerifyOTPEvent.OnOTPComplete)
+            }.show()
+    }
+
+    private fun handleSuccess(isNew: Boolean) {
+        binding.incorrectNumber.visibility = View.INVISIBLE
+        if (isNew){
+            val action =
+                OTPFragmentDirections.actionOTPFragmentToAccountCreationFragment(
+                    phoneNumber
+                )
+            findNavController().navigate(action)
+        }else{
+            startActivity(Intent(activity, RideActivity::class.java))
+            activity?.finish()
         }
     }
 

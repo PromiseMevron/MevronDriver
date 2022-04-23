@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.authentication.data.repository
 
 import com.mevron.rides.driver.authentication.data.models.createaccount.CreateAccountResponse
+import com.mevron.rides.driver.authentication.data.models.createaccount.CreateSuccess
 import com.mevron.rides.driver.authentication.data.models.registerphone.PhoneCodeData
 import com.mevron.rides.driver.authentication.data.models.registerphone.RegisterPhoneResponse
 import com.mevron.rides.driver.authentication.data.models.registerphone.SuccessData
@@ -104,7 +105,7 @@ class AuthRepositoryTest {
     fun `when AuthRepository#createAccount is invoked - sends api to createAccount`(): Unit =
         runBlocking {
             val response: Response<CreateAccountResponse> =
-                Response.success(CreateAccountResponse("message", "200"))
+                Response.success(CreateAccountResponse(CreateSuccess("message", "200")))
             coEvery { authApi.createAccount(any()) }.coAnswers { response }
             val createAccountRequest = CreateAccountRequest(
                 city = "testCity",

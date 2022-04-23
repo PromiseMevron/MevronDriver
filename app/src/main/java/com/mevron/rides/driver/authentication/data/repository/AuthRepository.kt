@@ -44,8 +44,8 @@ class AuthRepository(private val authApi: AuthApi) : IAuthRepository {
 
     private fun CreateAccountResponse.toDomainModel() = DomainModel.Success(
         data = CreateAccountDomainModel(
-            message = this.message,
-            status = this.status
+            message = this.createSuccess.message,
+            status = this.createSuccess.status
         )
     )
 
