@@ -9,6 +9,7 @@ import com.mevron.rides.driver.authentication.domain.model.CreateAccountRequest
 import com.mevron.rides.driver.authentication.domain.model.RegisterPhoneRequest
 import com.mevron.rides.driver.authentication.domain.model.VerifyOTPDomainModel
 import com.mevron.rides.driver.authentication.domain.usecase.CreateAccountUseCase
+import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.VerifyOTPUseCase
 import com.mevron.rides.driver.authentication.ui.createaccount.event.CreateAccountEvent
 import com.mevron.rides.driver.authentication.ui.createaccount.state.CreateAccountState
@@ -27,7 +28,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountCreationViewModelV2 @Inject constructor(
-    private val useCase: CreateAccountUseCase
+    private val useCase: CreateAccountUseCase,
+    private val setPreferenceUseCase: SetPreferenceUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<CreateAccountState> =
@@ -56,10 +58,7 @@ class AccountCreationViewModelV2 @Inject constructor(
                     )
                 }
                 is DomainModel.Success -> {
-                    val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
-                    val editor = sPref.edit()
-                    editor.putString(Constants.EMAIL, mutableState.value.email)
-                    editor?.apply()
+                    setPreferenceUseCase(Constants.EMAIL, mutableState.value.email)
                     updateState(
                         isLoading = false,
                         isRequestSuccess = true,

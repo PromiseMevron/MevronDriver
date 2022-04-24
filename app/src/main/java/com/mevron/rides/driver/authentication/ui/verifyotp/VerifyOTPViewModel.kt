@@ -9,6 +9,7 @@ import com.mevron.rides.driver.authentication.domain.model.RegisterPhoneRequest
 import com.mevron.rides.driver.authentication.domain.model.VerifyOTPDomainModel
 import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
 import com.mevron.rides.driver.authentication.domain.usecase.RegisterPhoneUseCase
+import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.VerifyOTPUseCase
 import com.mevron.rides.driver.authentication.ui.registerphone.state.RegisterPhoneState
 import com.mevron.rides.driver.authentication.ui.verifyotp.event.VerifyOTPEvent
@@ -27,7 +28,8 @@ import java.util.*
 
 @HiltViewModel
 class VerifyOTPViewModel @Inject constructor(
-    private val verifyOTPUseCase: VerifyOTPUseCase
+    private val verifyOTPUseCase: VerifyOTPUseCase,
+    private val setPreferenceUseCase: SetPreferenceUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<VerifyOTPState> =
@@ -41,23 +43,23 @@ class VerifyOTPViewModel @Inject constructor(
         val request = mutableState.value.toRequest()
         viewModelScope.launch(Dispatchers.IO) {
 
-            when (val result = verifyOTPUseCase(request)){
-                is DomainModel.Success ->{
+            when (val result = verifyOTPUseCase(request)) {
+                is DomainModel.Success -> {
                     val data = result.data as VerifyOTPDomainModel
-                    val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
-                    val editor = sPref.edit()
-                    editor.putString(TOKEN, data.accessToken)
-                    editor.putString(Constants.UUID, data.uuid)
-                    editor.apply()
+                    setPreferenceUseCase(TOKEN, data.accessToken)
+                    setPreferenceUseCase(Constants.UUID, data.uuid)
+
                     updateState(
                         isLoading = false,
                         isRequestSuccess = true,
                         accessToken = data.accessToken,
                         uiid = data.uuid,
-                        isNew = data.riderType.lowercase(Locale.getDefault()) == "new".lowercase(Locale.getDefault())
+                        isNew = data.riderType.lowercase(Locale.getDefault()) == "new".lowercase(
+                            Locale.getDefault()
+                        )
                     )
                 }
-                is  DomainModel.Error -> mutableState.update {
+                is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         isLoading = false,
                         isRequestSuccess = false,
@@ -65,11 +67,8 @@ class VerifyOTPViewModel @Inject constructor(
                     )
                 }
             }
-
         }
     }
-
-
 
     fun onEvent(event: VerifyOTPEvent) {
         when (event) {
@@ -89,14 +88,14 @@ class VerifyOTPViewModel @Inject constructor(
         this.error.localizedMessage ?: "OTP verification  failed"
 
     fun updateState(
-         phoneNumber: String? = null,
-         code: String? = null,
-         isNew: Boolean? = true,
-         isRequestSuccess: Boolean? = false,
-         isLoading: Boolean? = false,
-         error: String? = null,
-         accessToken: String? = null,
-         uiid: String? = null
+        phoneNumber: String? = null,
+        code: String? = null,
+        isNew: Boolean? = true,
+        isRequestSuccess: Boolean? = false,
+        isLoading: Boolean? = false,
+        error: String? = null,
+        accessToken: String? = null,
+        uiid: String? = null
     ) {
         val currentValue = mutableState.value
         mutableState.update {
@@ -108,9 +107,8 @@ class VerifyOTPViewModel @Inject constructor(
                 isLoading = isLoading ?: currentValue.isLoading,
                 accessToken = accessToken ?: currentValue.accessToken,
                 uiid = uiid ?: currentValue.uiid,
-                error = error?: currentValue.error
+                error = error ?: currentValue.error
             )
         }
     }
-
 }
