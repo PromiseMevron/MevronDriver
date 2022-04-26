@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.authentication.ui.verifyotp
 
 import app.cash.turbine.test
+import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.VerifyOTPUseCase
 import com.mevron.rides.driver.authentication.ui.verifyotp.event.VerifyOTPEvent
 import com.mevron.rides.driver.authentication.ui.verifyotp.state.VerifyOTPState
@@ -20,7 +21,8 @@ import org.junit.Test
 class VerifyOTPViewModelTest {
 
     private val useCase: VerifyOTPUseCase = mockk()
-    private val viewModel = VerifyOTPViewModel(useCase)
+    private val prefUseCase: SetPreferenceUseCase = mockk()
+    private val viewModel = VerifyOTPViewModel(useCase, prefUseCase)
 
 
     private val testDispatcher = TestCoroutineDispatcher()

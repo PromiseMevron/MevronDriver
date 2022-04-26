@@ -2,6 +2,7 @@ package com.mevron.rides.driver.authentication.ui.createaccount
 
 import app.cash.turbine.test
 import com.mevron.rides.driver.authentication.domain.usecase.CreateAccountUseCase
+import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCase
 import com.mevron.rides.driver.authentication.ui.createaccount.event.CreateAccountEvent
 import com.mevron.rides.driver.authentication.ui.createaccount.state.CreateAccountState
 import io.mockk.coEvery
@@ -20,7 +21,8 @@ import org.junit.Test
 class AccountCreationViewModelV2Test {
 
     private val useCase: CreateAccountUseCase = mockk()
-    private val viewModel = AccountCreationViewModelV2(useCase)
+    private val prefUseCase: SetPreferenceUseCase = mockk()
+    private val viewModel = AccountCreationViewModelV2(useCase, prefUseCase)
 
     private val testDispatcher = TestCoroutineDispatcher()
 
