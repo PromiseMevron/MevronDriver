@@ -9,6 +9,7 @@
     android:layout_height="match_parent"
     app:behavior_hideable="true"
     android:id="@+id/bottomSheet"
+    android:visibility="gone"
     android:background="@drawable/rounded_corner"
     app:behavior_peekHeight="@dimen/_500sdp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"

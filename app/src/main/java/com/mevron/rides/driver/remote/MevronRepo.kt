@@ -22,16 +22,13 @@ import com.mevron.rides.driver.sidemenu.model.NotificationResponse
 import com.mevron.rides.driver.sidemenu.model.emerg.UpdateEmergencyContact
 import com.mevron.rides.driver.sidemenu.model.pref.GetPrefrenceModel
 import com.mevron.rides.driver.sidemenu.model.pref.UpdatePrefrenceRequest
+import com.mevron.rides.driver.updateprofile.domain.model.AddVehicleRequest
+import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
 import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
 
 class MevronRepo @Inject constructor (private val api: MevronAPI, private val dao: MevronDao) {
-
-    suspend fun registerPhone(data: RegisterBody): Response<RegisterResponse> {
-        return api.registerPhone(data)
-
-    }
 
     suspend fun validateOTP(data: VerifyOTPRequest): Response<OTPResponse> {
         return api.verifyOTP(data)
@@ -43,7 +40,7 @@ class MevronRepo @Inject constructor (private val api: MevronAPI, private val da
         return api.createAccount(data)
     }
 
-    suspend fun addVehicle(data: VehicleAddRequest): Response<GeneralResponse> {
+    suspend fun addVehicle(data: AddVehicleRequest): Response<GeneralResponse> {
         return api.addVehicle(data)
     }
 

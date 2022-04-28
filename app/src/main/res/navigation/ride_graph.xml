@@ -125,8 +125,8 @@
         android:label="BankDetailFragment" />
     <fragment
         android:id="@+id/addVehicleFragment2"
-        tools:layout="@layout/add_vehicle_fragment2"
-        android:name="com.mevron.rides.driver.sidemenu.AddVehicleFragment"
+        tools:layout="@layout/add_vehicle_fragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.AddVehicleFragment"
         android:label="AddVehicleFragment" />
     <fragment
         android:id="@+id/cardDetailsFragment"

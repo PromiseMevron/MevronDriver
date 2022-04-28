@@ -1,64 +1,63 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.updateprofile.ui
 
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.auth.addcaradapters.*
-import com.mevron.rides.driver.updateprofile.data.model.AddVehicleRequest
-import com.mevron.rides.driver.auth.model.caryear.DataXXXX
-import com.mevron.rides.driver.auth.model.getcar.DataXX
-import com.mevron.rides.driver.auth.model.getmodel.DataXXX
+import com.mevron.rides.driver.auth.addcaradapters.CarMakeAdapter
+import com.mevron.rides.driver.auth.addcaradapters.CarMakeSelectionListener
+import com.mevron.rides.driver.auth.addcaradapters.CarModelAdapter
+import com.mevron.rides.driver.auth.addcaradapters.CarModelSelectionListener
+import com.mevron.rides.driver.auth.addcaradapters.CarYearAdapter
+import com.mevron.rides.driver.auth.addcaradapters.CarYearSelectedListener
+import com.mevron.rides.driver.auth.addcaradapters.ColorAdapter
+import com.mevron.rides.driver.auth.addcaradapters.ColorSelectionListener
 import com.mevron.rides.driver.databinding.AddVehicleFragmentBinding
-import com.mevron.rides.driver.remote.GenericStatus
+import com.mevron.rides.driver.updateprofile.ui.event.AddVehicleEvent
+import com.mevron.rides.driver.updateprofile.ui.state.AddVehicleError
+import com.mevron.rides.driver.updateprofile.ui.state.AddVehicleState
 import com.mevron.rides.driver.util.LauncherUtil
-import com.mevron.rides.driver.util.getString
 import com.mevron.rides.driver.util.isNotEmpty
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import reactivecircus.flowbinding.android.view.clicks
+import reactivecircus.flowbinding.android.widget.textChanges
 
 
 @AndroidEntryPoint
-class AddVehicleFragment : Fragment(), Carselected, CarModelselected, CarYearlselected, ColorSlected {
+class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelectionListener,
+    CarYearSelectedListener, ColorSelectionListener {
 
     companion object {
         fun newInstance() = AddVehicleFragment()
     }
 
+    private val addVehicleViewModel: AddVehicleViewModel by viewModels()
 
-    private val viewModel: AddVehicleViewModel by viewModels()
     private lateinit var binding: AddVehicleFragmentBinding
     private var mDialog: Dialog? = null
-    private var make = ""
-    private var model = ""
-    private var prevmake = ""
-    private var prevmodel = ""
     private lateinit var makeAdapter: CarMakeAdapter
     private lateinit var modelAdapter: CarModelAdapter
     private lateinit var yearAdapter: CarYearAdapter
     private lateinit var colorAdapter: ColorAdapter
-
-    private var cars = listOf<DataXX>()
-    private var models = listOf<DataXXX>()
-    private var years = listOf<DataXXXX>()
-
-    private var carsFiltered = arrayListOf<DataXX>()
-    private var modelsFiltered  = arrayListOf<DataXXX>()
-    private var yearsFiltered  = arrayListOf<DataXXXX>()
 
     private lateinit var makeBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var modelBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
@@ -73,514 +72,381 @@ class AddVehicleFragment : Fragment(), Carselected, CarModelselected, CarYearlse
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.backButton.setOnClickListener {
-            activity?.onBackPressed()
+        binding.backButton.setOnClickListener { addVehicleViewModel.onEventReceived(AddVehicleEvent.BackClicked) }
+
+        initBottomSheetBehavior()
+
+        initColorAdapter()
+
+        lifecycleScope.launch {
+            addVehicleViewModel.state.collect { state ->
+                toggleBusyDialog(state.isLoading, "fetching Data...")
+                toggleBusyDialog(state.isSubmittingData, "Submitting Data...")
+                handleDataSubmittedSuccess(state)
+                setUpBottomSheet(state)
+                handleError(state)
+                handleBackClicked(state)
+                binding.riderMake.text = state.carMakeState.carMake
+                binding.year.text = state.carYearState.carYear
+                binding.color.text = state.carColorState.carColor
+                binding.riderModel.text = state.carModelState.carModel
+            }
         }
 
-        colorAdapter = ColorAdapter(this)
-        binding.addColor.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-            RecyclerView.VERTICAL, false)
-        binding.addColor.recyclerView.adapter = colorAdapter
+        handleClickListeners()
 
+        handleSearchTextChanges()
+
+        checkShouldActivateButton(binding.riderMake)
+        checkShouldActivateButton(binding.riderModel)
+        checkShouldActivateButton(binding.year)
+        checkShouldActivateButton(binding.color)
+        checkShouldActivateButton(binding.riderPlate)
+
+        setUpSubmitButtonEnabledForSearchBar()
+
+        binding.riderPlate.textChanges().skipInitialValue().onEach {
+            addVehicleViewModel.updateState(licenseNumber = it.toString())
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun handleDataSubmittedSuccess(state: AddVehicleState) {
+        if (state.isDataSubmitted) {
+            findNavController().navigate(R.id.action_addVehicleFragment_to_uploadDocumFragment)
+            addVehicleViewModel.updateState(
+                isDataSubmitted = false,
+                isSubmittingData = false
+            )
+        }
+    }
+
+    private fun handleSearchTextChanges() {
+        binding.addCarBottom.searchBar.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+
+                return false
+            }
+
+            override fun onQueryTextChange(filter: String?): Boolean {
+                addVehicleViewModel.filterMake(filter)
+                return false
+            }
+        })
+
+        binding.addCarModel.searchBar.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(filter: String?): Boolean {
+                addVehicleViewModel.filterModel(filter)
+
+                return false
+            }
+        })
+
+        binding.addCarYear.searchBar.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(filter: String?): Boolean {
+                addVehicleViewModel.filterYear(filter)
+                return false
+            }
+        })
+    }
+
+    private fun handleClickListeners() {
+        hideAllBottomSheets()
+        binding.addVehicle.clicks().onEach {
+            hideAllBottomSheets()
+            addVehicleViewModel.onEventReceived(AddVehicleEvent.AddVehicleClicked)
+        }.launchIn(lifecycleScope)
+
+        binding.color.clicks().onEach {
+            hideAllBottomSheets()
+            addVehicleViewModel.updateState(isColorBottomSheetOpen = true)
+        }.launchIn(lifecycleScope)
+
+        binding.year.clicks().onEach {
+            hideAllBottomSheets()
+            addVehicleViewModel.onEventReceived(AddVehicleEvent.GetCarYearsClicked)
+        }.launchIn(lifecycleScope)
+
+        binding.riderModel.clicks().onEach {
+            hideAllBottomSheets()
+            addVehicleViewModel.onEventReceived(AddVehicleEvent.GetCarModelsClicked)
+        }.launchIn(lifecycleScope)
+
+        binding.riderMake.clicks().onEach {
+            hideAllBottomSheets()
+            addVehicleViewModel.onEventReceived(AddVehicleEvent.GetCarMakesClicked)
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun hideAllBottomSheets() {
+        binding.addCarBottom.bottomSheet.visibility = View.GONE
+        binding.addColor.bottomSheet.visibility = View.GONE
+        binding.addCarModel.bottomSheet.visibility = View.GONE
+        binding.addCarYear.bottomSheet.visibility = View.GONE
+    }
+
+    private fun handleBackClicked(state: AddVehicleState) {
+        if (state.backClicked) {
+            if (modelBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                makeBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                yearBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED ||
+                colorBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED
+            ) {
+                modelBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                makeBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                yearBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                colorBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            } else {
+                activity?.onBackPressed()
+            }
+        }
+    }
+
+    private fun handleError(state: AddVehicleState) {
+        when (state.error) {
+            is AddVehicleError.AddVehicleRequestFailed -> {
+                showErrorSnackBar(state.error.message) {
+                    addVehicleViewModel.onEventReceived(AddVehicleEvent.AddVehicleClicked)
+                }
+            }
+            is AddVehicleError.CarMakesRequestFailed -> {
+                showErrorSnackBar(state.error.message) {
+                    addVehicleViewModel.onEventReceived(AddVehicleEvent.GetCarMakesClicked)
+                }
+            }
+            is AddVehicleError.CarModelsRequestFailed -> {
+                showErrorSnackBar(state.error.message) {
+                    addVehicleViewModel.onEventReceived(AddVehicleEvent.GetCarModelsClicked)
+                }
+            }
+            is AddVehicleError.CarYearRequestFailed -> {
+                showErrorSnackBar(state.error.message) {
+                    addVehicleViewModel.onEventReceived(AddVehicleEvent.GetCarYearsClicked)
+                }
+            }
+            AddVehicleError.None -> {}
+        }
+    }
+
+    private fun showErrorSnackBar(errorMessage: String, onRetry: () -> Unit) {
+        Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_LONG)
+            .setAction("Retry") { onRetry() }.show()
+    }
+
+    private fun setUpCarYearAdapter(state: AddVehicleState) {
+        yearAdapter = CarYearAdapter(state.carYearState.currentYears, this@AddVehicleFragment)
+        yearAdapter.notifyItemRangeChanged(0, state.carYearState.currentYears.size)
+        binding.addCarYear.recyclerView.layoutManager =
+            LinearLayoutManager(
+                context,
+                RecyclerView.VERTICAL, false
+            )
+        binding.addCarYear.recyclerView.adapter = yearAdapter
+    }
+
+    private fun setUpCarModelAdapter(state: AddVehicleState) {
+        modelAdapter = CarModelAdapter(state.carModelState.currentModels, this@AddVehicleFragment)
+        modelAdapter.notifyItemRangeChanged(0, state.carModelState.currentModels.size)
+        binding.addCarModel.recyclerView.layoutManager =
+            LinearLayoutManager(
+                context,
+                RecyclerView.VERTICAL, false
+            )
+        binding.addCarModel.recyclerView.adapter = modelAdapter
+    }
+
+    private fun setUpCarMakeAdapter(state: AddVehicleState) {
+        makeAdapter = CarMakeAdapter(state.carMakeState.currentMakes, this@AddVehicleFragment)
+        makeAdapter.notifyItemRangeChanged(0, state.carMakeState.currentMakes.size)
+        binding.addCarBottom.recyclerView.layoutManager =
+            LinearLayoutManager(
+                context,
+                RecyclerView.VERTICAL, false
+            )
+        binding.addCarBottom.recyclerView.adapter = makeAdapter
+    }
+
+    private fun setUpSubmitButtonEnabledForSearchBar() {
+        binding.addCarBottom.searchBar.isSubmitButtonEnabled = true
+        binding.addCarModel.searchBar.isSubmitButtonEnabled = true
+        binding.addCarYear.searchBar.isSubmitButtonEnabled = true
+    }
+
+    private fun checkShouldActivateButton(editText: TextView) {
+        editText.textChanges()
+            .skipInitialValue()
+            .onEach { activateButton() }
+            .launchIn(lifecycleScope)
+    }
+
+    private fun BottomSheetBehavior<ConstraintLayout>.resetStateOnCollapse() {
+        addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    addVehicleViewModel.updateState(
+                        isColorBottomSheetOpen = false,
+                        isYearBottomSheetOpen = false,
+                        isModelBottomSheetOpen = false,
+                        isMakeBottomSheetOpen = false
+                    )
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
+    }
+
+    private fun setUpBottomSheet(state: AddVehicleState) {
+        handleBottomSheetVisibility(
+            modelBottomSheetBehavior,
+            binding.addCarModel.bottomSheet,
+            state.isModelBottomSheetOpen
+        ) {
+            setUpCarModelAdapter(state)
+            modelBottomSheetBehavior.resetStateOnCollapse()
+        }
+
+        handleBottomSheetVisibility(
+            makeBottomSheetBehavior,
+            binding.addCarBottom.bottomSheet,
+            state.isMakeBottomSheetOpen
+        ) {
+            setUpCarMakeAdapter(state)
+            makeBottomSheetBehavior.resetStateOnCollapse()
+        }
+
+        handleBottomSheetVisibility(
+            yearBottomSheetBehavior,
+            binding.addCarYear.bottomSheet,
+            state.isYearBottomSheetOpen
+        ) {
+            setUpCarYearAdapter(state)
+            yearBottomSheetBehavior.resetStateOnCollapse()
+        }
+
+        handleBottomSheetVisibility(
+            colorBottomSheetBehavior,
+            binding.addColor.bottomSheet,
+            state.isColorBottomSheetOpen
+        ) {
+            colorBottomSheetBehavior.resetStateOnCollapse()
+        }
+    }
+
+    private fun handleBottomSheetVisibility(
+        bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>,
+        parentView: View,
+        isOpen: Boolean,
+        furtherAction: () -> Unit = {}
+    ) {
+        if (isOpen) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            parentView.visibility = View.VISIBLE
+            furtherAction()
+        } else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            parentView.visibility = View.GONE
+        }
+    }
+
+    private fun initBottomSheetBehavior() {
         makeBottomSheetBehavior = BottomSheetBehavior.from(binding.addCarBottom.bottomSheet)
         modelBottomSheetBehavior = BottomSheetBehavior.from(binding.addCarModel.bottomSheet)
         yearBottomSheetBehavior = BottomSheetBehavior.from(binding.addCarYear.bottomSheet)
         colorBottomSheetBehavior = BottomSheetBehavior.from(binding.addColor.bottomSheet)
-
-        makeBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        modelBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        yearBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        colorBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-        binding.addVehicle.setOnClickListener {
-            submitData()
-          //
-        }
-
-        binding.color.setOnClickListener {
-            colorBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
-
-
-        binding.year.setOnClickListener {
-            getCarYears()
-        }
-
-        binding.riderModel.setOnClickListener {
-            getCarModels()
-        }
-
-        binding.riderMake.setOnClickListener {
-            getCarMakes()
-        }
-
-
-        binding.riderPlate.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                activateButton()
-            }
-
-        })
-
-        binding.color.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                activateButton()
-            }
-
-        })
-
-        binding.year.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                activateButton()
-            }
-
-        })
-
-        binding.riderModel.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                activateButton()
-            }
-
-        })
-
-        binding.riderMake.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                activateButton()
-            }
-
-        })
-
-        binding.addCarBottom.searchBar.isSubmitButtonEnabled = true
-        binding.addCarModel.searchBar.isSubmitButtonEnabled = true
-        binding.addCarYear.searchBar.isSubmitButtonEnabled = true
-        binding.addCarBottom.searchBar.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-             /*   carsFiltered.clear()
-                carsFiltered = arrayListOf()
-                for (c in cars){
-                    if (c.Make.contains(p0!!, true)){
-                        print(c.Make)
-                        carsFiltered.add(c)
-                    }
-                }
-                makeAdapter = CarMakeAdapter(carsFiltered, this@AddVehicleFragment)
-                binding.addCarBottom.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                    RecyclerView.VERTICAL, false)
-                binding.addCarBottom.recyclerView.adapter = makeAdapter*/
-                return false
-            }
-
-            override fun onQueryTextChange(p0: String?): Boolean {
-
-                carsFiltered = ArrayList()
-
-                for (item in cars) {
-                    // checking if the entered string matched with any item of our recycler view.
-                    if (item.Make.toLowerCase().contains(p0!!.toLowerCase())) {
-                        // if the item is matched we are
-                        // adding it to our filtered list.
-                        carsFiltered.add(item)
-                    }
-                }
-
-
-                if (carsFiltered.isEmpty()){
-                    Toast.makeText(context, "No Data Found..", Toast.LENGTH_SHORT).show()
-                }else{
-                  //  Toast.makeText(context, "${carsFiltered.size}", Toast.LENGTH_SHORT).show();
-                    makeAdapter = CarMakeAdapter(carsFiltered, this@AddVehicleFragment)
-                    makeAdapter.notifyDataSetChanged()
-                    binding.addCarBottom.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                        RecyclerView.VERTICAL, false)
-                    binding.addCarBottom.recyclerView.adapter = makeAdapter
-                }
-
-              return false
-            }
-
-        })
-
-        binding.addCarModel.searchBar.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                /*   carsFiltered.clear()
-                   carsFiltered = arrayListOf()
-                   for (c in cars){
-                       if (c.Make.contains(p0!!, true)){
-                           print(c.Make)
-                           carsFiltered.add(c)
-                       }
-                   }
-                   makeAdapter = CarMakeAdapter(carsFiltered, this@AddVehicleFragment)
-                   binding.addCarBottom.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                       RecyclerView.VERTICAL, false)
-                   binding.addCarBottom.recyclerView.adapter = makeAdapter*/
-                return false
-            }
-
-            override fun onQueryTextChange(p0: String?): Boolean {
-
-                modelsFiltered = ArrayList()
-
-                for (item in models) {
-                    // checking if the entered string matched with any item of our recycler view.
-                    if (item.Model.toLowerCase().contains(p0!!.toLowerCase())) {
-                        // if the item is matched we are
-                        // adding it to our filtered list.
-                        modelsFiltered.add(item)
-                    }
-                }
-
-
-                if (modelsFiltered.isEmpty()){
-                    Toast.makeText(context, "No Data Found..", Toast.LENGTH_SHORT).show()
-                }else{
-                  //  Toast.makeText(context, "${modelsFiltered.size}", Toast.LENGTH_SHORT).show();
-                    modelAdapter = CarModelAdapter(modelsFiltered, this@AddVehicleFragment)
-                    modelAdapter.notifyDataSetChanged()
-                    binding.addCarModel.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                        RecyclerView.VERTICAL, false)
-                    binding.addCarModel.recyclerView.adapter = makeAdapter
-                }
-
-                return false
-            }
-
-        })
-
-
-        binding.addCarYear.searchBar.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                /*   carsFiltered.clear()
-                   carsFiltered = arrayListOf()
-                   for (c in cars){
-                       if (c.Make.contains(p0!!, true)){
-                           print(c.Make)
-                           carsFiltered.add(c)
-                       }
-                   }
-                   makeAdapter = CarMakeAdapter(carsFiltered, this@AddVehicleFragment)
-                   binding.addCarBottom.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                       RecyclerView.VERTICAL, false)
-                   binding.addCarBottom.recyclerView.adapter = makeAdapter*/
-                return false
-            }
-
-            override fun onQueryTextChange(p0: String?): Boolean {
-
-                yearsFiltered = ArrayList()
-
-                for (item in years) {
-                    // checking if the entered string matched with any item of our recycler view.
-                    if (item.Year.toLowerCase().contains(p0!!.toLowerCase())) {
-                        // if the item is matched we are
-                        // adding it to our filtered list.
-                        yearsFiltered.add(item)
-                    }
-                }
-
-
-                if (yearsFiltered.isEmpty()){
-                    Toast.makeText(context, "No Data Found..", Toast.LENGTH_SHORT).show()
-                }else{
-                    //  Toast.makeText(context, "${modelsFiltered.size}", Toast.LENGTH_SHORT).show();
-                    yearAdapter = CarYearAdapter(yearsFiltered, this@AddVehicleFragment)
-                    yearAdapter.notifyDataSetChanged()
-                    binding.addCarYear.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                        RecyclerView.VERTICAL, false)
-                    binding.addCarYear.recyclerView.adapter = makeAdapter
-                }
-
-                return false
-            }
-
-        })
-
+        colorBottomSheetBehavior.resetStateOnCollapse()
+        yearBottomSheetBehavior.resetStateOnCollapse()
+        modelBottomSheetBehavior.resetStateOnCollapse()
+        makeBottomSheetBehavior.resetStateOnCollapse()
     }
 
-    fun submitData(){
-        val make = binding.riderMake.getString()
-        val color = binding.color.getString()
-        val model = binding.riderModel.getString()
-        val year = binding.year.getString()
-        val plate = binding.riderPlate.getString()
-        val data = AddVehicleRequest(color = color, make = make, plateNumber = plate, model = model, year = year)
-
-        toggleBusyDialog(true,"Submitting Data...")
-        viewModel.addVehicle(data).observe(viewLifecycleOwner, Observer {
-            it.let { res ->
-                when(res){
-                    is GenericStatus.Error -> {
-                        toggleBusyDialog(false)
-                        val snackbar = res.error?.error?.message?.let { it1 ->
-                            Snackbar
-                                .make(binding.root, it1, Snackbar.LENGTH_LONG).setAction("Retry", View.OnClickListener {
-                                    ::submitData
-                                })
-                        }
-                        snackbar?.show()
-
-                    }
-                    is  GenericStatus.Success ->{
-                        toggleBusyDialog(false)
-                        findNavController().navigate(R.id.action_addVehicleFragment_to_uploadDocumFragment)
-                    }
-                }
-            }
-        })
-
-
+    private fun initColorAdapter() {
+        colorAdapter = ColorAdapter(this)
+        binding.addColor.recyclerView.layoutManager = LinearLayoutManager(
+            context,
+            RecyclerView.VERTICAL, false
+        )
+        binding.addColor.recyclerView.adapter = colorAdapter
     }
 
-    private fun getCarMakes(){
-        if (cars.isNotEmpty()){
-            binding.addCarBottom.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                RecyclerView.VERTICAL, false)
-            makeAdapter = CarMakeAdapter(cars, this)
-            binding.addCarBottom.recyclerView.adapter = makeAdapter
-            makeBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            return
-        }
-        toggleBusyDialog(true,"fetching Data...")
-        viewModel.getCarMakes().observe(viewLifecycleOwner, Observer {
-            it.let { res ->
-                when(res){
-                    is GenericStatus.Error -> {
-                        toggleBusyDialog(false)
-                        val snackbar = res.error?.error?.message?.let { it1 ->
-                            Snackbar
-                                .make(binding.root, it1, Snackbar.LENGTH_LONG).setAction("Retry", View.OnClickListener {
-                                    ::getCarMakes
-                                })
-                        }
-                        snackbar?.show()
-
-                    }
-                    is  GenericStatus.Success ->{
-                        toggleBusyDialog(false)
-                        cars = res.data?.success?.data!!
-                        binding.addCarBottom.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                               RecyclerView.VERTICAL, false)
-                        makeAdapter = CarMakeAdapter(res.data?.success?.data!!, this)
-                        binding.addCarBottom.recyclerView.adapter = makeAdapter
-                        makeBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-
-                    }
-                }
-            }
-        })
-    }
-
-    private fun getCarModels(){
-        if (make.isEmpty()){
-            Snackbar.make(binding.root, "Select a car make", Snackbar.LENGTH_LONG).show()
-            return
-        }
-        if (prevmake == make){
-            binding.addCarModel.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                RecyclerView.VERTICAL, false)
-            modelAdapter = CarModelAdapter(models, this)
-            binding.addCarModel.recyclerView.adapter = modelAdapter
-            modelBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            return
-        }
-
-        toggleBusyDialog(true,"fetching Data...")
-        viewModel.getCarModels(make).observe(viewLifecycleOwner, Observer {
-            it.let { res ->
-                when(res){
-                    is GenericStatus.Error -> {
-                        toggleBusyDialog(false)
-                        val snackbar = res.error?.error?.message?.let { it1 ->
-                            Snackbar
-                                .make(binding.root, it1, Snackbar.LENGTH_LONG).setAction("Retry", View.OnClickListener {
-                                    ::getCarModels
-                                })
-                        }
-                        snackbar?.show()
-
-                    }
-                    is  GenericStatus.Success ->{
-                        toggleBusyDialog(false)
-                        models = res.data?.success?.data!!
-                        prevmake = make
-                        binding.addCarModel.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                            RecyclerView.VERTICAL, false)
-                        modelAdapter = CarModelAdapter(res.data?.success?.data!!, this)
-                        binding.addCarModel.recyclerView.adapter = modelAdapter
-                        modelBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                       // res.data?.success?.data
-                    }
-                }
-            }
-        })
-    }
-
-    private fun getCarYears(){
-        if (model.isEmpty()){
-            Snackbar.make(binding.root, "Select a car make", Snackbar.LENGTH_LONG).show()
-            return
-        }
-        if (prevmodel == model){
-            binding.addCarYear.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                RecyclerView.VERTICAL, false)
-            yearAdapter = CarYearAdapter(years, this)
-            binding.addCarYear.recyclerView.adapter = yearAdapter
-            yearBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            return
-        }
-        toggleBusyDialog(true,"fetching Data...")
-        viewModel.getCarYear(model).observe(viewLifecycleOwner, Observer {
-            it.let { res ->
-                when(res){
-                    is GenericStatus.Error -> {
-                        toggleBusyDialog(false)
-                        val snackbar = res.error?.error?.message?.let { it1 ->
-                            Snackbar
-                                .make(binding.root, it1, Snackbar.LENGTH_LONG).setAction("Retry", View.OnClickListener {
-                                    ::getCarYears
-                                })
-                        }
-                        snackbar?.show()
-
-                    }
-                    is  GenericStatus.Success ->{
-                        toggleBusyDialog(false)
-                        years = res.data?.success?.data!!
-                        prevmodel = model
-                        binding.addCarYear.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context,
-                            RecyclerView.VERTICAL, false)
-                        yearAdapter = CarYearAdapter(res.data.success.data, this)
-                        binding.addCarYear.recyclerView.adapter = yearAdapter
-                        yearBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                       // res.data?.success?.data
-                    }
-                }
-            }
-        })
-    }
-
-    fun activateButton(){
-        if (binding.year.getString().isNotEmpty()){
-            if (binding.year.getString().toInt() > 2014){
+    private fun activateButton() {
+        if (binding.year.text.isNotEmpty()) {
+            if (binding.year.text.toString().toInt() > 2014) {
                 binding.yearOk.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.yearOk.visibility = View.INVISIBLE
             }
 
-
-            if (binding.riderMake.isNotEmpty() && binding.riderModel.isNotEmpty() &&
-                binding.year.isNotEmpty() && binding.color.isNotEmpty() &&  binding.riderPlate.isNotEmpty()
-                && binding.year.getString().toInt() > 2014
-            ){
+            if (binding.riderMake.text.isNotEmpty() && binding.riderModel.text.isNotEmpty() &&
+                binding.year.text.isNotEmpty() && binding.color.text.isNotEmpty() && binding.riderPlate.isNotEmpty()
+                && binding.year.text.toString().toInt() > 2014
+            ) {
                 binding.addVehicle.setBackgroundColor(Color.parseColor("#25255A"))
                 binding.addVehicle.setTextColor(Color.parseColor("#ffffff"))
                 binding.addVehicle.isEnabled = true
-            }else{
+            } else {
                 binding.addVehicle.setBackgroundColor(Color.parseColor("#1F2A2A72"))
                 binding.addVehicle.setTextColor(Color.parseColor("#9C9C9C"))
                 binding.addVehicle.isEnabled = false
             }
 
-
-        }else{
+        } else {
             binding.yearOk.visibility = View.INVISIBLE
 
             binding.addVehicle.setBackgroundColor(Color.parseColor("#1F2A2A72"))
             binding.addVehicle.setTextColor(Color.parseColor("#9C9C9C"))
             binding.addVehicle.isEnabled = false
         }
-
-
     }
 
-    private fun toggleBusyDialog(busy: Boolean, desc: String? = null){
-        if(busy){
-            if(mDialog == null){
+    private fun toggleBusyDialog(busy: Boolean, desc: String? = null) {
+        if (busy) {
+            if (mDialog == null) {
                 val view = LayoutInflater.from(requireContext())
-                    .inflate(R.layout.dialog_busy_layout,null)
-                mDialog = LauncherUtil.showPopUp(requireContext(),view,desc)
-            }else{
-                if(!desc.isNullOrBlank()){
-                    val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_busy_layout,null)
-                    mDialog = LauncherUtil.showPopUp(requireContext(),view,desc)
+                    .inflate(R.layout.dialog_busy_layout, null)
+                mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
+            } else {
+                if (!desc.isNullOrBlank()) {
+                    val view = LayoutInflater.from(requireContext())
+                        .inflate(R.layout.dialog_busy_layout, null)
+                    mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
                 }
             }
             mDialog?.show()
-        }else{
+        } else {
             mDialog?.dismiss()
         }
     }
 
-    override fun selectedCar(car: String) {
-       make = car
-        binding.riderMake.setText(car)
-        makeBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        if (prevmake != make){
-            binding.riderModel.setText("")
-            binding.year.setText("")
-        }
+    override fun onCarMakeSelected(car: String) {
+        addVehicleViewModel.updateSelectedData(selectedCarMake = car)
+        addVehicleViewModel.updateState(isMakeBottomSheetOpen = false)
     }
 
-    override fun selectedModel(car: String) {
-       model = car
-        binding.riderModel.setText(car)
-        modelBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        if (prevmodel != model){
-            binding.year.setText("")
-        }
+    override fun onCarModelSelected(car: String) {
+        addVehicleViewModel.updateSelectedData(selectedCarModel = car)
+        addVehicleViewModel.updateState(isModelBottomSheetOpen = false)
     }
 
-    override fun selectedYear(car: String) {
-        binding.year.setText(car)
-        yearBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    override fun onYearSelected(car: String) {
+        addVehicleViewModel.updateSelectedData(selectedCarYear = car)
+        addVehicleViewModel.updateState(isYearBottomSheetOpen = false)
     }
 
-    override fun selectedColor(color: String) {
-        binding.color.setText(color)
-        colorBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    override fun onColorSelected(color: String) {
+        addVehicleViewModel.updateSelectedData(selectedCarColor = color)
+        addVehicleViewModel.updateState(isColorBottomSheetOpen = false)
     }
-
 }

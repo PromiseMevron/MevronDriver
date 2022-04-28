@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mevron.rides.driver.auth.model.GeneralResponse
-import com.mevron.rides.driver.auth.model.VehicleAddRequest
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.remote.HTTPErrorHandler
 import com.mevron.rides.driver.remote.MevronRepo

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.ColorItemBinding
 
-class ColorAdapter(val select: ColorSlected): RecyclerView.Adapter<ColorAdapter.ColorHolder>() {
+class ColorAdapter(val select: ColorSelectionListener): RecyclerView.Adapter<ColorAdapter.ColorHolder>() {
 
     var names = arrayListOf("Black", "Grey", "Silver", "Blue", "Brown", "Gold", "White", "Other")
     var images = arrayListOf<Int>(R.drawable.black, R.drawable.grey, R.drawable.silver, R.drawable.blue, R.drawable.brown, R.drawable.gold, R.drawable.white, R.drawable.other)
@@ -23,7 +23,7 @@ class ColorAdapter(val select: ColorSlected): RecyclerView.Adapter<ColorAdapter.
         holder.binding.word.text = names[position]
         holder.binding.color.setImageResource(images[position])
         holder.binding.root.setOnClickListener {
-            select.selectedColor(names[position])
+            select.onColorSelected(names[position])
         }
     }
 
@@ -31,6 +31,7 @@ class ColorAdapter(val select: ColorSlected): RecyclerView.Adapter<ColorAdapter.
         return names.size
     }
 }
-interface ColorSlected{
-    fun selectedColor(color: String)
+
+interface ColorSelectionListener{
+    fun onColorSelected(color: String)
 }

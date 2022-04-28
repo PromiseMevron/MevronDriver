@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/addVehicleFragment"
-        android:name="com.mevron.rides.driver.auth.AddVehicleFragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.AddVehicleFragment"
         android:label="add_vehicle_fragment"
         tools:layout="@layout/add_vehicle_fragment" >
         <action
@@ -97,7 +97,7 @@
     </fragment>
     <fragment
         android:id="@+id/socialSecurityFragment"
-        android:name="com.mevron.rides.driver.auth.SocialSecurityFragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.SocialSecurityFragment"
         tools:layout="@layout/social_security_fragment"
         android:label="SocialSecurityFragment" >
         <action

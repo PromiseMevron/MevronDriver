@@ -5,26 +5,32 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.auth.model.getmodel.DataXXX
 import com.mevron.rides.driver.databinding.CardAddItemsBinding
+import com.mevron.rides.driver.updateprofile.domain.model.CarModel
 
-class CarModelAdapter(val makes: List<DataXXX>, val select: CarModelselected): RecyclerView.Adapter<CarModelAdapter.CarModelHolder>() {
+class CarModelAdapter(val makes: List<CarModel>, val select: CarModelSelectionListener) :
+    RecyclerView.Adapter<CarModelAdapter.CarModelHolder>() {
 
 
-
-
-    class CarModelHolder(val binding: CardAddItemsBinding): RecyclerView.ViewHolder(binding.root) {
+    class CarModelHolder(val binding: CardAddItemsBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarModelHolder {
-        return CarModelHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.card_add_items, parent, false))
+        return CarModelHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.card_add_items,
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: CarModelHolder, position: Int) {
-        holder.binding.word.text = makes[position].Model
+        holder.binding.word.text = makes[position].model
         holder.binding.root.setOnClickListener {
-            select.selectedModel(makes[position].Model)
+            select.onCarModelSelected(makes[position].model)
         }
     }
 
@@ -32,6 +38,7 @@ class CarModelAdapter(val makes: List<DataXXX>, val select: CarModelselected): R
         return makes.size
     }
 }
-interface CarModelselected{
-    fun selectedModel(car: String)
+
+interface CarModelSelectionListener {
+    fun onCarModelSelected(car: String)
 }

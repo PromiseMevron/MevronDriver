@@ -1,7 +1,6 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.updateprofile.ui
 
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -15,12 +14,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.auth.model.SecurityNumRequest
+import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
 import com.mevron.rides.driver.databinding.SocialSecurityFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
-import com.mevron.rides.driver.util.Constants
 import com.mevron.rides.driver.util.LauncherUtil
 import com.mevron.rides.driver.util.getString
 import com.mevron.rides.driver.util.isNotEmpty

@@ -19,6 +19,8 @@ import com.mevron.rides.driver.sidemenu.model.NotificationResponse
 import com.mevron.rides.driver.sidemenu.model.emerg.UpdateEmergencyContact
 import com.mevron.rides.driver.sidemenu.model.pref.GetPrefrenceModel
 import com.mevron.rides.driver.sidemenu.model.pref.UpdatePrefrenceRequest
+import com.mevron.rides.driver.updateprofile.domain.model.AddVehicleRequest
+import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -35,7 +37,7 @@ interface MevronAPI {
     suspend fun createAccount(@Body data: CreateAccountRequest): Response<GeneralResponse>
 
     @POST("api/v1/driver/auth/vehicle/create")
-    suspend fun addVehicle(@Body data: VehicleAddRequest): Response<GeneralResponse>
+    suspend fun addVehicle(@Body data: AddVehicleRequest): Response<GeneralResponse>
 
     @Multipart
     @POST("api/v1/driver/auth/upload/driver-license")
