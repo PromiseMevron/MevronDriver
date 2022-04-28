@@ -20,7 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.auth.addcaradapters.*
-import com.mevron.rides.driver.auth.model.VehicleAddRequest
+import com.mevron.rides.driver.updateprofile.data.model.AddVehicleRequest
 import com.mevron.rides.driver.auth.model.caryear.DataXXXX
 import com.mevron.rides.driver.auth.model.getcar.DataXX
 import com.mevron.rides.driver.auth.model.getmodel.DataXXX
@@ -346,7 +346,7 @@ class AddVehicleFragment : Fragment(), Carselected, CarModelselected, CarYearlse
         val model = binding.riderModel.getString()
         val year = binding.year.getString()
         val plate = binding.riderPlate.getString()
-        val data = VehicleAddRequest(color = color, make = make, plateNumber = plate, model = model, year = year)
+        val data = AddVehicleRequest(color = color, make = make, plateNumber = plate, model = model, year = year)
 
         toggleBusyDialog(true,"Submitting Data...")
         viewModel.addVehicle(data).observe(viewLifecycleOwner, Observer {
