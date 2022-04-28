@@ -23,7 +23,7 @@ import org.junit.Before
 import org.junit.Test
 
 /**
- * We are currently testing state change ond event received, we need to deep test data
+ * We are currently testing state change and event received, we need to deep test data
  * change as well. Due to time constraint, we will suspend deep test to another iteration
  * TODO Complete the test for [AddVehicleViewModel]
  */
