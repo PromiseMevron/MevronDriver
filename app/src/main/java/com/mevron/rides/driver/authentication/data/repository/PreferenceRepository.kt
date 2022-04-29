@@ -15,4 +15,8 @@ class PreferenceRepository( context: Context) : IPreferenceRepository {
         editor.putString(key, value)
         editor?.apply()
     }
+
+    override fun clear() {
+        editor.clear()
+    }
 }

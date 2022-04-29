@@ -29,8 +29,6 @@ class OTPFragment : Fragment() {
         fun newInstance() = OTPFragment()
     }
 
-
-  //  private val verifyOTPViewModel: VerifyOTPViewModel by viewModels()
     private val verifyOTPViewModel by viewModels<VerifyOTPViewModel>()
 
     private lateinit var binding: OTFragmentBinding
@@ -87,18 +85,7 @@ class OTPFragment : Fragment() {
             activity?.onBackPressed()
         }
         binding.nextButton.isEnabled = true
-        binding.nextButton.setOnClickListener {
-            if (isNew){
-                val action =
-                    OTPFragmentDirections.actionOTPFragmentToAccountCreationFragment(
-                        phoneNumber
-                    )
-                findNavController().navigate(action)
-            }else{
-                startActivity(Intent(activity, RideActivity::class.java))
-                activity?.finish()
-            }
-        }
+
 
     }
 

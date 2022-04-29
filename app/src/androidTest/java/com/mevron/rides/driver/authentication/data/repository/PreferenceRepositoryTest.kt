@@ -3,12 +3,14 @@ package com.mevron.rides.driver.authentication.data.repository
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class PreferenceRepositoryTest {
+
     private lateinit var prefsRepo: PreferenceRepository
     private lateinit var context: Context
 
@@ -16,7 +18,6 @@ class PreferenceRepositoryTest {
     fun setup() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         prefsRepo = PreferenceRepository(context)
-
     }
 
     @Test
@@ -24,6 +25,11 @@ class PreferenceRepositoryTest {
         prefsRepo.setStringForKey("abc", "bcd")
         val result = prefsRepo.getStringForKey("abc")
         assert(result == "bcd")
+    }
+
+    @After
+    fun tearDown() {
+        prefsRepo.clear()
     }
 
     @Test
