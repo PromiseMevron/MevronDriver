@@ -9,3 +9,4 @@ class VerifyOTPUseCase @Inject constructor(private val repository: IAuthReposito
     suspend operator fun invoke(verifyOTPRequest: VerifyOTPRequest) =
         repository.verifyOTP(verifyOTPRequest)
 }
+

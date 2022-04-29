@@ -5,7 +5,10 @@ data class VerifyOTPState(
     val code: String,
     val isNew: Boolean,
     val isRequestSuccess: Boolean,
-    val isLoading: Boolean
+    val isLoading: Boolean,
+    val uiid: String,
+    val error: String,
+    val accessToken: String
 ) {
     companion object {
         val EMPTY = VerifyOTPState(
@@ -13,7 +16,10 @@ data class VerifyOTPState(
             code = "",
             isNew = true,
             isRequestSuccess = false,
-            isLoading = false
+            isLoading = false,
+            uiid = "",
+            accessToken = "",
+            error = ""
         )
     }
 }

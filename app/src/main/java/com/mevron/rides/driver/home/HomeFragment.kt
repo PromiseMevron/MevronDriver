@@ -493,8 +493,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
     override fun onLocationChanged(p0: Location) {
         val currentLocation = LatLng(p0.latitude, p0.longitude)
         addMarkerToMap(p0.latitude, p0.longitude)
-
-
     }
 
 }

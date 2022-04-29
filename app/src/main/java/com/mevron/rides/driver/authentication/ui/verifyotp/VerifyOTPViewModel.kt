@@ -1,19 +1,35 @@
 package com.mevron.rides.driver.authentication.ui.verifyotp
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mevron.rides.driver.App
+import com.mevron.rides.driver.authentication.domain.model.RegisterPhoneDomainData
+import com.mevron.rides.driver.authentication.domain.model.RegisterPhoneRequest
+import com.mevron.rides.driver.authentication.domain.model.VerifyOTPDomainModel
 import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
+import com.mevron.rides.driver.authentication.domain.usecase.RegisterPhoneUseCase
+import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.VerifyOTPUseCase
+import com.mevron.rides.driver.authentication.ui.registerphone.state.RegisterPhoneState
 import com.mevron.rides.driver.authentication.ui.verifyotp.event.VerifyOTPEvent
 import com.mevron.rides.driver.authentication.ui.verifyotp.state.VerifyOTPState
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.domain.update
+import com.mevron.rides.driver.util.Constants
+import com.mevron.rides.driver.util.Constants.TOKEN
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.*
 
+@HiltViewModel
 class VerifyOTPViewModel @Inject constructor(
-    private val verifyOTPUseCase: VerifyOTPUseCase
+    private val verifyOTPUseCase: VerifyOTPUseCase,
+    private val setPreferenceUseCase: SetPreferenceUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<VerifyOTPState> =
@@ -23,13 +39,33 @@ class VerifyOTPViewModel @Inject constructor(
         get() = mutableState
 
     private fun verifyOTP() {
+        updateState(isLoading = true)
         val request = mutableState.value.toRequest()
-        viewModelScope.launch {
-            val result = verifyOTPUseCase(request)
-            if (result is DomainModel.Success) {
-                // update state with request success
-            } else {
-                // update state with error occurred
+        viewModelScope.launch(Dispatchers.IO) {
+
+            when (val result = verifyOTPUseCase(request)) {
+                is DomainModel.Success -> {
+                    val data = result.data as VerifyOTPDomainModel
+                    setPreferenceUseCase(TOKEN, data.accessToken)
+                    setPreferenceUseCase(Constants.UUID, data.uuid)
+
+                    updateState(
+                        isLoading = false,
+                        isRequestSuccess = true,
+                        accessToken = data.accessToken,
+                        uiid = data.uuid,
+                        isNew = data.riderType.lowercase(Locale.getDefault()) == "new".lowercase(
+                            Locale.getDefault()
+                        )
+                    )
+                }
+                is DomainModel.Error -> mutableState.update {
+                    mutableState.value.copy(
+                        isLoading = false,
+                        isRequestSuccess = false,
+                        error = result.buildString()
+                    )
+                }
             }
         }
     }
@@ -39,8 +75,6 @@ class VerifyOTPViewModel @Inject constructor(
             is VerifyOTPEvent.OnOTPComplete -> {
                 verifyOTP()
             }
-
-            // on error or snack back clicked, update state by remove error and success
         }
     }
 
@@ -49,4 +83,32 @@ class VerifyOTPViewModel @Inject constructor(
             code = this.code,
             phoneNumber = this.phoneNumber
         )
+
+    private fun DomainModel.Error.buildString(): String =
+        this.error.localizedMessage ?: "OTP verification  failed"
+
+    fun updateState(
+        phoneNumber: String? = null,
+        code: String? = null,
+        isNew: Boolean? = true,
+        isRequestSuccess: Boolean? = false,
+        isLoading: Boolean? = false,
+        error: String? = null,
+        accessToken: String? = null,
+        uiid: String? = null
+    ) {
+        val currentValue = mutableState.value
+        mutableState.update {
+            currentValue.copy(
+                phoneNumber = phoneNumber ?: currentValue.phoneNumber,
+                code = code ?: currentValue.code,
+                isNew = isNew ?: currentValue.isNew,
+                isRequestSuccess = isRequestSuccess ?: currentValue.isRequestSuccess,
+                isLoading = isLoading ?: currentValue.isLoading,
+                accessToken = accessToken ?: currentValue.accessToken,
+                uiid = uiid ?: currentValue.uiid,
+                error = error ?: currentValue.error
+            )
+        }
+    }
 }

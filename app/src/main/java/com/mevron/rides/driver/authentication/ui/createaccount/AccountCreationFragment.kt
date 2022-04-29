@@ -14,15 +14,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.authentication.domain.model.CreateAccountRequest
+import com.mevron.rides.driver.authentication.ui.createaccount.event.CreateAccountEvent
+import com.mevron.rides.driver.authentication.ui.registerphone.RegisterPhoneViewModel
+import com.mevron.rides.driver.authentication.ui.registerphone.event.RegisterPhoneEvent
+import com.mevron.rides.driver.authentication.ui.verifyotp.OTPFragmentDirections
+import com.mevron.rides.driver.authentication.ui.verifyotp.event.VerifyOTPEvent
 import com.mevron.rides.driver.databinding.AccountCreationFragmentBinding
+import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
+import reactivecircus.flowbinding.android.view.clicks
+import reactivecircus.flowbinding.android.widget.textChanges
 
 @AndroidEntryPoint
 class AccountCreationFragment : Fragment() {
@@ -31,8 +47,7 @@ class AccountCreationFragment : Fragment() {
         fun newInstance() = AccountCreationFragment()
     }
 
-
-    private val viewModel: AccountCreationViewModel by viewModels()
+    private val createAccountViewModel by viewModels<AccountCreationViewModelV2>()
     private lateinit var binding: AccountCreationFragmentBinding
     private var phoneNumber = ""
     private var mDialog: Dialog? = null
@@ -52,93 +67,84 @@ class AccountCreationFragment : Fragment() {
         phoneNumber = arguments?.let { AccountCreationFragmentArgs.fromBundle(
             it
         ).phone }!!
-    //    Places.initialize(context?.applicationContext, "AIzaSyACHmEwJsDug1l3_IDU_E4WEN4Qo_i_NoE")
-     /*   val launchSomeActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
-                data?.let {
-                    val place = Autocomplete.getPlaceFromIntent(it)
-                    val comp = place.addressComponents.asList()
-                    comp?.let {
-                        for (add in it){
-                            print(add)
-                            Log.i("sss", add.toString())
-                        }
+        binding.phoneNumber.setText(phoneNumber)
+        createAccountViewModel.updateState(phoneNumber = phoneNumber)
+
+        lifecycleScope.launchWhenResumed {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                createAccountViewModel.state.collect { state ->
+                    toggleBusyDialog(
+                        state.isLoading,
+                        desc = if (state.isLoading) "Submitting Data..." else null
+                    )
+
+                    checkForButtonActivation(state.detailsComplete)
+
+                    if (state.error.isNotEmpty()) {
+                        handleError(state.error)
                     }
 
+                    if (state.isRequestSuccess) {
+                        handleSuccess()
+                    }
+                    if (!state.email.isValidEmail()){
+                        binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field_red)
+                    }else{
+                        binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field)
+                    }
                 }
-
             }
         }
-
-        val fields = listOf(Place.Field.ADDRESS_COMPONENTS)
-        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-            .build(requireContext())
-       // startActivityForResult(intent, 1)
-        launchSomeActivity.launch(intent)*/
 
 
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
 
-        binding.createAccount.setOnClickListener {
-          submitDetails()
+        binding.createAccount.clicks().take(1).onEach {
+           createAccountViewModel.handleEvent(CreateAccountEvent.OnCreateAccountClick)
+        }.launchIn(lifecycleScope)
 
-        }
 
-        binding.phoneNumber.setText(phoneNumber)
+        binding.cityRider.textChanges().skipInitialValue().onEach {
+            createAccountViewModel.updateState(
+                city = binding.cityRider.getString().trim()
+            )
+            updateDetailComplete()
 
-        binding.cityRider.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        }.launchIn(lifecycleScope)
 
-            }
+        binding.riderName.textChanges().skipInitialValue().onEach {
+            createAccountViewModel.updateState(
+                name = binding.riderName.getString().trim()
+            )
+            updateDetailComplete()
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        }.launchIn(lifecycleScope)
 
-            }
+        binding.riderEmail.textChanges().skipInitialValue().onEach {
+            createAccountViewModel.updateState(
+                email = binding.riderEmail.getString().trim()
+            )
+            updateDetailComplete()
 
-            override fun afterTextChanged(p0: Editable?) {
-                activateButton()
-            }
-
-        })
-
-        binding.riderName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                activateButton()
-            }
-
-        })
-
-        binding.riderEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                activateButton()
-            }
-
-        })
+        }.launchIn(lifecycleScope)
 
     }
 
-    fun activateButton(){
-        if (binding.riderEmail.isNotEmpty() && binding.riderName.isNotEmpty() &&
-            binding.cityRider.isNotEmpty() && binding.riderEmail.getString().isValidEmail() ){
+    private fun updateDetailComplete(){
+        val fullName = binding.riderName.getString().split(" ")
+        val fName = fullName[0]
+        var lName = ""
+        for (i in 1 until (fullName.size)){
+            lName += fullName[i]
+        }
+       createAccountViewModel.updateState(detailsComplete = binding.riderEmail.getString().isValidEmail() && binding.riderName.getString().isNotEmpty()
+                && binding.cityRider.getString().isNotEmpty() && fName.isNotEmpty() && lName.isNotEmpty())
+    }
+
+    private fun checkForButtonActivation(isComplete: Boolean){
+        if (isComplete){
             binding.createAccount.setBackgroundColor(Color.parseColor("#25255A"))
             binding.createAccount.setTextColor(Color.parseColor("#ffffff"))
             binding.createAccount.isEnabled = true
@@ -146,9 +152,6 @@ class AccountCreationFragment : Fragment() {
             binding.createAccount.setBackgroundColor(Color.parseColor("#1F2A2A72"))
             binding.createAccount.setTextColor(Color.parseColor("#9C9C9C"))
             binding.createAccount.isEnabled = false
-            if (!binding.riderEmail.isNotEmpty()){
-                binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field_red)
-            }
         }
     }
 
@@ -178,34 +181,6 @@ class AccountCreationFragment : Fragment() {
         editor.putString(Constants.EMAIL, email)
         editor?.apply()
 
-
-      /*  toggleBusyDialog(true,"Submitting Data...")
-        viewModel.createAccount(data).observe(viewLifecycleOwner, Observer {
-            it.let { res ->
-                when(res){
-                    is GenericStatus.Error -> {
-                        toggleBusyDialog(false)
-                        val snackbar = res.error?.error?.message?.let { it1 ->
-                            Snackbar
-                                .make(binding.root, it1, Snackbar.LENGTH_LONG).setAction("Retry", View.OnClickListener {
-                                    ::submitDetails
-                                })
-                        }
-                        snackbar?.show()
-
-                    }
-                    is  GenericStatus.Success ->{
-                        toggleBusyDialog(false)
-                           val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
-        val editor = sPref.edit()
-        editor.putString(Constants.EMAIL, email)
-        editor?.apply()
-                        findNavController().navigate(R.id.action_accountCreationFragment_to_regist1Fragment)
-                    }
-                }
-            }
-        })*/
-
     }
 
     private fun toggleBusyDialog(busy: Boolean, desc: String? = null){
@@ -226,6 +201,19 @@ class AccountCreationFragment : Fragment() {
         }
     }
 
+    private fun handleError(message: String) {
+
+        Snackbar
+            .make(binding.root, message, Snackbar.LENGTH_LONG)
+            .setAction("Retry") {
+                createAccountViewModel.handleEvent(CreateAccountEvent.OnCreateAccountClick)
+            }.show()
+    }
+
+    private fun handleSuccess() {
+        findNavController().navigate(R.id.action_accountCreationFragment_to_regist1Fragment)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 1) {
             when (resultCode) {
@@ -236,7 +224,7 @@ class AccountCreationFragment : Fragment() {
                     }
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
-                    // TODO: Handle the error.
+
                     data?.let {
                         val status = Autocomplete.getStatusFromIntent(data)
 
@@ -250,5 +238,7 @@ class AccountCreationFragment : Fragment() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+
 
 }
