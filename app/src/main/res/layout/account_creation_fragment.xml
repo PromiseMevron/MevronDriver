@@ -212,7 +212,7 @@
         app:layout_constraintTop_toBottomOf="@id/linear_layout"
         android:layout_marginStart="@dimen/_14sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:id="@+id/city" />
+        android:id="@+id/licence_plate_number_text_view" />
 
 
     <EditText
@@ -220,7 +220,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="@dimen/_14sdp"
         android:layout_marginEnd="@dimen/_14sdp"
-        app:layout_constraintTop_toBottomOf="@id/city"
+        app:layout_constraintTop_toBottomOf="@id/licence_plate_number_text_view"
         android:layout_width="0dp"
         android:layout_marginTop="@dimen/_8sdp"
         android:paddingStart="@dimen/_10sdp"

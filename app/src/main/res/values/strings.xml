@@ -345,6 +345,10 @@
     <string name="choose_an_external_navigation_app_which_will_help_you_during_trip_navigation">Choose an external navigation app, which will help you during trip navigation</string>
     <string name="waze">Waze</string>
     <string name="access_token">pk.eyJ1IjoicHJvbWlzZW9jaG9ybm1hIiwiYSI6ImNsMW5mYnViazA5bmozZG8zZHo5bTF3bGcifQ.ODR2-laUfperEDnYXdgnNw</string>
+    <string name="e_g_black">e.g. Black</string>
+    <string name="e_g_2016">e.g. 2016</string>
+    <string name="e_g_audi">e.g. Audi</string>
+    <string name="e_g_s4_avant">e.g. S4 Avant</string>
 
 
 </resources>

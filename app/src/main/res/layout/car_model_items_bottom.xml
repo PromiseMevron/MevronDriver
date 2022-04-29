@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:behavior_hideable="true"
+    android:visibility="gone"
     android:id="@+id/bottomSheet"
     android:background="@drawable/rounded_corner"
     app:behavior_peekHeight="@dimen/_500sdp"
