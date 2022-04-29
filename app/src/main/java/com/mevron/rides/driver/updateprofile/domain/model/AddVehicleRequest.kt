@@ -1,6 +1,6 @@
-package com.mevron.rides.driver.auth.model
+package com.mevron.rides.driver.updateprofile.domain.model
 
-data class VehicleAddRequest(
+data class AddVehicleRequest(
     val color: String,
     val make: String,
     val model: String,
