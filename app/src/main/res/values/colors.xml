@@ -17,4 +17,7 @@
     <color name="red">#FF0000</color>
     <color name="red_14">#24FF0000</color>
     <color name="field_color">#383838</color>
+    <color name="white_no_alpha">#FFFFFF</color>
+    <color name="button_enabled">#1F2A2A72</color>
+    <color name="button_disabled">#9C9C9C</color>
 </resources>

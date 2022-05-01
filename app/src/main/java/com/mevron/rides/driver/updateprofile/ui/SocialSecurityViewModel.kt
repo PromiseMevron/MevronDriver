@@ -1,40 +1,63 @@
 package com.mevron.rides.driver.updateprofile.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mevron.rides.driver.auth.model.GeneralResponse
-import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
-import com.mevron.rides.driver.remote.GenericStatus
-import com.mevron.rides.driver.remote.HTTPErrorHandler
-import com.mevron.rides.driver.remote.MevronRepo
+import androidx.lifecycle.viewModelScope
+import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.updateprofile.domain.usecase.updateprofile.UploadSecurityNumberUseCase
+import com.mevron.rides.driver.updateprofile.ui.event.AddSocialSecurityNumberError
+import com.mevron.rides.driver.updateprofile.ui.event.AddSocialSecurityNumberEvent
+import com.mevron.rides.driver.updateprofile.ui.event.AddSocialSecurityNumberState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @HiltViewModel
-class SocialSecurityViewModel  @Inject constructor (private val repository: MevronRepo) : ViewModel() {
+class SocialSecurityViewModel @Inject constructor(val useCase: UploadSecurityNumberUseCase) : ViewModel() {
 
+    private val mutableState: MutableStateFlow<AddSocialSecurityNumberState> =
+        MutableStateFlow(AddSocialSecurityNumberState.DEFAULT)
 
-    fun uploadNum(data: SecurityNumRequest): LiveData<GenericStatus<GeneralResponse>> {
+    val state: StateFlow<AddSocialSecurityNumberState>
+        get() = mutableState
 
-        val result = MutableLiveData<GenericStatus<GeneralResponse>>()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try{
-                val response = repository.uploadSecurityNum(data)
-                if(response.isSuccessful)
-                    result.postValue(GenericStatus.Success(response.body()))
-                else
-                    result.postValue(GenericStatus.Error(HTTPErrorHandler.handleErrorWithCode(response)))
-            }catch (ex: Exception){
-                ex.printStackTrace()
-                result.postValue(GenericStatus.Error(HTTPErrorHandler.httpFailWithCode(ex)))
+    private fun uploadSocialSecurityNumber() {
+        updateState(isLoading = true)
+        viewModelScope.launch(Dispatchers.IO) {
+            val request = mutableState.value.buildRequest()
+            when (val response = useCase(request)) {
+                is DomainModel.Success -> updateState(isLoading = false, isRequestSuccess = true)
+                is DomainModel.Error -> updateState(error = response.error.message, isLoading = false)
             }
         }
-        return result
+    }
 
+    fun onEventReceived(event: AddSocialSecurityNumberEvent) {
+        when (event) {
+            AddSocialSecurityNumberEvent.BackButtonClick -> updateState(shouldRouteBack = true)
+            AddSocialSecurityNumberEvent.AddSocialSecurityNumberButtonClick -> uploadSocialSecurityNumber()
+        }
+    }
+
+    fun updateState(
+        isLoading: Boolean? = null,
+        socialSecurityNumber: String? = null,
+        shouldRouteBack: Boolean? = null,
+        error: String? = null,
+        isRequestSuccess: Boolean? = null
+    ) {
+        val currentState = mutableState.value
+        mutableState.update {
+            currentState.copy(
+                isLoading = isLoading ?: currentState.isLoading,
+                socialSecurityNumber = socialSecurityNumber ?: currentState.socialSecurityNumber,
+                shouldRouteBack = shouldRouteBack ?: currentState.shouldRouteBack,
+                error = error?.let { AddSocialSecurityNumberError.RequestError(error) } ?: currentState.error,
+                isRequestSuccess = isRequestSuccess ?: currentState.isRequestSuccess
+            )
+        }
     }
 }

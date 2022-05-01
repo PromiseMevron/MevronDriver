@@ -61,7 +61,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var drawer: ImageButton
 
-
     private var mCircle: Circle? = null
     var radiusInMeters = 100.0
     var strokeColor = -0x10000 //Color Code you want
@@ -69,6 +68,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
     var shadeColor = 0x44ff0000
 
     private val connection = object : ServiceConnection {
+
         override fun onServiceDisconnected(name: ComponentName?) {
             mbound = false
         }
@@ -92,7 +92,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -358,11 +357,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
             ?.addOnFailureListener {
                 it.printStackTrace()
             }
-        //  }
-
     }
-
-
 
     fun addMarkerToMap(lat: Double, lng: Double, fromMap: Boolean = false){
         val lg = LatLng(lat1, lng1)
@@ -387,7 +382,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
             lat1 = lat
             lng1 = lng
         }
-
     }
 
     fun subscribeToListenForRequest(){
@@ -473,15 +467,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
 
         } } }*/
-
     }
-
-
 
     fun getLocationProvider(): FusedLocationProviderClient? {
         return activity?.let { LocationServices.getFusedLocationProviderClient(it) }
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -494,5 +484,4 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
         val currentLocation = LatLng(p0.latitude, p0.longitude)
         addMarkerToMap(p0.latitude, p0.longitude)
     }
-
 }
