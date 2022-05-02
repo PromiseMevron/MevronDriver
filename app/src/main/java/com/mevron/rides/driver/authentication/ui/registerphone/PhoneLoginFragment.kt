@@ -72,8 +72,6 @@ class PhoneLoginFragment : Fragment() {
                     }
 
                     startCheckOfNumber(state.canCheckNumber, state)
-
-                 //   handleIncorrectNumber(state.isCorrectNumber)
                 }
             }
         }
