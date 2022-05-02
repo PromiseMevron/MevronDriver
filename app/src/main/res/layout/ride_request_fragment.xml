@@ -1,442 +1,429 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fff"
-    tools:context=".ride.RideRequestFragment">
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#fff"
+        tools:context=".ride.RideRequestFragment">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <fragment
-                android:id="@+id/mapView"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </RelativeLayout>
+                android:layout_height="match_parent">
 
+                <fragment
+                    android:id="@+id/mapView"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
 
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:layout_marginBottom="@dimen/_260sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:cardCornerRadius="@dimen/_20sdp"
-            android:visibility="invisible"
-            android:id="@+id/drawer_button">
-
-            <ImageButton
-                android:padding="@dimen/_10sdp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/drawer_button"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:background="@android:color/transparent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_vector_close"
-                />
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_260sdp"
+                android:visibility="invisible"
+                app:cardCornerRadius="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.cardview.widget.CardView>
+                <ImageButton
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@android:color/transparent"
+                    android:padding="@dimen/_10sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_vector_close" />
 
+            </androidx.cardview.widget.CardView>
 
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_270sdp"
-
-            android:background="@drawable/rounded_corner_all"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/_30sdp"
-            android:layout_marginStart="@dimen/_14sdp"
-            android:layout_marginEnd="@dimen/_14sdp"
-            android:visibility="visible"
-            android:id="@+id/bottom_sheet_accept_ride">
-
-            <Button
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom_sheet_accept_ride"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_55sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="-10dp"
-                android:id="@+id/accept_ride"
-                android:textAllCaps="false"
-                android:text="@string/accept_ride"/>
-            <douglasspgyn.com.github.circularcountdown.CircularCountdown
-                android:id="@+id/circularCountdown"
-                android:layout_width="@dimen/_72sdp"
-                android:layout_height="@dimen/_72sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/_20sdp"
-                app:countdownBackgroundColor="@color/primary"
-                app:countdownForegroundColor="@android:color/transparent"
-                app:countdownTextColor="@android:color/transparent"
-                app:countdownTextSize="0sp" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/_64sdp"
-                android:layout_height="@dimen/_64sdp"
-                android:id="@+id/profile_photo"
-                app:layout_constraintTop_toTopOf="@id/circularCountdown"
-                app:layout_constraintBottom_toBottomOf="@id/circularCountdown"
-                app:layout_constraintStart_toStartOf="@id/circularCountdown"
-                app:layout_constraintEnd_toEndOf="@id/circularCountdown"
-                android:src="@drawable/ic_launcher"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Pickup is 4 min away"
-                android:fontFamily="@font/poppins_regular"
-                android:textSize="@dimen/_14ssp"
-                android:gravity="center"
-                android:id="@+id/pp"
-                android:textFontWeight="600"
-                android:textColor="#383838"
-                android:layout_marginTop="@dimen/_8sdp"
-                app:layout_constraintTop_toBottomOf="@id/circularCountdown"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="@dimen/_270sdp"
                 android:layout_marginStart="@dimen/_14sdp"
-                tools:targetApi="p" />
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:background="@drawable/rounded_corner_all"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_long_ride"
-                android:id="@+id/long_ride"
-                android:background="@android:color/transparent"
-                app:layout_constraintTop_toBottomOf="@id/pp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/_5sdp"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:orientation="horizontal"
-                android:id="@+id/divider"
-                android:background="#1F2A2A72"
-                app:layout_constraintTop_toBottomOf="@id/long_ride"
-                android:layout_marginTop="@dimen/_20sdp"/>
-
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="22dp"
-                android:orientation="vertical"
-                android:id="@+id/divider2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:background="#1F2A2A72"
-                app:layout_constraintBottom_toTopOf="@id/accept_ride"
-                app:layout_constraintTop_toBottomOf="@id/divider"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical|center_horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/divider2"
-                app:layout_constraintTop_toBottomOf="@id/divider"
-                app:layout_constraintBottom_toTopOf="@id/accept_ride">
-
-
-                <ImageView
-                    android:layout_width="@dimen/_13sdp"
-                    android:layout_height="@dimen/_13sdp"
-                    android:src="@drawable/ic_timer"
-                    android:layout_marginEnd="@dimen/_3sdp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="12min"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:textColor="#8a8a8a"
-                    android:fontFamily="@font/poppins_regular"
-                    android:textSize="@dimen/_10ssp"
-                    android:id="@+id/min_away"/>
-
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical|center_horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/divider2"
-                app:layout_constraintTop_toBottomOf="@id/divider"
-                app:layout_constraintBottom_toTopOf="@id/accept_ride">
-
-
-                <ImageView
-                    android:layout_width="@dimen/_13sdp"
-                    android:layout_height="@dimen/_13sdp"
-                    android:src="@drawable/ic_distance"
-                    android:layout_marginEnd="@dimen/_3sdp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="45km"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:textColor="#8a8a8a"
-                    android:fontFamily="@font/poppins_regular"
-                    android:textSize="@dimen/_10ssp"
-                    android:id="@+id/km_away"/>
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:background="@android:color/transparent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/bottom_sheet_start_ride">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_curved_view"
-                android:id="@+id/curved_image"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_226sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="#fff"
-                android:layout_marginTop="-1dp"
-                app:layout_constraintTop_toBottomOf="@id/curved_image">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <Button
+                    android:id="@+id/accept_ride"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_70sdp"
-                    android:id="@+id/cancel_layout"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="@dimen/_14sdp"
-                    android:layout_marginEnd="@dimen/_14sdp"
-                    android:background="#14E01E1E">
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_marginBottom="-10dp"
+                    android:text="@string/accept_ride"
+                    android:textAllCaps="false"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
-                    <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:src="@drawable/ic_cancel_x"
-                        android:id="@+id/cancel_img"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="@dimen/_14sdp"/>
-
-
-                    <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:src="@drawable/ic_next_red"
-                        android:id="@+id/cancel_draw"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="@dimen/_14sdp"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/_12ssp"
-                        android:textFontWeight="400"
-                        android:fontFamily="@font/poppins_regular"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/cancel_draw"
-                        app:layout_constraintStart_toEndOf="@id/cancel_img"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:layout_marginEnd="@dimen/_8sdp"
-                        android:textColor=" #E01E1E"
-                        android:text="@string/tap_here_to_cancel_this_ride_if_rider_don_t_show_up"
-                        tools:targetApi="p" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <ImageButton
-                    android:layout_width="@dimen/_45sdp"
-                    android:layout_height="@dimen/_45sdp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_icon_call"
-                    app:layout_constraintTop_toBottomOf="@id/cancel_layout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="@dimen/_14sdp"
-                    android:layout_marginStart="@dimen/_14sdp"
-                    android:id="@+id/call_rider"/>
-
-                <ImageButton
-                    android:layout_width="@dimen/_45sdp"
-                    android:layout_height="@dimen/_45sdp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_icon_message"
-                    app:layout_constraintTop_toBottomOf="@id/cancel_layout"
+                <douglasspgyn.com.github.circularcountdown.CircularCountdown
+                    android:id="@+id/circularCountdown"
+                    android:layout_width="@dimen/_72sdp"
+                    android:layout_height="@dimen/_72sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    app:countdownBackgroundColor="@color/primary"
+                    app:countdownForegroundColor="@android:color/transparent"
+                    app:countdownTextColor="@android:color/transparent"
+                    app:countdownTextSize="0sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="@dimen/_14sdp"
-                    android:layout_marginEnd="@dimen/_14sdp"
-                    android:id="@+id/chat_rider"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12ssp"
-                    android:textFontWeight="400"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/poppins_regular"
-                    app:layout_constraintTop_toTopOf="@id/chat_rider"
-                    app:layout_constraintEnd_toStartOf="@id/chat_rider"
-                    app:layout_constraintStart_toEndOf="@id/call_rider"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
-                    android:textColor=" #666666"
-                    android:id="@+id/wait_text"
-                    android:text="@string/waiting_for_the_rider"
-                    tools:targetApi="p" />
-
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_photo"
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_64sdp"
+                    android:src="@drawable/ic_launcher"
+                    app:layout_constraintBottom_toBottomOf="@id/circularCountdown"
+                    app:layout_constraintEnd_toEndOf="@id/circularCountdown"
+                    app:layout_constraintStart_toStartOf="@id/circularCountdown"
+                    app:layout_constraintTop_toTopOf="@id/circularCountdown" />
 
                 <TextView
+                    android:id="@+id/pp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_17ssp"
-                    android:textFontWeight="600"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/poppins_regular"
-                    app:layout_constraintTop_toBottomOf="@id/wait_text"
-                    app:layout_constraintEnd_toStartOf="@id/chat_rider"
-                    app:layout_constraintStart_toEndOf="@id/call_rider"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
-                    android:textColor=" #383838"
-                    android:id="@+id/rider_name"
-                    android:text="Rebecca Davis"
-                    tools:targetApi="p" />
-
-                <com.ncorti.slidetoact.SlideToActView
-                    android:id="@+id/start_ride"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    app:inner_color="@color/white"
-                    app:outer_color="#2A2A72"
-                    app:text_size="@dimen/_12ssp"
-                    app:animation_duration="0"
-                    android:layout_marginEnd="@dimen/_14sdp"
                     android:layout_marginStart="@dimen/_14sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="@dimen/_15sdp"
-                    app:text="Start the Ride" />
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="center"
+                    android:text="Pickup is 4 min away"
+                    android:textColor="#383838"
+                    android:textFontWeight="600"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/circularCountdown"
+                    tools:targetApi="p" />
 
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:id="@+id/navigate_card"
-            android:visibility="gone"
-            app:cardCornerRadius="@dimen/_4sdp"
-            android:layout_marginStart="@dimen/_14sdp"
-            android:layout_marginEnd="@dimen/_14sdp"
-            android:layout_height="@dimen/_90sdp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFA901">
+                <ImageView
+                    android:id="@+id/long_ride"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_long_ride"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pp" />
 
                 <LinearLayout
+                    android:id="@+id/divider"
                     android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="#1F2A2A72"
                     android:orientation="horizontal"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:layout_height="match_parent">
+                    app:layout_constraintTop_toBottomOf="@id/long_ride" />
+
+                <LinearLayout
+                    android:id="@+id/divider2"
+                    android:layout_width="1dp"
+                    android:layout_height="22dp"
+                    android:background="#1F2A2A72"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@id/accept_ride"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/accept_ride"
+                    app:layout_constraintEnd_toStartOf="@id/divider2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider">
+
+
+                    <ImageView
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:src="@drawable/ic_timer" />
+
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        tools:text="Pickup is 4 min away"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="@dimen/_14ssp"
-                        android:gravity="center"
-                        android:id="@+id/distance"
-                        android:textFontWeight="600"
-                        android:textColor="#ffffff"
-                        android:lineHeight="@dimen/_10sdp"
-
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        tools:targetApi="p" />
-
-
-                    <TextView
-                        android:layout_width="0dp"
+                        android:id="@+id/min_away"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        tools:text="Pickup is 4 min away"
+                        android:layout_marginStart="@dimen/_3sdp"
                         android:fontFamily="@font/poppins_regular"
-                        android:textSize="@dimen/_14ssp"
-                        android:maxLines="2"
-                        android:gravity="center"
-                        android:id="@+id/direction"
-                        android:textFontWeight="600"
-                        android:textColor="#ffffff"
-                        android:lineHeight="@dimen/_15sdp"
-                        tools:targetApi="p" />
+                        android:text="12min"
+                        android:textColor="#8a8a8a"
+                        android:textSize="@dimen/_10ssp" />
+
 
                 </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/accept_ride"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/divider2"
+                    app:layout_constraintTop_toBottomOf="@id/divider">
+
+
+                    <ImageView
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:src="@drawable/ic_distance" />
+
+                    <TextView
+                        android:id="@+id/km_away"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="45km"
+                        android:textColor="#8a8a8a"
+                        android:textSize="@dimen/_10ssp" />
+
+                </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom_sheet_start_ride"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:id="@+id/curved_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_curved_view"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_226sdp"
+                    android:layout_marginTop="-1dp"
+                    android:background="#fff"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/curved_image">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cancel_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_70sdp"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        android:layout_marginEnd="@dimen/_14sdp"
+                        android:background="#14E01E1E"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/cancel_img"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_marginStart="@dimen/_14sdp"
+                            android:src="@drawable/ic_cancel_x"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:id="@+id/cancel_draw"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_marginEnd="@dimen/_14sdp"
+                            android:src="@drawable/ic_next_red"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/mevron_arrived_bottom"
-        layout="@layout/on_arrive_bottom" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="@string/tap_here_to_cancel_this_ride_if_rider_don_t_show_up"
+                            android:textColor=" #E01E1E"
+                            android:textFontWeight="400"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/cancel_draw"
+                            app:layout_constraintStart_toEndOf="@id/cancel_img"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:targetApi="p" />
 
-    <include
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        android:id="@+id/mevron_home_bottom"
-        layout="@layout/on_ride_bottom" />
+                    <ImageButton
+                        android:id="@+id/call_rider"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_45sdp"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        android:layout_marginTop="@dimen/_14sdp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_icon_call"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cancel_layout" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                    <ImageButton
+                        android:id="@+id/chat_rider"
+                        android:layout_width="@dimen/_45sdp"
+                        android:layout_height="@dimen/_45sdp"
+                        android:layout_marginTop="@dimen/_14sdp"
+                        android:layout_marginEnd="@dimen/_14sdp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_icon_message"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cancel_layout" />
+
+
+                    <TextView
+                        android:id="@+id/wait_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="@string/waiting_for_the_rider"
+                        android:textAlignment="center"
+                        android:textColor=" #666666"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintEnd_toStartOf="@id/chat_rider"
+                        app:layout_constraintStart_toEndOf="@id/call_rider"
+                        app:layout_constraintTop_toTopOf="@id/chat_rider"
+                        tools:targetApi="p" />
+
+
+                    <TextView
+                        android:id="@+id/rider_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Rebecca Davis"
+                        android:textAlignment="center"
+                        android:textColor=" #383838"
+                        android:textFontWeight="600"
+                        android:textSize="@dimen/_17ssp"
+                        app:layout_constraintEnd_toStartOf="@id/chat_rider"
+                        app:layout_constraintStart_toEndOf="@id/call_rider"
+                        app:layout_constraintTop_toBottomOf="@id/wait_text"
+                        tools:targetApi="p" />
+
+                    <com.ncorti.slidetoact.SlideToActView
+                        android:id="@+id/start_ride"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        android:layout_marginEnd="@dimen/_14sdp"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        app:animation_duration="0"
+                        app:inner_color="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:outer_color="#2A2A72"
+                        app:text="Start the Ride"
+                        app:text_size="@dimen/_12ssp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/navigate_card"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_90sdp"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/_4sdp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFA901">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/distance"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/poppins_regular"
+                            android:gravity="center"
+                            android:lineHeight="@dimen/_10sdp"
+                            android:textColor="#ffffff"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_14ssp"
+
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            tools:targetApi="p"
+                            tools:text="Pickup is 4 min away" />
+
+
+                        <TextView
+                            android:id="@+id/direction"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:fontFamily="@font/poppins_regular"
+                            android:gravity="center"
+                            android:lineHeight="@dimen/_15sdp"
+                            android:maxLines="2"
+                            android:textColor="#ffffff"
+                            android:textFontWeight="600"
+                            android:textSize="@dimen/_14ssp"
+                            tools:targetApi="p"
+                            tools:text="Pickup is 4 min away" />
+
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/mevron_arrived_bottom"
+            layout="@layout/on_arrive_bottom" />
+
+        <include
+            android:id="@+id/mevron_home_bottom"
+            layout="@layout/on_ride_bottom" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

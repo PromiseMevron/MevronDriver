@@ -2,6 +2,7 @@ package com.mevron.rides.driver.authentication.domain.usecase
 
 import com.mevron.rides.driver.authentication.domain.repository.IPreferenceRepository
 import io.mockk.*
+import org.junit.After
 import org.junit.Assert.*
 
 import org.junit.Before

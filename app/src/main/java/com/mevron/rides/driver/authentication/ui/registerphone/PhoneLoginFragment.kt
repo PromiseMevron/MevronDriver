@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.hbb20.CountryCodePicker
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.authentication.ui.registerphone.event.RegisterPhoneEvent
+import com.mevron.rides.driver.authentication.ui.registerphone.state.RegisterPhoneState
 import com.mevron.rides.driver.databinding.PhoneLoginFragmentBinding
 import com.mevron.rides.driver.util.Constants.isNewNumberType
 import com.mevron.rides.driver.util.LauncherUtil
@@ -69,7 +71,7 @@ class PhoneLoginFragment : Fragment() {
                         handleSuccess(state.countryCodeAndPhoneNumber)
                     }
 
-                    handleIncorrectNumber(state.isCorrectNumber)
+                    startCheckOfNumber(state.canCheckNumber, state)
                 }
             }
         }
@@ -96,6 +98,11 @@ class PhoneLoginFragment : Fragment() {
         binding.nextButton.clicks().take(1).onEach {
             registerPhoneViewModel.onEvent(RegisterPhoneEvent.NextButtonClick)
         }.launchIn(lifecycleScope)
+    }
+
+    private fun startCheckOfNumber(checkNumber: Boolean, state: RegisterPhoneState){
+            if (checkNumber)
+        handleIncorrectNumber(state.isCorrectNumber)
     }
 
     private fun updateNextButtonImageResource(isValidNumber: Boolean) {

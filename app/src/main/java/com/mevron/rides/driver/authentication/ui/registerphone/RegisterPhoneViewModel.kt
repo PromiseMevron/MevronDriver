@@ -55,6 +55,8 @@ class RegisterPhoneViewModel @Inject constructor(
     fun onEvent(event: RegisterPhoneEvent) {
         when (event) {
             RegisterPhoneEvent.NextButtonClick -> {
+                updateState(canCheckNumber = true)
+                if (state.value.isCorrectNumber)
                 registerPhone(mutableState.value.buildRequest())
             }
         }
@@ -79,7 +81,8 @@ class RegisterPhoneViewModel @Inject constructor(
         phoneCodeExpiration: String? = null,
         number: String? = null,
         isCorrectNumber: Boolean? = null,
-        code: String? = null
+        code: String? = null,
+        canCheckNumber: Boolean? = null
     ) {
         val currentValue = mutableState.value
         mutableState.update {
@@ -94,7 +97,8 @@ class RegisterPhoneViewModel @Inject constructor(
                 error = error ?: currentValue.error,
                 phoneCodeExpiration = phoneCodeExpiration ?: currentValue.phoneCodeExpiration,
                 number = number ?: currentValue.number,
-                isValidNumber = number != null && number.length !in 11..14
+                isValidNumber = number != null && number.length !in 11..14,
+                canCheckNumber = canCheckNumber ?: currentValue.canCheckNumber
             )
         }
     }

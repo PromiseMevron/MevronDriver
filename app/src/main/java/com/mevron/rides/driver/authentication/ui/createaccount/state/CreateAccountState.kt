@@ -10,7 +10,8 @@ data class CreateAccountState(
     val isRequestSuccess: Boolean,
     val email: String,
     val error: String,
-    val detailsComplete: Boolean
+    val detailsComplete: Boolean,
+    val validEmail: Boolean
 ) {
     companion object {
         val EMPTY = CreateAccountState(
@@ -23,7 +24,8 @@ data class CreateAccountState(
             isRequestSuccess = false,
             error = "",
             email = "",
-            detailsComplete = false
+            detailsComplete = false,
+            validEmail = false
         )
     }
 }
