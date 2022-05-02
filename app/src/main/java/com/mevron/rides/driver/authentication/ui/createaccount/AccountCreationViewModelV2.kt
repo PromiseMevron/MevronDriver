@@ -118,7 +118,8 @@ class AccountCreationViewModelV2 @Inject constructor(
                 referral = referral ?: currentValue.referral,
                 error = error?: currentValue.error,
                 email = email?: currentValue.email,
-                detailsComplete = detailsComplete ?: currentValue.detailsComplete
+                detailsComplete = detailsComplete ?: currentValue.detailsComplete,
+                validEmail = email?.isValidEmail() ?: currentValue.validEmail
             )
         }
     }

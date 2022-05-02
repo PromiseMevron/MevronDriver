@@ -103,7 +103,6 @@ class PhoneLoginFragment : Fragment() {
     }
 
     private fun startCheckOfNumber(checkNumber: Boolean, state: RegisterPhoneState){
-        Toast.makeText(context, "$checkNumber", Toast.LENGTH_SHORT).show()
             if (checkNumber)
         handleIncorrectNumber(state.isCorrectNumber)
     }

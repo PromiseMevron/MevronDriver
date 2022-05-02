@@ -57,16 +57,19 @@ class AccountCreationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.account_creation_fragment, container, false)
-       return binding.root
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.account_creation_fragment, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        phoneNumber = arguments?.let { AccountCreationFragmentArgs.fromBundle(
-            it
-        ).phone }!!
+        phoneNumber = arguments?.let {
+            AccountCreationFragmentArgs.fromBundle(
+                it
+            ).phone
+        }!!
         binding.phoneNumber.setText(phoneNumber)
         createAccountViewModel.updateState(phoneNumber = phoneNumber)
 
@@ -87,11 +90,8 @@ class AccountCreationFragment : Fragment() {
                     if (state.isRequestSuccess) {
                         handleSuccess()
                     }
-                    if (!state.email.isValidEmail()){
-                        binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field_red)
-                    }else{
-                        binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field)
-                    }
+
+                    checkEmailField(state.validEmail)
                 }
             }
         }
@@ -102,7 +102,7 @@ class AccountCreationFragment : Fragment() {
         }
 
         binding.createAccount.clicks().take(1).onEach {
-           createAccountViewModel.handleEvent(CreateAccountEvent.OnCreateAccountClick)
+            createAccountViewModel.handleEvent(CreateAccountEvent.OnCreateAccountClick)
         }.launchIn(lifecycleScope)
 
 
@@ -132,30 +132,42 @@ class AccountCreationFragment : Fragment() {
 
     }
 
-    private fun updateDetailComplete(){
+    private fun updateDetailComplete() {
         val fullName = binding.riderName.getString().split(" ")
         val fName = fullName[0]
         var lName = ""
-        for (i in 1 until (fullName.size)){
+        for (i in 1 until (fullName.size)) {
             lName += fullName[i]
         }
-       createAccountViewModel.updateState(detailsComplete = binding.riderEmail.getString().isValidEmail() && binding.riderName.getString().isNotEmpty()
-                && binding.cityRider.getString().isNotEmpty() && fName.isNotEmpty() && lName.isNotEmpty())
+        createAccountViewModel.updateState(
+            detailsComplete = binding.riderEmail.getString()
+                .isValidEmail() && binding.riderName.getString().isNotEmpty()
+                    && binding.cityRider.getString()
+                .isNotEmpty() && fName.isNotEmpty() && lName.isNotEmpty()
+        )
     }
 
-    private fun checkForButtonActivation(isComplete: Boolean){
-        if (isComplete){
+    private fun checkEmailField(valid: Boolean) {
+        if (valid) {
+            binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field)
+        } else {
+            binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field_red)
+        }
+    }
+
+    private fun checkForButtonActivation(isComplete: Boolean) {
+        if (isComplete) {
             binding.createAccount.setBackgroundColor(Color.parseColor("#25255A"))
             binding.createAccount.setTextColor(Color.parseColor("#ffffff"))
             binding.createAccount.isEnabled = true
-        }else{
+        } else {
             binding.createAccount.setBackgroundColor(Color.parseColor("#1F2A2A72"))
             binding.createAccount.setTextColor(Color.parseColor("#9C9C9C"))
             binding.createAccount.isEnabled = false
         }
     }
 
-    fun submitDetails(){
+    fun submitDetails() {
         val name = binding.riderName.getString()
         val city = binding.cityRider.getString()
         val email = binding.riderEmail.getString()
@@ -163,40 +175,45 @@ class AccountCreationFragment : Fragment() {
         val fullName = name.split(" ")
         val fName = fullName[0]
         var lName = ""
-        for (i in 1 until (fullName.size)){
+        for (i in 1 until (fullName.size)) {
             lName += fullName[i]
         }
-        val data = CreateAccountRequest(city = city, email = email, firstName = fName, lastName = lName)
-        if (refer.trim().isNotEmpty()){
+        val data =
+            CreateAccountRequest(city = city, email = email, firstName = fName, lastName = lName)
+        if (refer.trim().isNotEmpty()) {
             data.referralCode = refer
         }
-        if (!email.isValidEmail()){
+        if (!email.isValidEmail()) {
             binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field_red)
             return
         }
 
         findNavController().navigate(R.id.action_accountCreationFragment_to_regist1Fragment)
-        val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
+        val sPref = App.ApplicationContext.getSharedPreferences(
+            Constants.SHARED_PREF_KEY,
+            Context.MODE_PRIVATE
+        )
         val editor = sPref.edit()
         editor.putString(Constants.EMAIL, email)
         editor?.apply()
 
     }
 
-    private fun toggleBusyDialog(busy: Boolean, desc: String? = null){
-        if(busy){
-            if(mDialog == null){
+    private fun toggleBusyDialog(busy: Boolean, desc: String? = null) {
+        if (busy) {
+            if (mDialog == null) {
                 val view = LayoutInflater.from(requireContext())
-                    .inflate(R.layout.dialog_busy_layout,null)
-                mDialog = LauncherUtil.showPopUp(requireContext(),view,desc)
-            }else{
-                if(!desc.isNullOrBlank()){
-                    val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_busy_layout,null)
-                    mDialog = LauncherUtil.showPopUp(requireContext(),view,desc)
+                    .inflate(R.layout.dialog_busy_layout, null)
+                mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
+            } else {
+                if (!desc.isNullOrBlank()) {
+                    val view = LayoutInflater.from(requireContext())
+                        .inflate(R.layout.dialog_busy_layout, null)
+                    mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
                 }
             }
             mDialog?.show()
-        }else{
+        } else {
             mDialog?.dismiss()
         }
     }
@@ -238,7 +255,6 @@ class AccountCreationFragment : Fragment() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
 
 
 }
