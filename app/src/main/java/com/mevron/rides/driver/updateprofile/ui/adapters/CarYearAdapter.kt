@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth.addcaradapters
+package com.mevron.rides.driver.updateprofile.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

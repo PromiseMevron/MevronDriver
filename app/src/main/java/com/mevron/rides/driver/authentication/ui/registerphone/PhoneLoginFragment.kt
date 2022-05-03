@@ -38,7 +38,6 @@ class PhoneLoginFragment : Fragment() {
     companion object {
         fun newInstance() = PhoneLoginFragment()
     }
-
     private val registerPhoneViewModel by viewModels<RegisterPhoneViewModel>()
 
     override fun onCreateView(
@@ -51,9 +50,7 @@ class PhoneLoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.countryPicker.registerCarrierNumberEditText(binding.phoneNumber)
-
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 registerPhoneViewModel.state.collect { state ->

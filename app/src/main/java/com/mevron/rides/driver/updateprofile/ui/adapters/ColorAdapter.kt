@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth.addcaradapters
+package com.mevron.rides.driver.updateprofile.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,9 +11,7 @@ class ColorAdapter(val select: ColorSelectionListener): RecyclerView.Adapter<Col
 
     var names = arrayListOf("Black", "Grey", "Silver", "Blue", "Brown", "Gold", "White", "Other")
     var images = arrayListOf<Int>(R.drawable.black, R.drawable.grey, R.drawable.silver, R.drawable.blue, R.drawable.brown, R.drawable.gold, R.drawable.white, R.drawable.other)
-    class ColorHolder(val binding: ColorItemBinding): RecyclerView.ViewHolder(binding.root) {
-
-    }
+    class ColorHolder(val binding: ColorItemBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorHolder {
         return ColorHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.color_item, parent, false))
