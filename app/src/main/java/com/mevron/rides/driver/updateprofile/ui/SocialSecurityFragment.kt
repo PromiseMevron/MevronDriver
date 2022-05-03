@@ -32,9 +32,7 @@ class SocialSecurityFragment : Fragment() {
     companion object {
         fun newInstance() = SocialSecurityFragment()
     }
-
     private val socialSecurityViewModel: SocialSecurityViewModel by viewModels()
-
     private lateinit var binding: SocialSecurityFragmentBinding
     private var mDialog: Dialog? = null
 
@@ -42,7 +40,8 @@ class SocialSecurityFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.social_security_fragment, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.social_security_fragment, container, false)
         return binding.root
     }
 
