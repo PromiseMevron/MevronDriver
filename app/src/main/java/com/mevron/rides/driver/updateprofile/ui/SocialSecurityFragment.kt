@@ -1,27 +1,30 @@
 package com.mevron.rides.driver.updateprofile.ui
 
 import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
 import com.mevron.rides.driver.databinding.SocialSecurityFragmentBinding
-import com.mevron.rides.driver.remote.GenericStatus
+import com.mevron.rides.driver.updateprofile.ui.event.AddSocialSecurityNumberError
+import com.mevron.rides.driver.updateprofile.ui.event.AddSocialSecurityNumberEvent
+import com.mevron.rides.driver.updateprofile.ui.event.AddSocialSecurityNumberState
 import com.mevron.rides.driver.util.LauncherUtil
-import com.mevron.rides.driver.util.getString
-import com.mevron.rides.driver.util.isNotEmpty
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import reactivecircus.flowbinding.android.view.clicks
+import reactivecircus.flowbinding.android.widget.textChanges
 
 @AndroidEntryPoint
 class SocialSecurityFragment : Fragment() {
@@ -30,8 +33,8 @@ class SocialSecurityFragment : Fragment() {
         fun newInstance() = SocialSecurityFragment()
     }
 
+    private val socialSecurityViewModel: SocialSecurityViewModel by viewModels()
 
-    private val viewModel: SocialSecurityViewModel by viewModels()
     private lateinit var binding: SocialSecurityFragmentBinding
     private var mDialog: Dialog? = null
 
@@ -45,81 +48,89 @@ class SocialSecurityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.backButton.setOnClickListener {
-            activity?.onBackPressed()
-        }
-
-        binding.socialNumber.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                if (binding.socialNumber.isNotEmpty()){
-                    binding.addSocial.setBackgroundColor(Color.parseColor("#25255A"))
-                    binding.addSocial.setTextColor(Color.parseColor("#ffffff"))
-                    binding.addSocial.isEnabled = true
-                }else{
-                    binding.addSocial.setBackgroundColor(Color.parseColor("#1F2A2A72"))
-                    binding.addSocial.setTextColor(Color.parseColor("#9C9C9C"))
-                    binding.addSocial.isEnabled = false
+        lifecycleScope.launch {
+            socialSecurityViewModel.state.collect { state ->
+                if (state.shouldRouteBack) {
+                    activity?.onBackPressed()
                 }
+                toggleBusyDialog(
+                    state.isLoading,
+                    desc = if (state.isLoading) "Submitting Data..." else ""
+                )
+                handleRequestSuccess(state)
+                handleContinueButtonEnabled(state)
+                handleRetry(state)
             }
+        }
+        binding.backButton.clicks().onEach {
+            socialSecurityViewModel.onEventReceived(AddSocialSecurityNumberEvent.BackButtonClick)
+        }.launchIn(lifecycleScope)
 
-        })
+        binding.socialNumber.textChanges().skipInitialValue().onEach {
+            socialSecurityViewModel.updateState(socialSecurityNumber = it.toString())
+        }.launchIn(lifecycleScope)
 
         binding.addSocial.setOnClickListener {
-            submit()
+            socialSecurityViewModel.onEventReceived(AddSocialSecurityNumberEvent.AddSocialSecurityNumberButtonClick)
         }
     }
 
-    private fun submit(){
-        val num = binding.socialNumber.getString()
-        val data = SecurityNumRequest(num)
-
-        toggleBusyDialog(true,"Submitting Data...")
-        viewModel.uploadNum(data).observe(viewLifecycleOwner, Observer {
-            it.let { res ->
-                when(res){
-                    is GenericStatus.Error -> {
-                        toggleBusyDialog(false)
-                        val snackbar = res.error?.error?.message?.let { it1 ->
-                            Snackbar
-                                .make(binding.root, it1, Snackbar.LENGTH_LONG).setAction("Retry", View.OnClickListener {
-                                    ::submit
-                                })
-                        }
-                        snackbar?.show()
-                    }
-                    is  GenericStatus.Success ->{
-                        toggleBusyDialog(false)
-                        findNavController().navigate(R.id.action_socialSecurityFragment_to_authSuccessFragment)
-                    }
-                }
-            }
-        })
+    private fun handleRetry(state: AddSocialSecurityNumberState) {
+        if (state.error is AddSocialSecurityNumberError.RequestError) {
+            Snackbar.make(binding.root, state.error.message, Snackbar.LENGTH_LONG)
+                .setAction("Retry") {
+                    socialSecurityViewModel.onEventReceived(
+                        AddSocialSecurityNumberEvent.AddSocialSecurityNumberButtonClick
+                    )
+                }.show()
+        }
     }
 
-    private fun toggleBusyDialog(busy: Boolean, desc: String? = null){
-        if(busy){
-            if(mDialog == null){
+    private fun handleContinueButtonEnabled(state: AddSocialSecurityNumberState) {
+        context?.let { currentContext ->
+            if (state.isButtonEnabled) {
+                binding.addSocial.setBackgroundColor(
+                    ContextCompat.getColor(currentContext, R.color.primary)
+                )
+                binding.addSocial.setTextColor(
+                    ContextCompat.getColor(currentContext, R.color.white_no_alpha)
+                )
+                binding.addSocial.isEnabled = true
+            } else {
+                binding.addSocial.setBackgroundColor(
+                    ContextCompat.getColor(currentContext, R.color.button_enabled)
+                )
+                binding.addSocial.setTextColor(
+                    ContextCompat.getColor(currentContext, R.color.button_disabled)
+                )
+                binding.addSocial.isEnabled = false
+            }
+        }
+    }
+
+    private fun handleRequestSuccess(state: AddSocialSecurityNumberState) {
+        if (state.isRequestSuccess) {
+            findNavController().navigate(R.id.action_socialSecurityFragment_to_authSuccessFragment)
+            socialSecurityViewModel.updateState(isRequestSuccess = false)
+        }
+    }
+
+    private fun toggleBusyDialog(busy: Boolean, desc: String? = null) {
+        if (busy) {
+            if (mDialog == null) {
                 val view = LayoutInflater.from(requireContext())
-                    .inflate(R.layout.dialog_busy_layout,null)
-                mDialog = LauncherUtil.showPopUp(requireContext(),view,desc)
-            }else{
-                if(!desc.isNullOrBlank()){
-                    val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_busy_layout,null)
-                    mDialog = LauncherUtil.showPopUp(requireContext(),view,desc)
+                    .inflate(R.layout.dialog_busy_layout, null)
+                mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
+            } else {
+                if (!desc.isNullOrBlank()) {
+                    val view = LayoutInflater.from(requireContext())
+                        .inflate(R.layout.dialog_busy_layout, null)
+                    mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
                 }
             }
             mDialog?.show()
-        }else{
+        } else {
             mDialog?.dismiss()
         }
     }
-
 }

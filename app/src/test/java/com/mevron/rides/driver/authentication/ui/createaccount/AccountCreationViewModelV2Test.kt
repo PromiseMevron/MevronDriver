@@ -26,7 +26,6 @@ class AccountCreationViewModelV2Test {
 
     private val testDispatcher = TestCoroutineDispatcher()
 
-
     @Before
     fun setUp() {
         coEvery { useCase(any()) }.coAnswers { mockk() }
