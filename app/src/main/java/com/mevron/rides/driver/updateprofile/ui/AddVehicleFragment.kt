@@ -19,14 +19,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.auth.addcaradapters.CarMakeAdapter
-import com.mevron.rides.driver.auth.addcaradapters.CarMakeSelectionListener
-import com.mevron.rides.driver.auth.addcaradapters.CarModelAdapter
-import com.mevron.rides.driver.auth.addcaradapters.CarModelSelectionListener
-import com.mevron.rides.driver.auth.addcaradapters.CarYearAdapter
-import com.mevron.rides.driver.auth.addcaradapters.CarYearSelectedListener
-import com.mevron.rides.driver.auth.addcaradapters.ColorAdapter
-import com.mevron.rides.driver.auth.addcaradapters.ColorSelectionListener
+import com.mevron.rides.driver.updateprofile.ui.adapters.CarMakeAdapter
+import com.mevron.rides.driver.updateprofile.ui.adapters.CarMakeSelectionListener
+import com.mevron.rides.driver.updateprofile.ui.adapters.CarModelAdapter
+import com.mevron.rides.driver.updateprofile.ui.adapters.CarModelSelectionListener
+import com.mevron.rides.driver.updateprofile.ui.adapters.CarYearAdapter
+import com.mevron.rides.driver.updateprofile.ui.adapters.CarYearSelectedListener
+import com.mevron.rides.driver.updateprofile.ui.adapters.ColorAdapter
+import com.mevron.rides.driver.updateprofile.ui.adapters.ColorSelectionListener
 import com.mevron.rides.driver.databinding.AddVehicleFragmentBinding
 import com.mevron.rides.driver.updateprofile.ui.event.AddVehicleEvent
 import com.mevron.rides.driver.updateprofile.ui.state.AddVehicleError
@@ -246,7 +246,7 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
     }
 
     private fun setUpCarYearAdapter(state: AddVehicleState) {
-        yearAdapter = CarYearAdapter(state.carYearState.currentYears, this@AddVehicleFragment)
+        yearAdapter = CarYearAdapter(this@AddVehicleFragment)
         yearAdapter.notifyItemRangeChanged(0, state.carYearState.currentYears.size)
         binding.addCarYear.recyclerView.layoutManager =
             LinearLayoutManager(
@@ -254,21 +254,22 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
                 RecyclerView.VERTICAL, false
             )
         binding.addCarYear.recyclerView.adapter = yearAdapter
+        yearAdapter.submitList(state.carYearState.currentYears, )
     }
 
     private fun setUpCarModelAdapter(state: AddVehicleState) {
-        modelAdapter = CarModelAdapter(state.carModelState.currentModels, this@AddVehicleFragment)
-        modelAdapter.notifyItemRangeChanged(0, state.carModelState.currentModels.size)
+        modelAdapter = CarModelAdapter(this@AddVehicleFragment)
         binding.addCarModel.recyclerView.layoutManager =
             LinearLayoutManager(
                 context,
                 RecyclerView.VERTICAL, false
             )
         binding.addCarModel.recyclerView.adapter = modelAdapter
+        modelAdapter.submitList(state.carModelState.currentModels)
     }
 
     private fun setUpCarMakeAdapter(state: AddVehicleState) {
-        makeAdapter = CarMakeAdapter(state.carMakeState.currentMakes, this@AddVehicleFragment)
+        makeAdapter = CarMakeAdapter(this@AddVehicleFragment)
         makeAdapter.notifyItemRangeChanged(0, state.carMakeState.currentMakes.size)
         binding.addCarBottom.recyclerView.layoutManager =
             LinearLayoutManager(
@@ -276,6 +277,7 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
                 RecyclerView.VERTICAL, false
             )
         binding.addCarBottom.recyclerView.adapter = makeAdapter
+        makeAdapter.submitList(state.carMakeState.currentMakes)
     }
 
     private fun setUpSubmitButtonEnabledForSearchBar() {

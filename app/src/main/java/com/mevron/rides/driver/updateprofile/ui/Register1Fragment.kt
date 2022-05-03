@@ -1,26 +1,22 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.updateprofile.ui
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.Regist1FragmentBinding
 
-class Regist1Fragment : Fragment(), ViewTreeObserver.OnScrollChangedListener {
+class Register1Fragment : Fragment(), ViewTreeObserver.OnScrollChangedListener {
     private lateinit var binding: Regist1FragmentBinding
 
     companion object {
-        fun newInstance() = Regist1Fragment()
+        fun newInstance() = Register1Fragment()
     }
-
-    private lateinit var viewModel: Regist1ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,19 +44,18 @@ class Regist1Fragment : Fragment(), ViewTreeObserver.OnScrollChangedListener {
     }
 
     override fun onScrollChanged() {
-
-        val view = binding.recyclerView.getChildAt(binding.recyclerView.getChildCount() - 1);
+        val view = binding.recyclerView.getChildAt(binding.recyclerView.childCount - 1)
         val diff =
-            (view.getBottom() + binding.recyclerView.getPaddingBottom() - (binding.recyclerView.getHeight() + binding.recyclerView.getScrollY()));
+            (view.bottom + binding.recyclerView.paddingBottom - (binding.recyclerView.height + binding.recyclerView.scrollY))
 
         // if diff is zero, then the bottom has been reached
         if (diff == 0) {
-               binding.indicator.setImageResource(R.drawable.ic_indicator_2)
+            binding.indicator.setImageResource(R.drawable.ic_indicator_2)
         }
 
         if (!binding.recyclerView.canScrollHorizontally(1)) {
 
-             binding.indicator.setImageResource(R.drawable.ic_indicator_2)
+            binding.indicator.setImageResource(R.drawable.ic_indicator_2)
         }
         if (!binding.recyclerView.canScrollHorizontally(-1)) {
 

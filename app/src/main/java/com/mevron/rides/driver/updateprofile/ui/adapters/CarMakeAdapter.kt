@@ -1,20 +1,29 @@
-package com.mevron.rides.driver.auth.addcaradapters
+package com.mevron.rides.driver.updateprofile.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.CardAddItemsBinding
 import com.mevron.rides.driver.updateprofile.domain.model.CarMake
 
-class CarMakeAdapter(val makes: List<CarMake>, val select: CarMakeSelectionListener) :
-    RecyclerView.Adapter<CarMakeAdapter.CarMakeHolder>() {
+class CarMakeAdapter(val select: CarMakeSelectionListener) :
+    ListAdapter<CarMake, CarMakeAdapter.CarMakeHolder>(CarMakesDiffUtil()) {
 
+    class CarMakesDiffUtil : DiffUtil.ItemCallback<CarMake>() {
+        override fun areItemsTheSame(oldItem: CarMake, newItem: CarMake): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-    class CarMakeHolder(val binding: CardAddItemsBinding) : RecyclerView.ViewHolder(binding.root) {
-
+        override fun areContentsTheSame(oldItem: CarMake, newItem: CarMake): Boolean {
+            return areItemsTheSame(oldItem, newItem)
+        }
     }
+
+    class CarMakeHolder(val binding: CardAddItemsBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarMakeHolder {
         return CarMakeHolder(
@@ -28,14 +37,11 @@ class CarMakeAdapter(val makes: List<CarMake>, val select: CarMakeSelectionListe
     }
 
     override fun onBindViewHolder(holder: CarMakeHolder, position: Int) {
-        holder.binding.word.text = makes[position].make
+        val makes = getItem(position)
+        holder.binding.word.text = makes.make
         holder.binding.root.setOnClickListener {
-            select.onCarMakeSelected(makes[position].make)
+            select.onCarMakeSelected(makes.make)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return makes.size
     }
 }
 

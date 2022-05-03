@@ -1,19 +1,19 @@
-package com.mevron.rides.driver.auth.addcaradapters
+package com.mevron.rides.driver.updateprofile.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.CardAddItemsBinding
 import com.mevron.rides.driver.updateprofile.domain.model.CarYearData
 
-class CarYearAdapter(val makes: List<CarYearData>, val select: CarYearSelectedListener) :
-    RecyclerView.Adapter<CarYearAdapter.CarYearHolder>() {
+class CarYearAdapter(val select: CarYearSelectedListener) :
+    ListAdapter<CarYearData, CarYearAdapter.CarYearHolder>(CarYearDiffUtil()) {
 
-    class CarYearHolder(val binding: CardAddItemsBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    class CarYearHolder(val binding: CardAddItemsBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarYearHolder {
         return CarYearHolder(
@@ -27,14 +27,21 @@ class CarYearAdapter(val makes: List<CarYearData>, val select: CarYearSelectedLi
     }
 
     override fun onBindViewHolder(holder: CarYearHolder, position: Int) {
-        holder.binding.word.text = makes[position].year
+        val makes = getItem(position)
+        holder.binding.word.text = makes.year
         holder.binding.root.setOnClickListener {
-            select.onYearSelected(makes[position].year)
+            select.onYearSelected(makes.year)
         }
     }
+}
 
-    override fun getItemCount(): Int {
-        return makes.size
+class CarYearDiffUtil : DiffUtil.ItemCallback<CarYearData>() {
+    override fun areItemsTheSame(oldItem: CarYearData, newItem: CarYearData): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: CarYearData, newItem: CarYearData): Boolean {
+        return areItemsTheSame(oldItem, newItem)
     }
 }
 

@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/regist1Fragment"
-        android:name="com.mevron.rides.driver.auth.Regist1Fragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.Register1Fragment"
         android:label="regist1_fragment"
         tools:layout="@layout/regist1_fragment" >
         <action
