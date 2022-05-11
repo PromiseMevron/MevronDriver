@@ -24,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -35,17 +36,25 @@ import com.google.maps.android.SphericalUtil
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
+import com.mevron.rides.driver.home.ui.event.HomeViewEvent
+import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.remote.socket.SocketHandler
 import com.mevron.rides.driver.service.LocationService
 import com.mevron.rides.driver.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
+
+class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverStatusClickListener {
 
     private lateinit var binding: HomeFragmentBinding
+
+    // TODO move logic to viewModel
+    private var isOnline = false
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -55,8 +64,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var locService: LocationService? = null
     private lateinit var gMap: GoogleMap
     private lateinit var mapView: SupportMapFragment
-    private  var lat1: Double = 0.0
-    private  var lng1: Double = 0.0
+    private var lat1: Double = 0.0
+    private var lng1: Double = 0.0
     private var theStatus = false
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var drawer: ImageButton
@@ -67,6 +76,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     var shadeColor = 0x44ff0000
 
+    // TODO refactor this to own file
     private val connection = object : ServiceConnection {
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -76,14 +86,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as LocationService.LocationLocalBinder
             locService = binder.getService()
-            getState()
             mbound = true
         }
     }
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
-    private  val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,152 +108,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
         mapView = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
 
-        homeStatus()
+//        binding.mevronHomeBottom.statusView.setOnClickListener {
+//            findNavController().navigate(R.id.action_global_documentCheckFragment)
+//        }
 
-        binding.mevronHomeBottom.statusView.setOnClickListener {
-            findNavController().navigate(R.id.action_global_documentCheckFragment)
-        }
-        binding.mevronHomeBottom.drive.setOnClickListener {
-            binding.mevronHomeBottom.earningTab.visibility = View.GONE
-            binding.mevronHomeBottom.driveTab.visibility = View.VISIBLE
-            binding.mevronHomeBottom.drive.setImageResource(R.drawable.ic_drive)
-            binding.mevronHomeBottom.earning.setImageResource(R.drawable.ic_earning_un)
-        }
+        binding.mevronHomeBottom.driverStatus.setClickEventListener(this)
 
-        binding.mevronHomeBottom.earning.setOnClickListener {
-            binding.mevronHomeBottom.driveTab.visibility = View.GONE
-            binding.mevronHomeBottom.earningTab.visibility = View.VISIBLE
-            binding.mevronHomeBottom.drive.setImageResource(R.drawable.ic_drive_un)
-            binding.mevronHomeBottom.earning.setImageResource(R.drawable.ic_earning)
-
-        }
-
-        binding.mevronHomeBottom.goOnline.setOnClickListener {
-
-            toggleStatus(true)
-            if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
-                != PackageManager.PERMISSION_GRANTED && context?.let {
-                    ContextCompat.checkSelfPermission(
-                        it,
-                        Manifest.permission.ACCESS_COARSE_LOCATION)
-                } != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,  Manifest.permission.ACCESS_COARSE_LOCATION), Constants.LOCATION_REQUEST_CODE)
-                //Toast.makeText(context, "44", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
+        lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                binding.mevronHomeBottom.driverStatus.toggleDrive(state.isDriveActive)
+                binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(state.isOnline)
             }
-            getLocationProvider()?.lastLocation?.addOnSuccessListener {
-                //  Toast.makeText(context, "22 $it", Toast.LENGTH_LONG).show()
-
-                val location = it
-                if (location != null) {
-                  //  Toast.makeText(context, "33", Toast.LENGTH_LONG).show()
-                 //   binding.mevronHomeBottom.goOnline.visibility = View.GONE
-                  //  binding.mevronHomeBottom.toggleIndicatorOnline.visibility = View.VISIBLE
-
-                   // toggleStatus(true)
-
-                } else { displayLocationSettingsRequest(binding) }
-            }
-                ?.addOnFailureListener {
-                    it.printStackTrace()
-                }
-
         }
-
-
-
-        binding.mevronHomeBottom.goOffline.setOnClickListener {
-            binding.mevronHomeBottom.goOffline.visibility = View.GONE
-            binding.mevronHomeBottom.toggleIndicatorOffline.visibility = View.VISIBLE
-            toggleStatus(false)
-
-        }
-    }
-
-    private fun homeStatus(){
-       // toggleBusyDialog(true, "Getting status")
-        viewModel.getDocumentStatus().observe(viewLifecycleOwner, Observer {
-            it.let { res ->
-                when(res){
-                    is GenericStatus.Error -> {
-                        val snackbar = res.error?.error?.message?.let { it1 ->
-                            Snackbar
-                                .make(binding.root, it1, Snackbar.LENGTH_LONG).setAction("Retry", View.OnClickListener {
-                                    ::homeStatus
-                                })
-                        }
-                        snackbar?.show()
-
-
-                    }
-                    is  GenericStatus.Success ->{
-                        val status = res.data?.success?.data?.document_status ?: 0
-                        if (status == 0 || status == 2){
-                            binding.mevronHomeBottom.pendingView.visibility = View.VISIBLE
-                            binding.mevronHomeBottom.reviewingView.visibility = View.GONE
-                            binding.mevronHomeBottom.statusView.visibility = View.VISIBLE
-                        }else if (status == 1){
-                            binding.mevronHomeBottom.pendingView.visibility = View.GONE
-                            binding.mevronHomeBottom.reviewingView.visibility = View.VISIBLE
-                            binding.mevronHomeBottom.statusView.visibility = View.VISIBLE
-                        }else{
-                            binding.mevronHomeBottom.pendingView.visibility = View.GONE
-                            binding.mevronHomeBottom.reviewingView.visibility = View.GONE
-                            binding.mevronHomeBottom.statusView.visibility = View.GONE
-                        }
-                    }
-                }
-            }
-        })
-    }
-
-
-    fun toggleStatus(status: Boolean){
-
-        viewModel.toggleStatus().observe(viewLifecycleOwner, Observer {
-            it.let { res ->
-                when(res){
-                    is GenericStatus.Error -> {
-                        val snackbar = res.error?.error?.message?.let { it1 ->
-                            Snackbar
-                                .make(binding.root, it1, Snackbar.LENGTH_LONG).setAction("Retry", View.OnClickListener {
-                               ::toggleStatus
-                                })
-                        }
-                        snackbar?.show()
-                        if (!status){
-                            binding.mevronHomeBottom.goOffline.visibility = View.VISIBLE
-                            binding.mevronHomeBottom.toggleIndicatorOffline.visibility = View.GONE
-                        }else{
-                            binding.mevronHomeBottom.goOnline.visibility = View.VISIBLE
-                            binding.mevronHomeBottom.toggleIndicatorOnline.visibility = View.GONE
-                        }
-
-                    }
-                    is  GenericStatus.Success ->{
-                        theStatus = status
-                        if (status){
-                            context?.let {ctx ->
-                                ContextCompat.startForegroundService(ctx, Intent(ctx, LocationService::class.java))
-                            }
-                            binding.mevronHomeBottom.toggleIndicatorOnline.visibility = View.GONE
-                            binding.mevronHomeBottom.goOffline.visibility = View.VISIBLE
-                        //    subscribeToListenForRequest()
-                          //  findNavController().navigate(R.id.action_global_rideRequestFragment)
-
-
-                        }else{
-                            context?.let {ctx ->
-                                ctx.stopService(Intent(ctx, LocationService::class.java))
-                            }
-                            binding.mevronHomeBottom.toggleIndicatorOffline.visibility = View.GONE
-                            binding.mevronHomeBottom.goOnline.visibility = View.VISIBLE
-                        }
-
-                    }
-                }
-            }
-        })
     }
 
     override fun onStart() {
@@ -261,41 +136,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
-        getState()
         val intent = Intent(context, LocationService::class.java)
         activity?.bindService(intent, connection, Context.BIND_AUTO_CREATE)
         mapView.getMapAsync(this)
-
-
     }
-
-    override fun onResume() {
-        super.onResume()
-        getState()
-    }
-
 
     override fun onStop() {
         super.onStop()
         mbound = false
         activity?.unbindService(connection)
-    }
-
-
-
-    private fun getState(){
-        locService?.isServiceStarted?.observe(viewLifecycleOwner) {
-            if (it) {
-            //    subscribeToListenForRequest()
-                binding.mevronHomeBottom.goOnline.visibility = View.GONE
-                binding.mevronHomeBottom.goOffline.visibility = View.VISIBLE
-
-            } else {
-                binding.mevronHomeBottom.goOnline.visibility = View.VISIBLE
-                binding.mevronHomeBottom.goOffline.visibility = View.GONE
-
-            }
-        }
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -306,13 +155,24 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
         MapsInitializer.initialize(activity?.applicationContext)
 
 
-        if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
+        if (context?.let {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            }
             != PackageManager.PERMISSION_GRANTED && context?.let {
                 ContextCompat.checkSelfPermission(
                     it,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
             } != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,  Manifest.permission.ACCESS_COARSE_LOCATION), Constants.LOCATION_REQUEST_CODE)
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ), Constants.LOCATION_REQUEST_CODE
+            )
             return
         }
         getLocationProvider()?.lastLocation?.addOnSuccessListener {
@@ -331,17 +191,24 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
                     .target(currentLocation)
                     .zoom(18.5.toFloat())
                     .build()
-                val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
+                val sPref = App.ApplicationContext.getSharedPreferences(
+                    Constants.SHARED_PREF_KEY,
+                    Context.MODE_PRIVATE
+                )
                 val editor = sPref.edit()
                 editor.putString(Constants.LAT, currentLocation.latitude.toString())
                 editor.putString(Constants.LNG, currentLocation.longitude.toString())
                 editor.apply()
-                SocketHandler.setSocket("", currentLocation.latitude.toString(), currentLocation.longitude.toString())
+                SocketHandler.setSocket(
+                    "",
+                    currentLocation.latitude.toString(),
+                    currentLocation.longitude.toString()
+                )
                 SocketHandler.establishConnection()
                 subscribeToListenForRequest()
                 googleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
-                val mLocationManager = context?.let {ctx ->
+                val mLocationManager = context?.let { ctx ->
                     ctx.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 }
 
@@ -352,26 +219,29 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
                     this
                 )
 
-            } else { displayLocationSettingsRequest(binding) }
+            } else {
+                displayLocationSettingsRequest(binding)
+            }
         }
             ?.addOnFailureListener {
                 it.printStackTrace()
             }
     }
 
-    fun addMarkerToMap(lat: Double, lng: Double, fromMap: Boolean = false){
+    fun addMarkerToMap(lat: Double, lng: Double, fromMap: Boolean = false) {
         val lg = LatLng(lat1, lng1)
         val lg2 = LatLng(lat, lng)
-        if (lg == lg2 && !fromMap){
+        if (lg == lg2 && !fromMap) {
             return
 
-        }else{
+        } else {
 
-            val addCircle = CircleOptions().center(LatLng(lat, lng)).radius(radiusInMeters).fillColor(shadeColor)
+            val addCircle = CircleOptions().center(LatLng(lat, lng)).radius(radiusInMeters)
+                .fillColor(shadeColor)
                 .strokeColor(strokeColor).strokeWidth(8f)
             mCircle = gMap.addCircle(addCircle)
-            val rot =  SphericalUtil.computeHeading(lg, lg2).toFloat()
-            val marker =  MarkerOptions()
+            val rot = SphericalUtil.computeHeading(lg, lg2).toFloat()
+            val marker = MarkerOptions()
                 .position(lg2)
                 .icon(bitmapFromVector(R.drawable.group))
                 .rotation(rot)
@@ -384,79 +254,80 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
         }
     }
 
-    fun subscribeToListenForRequest(){
-        Toast.makeText(context, "44" +getLng(), Toast.LENGTH_SHORT).show()
+    fun subscribeToListenForRequest() {
+        Toast.makeText(context, "44" + getLng(), Toast.LENGTH_SHORT).show()
 
         val s1 = SocketHandler.getSocket()
-        s1?.on("ride_requests"){
+        s1?.on("ride_requests") {
             activity?.runOnUiThread {
-                Toast.makeText(context, "55" +getLng(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "55" + getLng(), Toast.LENGTH_SHORT).show()
 
                 val dt = it[0] as? JSONObject
                 val trip = dt?.get("trip") as? JSONObject
-                val  code = trip?.get("uuid") as? String ?: ""
-                val  verify = trip?.get("verificationCode") as? String ?: ""
+                val code = trip?.get("uuid") as? String ?: ""
+                val verify = trip?.get("verificationCode") as? String ?: ""
                 val lat1 = trip?.get("pickupLatitude") as? String ?: "0"
                 val lat2 = trip?.get("destinationLatitude") as? String ?: "0"
                 val lng1 = trip?.get("pickupLongitude") as? String ?: "0"
                 val lng2 = trip?.get("destinationLongitude") as? String ?: "0"
-                val add1 = trip?.get("pickupAddress") as? String  ?: ""
-                val add2 = trip?.get("destinationAddress") as? String  ?: ""
+                val add1 = trip?.get("pickupAddress") as? String ?: ""
+                val add2 = trip?.get("destinationAddress") as? String ?: ""
                 val loc = LocationModel(lat = lat1.toDouble(), lng = lng1.toDouble(), add1)
                 val loc2 = LocationModel(lat = lat2.toDouble(), lng = lng2.toDouble(), add2)
-                val action = HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2, verify)
+                val action =
+                    HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2, verify)
                 findNavController().navigate(action)
-                if (theStatus){
-                 //   val action = HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2)
-                   // findNavController().navigate(action)
+                if (theStatus) {
+                    //   val action = HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2)
+                    // findNavController().navigate(action)
                 }
 
-                }
+            }
 
-          /*     "trip": {
-        "id": 94,
-        "uuid": "86ba5756-954f-4d04-b94c-1aa7f000c858",
-        "rider_id": "fcab6503-3dd0-43e4-ad4c-79331a5a9ca1",
-        "startTime": "00:00",
-        "endTime": "00:00",
-        "verificationCode": "1184",
-        "pickupAddress": "Anchor University",
-        "pickupLongitude": "3.2419436",
-        "pickupLatitude": "6.6039714",
-        "destinationAddress": "Iyana - Ipaja Bridge",
-        "destinationLatitude": "6.6199029",
-        "destinationLongitude": "3.2827014",
-        "minEstimatedCost": 0,
-        "maxEstimatedCost": 0,
-        "estimatedDistance": 0,
-        "amount": 0,
-        "status": "pending",
-        "paymentMethod": "cash",
-        "vehicleType": "standard",
-        "updatedAt": "2022-03-07T10:06:39.641Z",
-        "createdAt": "2022-03-07T10:06:39.641Z"
-    }
+            /*     "trip": {
+          "id": 94,
+          "uuid": "86ba5756-954f-4d04-b94c-1aa7f000c858",
+          "rider_id": "fcab6503-3dd0-43e4-ad4c-79331a5a9ca1",
+          "startTime": "00:00",
+          "endTime": "00:00",
+          "verificationCode": "1184",
+          "pickupAddress": "Anchor University",
+          "pickupLongitude": "3.2419436",
+          "pickupLatitude": "6.6039714",
+          "destinationAddress": "Iyana - Ipaja Bridge",
+          "destinationLatitude": "6.6199029",
+          "destinationLongitude": "3.2827014",
+          "minEstimatedCost": 0,
+          "maxEstimatedCost": 0,
+          "estimatedDistance": 0,
+          "amount": 0,
+          "status": "pending",
+          "paymentMethod": "cash",
+          "vehicleType": "standard",
+          "updatedAt": "2022-03-07T10:06:39.641Z",
+          "createdAt": "2022-03-07T10:06:39.641Z"
+      }
 
-            }*/
+              }*/
         }
-       /* if (s1?.connected() == false){
-            SocketHandler.setSocket("", "", "")
-            val s = SocketHandler.getSocket()
-            s?.on("ride_requests"){
-                activity?.runOnUiThread {
-                    Toast.makeText(context, "worked", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_global_rideRequestFragment)
-                }
-            }
-        }else{
+        /* if (s1?.connected() == false){
+             SocketHandler.setSocket("", "", "")
+             val s = SocketHandler.getSocket()
+             s?.on("ride_requests"){
+                 activity?.runOnUiThread {
+                     Toast.makeText(context, "worked", Toast.LENGTH_SHORT).show()
+                     findNavController().navigate(R.id.action_global_rideRequestFragment)
+                 }
+             }
+         }else{
 
-            s1?.on("ride_requests"){
-                activity?.runOnUiThread {
-                    Toast.makeText(context, "worked", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_global_rideRequestFragment)
-                }
-            }
-        }*/
+             s1?.on("ride_requests"){
+                 activity?.runOnUiThread {
+                     Toast.makeText(context, "worked", Toast.LENGTH_SHORT).show()
+                     findNavController().navigate(R.id.action_global_rideRequestFragment)
+                 }
+             }
+         }*/
 
 
         /*    if (SocketHandler.getSocket() == null){
@@ -469,11 +340,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
         } } }*/
     }
 
-    fun getLocationProvider(): FusedLocationProviderClient? {
+    private fun getLocationProvider(): FusedLocationProviderClient? {
         return activity?.let { LocationServices.getFusedLocationProviderClient(it) }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == Constants.LOCATION_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             mapView.getMapAsync(this)
@@ -483,5 +358,55 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
     override fun onLocationChanged(p0: Location) {
         val currentLocation = LatLng(p0.latitude, p0.longitude)
         addMarkerToMap(p0.latitude, p0.longitude)
+    }
+
+    override fun onDriveClick() {
+        viewModel.onEventReceived(HomeViewEvent.OnDriveClick)
+    }
+
+    override fun onEarningClick() {
+        viewModel.onEventReceived(HomeViewEvent.OnEarningClick)
+    }
+
+    override fun goOnlineClick() {
+        // TODO move logic for online to viewModel
+        binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(!isOnline)
+        isOnline = !isOnline
+
+        if (context?.let {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            }
+            != PackageManager.PERMISSION_GRANTED && context?.let {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            } != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ), Constants.LOCATION_REQUEST_CODE
+            )
+            //Toast.makeText(context, "44", Toast.LENGTH_LONG).show()
+            return
+        }
+        getLocationProvider()?.lastLocation?.addOnSuccessListener {
+            //  Toast.makeText(context, "22 $it", Toast.LENGTH_LONG).show()
+            val location = it
+            if (location != null) {
+                //  Toast.makeText(context, "33", Toast.LENGTH_LONG).show()
+                //   binding.mevronHomeBottom.goOnline.visibility = View.GONE
+                //  binding.mevronHomeBottom.toggleIndicatorOnline.visibility = View.VISIBLE
+
+                // toggleStatus(true)
+
+            } else {
+                displayLocationSettingsRequest(binding)
+            }
+        }?.addOnFailureListener { it.printStackTrace() }
     }
 }
