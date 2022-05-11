@@ -11,9 +11,9 @@ import com.mevron.rides.driver.home.model.HomeScreenResponse
 import com.mevron.rides.driver.home.model.documents.DocumentStatusResponse
 import com.mevron.rides.driver.localdb.MevronDao
 import com.mevron.rides.driver.localdb.SavedAddress
-import com.mevron.rides.driver.remote.model.GetSavedAddresss
-import com.mevron.rides.driver.remote.model.SaveAddressRequest
-import com.mevron.rides.driver.remote.model.UpdateAddress
+import com.mevron.rides.driver.sidemenu.savedplaces.data.model.GetSavedAddress
+import com.mevron.rides.driver.sidemenu.savedplaces.data.model.SaveAddressRequest
+import com.mevron.rides.driver.sidemenu.savedplaces.data.model.UpdateAddress
 import com.mevron.rides.driver.remote.model.getcard.AddCard
 import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
 import com.mevron.rides.driver.sidemenu.model.AddContactRequest
@@ -98,7 +98,7 @@ class MevronRepo @Inject constructor (private val api: MevronAPI, private val da
         return api.saveAddress(data)
     }
 
-    suspend fun getAddress(): Response<GetSavedAddresss> {
+    suspend fun getAddress(): Response<GetSavedAddress> {
         return api.getAddress()
     }
 

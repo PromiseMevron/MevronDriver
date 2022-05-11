@@ -12,7 +12,7 @@ data class RegisterPhoneState(
     val number: String,
     val isValidNumber: Boolean,
     val isCorrectNumber: Boolean,
-    val canCheckNumber: Boolean
+    var canCheckNumber: Boolean
 ) {
 
     val countryCodeAndPhoneNumber: String

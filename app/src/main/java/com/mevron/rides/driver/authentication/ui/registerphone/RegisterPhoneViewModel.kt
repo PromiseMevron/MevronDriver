@@ -55,9 +55,8 @@ class RegisterPhoneViewModel @Inject constructor(
     fun onEvent(event: RegisterPhoneEvent) {
         when (event) {
             RegisterPhoneEvent.NextButtonClick -> {
-                updateState(canCheckNumber = true)
                 if (state.value.isCorrectNumber)
-                registerPhone(mutableState.value.buildRequest())
+                    registerPhone(mutableState.value.buildRequest())
             }
         }
     }

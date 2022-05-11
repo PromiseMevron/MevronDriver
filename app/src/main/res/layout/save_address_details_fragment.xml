@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context=".sidemenu.savedplaces.SaveAddressDetailsFragment">
+    tools:context=".sidemenu.savedplaces.ui.addressdetail.SaveAddressDetailsFragment">
 
     <ImageButton
         android:layout_width="@dimen/_20sdp"
@@ -156,6 +156,7 @@
         android:id="@+id/save_address"
         android:textColor="#ffffff"
         android:textAllCaps="false"
+        android:enabled="true"
         android:text="@string/save_address"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

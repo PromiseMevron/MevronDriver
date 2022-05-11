@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.sidemenu.savedplaces
+package com.mevron.rides.driver.sidemenu.savedplaces.ui.updateaddress
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -26,7 +26,6 @@ class UpdateAddressFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(UpdateAddressViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

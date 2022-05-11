@@ -9,7 +9,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context=".sidemenu.savedplaces.AddSavedPlaceFragment">
+    tools:context=".sidemenu.savedplaces.ui.addaddress.AddSavedPlaceFragment">
 
     <ImageButton
         android:layout_width="@dimen/_45sdp"
