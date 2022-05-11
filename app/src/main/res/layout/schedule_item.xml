@@ -2,153 +2,152 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/earning_text"
+        android:layout_height="@dimen/_290sdp"
+        android:layout_marginStart="@dimen/_14sdp"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_14sdp"
-        android:layout_marginStart="@dimen/_14sdp"
-        app:cardCornerRadius="4dp"
         android:layout_marginBottom="@dimen/_5sdp"
-        android:layout_height="@dimen/_290sdp">
+        app:cardCornerRadius="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/placeholder_map"/>
+                android:src="@drawable/placeholder_map" />
 
-          <!--  <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_60sdp"-->
+            <!--  <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="@dimen/_60sdp"-->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:background="@color/white"
-                android:id="@+id/bottom">
+                app:layout_constraintBottom_toBottomOf="parent">
+
                 <ImageView
+                    android:id="@+id/image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_watch_later"
-                    android:id="@+id/image"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="@dimen/_14sdp"
                     android:background="@android:color/transparent"
+                    android:src="@drawable/ic_watch_later"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="@dimen/_14sdp"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Ends on Monday"
+                    android:textColor="#8a8a8a"
+                    android:textFontWeight="600"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/image"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Ends on Monday"
-                    android:layout_marginStart="@dimen/_6sdp"
-                    android:id="@+id/time"
-                    android:fontFamily="@font/poppins_regular"
-                    android:textSize="@dimen/_10ssp"
-                    android:textFontWeight="600"
-                    android:textColor="#8a8a8a"
                     tools:targetApi="p" />
 
                 <TextView
+                    android:id="@+id/amount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_6sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="$22"
+                    android:textColor="#0B973A"
+                    android:textFontWeight="700"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="$22"
-                    android:layout_marginEnd="@dimen/_6sdp"
-                    android:id="@+id/amount"
-                    android:fontFamily="@font/poppins_regular"
-                    android:textSize="@dimen/_13ssp"
-                    android:textFontWeight="700"
-                    android:textColor="#0B973A"
                     tools:targetApi="p" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
+                android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:orientation="horizontal"
-                android:id="@+id/divider"
                 android:layout_marginStart="@dimen/_14sdp"
                 android:layout_marginEnd="@dimen/_14sdp"
-                app:layout_constraintBottom_toTopOf="@id/bottom"
-                android:background="#f2f2f2"/>
+                android:background="#f2f2f2"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@id/bottom" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/top"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_70sdp"
-                app:layout_constraintBottom_toTopOf="@id/divider"
                 android:background="@color/white"
-                android:id="@+id/top">
+                app:layout_constraintBottom_toTopOf="@id/divider">
+
                 <ImageView
+                    android:id="@+id/image2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_next"
-                    android:id="@+id/image2"
+                    android:layout_marginStart="@dimen/_14sdp"
                     android:layout_marginEnd="@dimen/_14sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:background="@android:color/transparent"
+                    android:src="@drawable/ic_next"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="@dimen/_14sdp"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_14sdp"
                     android:layout_marginEnd="@dimen/_14sdp"
-                    android:orientation="vertical"
                     android:gravity="center_horizontal|center_vertical"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/image2"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
+                        android:id="@+id/name_place"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Near Rockwood Ave"
+                        android:textColor="#000000"
+                        android:textFontWeight="600"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/image"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:text="Near Rockwood Ave"
-                        android:id="@+id/name_place"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="@dimen/_14ssp"
-                        android:textFontWeight="600"
-                        android:textColor="#000000"
                         tools:targetApi="p" />
 
                     <TextView
+                        android:id="@+id/address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Near Rockwood Ave"
+                        android:textColor="#666666"
+                        android:textFontWeight="600"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/image"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:text="Near Rockwood Ave"
-                        android:id="@+id/address"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="@dimen/_10ssp"
-                        android:textFontWeight="600"
-                        android:textColor="#666666"
                         tools:targetApi="p" />
 
                 </LinearLayout>
 
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

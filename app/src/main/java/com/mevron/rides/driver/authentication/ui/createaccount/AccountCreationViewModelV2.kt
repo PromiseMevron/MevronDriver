@@ -10,6 +10,7 @@ import com.mevron.rides.driver.authentication.ui.createaccount.state.CreateAccou
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
 import com.mevron.rides.driver.util.Constants
+import com.mevron.rides.driver.util.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers

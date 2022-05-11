@@ -99,6 +99,7 @@
     <string name="ride_details">Ride Details</string>
     <string name="balance">Balance</string>
     <string name="documents_submission_pending">Documents submission pending</string>
+    <string name="documents_submission_under_review">We received your submission, check verification status</string>
     <string name="please_complete_all_below_process_to_setup_your_account_and_start_earning">Please complete all below process, to setup your account and start earning</string>
     <string name="we_received_your_submission_check_verification_status">We received your submission, check verification status</string>
     <string name="earning_goal">Earning Goal</string>
@@ -349,6 +350,8 @@
     <string name="e_g_2016">e.g. 2016</string>
     <string name="e_g_audi">e.g. Audi</string>
     <string name="e_g_s4_avant">e.g. S4 Avant</string>
+    <string name="complete_processes_to_start_earning">Please complete all the processes below to setup your account and start earning</string>
+    <string name="next">Next</string>
 
 
 </resources>

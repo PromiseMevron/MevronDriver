@@ -43,5 +43,4 @@
             layout="@layout/home_bottom" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
 </layout>

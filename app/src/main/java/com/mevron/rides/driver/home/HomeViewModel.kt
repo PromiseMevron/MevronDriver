@@ -1,61 +1,67 @@
 package com.mevron.rides.driver.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mevron.rides.driver.auth.model.GeneralResponse
-import com.mevron.rides.driver.home.model.HomeScreenResponse
-import com.mevron.rides.driver.remote.GenericStatus
-import com.mevron.rides.driver.remote.HTTPErrorHandler
-import com.mevron.rides.driver.remote.MevronRepo
+import androidx.lifecycle.viewModelScope
+import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.home.domain.model.HomeScreenDomainModel
+import com.mevron.rides.driver.home.domain.usecase.GetDocumentStatusUseCase
+import com.mevron.rides.driver.home.domain.usecase.ToggleOnlineStatusUseCase
+import com.mevron.rides.driver.home.ui.event.HomeViewEvent
+import com.mevron.rides.driver.home.ui.state.HomeViewState
+import com.mevron.rides.driver.home.ui.state.transform
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @HiltViewModel
-class HomeViewModel @Inject constructor (private val repository: MevronRepo) : ViewModel(){
+class HomeViewModel @Inject constructor(
+    private val onlineStatusUseCase: ToggleOnlineStatusUseCase,
+    private val getDocumentStatusUseCase: GetDocumentStatusUseCase
+) : ViewModel() {
 
-    fun toggleStatus(): LiveData<GenericStatus<GeneralResponse>> {
+    private val mutableState: MutableStateFlow<HomeViewState> =
+        MutableStateFlow(HomeViewState.EMPTY)
 
-        val result = MutableLiveData<GenericStatus<GeneralResponse>>()
+    val state: StateFlow<HomeViewState>
+        get() = mutableState
 
-        CoroutineScope(Dispatchers.IO).launch {
-            try{
-                val response = repository.toggleStatus()
-                if(response.isSuccessful)
-                    result.postValue(GenericStatus.Success(response.body()))
-                else
-                    result.postValue(GenericStatus.Error(HTTPErrorHandler.handleErrorWithCode(response)))
-            }catch (ex: Exception){
-                ex.printStackTrace()
-                result.postValue(GenericStatus.Error(HTTPErrorHandler.httpFailWithCode(ex)))
+    fun onEventReceived(event: HomeViewEvent) =
+        when (event) {
+            HomeViewEvent.OnDocumentSubmissionStatusClick -> getDocument()
+            HomeViewEvent.OnDriveClick -> mutableState.update { it.transform(isDriveActive = true) }
+            HomeViewEvent.OnEarningClick -> mutableState.update { it.transform(isDriveActive = false) }
+            HomeViewEvent.OnToggleOnlineClick -> toggleOnlineStatus()
+        }
+
+    private fun toggleOnlineStatus() {
+        mutableState.update { it.transform(isOnline = !it.isOnline) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = onlineStatusUseCase()
+
+            if (result is DomainModel.Error) {
+                mutableState.update {
+                    it.transform(
+                        isOnline = !it.isOnline,
+                        errorMessage = "Error occurred while changing online status"
+                    )
+                }
             }
         }
-        return result
-
     }
 
-    fun getDocumentStatus(): LiveData<GenericStatus<HomeScreenResponse>> {
-
-        val result = MutableLiveData<GenericStatus<HomeScreenResponse>>()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try{
-                val response = repository.getHomeStatus()
-                if(response.isSuccessful)
-                    result.postValue(GenericStatus.Success(response.body()))
-                else
-                    result.postValue(GenericStatus.Error(HTTPErrorHandler.handleErrorWithCode(response)))
-            }catch (ex: Exception){
-                ex.printStackTrace()
-                result.postValue(GenericStatus.Error(HTTPErrorHandler.httpFailWithCode(ex)))
+    private fun getDocument() {
+        mutableState.update { it.transform(isLoadingDocuments = true) }
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = getDocumentStatusUseCase()
+            if (result is DomainModel.Success) {
+                val data = result.data as HomeScreenDomainModel
+                // update state
+                mutableState.update { it.transform(isLoadingDocuments = false) }
             }
         }
-        return result
-
     }
-
-
 }
