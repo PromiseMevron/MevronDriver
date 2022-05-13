@@ -349,6 +349,9 @@
     <string name="e_g_2016">e.g. 2016</string>
     <string name="e_g_audi">e.g. Audi</string>
     <string name="e_g_s4_avant">e.g. S4 Avant</string>
+    <string name="save_a_place">Save a place</string>
+    <string name="enter_any_address">Enter any address</string>
+    <string name="others">others</string>
 
 
 </resources>

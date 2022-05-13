@@ -78,7 +78,7 @@ class AddSavedPlaceFragment : Fragment(), AddressSelected {
     }
 
     private fun setUpAdapter(data: MutableList<GetSavedAddressData>) {
-        adapter = AddressAdapter(this)
+        adapter = AddressAdapter(this, requireContext())
         binding.placesRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
             context,
             RecyclerView.VERTICAL, false
@@ -88,9 +88,9 @@ class AddSavedPlaceFragment : Fragment(), AddressSelected {
     }
 
     private fun migrateToUpdate() {
-        val title = "Save a place"
-        val holder = "Enter any address"
-        val type = "others"
+        val title = resources.getString(R.string.save_a_place)
+        val holder = resources.getString(R.string.enter_any_address)
+        val type = resources.getString(R.string.others)
         val action =
             AddSavedPlaceFragmentDirections.actionGlobalSaveAddressFragment(
                 title,

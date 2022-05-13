@@ -1,5 +1,6 @@
 package com.mevron.rides.driver.sidemenu.savedplaces.ui.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -11,7 +12,7 @@ import com.mevron.rides.driver.databinding.AddressItemBinding
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetSavedAddressData
 import com.mevron.rides.driver.util.LocationModel
 
-class AddressAdapter(val select: AddressSelected) :
+class AddressAdapter(val select: AddressSelected, val context: Context) :
     ListAdapter<GetSavedAddressData, AddressAdapter.HomeViewHolder>(AddressDiffUti()) {
 
     class HomeViewHolder(val binding: AddressItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -47,11 +48,11 @@ class AddressAdapter(val select: AddressSelected) :
         val dt = getItem(position)
         if (dt.type == "home") {
             holder.binding.displayImage.setImageResource(R.drawable.ic_home_address)
-            holder.binding.destType.text = "Home"
+            holder.binding.destType.text = context.getString(R.string.home)
         }
         if (dt.type == "work") {
             holder.binding.displayImage.setImageResource(R.drawable.ic_work_address)
-            holder.binding.destType.text = "Work"
+            holder.binding.destType.text = context.getString(R.string.work)
         }
 
         if (dt.type == "others") {

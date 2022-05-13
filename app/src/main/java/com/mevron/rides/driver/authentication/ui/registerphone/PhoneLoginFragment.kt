@@ -51,7 +51,6 @@ class PhoneLoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.countryPicker.registerCarrierNumberEditText(binding.phoneNumber)
-        binding.nextButton.isEnabled = true
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 registerPhoneViewModel.state.collect { state ->
@@ -122,7 +121,7 @@ class PhoneLoginFragment : Fragment() {
         } else {
             binding.incorrectNumber.visibility = View.VISIBLE
             binding.nextButton.setImageResource(R.drawable.next_unenabled)
-          //  binding.nextButton.isEnabled = false
+            binding.nextButton.isEnabled = false
             binding.phoneNumber.setBackgroundResource(R.drawable.rounded_corner_field_red)
             binding.ccpLayout.setBackgroundResource(R.drawable.rounded_corner_field_red)
             binding.phoneNumber.setTextColor(resources.getColor(R.color.red))
