@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
@@ -36,22 +37,37 @@ import com.google.maps.android.SphericalUtil
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
+import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
+import com.mevron.rides.driver.location.ui.LocationViewModel
+import com.mevron.rides.driver.location.ui.event.LocationEvent
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.remote.socket.SocketHandler
+import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.service.LocationService
+import com.mevron.rides.driver.service.PermissionRequestRationaleListener
+import com.mevron.rides.driver.service.PermissionsRequestManager
 import com.mevron.rides.driver.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 @AndroidEntryPoint
 
-class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverStatusClickListener {
+class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverStatusClickListener,
+    PermissionRequestRationaleListener {
 
     private lateinit var binding: HomeFragmentBinding
+
+    private lateinit var permissionRequestManager: PermissionsRequestManager
+
+    @Inject
+    lateinit var socketManager: ISocketManager
+
+    private val locationViewModel : LocationViewModel by viewModels()
 
     // TODO move logic to viewModel
     private var isOnline = false
@@ -108,9 +124,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
 
         mapView = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
 
+        startLocationUpdate()
+
 //        binding.mevronHomeBottom.statusView.setOnClickListener {
 //            findNavController().navigate(R.id.action_global_documentCheckFragment)
 //        }
+
+        permissionRequestManager = PermissionsRequestManager(
+            context = activity as RideActivity,
+            this
+        )
 
         binding.mevronHomeBottom.driverStatus.setClickEventListener(this)
 
@@ -136,15 +159,26 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
-        val intent = Intent(context, LocationService::class.java)
-        activity?.bindService(intent, connection, Context.BIND_AUTO_CREATE)
-        mapView.getMapAsync(this)
+    }
+
+    private fun startLocationUpdate() {
+        permissionRequestManager.withPermissionChecked(
+            onGranted = {
+                locationViewModel.onEventReceived(LocationEvent.StartLocationUpdate)
+                socketManager.connect()
+                mapView.getMapAsync(this)
+                viewModel.onEventReceived(HomeViewEvent.LocationStarted(isStarted = true))
+            },
+            onNoPermission = {
+                permissionRequestManager.requestFineLocationPermission(activity as RideActivity)
+            }
+        )
     }
 
     override fun onStop() {
         super.onStop()
         mbound = false
-        activity?.unbindService(connection)
+//        activity?.unbindService(connection)
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -344,14 +378,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
         return activity?.let { LocationServices.getFusedLocationProviderClient(it) }
     }
 
+    @Deprecated("Logic will be moved to [RideActivity]")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == Constants.LOCATION_REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            mapView.getMapAsync(this)
+        permissionRequestManager.onRequestPermissionResult(requestCode, permissions, grantResults) {
+            // TODO we want to show a dialog as to why they need to show permission
+            // or we quit the app.
         }
     }
 
@@ -408,5 +443,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
                 displayLocationSettingsRequest(binding)
             }
         }?.addOnFailureListener { it.printStackTrace() }
+    }
+
+    override fun onPermissionGranted() {
+        startLocationUpdate()
+    }
+
+    override fun onPermissionRejected() {
+        // TODO what should we do if they reject location permission
     }
 }

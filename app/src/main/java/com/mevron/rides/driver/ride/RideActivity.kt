@@ -20,15 +20,16 @@ import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.util.Constants
 import com.mevron.rides.driver.util.Screen
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RideActivity : AppCompatActivity() {
-
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
@@ -40,9 +41,7 @@ class RideActivity : AppCompatActivity() {
     private lateinit var image: CircleImageView
     private lateinit var rating: RatingBar
 
-
     val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,6 +118,4 @@ val gson = Gson()
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
-
-
 }

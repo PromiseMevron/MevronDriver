@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.databinding.ViewDriverStatusBinding
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 
 class DriverStatusWidget @JvmOverloads constructor(
@@ -15,26 +15,29 @@ class DriverStatusWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr), View.OnClickListener {
 
+    private var earnings: ImageView
+    private var drive: ImageView
+    private var goOnline: ImageView
+
     init {
         LayoutInflater.from(context).inflate(R.layout.view_driver_status, this, true)
+        earnings = findViewById(R.id.earnings)
+        drive = findViewById(R.id.drive)
+        goOnline = findViewById(R.id.go_online)
+        earnings.setOnClickListener(this)
+        drive.setOnClickListener(this)
+        goOnline.setOnClickListener(this)
     }
 
     private var eventListener: DriverStatusClickListener? = null
 
-    private lateinit var binding: ViewDriverStatusBinding
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        binding = ViewDriverStatusBinding.bind(this)
-    }
-
     fun toggleDrive(shouldToggleDrive: Boolean) {
         if (shouldToggleDrive) {
-            binding.earnings.setImageResource(R.drawable.ic_earning_un)
-            binding.drive.setImageResource(R.drawable.ic_drive)
+            earnings.setImageResource(R.drawable.ic_earning_un)
+            drive.setImageResource(R.drawable.ic_drive)
         } else {
-            binding.earnings.setImageResource(R.drawable.ic_earning)
-            binding.drive.setImageResource(R.drawable.ic_drive_un)
+            earnings.setImageResource(R.drawable.ic_earning)
+            drive.setImageResource(R.drawable.ic_drive_un)
         }
     }
 
@@ -44,9 +47,9 @@ class DriverStatusWidget @JvmOverloads constructor(
 
     fun toggleOnlineStatus(isOnline: Boolean) {
         if (isOnline) {
-            binding.goOnline.setImageResource(R.drawable.ic_go_online)
+            goOnline.setImageResource(R.drawable.ic_go_online)
         } else {
-            binding.goOnline.setImageResource(R.drawable.ic_offline)
+            goOnline.setImageResource(R.drawable.ic_offline)
         }
     }
 

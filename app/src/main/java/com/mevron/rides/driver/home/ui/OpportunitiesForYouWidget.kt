@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.ViewOpportunityForYouBinding
+import com.mevron.rides.driver.widgets.viewBinding
 
 class OpportunitiesForYouWidget @JvmOverloads constructor(
     context: Context,
@@ -13,14 +14,9 @@ class OpportunitiesForYouWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr) {
 
-    private lateinit var binding: ViewOpportunityForYouBinding
-
     init {
         LayoutInflater.from(context).inflate(R.layout.view_opportunity_for_you, this, true)
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        binding = ViewOpportunityForYouBinding.bind(this)
-    }
+    private val binding by viewBinding(ViewOpportunityForYouBinding::bind)
 }

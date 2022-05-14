@@ -8,7 +8,8 @@ data class HomeViewState(
     val documentSubmissionStatus: DocumentSubmissionStatus,
     val errorMessage: String,
     val isLoadingDocuments: Boolean,
-    val isLoadingOnlineStatus: Boolean
+    val isLoadingOnlineStatus: Boolean,
+    val isLocationUpdating: Boolean
 ) {
     companion object {
         val EMPTY = HomeViewState(
@@ -17,7 +18,8 @@ data class HomeViewState(
             documentSubmissionStatus = DocumentSubmissionStatus.OKAY,
             errorMessage = "",
             isLoadingDocuments = false,
-            isLoadingOnlineStatus = false
+            isLoadingOnlineStatus = false,
+            isLocationUpdating = false
         )
     }
 }
@@ -28,12 +30,14 @@ fun HomeViewState.transform(
     isDriveActive: Boolean? = null,
     errorMessage: String? = null,
     isLoadingDocuments: Boolean? = null,
-    isLoadingOnlineStatus: Boolean? = null
+    isLoadingOnlineStatus: Boolean? = null,
+    isLocationUpdating: Boolean? = null
 ) = copy(
     isDriveActive = isDriveActive ?: this.isDriveActive,
     isOnline = isOnline ?: this.isOnline,
     documentSubmissionStatus = documentSubmissionStatus ?: this.documentSubmissionStatus,
     errorMessage = errorMessage ?: this.errorMessage,
     isLoadingDocuments = isLoadingDocuments ?: this.isLoadingDocuments,
-    isLoadingOnlineStatus = isLoadingOnlineStatus ?: this.isLoadingOnlineStatus
+    isLoadingOnlineStatus = isLoadingOnlineStatus ?: this.isLoadingOnlineStatus,
+    isLocationUpdating = isLocationUpdating ?: this.isLocationUpdating
 )

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.ViewLearningHubBinding
+import com.mevron.rides.driver.widgets.viewBinding
 
 class LearningHubWidget @JvmOverloads constructor(
     context: Context,
@@ -13,14 +14,9 @@ class LearningHubWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr) {
 
-    private lateinit var binding: ViewLearningHubBinding
-
     init {
         LayoutInflater.from(context).inflate(R.layout.view_learning_hub, this, true)
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        binding = ViewLearningHubBinding.bind(this)
-    }
+   private val binding by viewBinding(ViewLearningHubBinding::bind)
 }
