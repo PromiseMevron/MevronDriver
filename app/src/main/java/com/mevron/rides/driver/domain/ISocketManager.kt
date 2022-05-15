@@ -1,7 +1,5 @@
 package com.mevron.rides.driver.domain
 
-import java.util.concurrent.Flow
-
 interface ISocketManager {
 
     val isConnected: Boolean

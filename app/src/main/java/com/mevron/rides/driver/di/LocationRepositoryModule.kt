@@ -4,6 +4,7 @@ import android.content.Context
 import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.location.data.AppLocationManager
 import com.mevron.rides.driver.location.data.LocationRepository
+import com.mevron.rides.driver.location.domain.repository.IAppLocationManager
 import com.mevron.rides.driver.location.domain.repository.ILocationRepository
 import dagger.Module
 import dagger.Provides
@@ -20,12 +21,12 @@ object LocationRepositoryModule {
     @Singleton
     fun provideLocationManager(
         @ApplicationContext context: Context
-    ): AppLocationManager = AppLocationManager(context)
+    ): IAppLocationManager = AppLocationManager(context)
 
     @Provides
     @Singleton
     fun provideLocationRepository(
-        locationManager: AppLocationManager,
+        locationManager: IAppLocationManager,
         socketManager: ISocketManager
     ): ILocationRepository = LocationRepository(locationManager, socketManager)
 }

@@ -1,38 +1,35 @@
 package com.mevron.rides.driver.home
 
-import android.Manifest
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
-import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
-import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.Circle
+import com.google.android.gms.maps.model.CircleOptions
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.SphericalUtil
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
@@ -42,18 +39,20 @@ import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 import com.mevron.rides.driver.location.ui.LocationViewModel
 import com.mevron.rides.driver.location.ui.event.LocationEvent
-import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.remote.socket.SocketHandler
 import com.mevron.rides.driver.ride.RideActivity
-import com.mevron.rides.driver.service.LocationService
 import com.mevron.rides.driver.service.PermissionRequestRationaleListener
 import com.mevron.rides.driver.service.PermissionsRequestManager
-import com.mevron.rides.driver.util.*
+import com.mevron.rides.driver.util.Constants
+import com.mevron.rides.driver.util.LocationModel
+import com.mevron.rides.driver.util.bitmapFromVector
+import com.mevron.rides.driver.util.getLng
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+
 
 @AndroidEntryPoint
 
@@ -67,18 +66,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
     @Inject
     lateinit var socketManager: ISocketManager
 
-    private val locationViewModel : LocationViewModel by viewModels()
-
-    // TODO move logic to viewModel
-    private var isOnline = false
+    private val locationViewModel: LocationViewModel by viewModels()
 
     companion object {
         fun newInstance() = HomeFragment()
     }
 
-    private var mbound = false
-    private var locService: LocationService? = null
-    private lateinit var gMap: GoogleMap
+    private lateinit var googleMap: GoogleMap
     private lateinit var mapView: SupportMapFragment
     private var lat1: Double = 0.0
     private var lng1: Double = 0.0
@@ -91,20 +85,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
     var strokeColor = -0x10000 //Color Code you want
 
     var shadeColor = 0x44ff0000
-
-    // TODO refactor this to own file
-    private val connection = object : ServiceConnection {
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            mbound = false
-        }
-
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            val binder = service as LocationService.LocationLocalBinder
-            locService = binder.getService()
-            mbound = true
-        }
-    }
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
@@ -121,19 +101,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomSheetBehavior = BottomSheetBehavior.from(binding.mevronHomeBottom.bottomSheet)
-
-        mapView = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
-
-        startLocationUpdate()
-
-//        binding.mevronHomeBottom.statusView.setOnClickListener {
-//            findNavController().navigate(R.id.action_global_documentCheckFragment)
-//        }
-
         permissionRequestManager = PermissionsRequestManager(
             context = activity as RideActivity,
             this
         )
+
+        mapView = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+
+//        binding.mevronHomeBottom.statusView.setOnClickListener {
+//            findNavController().navigate(R.id.action_global_documentCheckFragment)
+//        }
 
         binding.mevronHomeBottom.driverStatus.setClickEventListener(this)
 
@@ -143,14 +120,47 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
                 binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(state.isOnline)
             }
         }
+
+        lifecycleScope.launch {
+            locationViewModel.currentLocationState.collect {
+                it?.let { location ->
+                    lat1 = location.latitude
+                    lng1 = location.longitude
+
+                    addMarkerToMap(location.latitude, location.longitude, fromMap = true)
+                    val currentLocation = LatLng(location.latitude, location.longitude)
+                    val cameraPosition = CameraPosition.Builder()
+                        .bearing(location.bearing)
+                        .target(currentLocation)
+                        .zoom(18.5.toFloat())
+                        .build()
+                    val sPref = App.ApplicationContext.getSharedPreferences(
+                        Constants.SHARED_PREF_KEY,
+                        Context.MODE_PRIVATE
+                    )
+                    val editor = sPref.edit()
+                    editor.putString(Constants.LAT, currentLocation.latitude.toString())
+                    editor.putString(Constants.LNG, currentLocation.longitude.toString())
+                    editor.apply()
+                    SocketHandler.setSocket(
+                        "",
+                        currentLocation.latitude.toString(),
+                        currentLocation.longitude.toString()
+                    )
+                    SocketHandler.establishConnection()
+                    subscribeToListenForRequest()
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                }
+            }
+        }
     }
 
     override fun onStart() {
         super.onStart()
+        startLocationUpdate()
         drawerLayout = activity?.findViewById(R.id.drawer_layout)!!
         drawer = binding.drawerButton
         drawer.setOnClickListener {
-
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
 
                 drawerLayout.closeDrawer(GravityCompat.START)
@@ -164,10 +174,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
     private fun startLocationUpdate() {
         permissionRequestManager.withPermissionChecked(
             onGranted = {
-                locationViewModel.onEventReceived(LocationEvent.StartLocationUpdate)
-                socketManager.connect()
                 mapView.getMapAsync(this)
+                locationViewModel.onEventReceived(LocationEvent.RequestLastLocation)
+                locationViewModel.onEventReceived(LocationEvent.StartLocationUpdate)
                 viewModel.onEventReceived(HomeViewEvent.LocationStarted(isStarted = true))
+                socketManager.connect()
             },
             onNoPermission = {
                 permissionRequestManager.requestFineLocationPermission(activity as RideActivity)
@@ -175,94 +186,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
         )
     }
 
-    override fun onStop() {
-        super.onStop()
-        mbound = false
-//        activity?.unbindService(connection)
-    }
-
     override fun onMapReady(googleMap: GoogleMap?) {
         if (googleMap != null) {
-            gMap = googleMap
-
+            this.googleMap = googleMap
         }
         MapsInitializer.initialize(activity?.applicationContext)
-
-
-        if (context?.let {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            }
-            != PackageManager.PERMISSION_GRANTED && context?.let {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            } != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ), Constants.LOCATION_REQUEST_CODE
-            )
-            return
-        }
-        getLocationProvider()?.lastLocation?.addOnSuccessListener {
-            //  Toast.makeText(context, "22", Toast.LENGTH_LONG).show()
-            val location = it
-
-            if (location != null) {
-                lat1 = location.latitude
-                lng1 = location.longitude
-
-
-                addMarkerToMap(location.latitude, location.longitude, fromMap = true)
-                val currentLocation = LatLng(location.latitude, location.longitude)
-                val cameraPosition = CameraPosition.Builder()
-                    .bearing(0.toFloat())
-                    .target(currentLocation)
-                    .zoom(18.5.toFloat())
-                    .build()
-                val sPref = App.ApplicationContext.getSharedPreferences(
-                    Constants.SHARED_PREF_KEY,
-                    Context.MODE_PRIVATE
-                )
-                val editor = sPref.edit()
-                editor.putString(Constants.LAT, currentLocation.latitude.toString())
-                editor.putString(Constants.LNG, currentLocation.longitude.toString())
-                editor.apply()
-                SocketHandler.setSocket(
-                    "",
-                    currentLocation.latitude.toString(),
-                    currentLocation.longitude.toString()
-                )
-                SocketHandler.establishConnection()
-                subscribeToListenForRequest()
-                googleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-
-                val mLocationManager = context?.let { ctx ->
-                    ctx.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                }
-
-                mLocationManager?.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    4000.toLong(),
-                    0.toFloat(),
-                    this
-                )
-
-            } else {
-                displayLocationSettingsRequest(binding)
-            }
-        }
-            ?.addOnFailureListener {
-                it.printStackTrace()
-            }
     }
 
-    fun addMarkerToMap(lat: Double, lng: Double, fromMap: Boolean = false) {
+    private fun addMarkerToMap(lat: Double, lng: Double, fromMap: Boolean = false) {
         val lg = LatLng(lat1, lng1)
         val lg2 = LatLng(lat, lng)
         if (lg == lg2 && !fromMap) {
@@ -273,22 +204,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
             val addCircle = CircleOptions().center(LatLng(lat, lng)).radius(radiusInMeters)
                 .fillColor(shadeColor)
                 .strokeColor(strokeColor).strokeWidth(8f)
-            mCircle = gMap.addCircle(addCircle)
+            mCircle = googleMap.addCircle(addCircle)
             val rot = SphericalUtil.computeHeading(lg, lg2).toFloat()
             val marker = MarkerOptions()
                 .position(lg2)
                 .icon(bitmapFromVector(R.drawable.group))
                 .rotation(rot)
-            gMap.clear()
-            gMap.addMarker(marker)
-            gMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat, lng)))
-            gMap.animateCamera(CameraUpdateFactory.zoomTo(18.5f))
+            googleMap.clear()
+            googleMap.addMarker(marker)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(lat, lng)))
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(18.5f))
             lat1 = lat
             lng1 = lng
         }
     }
 
-    fun subscribeToListenForRequest() {
+    private fun subscribeToListenForRequest() {
         Toast.makeText(context, "44" + getLng(), Toast.LENGTH_SHORT).show()
 
         val s1 = SocketHandler.getSocket()
@@ -315,7 +246,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
                     //   val action = HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2)
                     // findNavController().navigate(action)
                 }
-
             }
 
             /*     "trip": {
@@ -404,45 +334,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
     }
 
     override fun goOnlineClick() {
-        // TODO move logic for online to viewModel
-        binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(!isOnline)
-        isOnline = !isOnline
-
-        if (context?.let {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            }
-            != PackageManager.PERMISSION_GRANTED && context?.let {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            } != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ), Constants.LOCATION_REQUEST_CODE
-            )
-            //Toast.makeText(context, "44", Toast.LENGTH_LONG).show()
-            return
-        }
-        getLocationProvider()?.lastLocation?.addOnSuccessListener {
-            //  Toast.makeText(context, "22 $it", Toast.LENGTH_LONG).show()
-            val location = it
-            if (location != null) {
-                //  Toast.makeText(context, "33", Toast.LENGTH_LONG).show()
-                //   binding.mevronHomeBottom.goOnline.visibility = View.GONE
-                //  binding.mevronHomeBottom.toggleIndicatorOnline.visibility = View.VISIBLE
-
-                // toggleStatus(true)
-
-            } else {
-                displayLocationSettingsRequest(binding)
-            }
-        }?.addOnFailureListener { it.printStackTrace() }
+        viewModel.onEventReceived(HomeViewEvent.OnToggleOnlineClick)
     }
 
     override fun onPermissionGranted() {

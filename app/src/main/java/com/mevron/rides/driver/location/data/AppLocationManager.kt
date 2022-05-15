@@ -4,13 +4,18 @@ import android.Manifest
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Build
 import android.util.Log
 import androidx.annotation.MainThread
+import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.mevron.rides.driver.location.LocationUpdatesBroadcastReceiver
+import com.mevron.rides.driver.location.domain.model.LocationData
+import com.mevron.rides.driver.location.domain.repository.IAppLocationManager
 import com.mevron.rides.driver.location.hasPermission
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,23 +24,27 @@ import kotlinx.coroutines.flow.StateFlow
 
 private const val TAG = "AppLocationManager"
 
-class AppLocationManager(private val context: Context) {
+class AppLocationManager(private val context: Context) : IAppLocationManager {
 
     private val _receivingLocationUpdates: MutableStateFlow<Boolean> =
-        MutableStateFlow<Boolean>(false)
+        MutableStateFlow(false)
 
     /**
      * Status of location updates, i.e., whether the app is actively subscribed to location changes.
      */
-    val receivingLocationUpdates: StateFlow<Boolean>
+    override val receivingLocationUpdates: StateFlow<Boolean>
         get() = _receivingLocationUpdates
+
+    private val _lastLocation: MutableStateFlow<LocationData?> = MutableStateFlow(null)
+    override val lastLocationData: StateFlow<LocationData?>
+        get() = _lastLocation
 
     // The Fused Location Provider provides access to location APIs.
     private val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
 
     // Stores parameters for requests to the FusedLocationProviderApi.
-    private val locationRequest: LocationRequest = LocationRequest().apply {
+    private val locationRequest: LocationRequest = LocationRequest.create().apply {
         // Sets the desired interval for active location updates. This interval is inexact. You
         // may not receive updates at all if no location sources are available, or you may
         // receive them slower than requested. You may also receive updates faster than
@@ -44,15 +53,15 @@ class AppLocationManager(private val context: Context) {
         // IMPORTANT NOTE: Apps running on "O" devices (regardless of targetSdkVersion) may
         // receive updates less frequently than this interval when the app is no longer in the
         // foreground.
-        interval = TimeUnit.SECONDS.toMillis(60)
+        interval = TimeUnit.SECONDS.toMillis(4)
 
         // Sets the fastest rate for active location updates. This interval is exact, and your
         // application will never receive updates faster than this value.
-        fastestInterval = TimeUnit.SECONDS.toMillis(30)
+        fastestInterval = TimeUnit.SECONDS.toMillis(4)
 
         // Sets the maximum time when batched location updates are delivered. Updates may be
         // delivered sooner than this interval.
-        maxWaitTime = TimeUnit.MINUTES.toMillis(2)
+        maxWaitTime = TimeUnit.MINUTES.toMillis(0)
 
         priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
@@ -89,8 +98,8 @@ class AppLocationManager(private val context: Context) {
      * FusedLocationClient's requestLocationUpdates() has been completed.
      */
     @Throws(SecurityException::class)
-    @MainThread
-    fun startLocationUpdates() {
+    override fun startLocationUpdates() {
+        requestLastLocation()
         Log.d(TAG, "startLocationUpdates()")
 
         if (!context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) return
@@ -111,9 +120,35 @@ class AppLocationManager(private val context: Context) {
     }
 
     @MainThread
-    fun stopLocationUpdates() {
+    override fun stopLocationUpdates() {
         Log.d(TAG, "stopLocationUpdates()")
         _receivingLocationUpdates.value = false
         fusedLocationClient.removeLocationUpdates(locationUpdatePendingIntent)
     }
+
+    @MainThread
+    override fun requestLastLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        getLocationProvider()?.lastLocation?.addOnSuccessListener {
+            _lastLocation.value = it.toLocationData()
+        }
+    }
+
+    private fun getLocationProvider(): FusedLocationProviderClient? = fusedLocationClient
+
+    private fun Location.toLocationData(): LocationData = LocationData(
+        latitude = this.latitude,
+        longitude = this.longitude,
+        bearing = this.bearing,
+        isForeground = true
+    )
 }

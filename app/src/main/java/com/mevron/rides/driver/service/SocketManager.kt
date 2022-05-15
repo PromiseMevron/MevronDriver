@@ -11,32 +11,42 @@ private const val SOCKET_URL =
 
 class SocketManager(private val preferenceRepository: IPreferenceRepository) : ISocketManager {
 
-    private lateinit var socket: io.socket.client.Socket
+    private var socket: io.socket.client.Socket? = null
 
     override val isConnected: Boolean
-        get() = socket.isActive
+        get() = socket?.isActive ?: false
 
     override fun connect() {
         try {
-            socket = IO.socket(SOCKET_URL)
+            if (socket == null) {
+                socket = IO.socket(SOCKET_URL)
+            }
         } catch (e: URISyntaxException) {
             throw RuntimeException(e)
         }
 
         // manage events.
-
-        socket.open()
+        socket?.let { socketInstance ->
+            if (!socketInstance.isActive) {
+                socketInstance.open()
+            }
+        }
     }
 
     override fun disconnect() {
-        if (socket.isActive) {
-            socket.disconnect()
+        val currentSocket = socket
+        if (currentSocket != null) {
+            if (currentSocket.isActive) {
+                currentSocket.disconnect()
+                socket = null
+            }
         }
     }
 
     override fun <T> emitEvent(event: SocketEvent, data: T) {
         // process events from outside
-        if (!socket.isActive) {
+        val currentSocket = socket ?: return
+        if (!currentSocket.isActive) {
             // enqueue event and connect to be dequeued on connection
             connect()
         } else {

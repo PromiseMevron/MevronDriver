@@ -45,10 +45,12 @@ class LocationUpdatesBroadcastReceiver : HiltBroadcastReceiver() {
                     LocationData(
                         latitude = location.latitude,
                         longitude = location.longitude,
-                        foreground = isAppInForeground(context)
+                        bearing = location.bearing,
+                        isForeground = isAppInForeground(context)
                     )
                 }
                 if (locations.isNotEmpty()) {
+                    Log.d(TAG, "Sending Location")
                     repository.sendLocations(locations)
                 }
             } ?: Log.e(TAG, "Error loading result")

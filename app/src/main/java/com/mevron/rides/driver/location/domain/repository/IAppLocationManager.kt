@@ -1,16 +1,12 @@
 package com.mevron.rides.driver.location.domain.repository
 
-import androidx.annotation.MainThread
 import com.mevron.rides.driver.location.domain.model.LocationData
 import kotlinx.coroutines.flow.StateFlow
 
-interface ILocationRepository {
-    val receivingLocationUpdates: StateFlow<Boolean>
-    fun sendLocations(locations: List<LocationData>)
-
+interface IAppLocationManager {
+    fun requestLastLocation()
     fun startLocationUpdates()
-
     fun stopLocationUpdates()
-
-    val lastLocation: StateFlow<LocationData?>
+    val receivingLocationUpdates: StateFlow<Boolean>
+    val lastLocationData: StateFlow<LocationData?>
 }

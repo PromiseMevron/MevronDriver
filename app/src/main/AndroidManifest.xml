@@ -84,6 +84,10 @@
                 <action android:name="com.mevron.rides.driver.location.location.LocationUpdatesBroadcastReceiver.action.PROCESS_UPDATES" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".location.service.LocationService"
+            android:exported="false"/>
     </application>
 
 </manifest>
