@@ -73,8 +73,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
-    // Work manager
-    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-core:3.1.0'
 
     //mapbox
    // implementation 'com.mapbox.maps:android:10.4.0'

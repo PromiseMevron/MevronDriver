@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -16,9 +15,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
@@ -44,14 +40,11 @@ import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.service.PermissionRequestRationaleListener
 import com.mevron.rides.driver.service.PermissionsRequestManager
 import com.mevron.rides.driver.util.Constants
-import com.mevron.rides.driver.util.LocationModel
 import com.mevron.rides.driver.util.bitmapFromVector
-import com.mevron.rides.driver.util.getLng
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 
 @AndroidEntryPoint
@@ -62,9 +55,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
     private lateinit var binding: HomeFragmentBinding
 
     private lateinit var permissionRequestManager: PermissionsRequestManager
-
-    @Inject
-    lateinit var socketManager: ISocketManager
 
     private val locationViewModel: LocationViewModel by viewModels()
 
@@ -148,7 +138,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
                         currentLocation.longitude.toString()
                     )
                     SocketHandler.establishConnection()
-                    subscribeToListenForRequest()
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
                 }
             }
@@ -178,7 +167,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
                 locationViewModel.onEventReceived(LocationEvent.RequestLastLocation)
                 locationViewModel.onEventReceived(LocationEvent.StartLocationUpdate)
                 viewModel.onEventReceived(HomeViewEvent.LocationStarted(isStarted = true))
-                socketManager.connect()
             },
             onNoPermission = {
                 permissionRequestManager.requestFineLocationPermission(activity as RideActivity)
@@ -217,95 +205,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener, DriverSta
             lat1 = lat
             lng1 = lng
         }
-    }
-
-    private fun subscribeToListenForRequest() {
-        Toast.makeText(context, "44" + getLng(), Toast.LENGTH_SHORT).show()
-
-        val s1 = SocketHandler.getSocket()
-        s1?.on("ride_requests") {
-            activity?.runOnUiThread {
-                Toast.makeText(context, "55" + getLng(), Toast.LENGTH_SHORT).show()
-
-                val dt = it[0] as? JSONObject
-                val trip = dt?.get("trip") as? JSONObject
-                val code = trip?.get("uuid") as? String ?: ""
-                val verify = trip?.get("verificationCode") as? String ?: ""
-                val lat1 = trip?.get("pickupLatitude") as? String ?: "0"
-                val lat2 = trip?.get("destinationLatitude") as? String ?: "0"
-                val lng1 = trip?.get("pickupLongitude") as? String ?: "0"
-                val lng2 = trip?.get("destinationLongitude") as? String ?: "0"
-                val add1 = trip?.get("pickupAddress") as? String ?: ""
-                val add2 = trip?.get("destinationAddress") as? String ?: ""
-                val loc = LocationModel(lat = lat1.toDouble(), lng = lng1.toDouble(), add1)
-                val loc2 = LocationModel(lat = lat2.toDouble(), lng = lng2.toDouble(), add2)
-                val action =
-                    HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2, verify)
-                findNavController().navigate(action)
-                if (theStatus) {
-                    //   val action = HomeFragmentDirections.actionGlobalRideRequestFragment(code, loc, loc2)
-                    // findNavController().navigate(action)
-                }
-            }
-
-            /*     "trip": {
-          "id": 94,
-          "uuid": "86ba5756-954f-4d04-b94c-1aa7f000c858",
-          "rider_id": "fcab6503-3dd0-43e4-ad4c-79331a5a9ca1",
-          "startTime": "00:00",
-          "endTime": "00:00",
-          "verificationCode": "1184",
-          "pickupAddress": "Anchor University",
-          "pickupLongitude": "3.2419436",
-          "pickupLatitude": "6.6039714",
-          "destinationAddress": "Iyana - Ipaja Bridge",
-          "destinationLatitude": "6.6199029",
-          "destinationLongitude": "3.2827014",
-          "minEstimatedCost": 0,
-          "maxEstimatedCost": 0,
-          "estimatedDistance": 0,
-          "amount": 0,
-          "status": "pending",
-          "paymentMethod": "cash",
-          "vehicleType": "standard",
-          "updatedAt": "2022-03-07T10:06:39.641Z",
-          "createdAt": "2022-03-07T10:06:39.641Z"
-      }
-
-              }*/
-        }
-        /* if (s1?.connected() == false){
-             SocketHandler.setSocket("", "", "")
-             val s = SocketHandler.getSocket()
-             s?.on("ride_requests"){
-                 activity?.runOnUiThread {
-                     Toast.makeText(context, "worked", Toast.LENGTH_SHORT).show()
-                     findNavController().navigate(R.id.action_global_rideRequestFragment)
-                 }
-             }
-         }else{
-
-             s1?.on("ride_requests"){
-                 activity?.runOnUiThread {
-                     Toast.makeText(context, "worked", Toast.LENGTH_SHORT).show()
-                     findNavController().navigate(R.id.action_global_rideRequestFragment)
-                 }
-             }
-         }*/
-
-
-        /*    if (SocketHandler.getSocket() == null){
-                getUIID()?.let { getLng()?.let { it1 -> getLat()?.let { it2 -> SocketHandler.setSocket(uiid = it, lng = it1, lat = it2)
-                    SocketHandler.establishConnection()
-            }
-                    findNavController().navigate(R.id.action_global_rideRequestFragment)
-
-
-        } } }*/
-    }
-
-    private fun getLocationProvider(): FusedLocationProviderClient? {
-        return activity?.let { LocationServices.getFusedLocationProviderClient(it) }
     }
 
     @Deprecated("Logic will be moved to [RideActivity]")

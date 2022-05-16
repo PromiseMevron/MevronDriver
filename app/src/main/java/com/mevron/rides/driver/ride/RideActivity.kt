@@ -41,11 +41,17 @@ class RideActivity : AppCompatActivity() {
     private lateinit var image: CircleImageView
     private lateinit var rating: RatingBar
 
+    @Inject
+    lateinit var socketManager: ISocketManager
+
     val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ride)
+
+        socketManager.connect()
+
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
         val widthOfNav = (Screen.width) * 0.9

@@ -5,30 +5,40 @@ import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.domain.SocketEvent
 import io.socket.client.IO
 import java.net.URISyntaxException
+import java.util.PriorityQueue
+import java.util.Queue
 
-private const val SOCKET_URL =
-    "http://staging.mevron.com:8083/?uuid=87b86a05-45cb-40de-a1bf-92fd83625888&lat=6.6000652&long=3.2390875"
+private const val TAG = "_SocketManager"
+private const val SOCKET_URL = "http://staging.mevron.com:8083/"
 
 class SocketManager(private val preferenceRepository: IPreferenceRepository) : ISocketManager {
 
     private var socket: io.socket.client.Socket? = null
+
+    private val eventQueue: Queue<SocketEvent> = PriorityQueue()
 
     override val isConnected: Boolean
         get() = socket?.isActive ?: false
 
     override fun connect() {
         try {
-            if (socket == null) {
-                socket = IO.socket(SOCKET_URL)
-            }
+            socket = IO.socket(SOCKET_URL)
         } catch (e: URISyntaxException) {
             throw RuntimeException(e)
         }
+
+        socket?.open()
 
         // manage events.
         socket?.let { socketInstance ->
             if (!socketInstance.isActive) {
                 socketInstance.open()
+                while (eventQueue.isNotEmpty()) {
+                    val currentEvent = eventQueue.poll()
+                    currentEvent?.let {
+                        socketInstance.emit(it.name, it.toJsonString())
+                    }
+                }
             }
         }
     }
@@ -43,14 +53,16 @@ class SocketManager(private val preferenceRepository: IPreferenceRepository) : I
         }
     }
 
-    override fun <T> emitEvent(event: SocketEvent, data: T) {
+    override fun emitEvent(event: SocketEvent) {
         // process events from outside
-        val currentSocket = socket ?: return
-        if (!currentSocket.isActive) {
+        val currentSocket = socket
+        if (currentSocket == null) {
             // enqueue event and connect to be dequeued on connection
+            eventQueue.offer(event)
             connect()
         } else {
-            // emit the event from the socket.
+            if (!currentSocket.isActive) connect()
+            currentSocket.emit(event.name, event.toJsonString())
         }
     }
 }
