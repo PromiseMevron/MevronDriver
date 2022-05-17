@@ -31,6 +31,7 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.google.maps.android.SphericalUtil
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
@@ -38,6 +39,7 @@ import com.mevron.rides.driver.databinding.HomeFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.remote.socket.SocketHandler
 import com.mevron.rides.driver.service.LocationService
+import com.mevron.rides.driver.service.UpdateLocationModel
 import com.mevron.rides.driver.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
@@ -385,13 +387,29 @@ class HomeFragment : Fragment(), OnMapReadyCallback, LocationListener {
     }
 
     fun subscribeToListenForRequest(){
+        print("the respone is for sending query")
+        val s1 = SocketHandler.getSocket()
+        val jo = JSONObject()
+        jo.put("lat", "5555")
+        jo.put("long", "333333")
+        jo.put("uuid", "222222")
+        jo.put("trip_id", "212122")
+
+        s1?.emit("connected", jo)
+
+    //    val update2 = UpdateLocationModel(lat = it.latitude.toString(), long = it.longitude.toString(), trip_id = tripID)
+      //  val json2 = Gson().toJson(update2)
+        s1?.emit("trip_status", jo)
+
+
+
         Toast.makeText(context, "44" +getLng(), Toast.LENGTH_SHORT).show()
 
-        val s1 = SocketHandler.getSocket()
-        s1?.on("ride_requests"){
+
+        s1?.on("event"){
             activity?.runOnUiThread {
                 Toast.makeText(context, "55" +getLng(), Toast.LENGTH_SHORT).show()
-
+                print("the respone is 555 $it")
                 val dt = it[0] as? JSONObject
                 val trip = dt?.get("trip") as? JSONObject
                 val  code = trip?.get("uuid") as? String ?: ""
