@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mevron.rides.driver.location.domain.model.LocationData
 import com.mevron.rides.driver.location.domain.usecase.LastLocationUseCase
+import com.mevron.rides.driver.location.domain.usecase.LiveLocationUseCase
 import com.mevron.rides.driver.location.domain.usecase.StartLocationUpdatesUseCase
 import com.mevron.rides.driver.location.domain.usecase.StopLocationUpdatesUseCase
 import com.mevron.rides.driver.location.ui.event.LocationEvent
@@ -19,13 +20,16 @@ import kotlinx.coroutines.launch
 class LocationViewModel @Inject constructor(
     private val startLocationUpdatesUseCase: StartLocationUpdatesUseCase,
     private val stopLocationUpdatesUseCase: StopLocationUpdatesUseCase,
-    private val lastLocationUseCas: LastLocationUseCase
+    private val lastLocationUseCas: LastLocationUseCase,
+    private val liveLocationUseCase: LiveLocationUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<LocationData?> = MutableStateFlow(null)
 
     val state: StateFlow<LocationData?>
         get() = mutableState
+
+    val liveLocation: StateFlow<LocationData> = liveLocationUseCase()
 
     val currentLocationState: StateFlow<LocationData?> = lastLocationUseCas()
 

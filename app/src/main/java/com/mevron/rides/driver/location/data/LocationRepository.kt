@@ -59,5 +59,6 @@ class LocationRepository(
 
     override val currentLocationAtNow: StateFlow<LocationData?> = locationManager.lastLocationData
 
-    override val lastLocation: StateFlow<LocationData> = mutableLocation
+    override val lastLocation: StateFlow<LocationData>
+        get() = mutableLocation
 }

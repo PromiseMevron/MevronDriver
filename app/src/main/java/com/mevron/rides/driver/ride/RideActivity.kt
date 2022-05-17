@@ -1,12 +1,11 @@
 package com.mevron.rides.driver.ride
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -17,13 +16,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.Gson
+import com.mapbox.mapboxsdk.Mapbox
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.util.Constants
 import com.mevron.rides.driver.util.Screen
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
 import javax.inject.Inject
@@ -49,7 +47,6 @@ class RideActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ride)
-
         socketManager.connect()
 
         drawerLayout = findViewById(R.id.drawer_layout)

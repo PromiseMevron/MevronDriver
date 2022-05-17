@@ -31,7 +31,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildFeatures{
+    buildFeatures {
         dataBinding = true
     }
     kotlinOptions {
@@ -73,10 +73,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-core:3.1.0'
-
     //mapbox
-   // implementation 'com.mapbox.maps:android:10.4.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0'
 
     //Dimension
     implementation 'com.intuit.ssp:ssp-android:1.0.5'
@@ -162,13 +161,8 @@ dependencies {
     //implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.0.0'
     implementation("com.google.guava:guava:31.0.1-android")
 
-//mapbox
-//    implementation ('com.mapbox.maps:android:10.4.0'){
-//        exclude group: 'group_name', module: 'module_name'
-//    }
-
     //socket.io
-    implementation ('io.socket:socket.io-client:2.0.0') {
+    implementation('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
 }
