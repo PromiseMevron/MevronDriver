@@ -9,5 +9,5 @@ interface ILocationRepository {
     fun startLocationUpdates()
     fun stopLocationUpdates()
     val lastLocation: StateFlow<LocationData>
-    val currentLocationAtNow: StateFlow<LocationData?>
+    val liveLocation: StateFlow<LocationData?>
 }

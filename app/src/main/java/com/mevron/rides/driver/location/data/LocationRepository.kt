@@ -57,7 +57,7 @@ class LocationRepository(
      */
     override fun stopLocationUpdates() = locationManager.stopLocationUpdates()
 
-    override val currentLocationAtNow: StateFlow<LocationData?> = locationManager.lastLocationData
+    override val liveLocation: StateFlow<LocationData?> = locationManager.lastLocationData
 
     override val lastLocation: StateFlow<LocationData>
         get() = mutableLocation
