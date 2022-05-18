@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -17,11 +16,11 @@
             android:visibility="visible"
             android:layout_height="match_parent">
 
-            <fragment
-                android:id="@+id/mapView"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+
+            <com.mevron.rides.driver.home.map.MapBoxMapView
+                android:id="@+id/mapView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
         </RelativeLayout>
 
             <ImageButton

@@ -18,6 +18,7 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.autofocus" />
     <uses-feature android:name="android.hardware.flash" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:name=".App"
@@ -33,15 +34,17 @@
         <activity
             android:name=".IntroActivity"
             android:exported="true" >
+
+        </activity>
+        <activity
+            android:name=".ride.RideActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ride.RideActivity"
-            android:exported="false" />
         <activity
             android:name=".auth.AuthActivity"
             android:exported="true"
@@ -73,6 +76,18 @@
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" />
+
+        <receiver
+            android:name=".location.LocationUpdatesBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.mevron.rides.driver.location.location.LocationUpdatesBroadcastReceiver.action.PROCESS_UPDATES" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".location.service.LocationService"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -35,6 +35,7 @@ class HomeViewModel @Inject constructor(
             HomeViewEvent.OnDriveClick -> mutableState.update { it.transform(isDriveActive = true) }
             HomeViewEvent.OnEarningClick -> mutableState.update { it.transform(isDriveActive = false) }
             HomeViewEvent.OnToggleOnlineClick -> toggleOnlineStatus()
+            is HomeViewEvent.LocationStarted -> mutableState.update { it.transform() }
         }
 
     private fun toggleOnlineStatus() {

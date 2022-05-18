@@ -1,57 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:tag="driverStatus">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/curved_image"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_curved_image_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/curved_image"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_60sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_curved_image_large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/go_online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Go online button"
+        android:src="@drawable/ic_go_online"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/go_online"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@android:color/transparent"
-            android:contentDescription="Go online button"
-            android:src="@drawable/ic_go_online"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/drive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:contentDescription="Drive"
+        android:src="@drawable/ic_drive"
+        app:layout_constraintEnd_toStartOf="@id/go_online"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/curved_image" />
 
-        <ImageButton
-            android:id="@+id/drive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="Drive"
-            android:src="@drawable/ic_drive"
-            app:layout_constraintEnd_toStartOf="@id/go_online"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/curved_image" />
+    <ImageButton
+        android:id="@+id/earnings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:contentDescription="Earnings"
+        android:src="@drawable/ic_earning_un"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toEndOf="@id/go_online"
+        app:layout_constraintTop_toTopOf="@id/curved_image" />
 
-        <ImageButton
-            android:id="@+id/earnings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:contentDescription="Earnings"
-            android:src="@drawable/ic_earning_un"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toEndOf="@id/go_online"
-            app:layout_constraintTop_toTopOf="@id/curved_image" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

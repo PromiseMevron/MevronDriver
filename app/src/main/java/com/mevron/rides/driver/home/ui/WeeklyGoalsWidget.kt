@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.ViewWeeklyGoalsBinding
+import com.mevron.rides.driver.widgets.viewBinding
 
 class WeeklyGoalsWidget @JvmOverloads constructor(
     context: Context,
@@ -17,10 +18,5 @@ class WeeklyGoalsWidget @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.view_weekly_goals, this, true)
     }
 
-    private lateinit var binding: ViewWeeklyGoalsBinding
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        binding = ViewWeeklyGoalsBinding.bind(this)
-    }
+    private val binding by viewBinding(ViewWeeklyGoalsBinding::bind)
 }

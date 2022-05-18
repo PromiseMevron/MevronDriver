@@ -5,4 +5,5 @@ sealed interface HomeViewEvent {
     object OnDocumentSubmissionStatusClick: HomeViewEvent
     object OnDriveClick: HomeViewEvent
     object OnEarningClick: HomeViewEvent
+    data class LocationStarted(val isStarted: Boolean) : HomeViewEvent
 }

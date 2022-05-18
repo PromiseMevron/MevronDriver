@@ -1,12 +1,11 @@
 package com.mevron.rides.driver.ride
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -17,18 +16,18 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.Gson
+import com.mapbox.mapboxsdk.Mapbox
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.util.Constants
 import com.mevron.rides.driver.util.Screen
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RideActivity : AppCompatActivity() {
-
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
@@ -40,13 +39,16 @@ class RideActivity : AppCompatActivity() {
     private lateinit var image: CircleImageView
     private lateinit var rating: RatingBar
 
+    @Inject
+    lateinit var socketManager: ISocketManager
 
     val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ride)
+        socketManager.connect()
+
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
         val widthOfNav = (Screen.width) * 0.9
@@ -119,6 +121,4 @@ val gson = Gson()
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
-
-
 }

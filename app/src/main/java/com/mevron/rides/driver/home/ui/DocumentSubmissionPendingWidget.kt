@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.ViewDocumentSubmissionPendingBinding
+import com.mevron.rides.driver.widgets.viewBinding
 
 class DocumentSubmissionPendingWidget @JvmOverloads constructor(
     context: Context,
@@ -15,16 +16,11 @@ class DocumentSubmissionPendingWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr) {
 
-    private lateinit var binding: ViewDocumentSubmissionPendingBinding
-
     init {
         LayoutInflater.from(context).inflate(R.layout.view_document_submission_pending, this, true)
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        binding = ViewDocumentSubmissionPendingBinding.bind(this)
-    }
+    private val binding by viewBinding(ViewDocumentSubmissionPendingBinding::bind)
 
     fun hideView() {
         visibility = View.GONE

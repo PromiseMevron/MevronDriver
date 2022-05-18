@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.ViewHelpAndSupportBinding
+import com.mevron.rides.driver.widgets.viewBinding
 
 class HelpAndSupportWidget @JvmOverloads constructor(
     context: Context,
@@ -13,14 +14,9 @@ class HelpAndSupportWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr) {
 
-    private lateinit var binding: ViewHelpAndSupportBinding
-
     init {
         LayoutInflater.from(context).inflate(R.layout.view_help_and_support, this, true)
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        binding = ViewHelpAndSupportBinding.bind(this)
-    }
+    private val binding by viewBinding(ViewHelpAndSupportBinding::bind)
 }
