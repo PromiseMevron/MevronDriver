@@ -38,7 +38,7 @@ class LocationUpdatesBroadcastReceiver : HiltBroadcastReceiver() {
                 if (!locationAvailability.isLocationAvailable) {
                     Log.d(TAG, "Location services are no longer available!")
                 }
-            } ?: Log.e(TAG, "Error loading location")
+            }
 
             LocationResult.extractResult(intent)?.let { locationResult ->
                 val locations = locationResult.locations.map { location ->
@@ -53,7 +53,7 @@ class LocationUpdatesBroadcastReceiver : HiltBroadcastReceiver() {
                     Log.d(TAG, "Sending Location")
                     repository.sendLocations(locations)
                 }
-            } ?: Log.e(TAG, "Error loading result")
+            }
         }
     }
 
