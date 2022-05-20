@@ -74,8 +74,7 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
     //mapbox
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0'
+    implementation 'com.mapbox.maps:android:10.5.0'
 
     //Dimension
     implementation 'com.intuit.ssp:ssp-android:1.0.5'
