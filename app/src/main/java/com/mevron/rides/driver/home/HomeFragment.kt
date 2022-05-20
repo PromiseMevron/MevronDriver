@@ -1,7 +1,5 @@
 package com.mevron.rides.driver.home
 
-import android.location.Location
-import android.location.LocationListener
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,8 +28,7 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), LocationListener, DriverStatusClickListener,
-    PermissionRequestRationaleListener {
+class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener {
 
     private lateinit var binding: HomeFragmentBinding
 
@@ -74,29 +71,10 @@ class HomeFragment : Fragment(), LocationListener, DriverStatusClickListener,
                 binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(state.isOnline)
             }
         }
-
-        lifecycleScope.launch {
-            locationViewModel.liveLocation.collect { liveLocation ->
-                binding.mapView2.routeToPosition(liveLocation.latitude, liveLocation.longitude, liveLocation.bearing)
-            }
-        }
-
-        lifecycleScope.launch {
-            locationViewModel.currentLocationState.collect {
-                it?.let { location ->
-                    binding.mapView2.routeToPosition(
-                        location.latitude,
-                        location.longitude,
-                        location.bearing
-                    )
-                }
-            }
-        }
     }
 
     override fun onStart() {
         super.onStart()
-        binding.mapView2.onStart()
         startLocationUpdate()
         drawerLayout = activity?.findViewById(R.id.drawer_layout)!!
         drawer = binding.drawerButton
@@ -125,16 +103,6 @@ class HomeFragment : Fragment(), LocationListener, DriverStatusClickListener,
         )
     }
 
-    override fun onStop() {
-        super.onStop()
-        binding.mapView2.onStop()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        binding.mapView2.onLowMemory()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         binding.mapView2.onDestroy()
@@ -149,10 +117,6 @@ class HomeFragment : Fragment(), LocationListener, DriverStatusClickListener,
         permissionRequestManager.onRequestPermissionResult(requestCode, permissions, grantResults) {
             // TODO we want to show a dialog as to why they need to show permission
         }
-    }
-
-    override fun onLocationChanged(position: Location) {
-        binding.mapView2.routeToPosition(position.latitude, position.longitude, position.bearing)
     }
 
     override fun onDriveClick() {
@@ -172,6 +136,6 @@ class HomeFragment : Fragment(), LocationListener, DriverStatusClickListener,
     }
 
     override fun onPermissionRejected() {
-        // TODO what should we do if they reject location permission
+
     }
 }
