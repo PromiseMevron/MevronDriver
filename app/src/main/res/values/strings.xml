@@ -351,5 +351,6 @@
     <string name="complete_processes_to_start_earning">Please complete all the processes below to setup your account and start earning</string>
     <string name="mapbox_access_token">pk.eyJ1IjoibWV2cm9uIiwiYSI6ImNsMzc5ZHV3dzBwdnMza2xkcWhyc2F5MmYifQ.aemMLgceR9Pb-xcECSHrxQ</string>
     <string name="next">Next</string>
+    <string name="stop_trip">Stop Trip</string>
 
 </resources>

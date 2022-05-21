@@ -29,6 +29,8 @@ class LocationViewModel @Inject constructor(
     val state: StateFlow<LocationData?>
         get() = mutableState
 
+    private var isLocationLoaded: Boolean = false
+
     val liveLocation: StateFlow<LocationData> = liveLocationUseCase()
 
     val currentLocationState: StateFlow<LocationData?> = lastLocationUseCas()
@@ -57,5 +59,10 @@ class LocationViewModel @Inject constructor(
             LocationEvent.StopLocationUpdate -> stopLocationUpdatesUseCase()
             LocationEvent.RequestLastLocation -> requestLastLocation()
         }
+    }
+
+    fun locationNotLoaded(): Boolean = isLocationLoaded
+    fun setLocationLoaded(isLocationLoaded: Boolean) {
+        this.isLocationLoaded = isLocationLoaded
     }
 }

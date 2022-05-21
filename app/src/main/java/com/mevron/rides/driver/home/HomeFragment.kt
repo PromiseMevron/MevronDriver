@@ -84,7 +84,10 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                         locationData.longitude,
                         locationData.bearing
                     )
-                    binding.mapView2.getMapAsync()
+                    if (!locationViewModel.locationNotLoaded()) {
+                        binding.mapView2.getMapAsync()
+                    }
+                    locationViewModel.setLocationLoaded(true)
                 }
             }
         }
