@@ -55,6 +55,7 @@ import com.mapbox.navigation.core.trip.session.RouteProgressObserver
 import com.mapbox.navigation.core.trip.session.VoiceInstructionsObserver
 import com.mapbox.navigation.ui.base.util.MapboxNavigationConsumer
 import com.mapbox.navigation.ui.maneuver.api.MapboxManeuverApi
+import com.mapbox.navigation.ui.maneuver.api.RoadShieldCallback
 import com.mapbox.navigation.ui.maneuver.view.MapboxManeuverView
 import com.mapbox.navigation.ui.maps.camera.NavigationCamera
 import com.mapbox.navigation.ui.maps.camera.data.MapboxNavigationViewportDataSource
@@ -80,6 +81,7 @@ import com.mapbox.navigation.ui.tripprogress.model.EstimatedTimeToArrivalFormatt
 import com.mapbox.navigation.ui.tripprogress.model.PercentDistanceTraveledFormatter
 import com.mapbox.navigation.ui.tripprogress.model.TimeRemainingFormatter
 import com.mapbox.navigation.ui.tripprogress.model.TripProgressUpdateFormatter
+import com.mapbox.navigation.ui.tripprogress.model.TripProgressUpdateValue
 import com.mapbox.navigation.ui.tripprogress.view.MapboxTripProgressView
 import com.mapbox.navigation.ui.voice.api.MapboxSpeechApi
 import com.mapbox.navigation.ui.voice.api.MapboxVoiceInstructionsPlayer
@@ -92,6 +94,7 @@ import com.mevron.rides.driver.R
 import java.util.Locale
 
 private const val TAG = "_MapBoxMapView"
+private const val ANIMATION_DURATION = 1000L
 
 class MapBoxMapView @JvmOverloads constructor(
     context: Context,
@@ -150,10 +153,10 @@ class MapBoxMapView @JvmOverloads constructor(
         set(value) {
             field = value
             if (value) {
-                soundButton?.muteAndExtend(100L)
+                soundButton?.muteAndExtend(ANIMATION_DURATION)
                 voiceInstructionsPlayer.volume(SpeechVolume(0f))
             } else {
-                soundButton?.unmuteAndExtend(100L)
+                soundButton?.unmuteAndExtend(ANIMATION_DURATION)
                 voiceInstructionsPlayer.volume(SpeechVolume(1f))
             }
         }
@@ -235,6 +238,10 @@ class MapBoxMapView @JvmOverloads constructor(
         // TODO Handle when off route (Mostly reroute
     }
 
+    private val roadShieldCallback = RoadShieldCallback { _, shieldMap, _ ->
+        maneuverView?.renderManeuverShields(shieldMap)
+    }
+
     private val routeProgressObserver = RouteProgressObserver { routeProgress ->
         // update the camera position to account for the progressed fragment of the route
         viewportDataSource.onRouteProgressChanged(routeProgress)
@@ -248,25 +255,29 @@ class MapBoxMapView @JvmOverloads constructor(
         }
 
         // update top banner with maneuver instructions
-        val maneuvers = maneuverApi.getManeuvers(routeProgress)
-        maneuvers.fold(
-            { error ->
-                Toast.makeText(
-                    context,
-                    error.errorMessage,
-                    Toast.LENGTH_SHORT
-                ).show()
-            },
-            {
-                maneuverView?.visibility = View.VISIBLE
-                maneuverView?.renderManeuvers(maneuvers) ?: Unit
-            }
-        )
+        maneuverView?.let { mapBoxManeuverView ->
+            val maneuvers = maneuverApi.getManeuvers(routeProgress)
+            maneuvers.fold(
+                { error ->
+                    maneuverView?.visibility = GONE
+                    Toast.makeText(
+                        context,
+                        error.errorMessage,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                {
+                    maneuverView?.visibility = VISIBLE
+                    maneuvers.onValue { maneuverList ->
+                        maneuverApi.getRoadShields(maneuverList, roadShieldCallback)
+                    }
+                    mapBoxManeuverView.renderManeuvers(maneuvers)
+                }
+            )
+        }
 
         // update bottom trip progress summary
-        tripProgressView?.render(
-            tripProgressApi.getTripProgress(routeProgress)
-        )
+        tripProgressView?.render(tripProgressApi.getTripProgress(routeProgress))
     }
 
     private val navigationCallback: NavigationRouterCallback = object : NavigationRouterCallback {
@@ -308,7 +319,6 @@ class MapBoxMapView @JvmOverloads constructor(
                         .build()
                 )
             }
-
         }
     }
 
@@ -369,6 +379,8 @@ class MapBoxMapView @JvmOverloads constructor(
      * on the map.
      */
     private val routesObserver: RoutesObserver = RoutesObserver { routeUpdateResult ->
+        speechApi.cancel()
+        voiceInstructionsPlayer.clear()
         if (routeUpdateResult.navigationRoutes.isNotEmpty()) {
             // generate route geometries asynchronously and render them
             val routeLines = routeUpdateResult.navigationRoutes.map { NavigationRouteLine(it, null) }
@@ -587,16 +599,19 @@ class MapBoxMapView @JvmOverloads constructor(
 
     private val onMoveListener = object : OnMoveListener {
         override fun onMoveBegin(detector: MoveGestureDetector) {
-            onCameraTrackingDismissed()
+            // TODO disable camera tracking
         }
 
         override fun onMove(detector: MoveGestureDetector): Boolean {
             return false
         }
 
-        override fun onMoveEnd(detector: MoveGestureDetector) {}
+        override fun onMoveEnd(detector: MoveGestureDetector) {
+            // Enable camera tracking again
+        }
     }
 
+    // TODO disabling camera tracking isn't working properly
     private fun onCameraTrackingDismissed() {
         Toast.makeText(context, "onCameraTrackingDismissed", Toast.LENGTH_SHORT).show()
         mapView?.location
@@ -702,11 +717,11 @@ class MapBoxMapView @JvmOverloads constructor(
         }
         recenter?.setOnClickListener {
             placeFocusOnMe()
-            routeOverview?.showTextAndExtend(1000L, "Recenter")
+            routeOverview?.showTextAndExtend(ANIMATION_DURATION, "Recenter")
         }
         routeOverview?.setOnClickListener {
             navigationCamera.requestNavigationCameraToOverview()
-            recenter?.showTextAndExtend(100L)
+            recenter?.showTextAndExtend(ANIMATION_DURATION)
         }
         soundButton?.setOnClickListener {
             isVoiceInstructionsMuted = !isVoiceInstructionsMuted
