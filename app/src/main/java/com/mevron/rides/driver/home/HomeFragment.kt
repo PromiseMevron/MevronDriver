@@ -13,8 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.mapbox.geojson.Point
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
+import com.mevron.rides.driver.home.map.MapReadyListener
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 import com.mevron.rides.driver.location.ui.LocationViewModel
@@ -28,7 +30,8 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener {
+class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
+    MapReadyListener {
 
     private lateinit var binding: HomeFragmentBinding
 
@@ -64,11 +67,28 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         )
 
         binding.mevronHomeBottom.driverStatus.setClickEventListener(this)
+        binding.mapView2.setMapReadyListener(this)
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 binding.mevronHomeBottom.driverStatus.toggleDrive(state.isDriveActive)
                 binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(state.isOnline)
+            }
+        }
+
+        lifecycleScope.launch {
+            locationViewModel.currentLocationState.collect {
+                it?.let { locationData ->
+                    binding.mapView2.routeToPosition(
+                        locationData.latitude,
+                        locationData.longitude,
+                        locationData.bearing
+                    )
+                    if (!locationViewModel.locationNotLoaded()) {
+                        binding.mapView2.getMapForNavigationAsync()
+                    }
+                    locationViewModel.setLocationLoaded(true)
+                }
             }
         }
     }
@@ -92,7 +112,6 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     private fun startLocationUpdate() {
         permissionRequestManager.withPermissionChecked(
             onGranted = {
-                binding.mapView2.getMapAsync()
                 locationViewModel.onEventReceived(LocationEvent.RequestLastLocation)
                 locationViewModel.onEventReceived(LocationEvent.StartLocationUpdate)
                 viewModel.onEventReceived(HomeViewEvent.LocationStarted(isStarted = true))
@@ -136,6 +155,11 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     override fun onPermissionRejected() {
+
+    }
+
+    override fun onMapReady() {
+        // TODO Add annotation on user current location
 
     }
 }
