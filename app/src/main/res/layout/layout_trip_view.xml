@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/rounded_corner_all"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <douglasspgyn.com.github.circularcountdown.CircularCountdown
+        android:id="@+id/circularCountdown"
+        android:layout_width="@dimen/_72sdp"
+        android:layout_height="@dimen/_72sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:countdownBackgroundColor="@color/primary"
+        app:countdownForegroundColor="@android:color/transparent"
+        app:countdownTextColor="@android:color/transparent"
+        app:countdownTextSize="0sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_photo"
+        android:layout_width="@dimen/_64sdp"
+        android:layout_height="@dimen/_64sdp"
+        android:src="@drawable/ic_launcher"
+        app:layout_constraintBottom_toBottomOf="@id/circularCountdown"
+        app:layout_constraintEnd_toEndOf="@id/circularCountdown"
+        app:layout_constraintStart_toStartOf="@id/circularCountdown"
+        app:layout_constraintTop_toTopOf="@id/circularCountdown" />
+
+    <TextView
+        android:id="@+id/trip_info_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:fontFamily="@font/poppins_regular"
+        android:gravity="center"
+        android:textColor="#383838"
+        android:textFontWeight="600"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/circularCountdown"
+        tools:targetApi="p"
+        tools:text="Pickup is 4 min away" />
+
+    <ImageView
+        android:id="@+id/rideTypeImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Ride type image"
+        android:src="@drawable/ic_long_ride"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/trip_info_text" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#8a8a8a"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/duration_background" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#8a8a8a"
+        app:layout_constraintBottom_toBottomOf="@+id/duration_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/duration_background" />
+
+    <View
+        android:id="@+id/duration_background"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/rideTypeImage" />
+
+    <TextView
+        android:id="@+id/ride_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:drawableStart="@drawable/ic_timer"
+        android:drawablePadding="4dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="12min"
+        android:textColor="#8a8a8a"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintBottom_toBottomOf="@+id/duration_background"
+        app:layout_constraintEnd_toStartOf="@+id/dividerGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/duration_background" />
+
+    <TextView
+        android:id="@+id/distance_remaining_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:drawableStart="@drawable/ic_distance"
+        android:drawablePadding="4dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="45km"
+        android:textColor="#8a8a8a"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintBottom_toBottomOf="@+id/duration_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dividerGuideline"
+        app:layout_constraintTop_toTopOf="@+id/duration_background" />
+
+    <Button
+        android:id="@+id/map_trip_view_action_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_55sdp"
+        android:text="@string/accept_ride"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/duration_background" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/dividerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

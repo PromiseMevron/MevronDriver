@@ -85,7 +85,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                         locationData.bearing
                     )
                     if (!locationViewModel.locationNotLoaded()) {
-                        binding.mapView2.getMapAsync()
+                        binding.mapView2.getMapForNavigationAsync()
                     }
                     locationViewModel.setLocationLoaded(true)
                 }
@@ -159,10 +159,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     override fun onMapReady() {
-        binding.mapView2.initRouting(
-            startBearing = 45.0,
-            // Note Point(longitude: Double, latitude: Double) so use accordingly for testing
-            destinationPoint = Point.fromLngLat(9.9933, 53.5526)
-        )
+        // TODO Add annotation on user current location
+
     }
 }

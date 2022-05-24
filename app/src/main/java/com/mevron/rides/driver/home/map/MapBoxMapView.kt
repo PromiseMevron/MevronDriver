@@ -8,10 +8,8 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.api.directions.v5.DirectionsCriteria
@@ -81,7 +79,6 @@ import com.mapbox.navigation.ui.tripprogress.model.EstimatedTimeToArrivalFormatt
 import com.mapbox.navigation.ui.tripprogress.model.PercentDistanceTraveledFormatter
 import com.mapbox.navigation.ui.tripprogress.model.TimeRemainingFormatter
 import com.mapbox.navigation.ui.tripprogress.model.TripProgressUpdateFormatter
-import com.mapbox.navigation.ui.tripprogress.model.TripProgressUpdateValue
 import com.mapbox.navigation.ui.tripprogress.view.MapboxTripProgressView
 import com.mapbox.navigation.ui.voice.api.MapboxSpeechApi
 import com.mapbox.navigation.ui.voice.api.MapboxVoiceInstructionsPlayer
@@ -91,6 +88,9 @@ import com.mapbox.navigation.ui.voice.model.SpeechValue
 import com.mapbox.navigation.ui.voice.model.SpeechVolume
 import com.mapbox.navigation.ui.voice.view.MapboxSoundButton
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
+import com.mevron.rides.driver.home.map.widgets.OnStatusChangedListener
+import com.mevron.rides.driver.home.map.widgets.TripView
 import java.util.Locale
 
 private const val TAG = "_MapBoxMapView"
@@ -102,14 +102,15 @@ class MapBoxMapView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr), MevronMapView {
 
+    private var tripView: TripView? = null
     private var mapView: MapView? = null
-    private var tripProgressCard: CardView? = null
     private var tripProgressView: MapboxTripProgressView? = null
-    private var stopButton: ImageView? = null
     private var maneuverView: MapboxManeuverView? = null
     private var soundButton: MapboxSoundButton? = null
     private var routeOverview: MapboxRouteOverviewButton? = null
     private var recenter: MapboxRecenterButton? = null
+    private lateinit var onStatusChangedListener: OnStatusChangedListener
+    private lateinit var onActionButtonClick: OnActionButtonClick
 
     private val pixelDensity = Resources.getSystem().displayMetrics.density
     private val overviewPadding: EdgeInsets by lazy {
@@ -235,7 +236,7 @@ class MapBoxMapView @JvmOverloads constructor(
     }
 
     private val offRouteObserver = OffRouteObserver { onOffRoute ->
-        // TODO Handle when off route (Mostly reroute
+        // TODO Handle when off route (Mostly reroute)
     }
 
     private val roadShieldCallback = RoadShieldCallback { _, shieldMap, _ ->
@@ -276,8 +277,12 @@ class MapBoxMapView @JvmOverloads constructor(
             )
         }
 
+        tripProgressView?.visibility = GONE
+        tripView?.visibility = VISIBLE
         // update bottom trip progress summary
         tripProgressView?.render(tripProgressApi.getTripProgress(routeProgress))
+
+        tripView?.renderTripProgress(tripProgressApi.getTripProgress(routeProgress))
     }
 
     private val navigationCallback: NavigationRouterCallback = object : NavigationRouterCallback {
@@ -383,7 +388,8 @@ class MapBoxMapView @JvmOverloads constructor(
         voiceInstructionsPlayer.clear()
         if (routeUpdateResult.navigationRoutes.isNotEmpty()) {
             // generate route geometries asynchronously and render them
-            val routeLines = routeUpdateResult.navigationRoutes.map { NavigationRouteLine(it, null) }
+            val routeLines =
+                routeUpdateResult.navigationRoutes.map { NavigationRouteLine(it, null) }
 
             routeLineApi.setNavigationRouteLines(
                 routeLines
@@ -480,7 +486,7 @@ class MapBoxMapView @JvmOverloads constructor(
         mapboxNavigation.unregisterRoutesObserver(routesObserver)
     }
 
-    override fun getMapAsync() {
+    override fun getMapForNavigationAsync() {
         mapView?.getMapboxMap()?.loadStyleUri(
             Style.MAPBOX_STREETS
         ) {
@@ -491,7 +497,16 @@ class MapBoxMapView @JvmOverloads constructor(
         }
     }
 
+    override fun getMapAsync() {
+        mapView?.getMapboxMap()?.loadStyleUri(
+            Style.MAPBOX_STREETS
+        ) {
+            mapReadyListener?.onMapReady()
+        }
+    }
+
     override fun onStart() {
+        mapboxNavigation.registerRouteProgressObserver(routeProgressObserver)
         mapboxNavigation.registerRoutesObserver(routesObserver)
         mapboxNavigation.registerRouteProgressObserver(routeProgressObserver)
         mapboxNavigation.registerLocationObserver(locationObserver)
@@ -599,7 +614,7 @@ class MapBoxMapView @JvmOverloads constructor(
 
     private val onMoveListener = object : OnMoveListener {
         override fun onMoveBegin(detector: MoveGestureDetector) {
-            // TODO disable camera tracking
+            onCameraTrackingDismissed()
         }
 
         override fun onMove(detector: MoveGestureDetector): Boolean {
@@ -607,7 +622,7 @@ class MapBoxMapView @JvmOverloads constructor(
         }
 
         override fun onMoveEnd(detector: MoveGestureDetector) {
-            // Enable camera tracking again
+            onCameraTrackingEnabled()
         }
     }
 
@@ -621,6 +636,15 @@ class MapBoxMapView @JvmOverloads constructor(
         mapView?.gestures?.removeOnMoveListener(onMoveListener)
     }
 
+    private fun onCameraTrackingEnabled() {
+        Toast.makeText(context, "onCameraTrackingEnabled", Toast.LENGTH_SHORT).show()
+        mapView?.location
+            ?.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
+        mapView?.location
+            ?.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
+        mapView?.gestures?.addOnMoveListener(onMoveListener)
+    }
+
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
         mapView?.getMapboxMap()?.setCamera(CameraOptions.Builder().bearing(it).build())
     }
@@ -628,24 +652,6 @@ class MapBoxMapView @JvmOverloads constructor(
     private val onIndicatorPositionChangedListener = OnIndicatorPositionChangedListener {
         mapView?.getMapboxMap()?.setCamera(CameraOptions.Builder().center(it).build())
         mapView?.gestures?.focalPoint = mapView?.getMapboxMap()?.pixelForCoordinate(it)
-    }
-
-    override fun onDestroy() {
-        mapView?.location
-            ?.removeOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
-        mapView?.location
-            ?.removeOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
-        mapView?.gestures?.removeOnMoveListener(onMoveListener)
-
-        locationComponent?.removeOnIndicatorPositionChangedListener(onPositionChangedListener)
-        mapboxNavigation.onDestroy()
-        MapboxNavigationProvider.destroy()
-        mapboxReplayer.finish()
-        maneuverApi.cancel()
-        routeLineApi.cancel()
-        routeLineView.cancel()
-        speechApi.cancel()
-        voiceInstructionsPlayer.shutdown()
     }
 
     /**
@@ -703,18 +709,13 @@ class MapBoxMapView @JvmOverloads constructor(
 
     private fun initUIComponents() {
         mapView = findViewById(R.id.mapBoxMapView)
-        tripProgressCard = findViewById(R.id.tripProgressCard)
-        tripProgressView = findViewById(R.id.tripProgressView)
-        stopButton = findViewById(R.id.stop)
+        tripView = findViewById(R.id.tripView)
         maneuverView = findViewById(R.id.maneuverView)
         soundButton = findViewById(R.id.soundButton)
         routeOverview = findViewById(R.id.routeOverview)
         recenter = findViewById(R.id.recenter)
 
         // initialize view interactions
-        stopButton?.setOnClickListener {
-            clearRouteAndStopNavigation()
-        }
         recenter?.setOnClickListener {
             placeFocusOnMe()
             routeOverview?.showTextAndExtend(ANIMATION_DURATION, "Recenter")
@@ -757,7 +758,6 @@ class MapBoxMapView @JvmOverloads constructor(
         soundButton?.visibility = View.INVISIBLE
         maneuverView?.visibility = View.INVISIBLE
         routeOverview?.visibility = View.INVISIBLE
-        tripProgressCard?.visibility = View.INVISIBLE
     }
 
     private fun setRouteAndStartNavigation(routes: List<NavigationRoute>) {
@@ -766,21 +766,23 @@ class MapBoxMapView @JvmOverloads constructor(
         mapboxNavigation.setNavigationRoutes(routes)
 
         routeLineApi.setNavigationRoutes(routes) { value ->
-        // RouteLine: The MapboxRouteLineView expects a non-null reference to the map style.
-        // the data generated by the call to the MapboxRouteLineApi above must be rendered
-        // by the MapboxRouteLineView in order to visualize the changes on the map.
+            // RouteLine: The MapboxRouteLineView expects a non-null reference to the map style.
+            // the data generated by the call to the MapboxRouteLineApi above must be rendered
+            // by the MapboxRouteLineView in order to visualize the changes on the map.
             mapView?.getMapboxMap()?.getStyle()?.apply {
                 routeLineView.renderRouteDrawData(this, value)
             }
         }
 
         // start location simulation along the primary route
+        // TODO remove this line, it's just for testing
         startSimulation(routes.first())
 
         // show UI elements
         soundButton?.visibility = View.VISIBLE
         routeOverview?.visibility = View.VISIBLE
-        tripProgressCard?.visibility = View.VISIBLE
+//        tripProgressCard?.visibility = View.VISIBLE
+        showTripView()
 
         // move the camera to overview when new route is available
         navigationCamera.requestNavigationCameraToOverview()
@@ -837,6 +839,50 @@ class MapBoxMapView @JvmOverloads constructor(
                 }
             }
         )
+    }
+
+    fun showTripView() {
+        tripView?.visibility = VISIBLE
+    }
+
+    fun hideTripView() {
+        tripView?.visibility = GONE
+    }
+
+    override fun onDestroy() {
+        mapView?.location
+            ?.removeOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
+        mapView?.location
+            ?.removeOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
+        mapView?.gestures?.removeOnMoveListener(onMoveListener)
+
+        locationComponent?.removeOnIndicatorPositionChangedListener(onPositionChangedListener)
+        mapboxNavigation.onDestroy()
+        MapboxNavigationProvider.destroy()
+        mapboxReplayer.finish()
+        maneuverApi.cancel()
+        routeLineApi.cancel()
+        routeLineView.cancel()
+        speechApi.cancel()
+        voiceInstructionsPlayer.shutdown()
+    }
+
+    /**
+     * We have to do this right now because we are not reusing the map.
+     * When we start reusing the map, this code should be moved to the MapView
+     */
+    fun setStatusChangedListener(statusChangedListener: OnStatusChangedListener) {
+        this.onStatusChangedListener = statusChangedListener
+        tripView?.setOnStatusChangedListener(onStatusChangedListener)
+    }
+
+    /**
+     * We have to do this right now because we are not reusing the map.
+     * When we start reusing the map, this code should be moved to the MapView
+     */
+    fun setOnActionButtonClickListener(onActionButtonClick: OnActionButtonClick) {
+        this.onActionButtonClick = onActionButtonClick
+        tripView?.setOnActionClick(onActionButtonClick)
     }
 
     init {
