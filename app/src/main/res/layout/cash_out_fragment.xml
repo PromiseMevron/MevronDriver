@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".cashout.ui.CashOutFragment">
+
+    <com.mevron.rides.driver.cashout.ui.widgets.cashout.CashOutTopView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/top_view"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.mevron.rides.driver.cashout.ui.widgets.cashout.CashOutDetaailsView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/detail_view"
+        app:layout_constraintTop_toBottomOf="@id/top_view"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/white"
+        android:text="@string/cash_out"
+        android:background="@color/green"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/detail_view"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

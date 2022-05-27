@@ -352,5 +352,20 @@
     <string name="mapbox_access_token">pk.eyJ1IjoibWV2cm9uIiwiYSI6ImNsMzc5ZHV3dzBwdnMza2xkcWhyc2F5MmYifQ.aemMLgceR9Pb-xcECSHrxQ</string>
     <string name="next">Next</string>
     <string name="stop_trip">Stop Trip</string>
+    <string name="we_owe_you">We owe you</string>
+    <string name="tips">Tips</string>
+    <string name="other_payments">Other payments</string>
+    <string name="withdrawal_fee">Withdrawal fee</string>
+    <string name="total">Total</string>
+    <string name="cash_out">Cash Out</string>
+    <string name="your_money_should_be_available_within_2_3_hours">Your money should be available within 2-3 hours</string>
+    <string name="add_a_bank_account">Add a Bank Account</string>
+    <string name="name_of_account_holder">Name of Account Holder</string>
+    <string name="routing_number">Routing Number</string>
+    <string name="bank_account_number">Bank Account Number</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="zipcode">Zipcode</string>
+    <string name="set_as_default_method_to_receive_payouts">Set as default method to receive payouts</string>
+    <string name="all_transactions">All Transactions</string>
 
 </resources>
