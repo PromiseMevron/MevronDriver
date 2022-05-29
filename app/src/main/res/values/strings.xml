@@ -99,6 +99,7 @@
     <string name="ride_details">Ride Details</string>
     <string name="balance">Balance</string>
     <string name="documents_submission_pending">Documents submission pending</string>
+    <string name="documents_submission_under_review">We received your submission, check verification status</string>
     <string name="please_complete_all_below_process_to_setup_your_account_and_start_earning">Please complete all below process, to setup your account and start earning</string>
     <string name="we_received_your_submission_check_verification_status">We received your submission, check verification status</string>
     <string name="earning_goal">Earning Goal</string>
@@ -124,8 +125,6 @@
     <string name="setup_an_emergency_contact">Setup an emergency contact</string>
     <string name="we_ll_call_them_if_an_issue_is_reported_and_you_don_t_respond">We’ll call them if an issue is reported and you don’t respond.</string>
     <string name="pickup">Pickup</string>
-
-
 
 
     <string name="java_entry_title" translatable="false">Run the ML Kit quickstart written in Java</string>
@@ -352,6 +351,9 @@
     <string name="save_a_place">Save a place</string>
     <string name="enter_any_address">Enter any address</string>
     <string name="others">others</string>
-
+    <string name="complete_processes_to_start_earning">Please complete all the processes below to setup your account and start earning</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoibWV2cm9uIiwiYSI6ImNsMzc5ZHV3dzBwdnMza2xkcWhyc2F5MmYifQ.aemMLgceR9Pb-xcECSHrxQ</string>
+    <string name="next">Next</string>
+    <string name="stop_trip">Stop Trip</string>
 
 </resources>

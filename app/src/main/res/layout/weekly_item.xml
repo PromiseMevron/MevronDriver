@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100sdp"
-        app:layout_constraintTop_toBottomOf="@id/earning_text"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginEnd="@dimen/_14sdp"
         android:layout_marginStart="@dimen/_14sdp"
@@ -68,7 +64,6 @@
                 android:textColor="#4e4e4e"
                 tools:targetApi="p" />
 
-
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -102,7 +97,6 @@
                 tools:targetApi="p" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </com.google.android.material.card.MaterialCardView>
 </layout>

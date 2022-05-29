@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/help_and_support_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:lineHeight="@dimen/_28sdp"
+            android:text="@string/help_and_support"
+            android:textAlignment="textStart"
+            android:textColor="#383838"
+            android:textFontWeight="600"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="p" />
+
+        <View
+            android:id="@+id/top_box"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/help_and_support_header" />
+
+        <ImageView
+            android:id="@+id/help_image_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_question_circle"
+            app:layout_constraintLeft_toLeftOf="@id/top_box"
+            app:layout_constraintTop_toTopOf="@id/top_box" />
+
+        <TextView
+            android:id="@+id/help1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:lineHeight="@dimen/_22sdp"
+            android:text="@string/help_and_support"
+            android:textAlignment="textStart"
+            android:textColor="#383838"
+            android:textFontWeight="600"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/help_image_1"
+            app:layout_constraintTop_toTopOf="@id/top_box"
+            tools:targetApi="p" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/call_or_chat_with_us_at_anytime_and_get_your_issues_solved_instantly"
+            android:textAlignment="textStart"
+            android:textColor="#666666"
+            android:textFontWeight="600"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/help_image_1"
+            app:layout_constraintTop_toBottomOf="@id/help1"
+            tools:targetApi="p" />
+
+
+        <View
+            android:id="@+id/help_and_support_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:background="#F2F2F2"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_box" />
+
+        <ImageView
+            android:id="@+id/help_image_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_question_circle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/help_and_support_divider" />
+
+        <TextView
+            android:id="@+id/help2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:lineHeight="@dimen/_22sdp"
+            android:text="@string/setup_an_emergency_contact"
+            android:textAlignment="textStart"
+            android:textColor="#383838"
+            android:textFontWeight="600"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/help_image_2"
+            app:layout_constraintTop_toBottomOf="@id/help_and_support_divider"
+            tools:targetApi="p" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/we_ll_call_them_if_an_issue_is_reported_and_you_don_t_respond"
+            android:textAlignment="textStart"
+            android:textColor="#666666"
+            android:textFontWeight="600"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/help_image_2"
+            app:layout_constraintTop_toBottomOf="@id/help2"
+            tools:targetApi="p" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
