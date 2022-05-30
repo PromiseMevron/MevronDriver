@@ -348,6 +348,9 @@
     <string name="e_g_2016">e.g. 2016</string>
     <string name="e_g_audi">e.g. Audi</string>
     <string name="e_g_s4_avant">e.g. S4 Avant</string>
+    <string name="save_a_place">Save a place</string>
+    <string name="enter_any_address">Enter any address</string>
+    <string name="others">others</string>
     <string name="complete_processes_to_start_earning">Please complete all the processes below to setup your account and start earning</string>
     <string name="mapbox_access_token">pk.eyJ1IjoibWV2cm9uIiwiYSI6ImNsMzc5ZHV3dzBwdnMza2xkcWhyc2F5MmYifQ.aemMLgceR9Pb-xcECSHrxQ</string>
     <string name="next">Next</string>

@@ -76,7 +76,7 @@
     <fragment
         android:id="@+id/addSavedPlaceFragment"
         tools:layout="@layout/add_saved_place_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.savedplaces.AddSavedPlaceFragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.addaddress.AddSavedPlaceFragment"
         android:label="AddSavedPlaceFragment" >
         <action
             android:id="@+id/action_addSavedPlaceFragment_to_updateAddressFragment"
@@ -85,7 +85,7 @@
     <fragment
         android:id="@+id/saveAddressFragment"
         tools:layout="@layout/save_address_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.savedplaces.SaveAddressFragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.saveaddress.SaveAddressFragment"
         android:label="SaveAddressFragment" >
         <argument
             android:name="title"
@@ -100,7 +100,7 @@
     <fragment
         android:id="@+id/saveAddressDetailsFragment"
         tools:layout="@layout/save_address_details_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.savedplaces.SaveAddressDetailsFragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.addressdetail.SaveAddressDetailsFragment"
         android:label="SaveAddressDetailsFragment" >
 
         <argument android:name="location"
@@ -108,12 +108,12 @@
     </fragment>
     <fragment
         android:id="@+id/updateAddressFragment"
-        android:name="com.mevron.rides.driver.sidemenu.savedplaces.UpdateAddressFragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.updateaddress.UpdateAddressFragment"
         android:label="update_address_fragment"
         tools:layout="@layout/update_address_fragment" >
         <argument
             android:name="address"
-            app:argType="com.mevron.rides.driver.localdb.SavedAddress" />
+            app:argType="com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetSavedAddressData" />
     </fragment>
     <action android:id="@+id/action_global_addSavedPlaceFragment" app:destination="@id/addSavedPlaceFragment" />
     <action android:id="@+id/action_global_saveAddressFragment" app:destination="@id/saveAddressFragment" />

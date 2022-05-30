@@ -145,9 +145,10 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     override fun onEarningClick() {
         viewModel.onEventReceived(HomeViewEvent.OnEarningClick)
     }
-
+        
     override fun goOnlineClick() {
         viewModel.onEventReceived(HomeViewEvent.OnToggleOnlineClick)
+
     }
 
     override fun onPermissionGranted() {

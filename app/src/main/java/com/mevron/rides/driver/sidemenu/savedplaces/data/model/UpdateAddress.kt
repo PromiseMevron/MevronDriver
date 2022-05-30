@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.remote.model
+package com.mevron.rides.driver.sidemenu.savedplaces.data.model
 
 data class UpdateAddress(
     val address: String,

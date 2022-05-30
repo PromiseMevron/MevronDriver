@@ -8,9 +8,9 @@ import com.mevron.rides.driver.authentication.domain.model.CreateAccountRequest
 import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
 import com.mevron.rides.driver.home.model.HomeScreenResponse
 import com.mevron.rides.driver.home.model.documents.DocumentStatusResponse
-import com.mevron.rides.driver.remote.model.GetSavedAddresss
-import com.mevron.rides.driver.remote.model.SaveAddressRequest
-import com.mevron.rides.driver.remote.model.UpdateAddress
+import com.mevron.rides.driver.sidemenu.savedplaces.data.model.GetSavedAddress
+import com.mevron.rides.driver.sidemenu.savedplaces.data.model.SaveAddressRequest
+import com.mevron.rides.driver.sidemenu.savedplaces.data.model.UpdateAddress
 import com.mevron.rides.driver.remote.model.getcard.AddCard
 import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
 import com.mevron.rides.driver.sidemenu.model.AddContactRequest
@@ -85,7 +85,7 @@ interface MevronAPI {
     suspend fun saveAddress(@Body data: SaveAddressRequest):Response<GeneralResponse>
 
     @GET("api/v1/driver/auth/savedPlaces")
-    suspend fun getAddress():Response<GetSavedAddresss>
+    suspend fun getAddress():Response<GetSavedAddress>
 
     @POST("api/v1/driver/auth/savedPlaces/{uiid}")
     suspend fun updateAddress(@Path("uiid") identifier: String, @Body data: UpdateAddress): Response<GeneralResponse>

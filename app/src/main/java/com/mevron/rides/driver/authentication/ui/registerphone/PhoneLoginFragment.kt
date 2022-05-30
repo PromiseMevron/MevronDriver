@@ -59,15 +59,12 @@ class PhoneLoginFragment : Fragment() {
                         state.loading,
                         desc = if (state.loading) "Submitting Data..." else null
                     )
-
                     if (state.error.isNotEmpty()) {
                         handleError(state.error)
                     }
-
                     if (state.requestSuccess) {
                         handleSuccess(state.countryCodeAndPhoneNumber)
                     }
-
                     startCheckOfNumber(state.canCheckNumber, state)
                 }
             }
