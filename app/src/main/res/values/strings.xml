@@ -355,5 +355,7 @@
     <string name="mapbox_access_token">pk.eyJ1IjoibWV2cm9uIiwiYSI6ImNsMzc5ZHV3dzBwdnMza2xkcWhyc2F5MmYifQ.aemMLgceR9Pb-xcECSHrxQ</string>
     <string name="next">Next</string>
     <string name="stop_trip">Stop Trip</string>
+    <string name="loading_data">Loading data</string>
+    <string name="loading_trip_status">Loading trip status</string>
 
 </resources>

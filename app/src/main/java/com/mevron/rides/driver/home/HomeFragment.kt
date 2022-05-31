@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -13,10 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.mapbox.geojson.Point
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
+import com.mevron.rides.driver.home.domain.model.StateMachineCurrentState
+import com.mevron.rides.driver.home.domain.model.StateMachineDomainData
 import com.mevron.rides.driver.home.map.MapReadyListener
+import com.mevron.rides.driver.home.ui.GetStateMachineViewModel
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 import com.mevron.rides.driver.location.ui.LocationViewModel
@@ -39,6 +42,8 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     private val locationViewModel: LocationViewModel by viewModels()
 
+    private var dialog: AlertDialog? = null
+
     companion object {
         fun newInstance() = HomeFragment()
     }
@@ -50,6 +55,8 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     private val viewModel: HomeViewModel by viewModels()
 
+    private val stateMachineViewModel: GetStateMachineViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,8 +65,73 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         return binding.root
     }
 
+    private fun showTripStatusLoading() {
+        binding.loadingView.show()
+    }
+
+    private fun hideTripStatusLoadingView() {
+        binding.loadingView.hide()
+    }
+
+    private fun showStateMachineErrorDialog() {
+        context?.let {
+            if (dialog == null) {
+                dialog = AlertDialog.Builder(it).setTitle("Failed to fetch trip Status")
+                    .setCancelable(false)
+                    .setPositiveButton(
+                        "Reload"
+                    ) { dialog, _ ->
+                        stateMachineViewModel.getStateMachine()
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(
+                        "Cancel"
+                    ) { dialog, _ ->
+                        dialog?.dismiss()
+                        activity?.finish()
+                    }
+                    .create()
+                dialog?.show()
+            } else {
+                dialog?.show()
+            }
+        }
+    }
+
+    private fun routeCorrectly(data: StateMachineDomainData) {
+        when (StateMachineCurrentState.from(data.state.first)) {
+            StateMachineCurrentState.ORDER -> {
+                // stay here
+            }
+            StateMachineCurrentState.IN_TRIP -> {
+                // route to in trip
+            }
+            StateMachineCurrentState.PAYMENT -> {
+              // route to payment page
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        lifecycleScope.launch {
+            stateMachineViewModel.stateMachineState.collect {
+                if (it.isLoading) {
+                    showTripStatusLoading()
+                } else {
+                    hideTripStatusLoadingView()
+                    if (it.error.isNotEmpty()) {
+                        showStateMachineErrorDialog()
+                    } else {
+                        routeCorrectly(it.data)
+                    }
+                }
+            }
+        }
+
+        stateMachineViewModel.getStateMachine()
+
         bottomSheetBehavior = BottomSheetBehavior.from(binding.mevronHomeBottom.bottomSheet)
         permissionRequestManager = PermissionsRequestManager(
             context = activity as RideActivity,
@@ -145,7 +217,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     override fun onEarningClick() {
         viewModel.onEventReceived(HomeViewEvent.OnEarningClick)
     }
-        
+
     override fun goOnlineClick() {
         viewModel.onEventReceived(HomeViewEvent.OnToggleOnlineClick)
 
