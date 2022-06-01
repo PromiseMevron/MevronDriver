@@ -39,6 +39,10 @@
         <include
             android:id="@+id/mevron_home_bottom"
             layout="@layout/home_bottom" />
+        <com.mevron.rides.driver.shared.ui.LoadingView
+            android:id="@+id/loadingView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
