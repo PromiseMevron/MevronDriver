@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
@@ -104,11 +105,12 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 // stay here
             }
             StateMachineCurrentState.IN_TRIP -> {
-                // route to in trip
+                findNavController().navigate(R.id.action_global_rideRequestFragment)
             }
             StateMachineCurrentState.PAYMENT -> {
               // route to payment page
             }
+            else -> {}
         }
     }
 
