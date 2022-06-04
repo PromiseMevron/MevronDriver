@@ -1,0 +1,135 @@
+package com.mevron.rides.driver.home.ui
+
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.mevron.rides.driver.R
+
+class ApproachPassengerWidget @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ConstraintLayout(context, attributeSet, defStyleAttr), View.OnClickListener,
+    OnContactClickedListener, OnArriveButtonClickedListener {
+
+    private var contactContainer: FrameLayout
+    private var passengerImage: ImageView
+    private var passengerName: TextView
+    private var pickUp: TextView
+    private var dropOffAtValue: TextView
+    private var dropOffBackground: View
+    private var navigateToHomeBackground: View
+    private var stopNewRideRequestButton: Button
+    private var cancelRideRequestButton: Button
+    private var passengerRating: TextView
+    private var goingToPickupWidget: GoingToPickupContactWidget
+    private var arrivedAtPassengerWidget: ArrivedAtPickupWidget
+    private var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private var root: View
+    private var bottomSheetRoot: ConstraintLayout
+
+    private var eventsClickListener: ApproachPassengerWidgetEventClickListener? = null
+
+    init {
+        LayoutInflater.from(context)
+            .inflate(R.layout.layout_approach_passenger_bottom_sheet, this, true)
+        root = findViewById(R.id.bottomSheetLink)
+
+        contactContainer = root.findViewById(R.id.contactContainer)
+        passengerImage = root.findViewById(R.id.passengerImage)
+        passengerName = root.findViewById(R.id.passengerName)
+        pickUp = root.findViewById(R.id.pickUpValue)
+        dropOffAtValue = root.findViewById(R.id.dropOffAtValue)
+        dropOffBackground = root.findViewById(R.id.dropOffBackground)
+        navigateToHomeBackground = root.findViewById(R.id.navigateToHomeBackground)
+        stopNewRideRequestButton = root.findViewById(R.id.stopNewRideRequestsButton)
+        cancelRideRequestButton = root.findViewById(R.id.cancelRideButton)
+        passengerRating = root.findViewById(R.id.passengerRating)
+        goingToPickupWidget = root.findViewById(R.id.goingToPickupWidget)
+        arrivedAtPassengerWidget = root.findViewById(R.id.arrivedAtPickupWidget)
+        bottomSheetRoot = root.findViewById(R.id.bottomSheetApproachPassenger)
+
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetRoot)
+
+        arrivedAtPassengerWidget.setOnContactClickedListener(this)
+        goingToPickupWidget.setContactClickListener(this)
+        arrivedAtPassengerWidget.setOnArriveButtonClickListener(this)
+        cancelRideRequestButton.setOnClickListener(this)
+        stopNewRideRequestButton.setOnClickListener(this)
+        navigateToHomeBackground.setOnClickListener(this)
+        dropOffBackground.setOnClickListener(this)
+    }
+
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.cancelRideButton -> eventsClickListener?.onCancelRideClicked()
+            R.id.stopNewRideRequestsButton -> eventsClickListener?.onStopNewRideRequestClicked()
+            R.id.navigateToHomeBackground -> eventsClickListener?.onNavigateToHomeClicked()
+            R.id.dropOffBackground -> eventsClickListener?.onDropOffClicked()
+        }
+    }
+
+    fun setPassengerRating(rating: Double) {
+        passengerRating.text = "$rating"
+    }
+
+    fun showDriverArrivalStatus(hasArrived: Boolean) {
+        if (hasArrived) {
+            goingToPickupWidget.hide()
+            arrivedAtPassengerWidget.show()
+        } else {
+            goingToPickupWidget.show()
+            arrivedAtPassengerWidget.hide()
+        }
+    }
+
+    fun bindArrivedData(arrivedData: ArrivedData) {
+        arrivedAtPassengerWidget.bind(arrivedData)
+    }
+
+    fun bindGoingToPassengerData(goingToPassengerData: OnTheWayToPassengerData) {
+        goingToPickupWidget.bind(goingToPassengerData)
+    }
+
+    fun setDropOffAtValue(dropOffAtValue: String) {
+        this.dropOffAtValue.text = dropOffAtValue
+    }
+
+    fun setPassengerName(passengerName: String) {
+        this.passengerName.text = passengerName
+    }
+
+    override fun onCallClicked() {
+        eventsClickListener?.onCallClicked()
+    }
+
+    override fun onMessageClicked() {
+        eventsClickListener?.onMessageClicked()
+    }
+
+    override fun onArriveClicked() {
+        eventsClickListener?.onDriverArrivedClick()
+    }
+
+    fun setEventsClickListener(listener: ApproachPassengerWidgetEventClickListener) {
+        eventsClickListener = listener
+    }
+}
+
+interface ApproachPassengerWidgetEventClickListener {
+    fun onCallClicked()
+    fun onMessageClicked()
+    fun onCancelRideClicked()
+    fun onStopNewRideRequestClicked()
+    fun onDriverArrivedClick()
+    fun onNavigateToHomeClicked()
+    fun onDropOffClicked()
+}

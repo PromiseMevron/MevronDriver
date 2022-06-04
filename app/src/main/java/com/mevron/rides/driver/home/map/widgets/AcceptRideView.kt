@@ -12,7 +12,7 @@ import com.mapbox.navigation.ui.tripprogress.model.TripProgressUpdateValue
 import com.mevron.rides.driver.R
 import douglasspgyn.com.github.circularcountdown.CircularCountdown
 
-class TripView @JvmOverloads constructor(
+class AcceptRideView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -32,7 +32,7 @@ class TripView @JvmOverloads constructor(
     private var onStatusChangedListener: OnStatusChangedListener? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_trip_view, this, true)
+        LayoutInflater.from(context).inflate(R.layout.layout_accept_ride_view, this, true)
         setUpView()
     }
 

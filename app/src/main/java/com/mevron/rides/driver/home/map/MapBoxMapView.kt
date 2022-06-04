@@ -90,7 +90,7 @@ import com.mapbox.navigation.ui.voice.view.MapboxSoundButton
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.map.widgets.OnStatusChangedListener
-import com.mevron.rides.driver.home.map.widgets.TripView
+import com.mevron.rides.driver.home.map.widgets.AcceptRideView
 import java.util.Locale
 
 private const val TAG = "_MapBoxMapView"
@@ -102,7 +102,7 @@ class MapBoxMapView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr), MevronMapView {
 
-    private var tripView: TripView? = null
+    private var tripView: AcceptRideView? = null
     private var mapView: MapView? = null
     private var tripProgressView: MapboxTripProgressView? = null
     private var maneuverView: MapboxManeuverView? = null
@@ -880,7 +880,7 @@ class MapBoxMapView @JvmOverloads constructor(
      * We have to do this right now because we are not reusing the map.
      * When we start reusing the map, this code should be moved to the MapView
      */
-    fun setOnActionButtonClickListener(onActionButtonClick: OnActionButtonClick) {
+    fun setTripViewActionClickListener(onActionButtonClick: OnActionButtonClick) {
         this.onActionButtonClick = onActionButtonClick
         tripView?.setOnActionClick(onActionButtonClick)
     }
