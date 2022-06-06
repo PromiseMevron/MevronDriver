@@ -24,4 +24,6 @@
     <color name="button_disabled">#9C9C9C</color>
     <color name="document_pending">#505050</color>
     <color name="document_under_review">#FF9B04</color>
+    <color name="transparent">#00000000</color>
+    <color name="error">#E01E1E</color>
 </resources>
