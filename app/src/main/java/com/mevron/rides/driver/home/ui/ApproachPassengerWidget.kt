@@ -9,7 +9,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mevron.rides.driver.R
 
@@ -30,7 +29,7 @@ class ApproachPassengerWidget @JvmOverloads constructor(
     private var stopNewRideRequestButton: Button
     private var cancelRideRequestButton: Button
     private var passengerRating: TextView
-    private var goingToPickupWidget: GoingToPickupContactWidget
+    private var goingToPickupWidget: PassengerContactWidet
     private var arrivedAtPassengerWidget: ArrivedAtPickupWidget
     private var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private var root: View

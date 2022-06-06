@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="76dp"
+    android:background="@drawable/error_rect"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/alertIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@color/error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/errorLabel" />
+
+    <TextView
+        android:id="@+id/errorLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/error"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nextButton"
+        app:layout_constraintStart_toEndOf="@+id/alertIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Tap here to cancel this ride, if rider don't show up" />
+
+    <ImageView
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_icons_next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/error" />
+</androidx.constraintlayout.widget.ConstraintLayout>

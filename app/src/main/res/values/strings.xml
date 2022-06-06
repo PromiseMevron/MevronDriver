@@ -357,5 +357,7 @@
     <string name="stop_trip">Stop Trip</string>
     <string name="loading_data">Loading data</string>
     <string name="loading_trip_status">Loading trip status</string>
+    <string name="start_the_ride">Start the Ride</string>
+    <string name="curved_rectangle">curved rectangle</string>
 
 </resources>

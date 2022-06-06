@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mevron.rides.driver.R
 
-class GoingToPickupContactWidget @JvmOverloads constructor(
+class PassengerContactWidet @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
