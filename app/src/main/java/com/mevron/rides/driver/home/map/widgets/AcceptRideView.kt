@@ -25,7 +25,7 @@ class AcceptRideView @JvmOverloads constructor(
     private lateinit var rideDuration: TextView
     private lateinit var distanceRemainingLabel: TextView
     private lateinit var actionButton: Button
-    private lateinit var status: Status
+    private lateinit var status: TripStatus
 
     private var onActionButtonClick: OnActionButtonClick? = null
 
@@ -47,20 +47,34 @@ class AcceptRideView @JvmOverloads constructor(
         actionButton.setOnClickListener(this)
     }
 
-    fun setLeftCellText(text: String) {
+    private fun setLeftCellText(text: String) {
         rideDuration.text = text
     }
 
-    fun initStatus(status: Status) {
+    fun initStatus(status: TripStatus) {
         this.status = status
     }
 
-    fun setInfoText(text: String) {
+    private fun setInfoText(text: String) {
         tripInfoText.text = text
     }
 
-    fun setRightCellText(text: String, bufferType: TextView.BufferType) {
+    private fun setRightCellText(text: String) {
         distanceRemainingLabel.text = text
+    }
+
+    fun show() {
+        visibility = VISIBLE
+    }
+
+    fun hide() {
+        visibility = GONE
+    }
+
+    fun bindData(data: AcceptRideData) {
+        setLeftCellText(data.rideDuration)
+        setInfoText(data.tripInfo)
+        setRightCellText(data.distanceRemaining)
     }
 
     fun setOnActionClick(onActionButtonClick: OnActionButtonClick) {
@@ -74,10 +88,10 @@ class AcceptRideView @JvmOverloads constructor(
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.map_trip_view_action_button -> {
-                when(status) {
-                    Status.TO_ACCEPT -> onStatusChangedListener?.onNewStatus(Status.IN_TRIP)
-                    Status.IN_TRIP -> onStatusChangedListener?.onNewStatus(Status.PAYMENT)
-                    Status.PAYMENT -> {}
+                when (status) {
+                    TripStatus.TO_ACCEPT -> onStatusChangedListener?.onNewStatus(TripStatus.IN_TRIP)
+                    TripStatus.IN_TRIP -> onStatusChangedListener?.onNewStatus(TripStatus.PAYMENT)
+                    TripStatus.PAYMENT -> {}
                 }
                 onActionButtonClick?.onActionButtonClick()
             }
@@ -102,12 +116,15 @@ class AcceptRideView @JvmOverloads constructor(
     }
 }
 
-enum class Status {
-   TO_ACCEPT, IN_TRIP, PAYMENT
-}
+data class AcceptRideData(
+    val passengerImage: String,
+    val tripInfo: String,
+    val rideDuration: String,
+    val distanceRemaining: String
+)
 
 interface OnStatusChangedListener {
-    fun onNewStatus(status: Status)
+    fun onNewStatus(status: TripStatus)
 }
 
 interface OnActionButtonClick {

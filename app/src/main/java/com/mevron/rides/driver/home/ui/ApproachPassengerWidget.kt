@@ -29,7 +29,7 @@ class ApproachPassengerWidget @JvmOverloads constructor(
     private var stopNewRideRequestButton: Button
     private var cancelRideRequestButton: Button
     private var passengerRating: TextView
-    private var goingToPickupWidget: PassengerContactWidet
+    private var passengerContactWidget: PassengerContactWidget
     private var arrivedAtPassengerWidget: ArrivedAtPickupWidget
     private var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private var root: View
@@ -52,14 +52,14 @@ class ApproachPassengerWidget @JvmOverloads constructor(
         stopNewRideRequestButton = root.findViewById(R.id.stopNewRideRequestsButton)
         cancelRideRequestButton = root.findViewById(R.id.cancelRideButton)
         passengerRating = root.findViewById(R.id.passengerRating)
-        goingToPickupWidget = root.findViewById(R.id.goingToPickupWidget)
+        passengerContactWidget = root.findViewById(R.id.goingToPickupWidget)
         arrivedAtPassengerWidget = root.findViewById(R.id.arrivedAtPickupWidget)
         bottomSheetRoot = root.findViewById(R.id.bottomSheetApproachPassenger)
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetRoot)
 
         arrivedAtPassengerWidget.setOnContactClickedListener(this)
-        goingToPickupWidget.setContactClickListener(this)
+        passengerContactWidget.setContactClickListener(this)
         arrivedAtPassengerWidget.setOnArriveButtonClickListener(this)
         cancelRideRequestButton.setOnClickListener(this)
         stopNewRideRequestButton.setOnClickListener(this)
@@ -76,33 +76,37 @@ class ApproachPassengerWidget @JvmOverloads constructor(
         }
     }
 
-    fun setPassengerRating(rating: Double) {
-        passengerRating.text = "$rating"
+    fun show() {
+        visibility = VISIBLE
+    }
+
+    fun hide() {
+        visibility = GONE
+    }
+
+    private fun setPassengerRating(rating: String) {
+        passengerRating.text = rating
     }
 
     fun showDriverArrivalStatus(hasArrived: Boolean) {
         if (hasArrived) {
-            goingToPickupWidget.hide()
+            passengerContactWidget.hide()
             arrivedAtPassengerWidget.show()
         } else {
-            goingToPickupWidget.show()
+            passengerContactWidget.show()
             arrivedAtPassengerWidget.hide()
         }
     }
 
-    fun bindArrivedData(arrivedData: ArrivedData) {
+    private fun bindArrivedData(arrivedData: ArrivedData) {
         arrivedAtPassengerWidget.bind(arrivedData)
     }
 
-    fun bindGoingToPassengerData(goingToPassengerData: OnTheWayToPassengerData) {
-        goingToPickupWidget.bind(goingToPassengerData)
-    }
-
-    fun setDropOffAtValue(dropOffAtValue: String) {
+    private fun setDropOffAtValue(dropOffAtValue: String) {
         this.dropOffAtValue.text = dropOffAtValue
     }
 
-    fun setPassengerName(passengerName: String) {
+    private fun setPassengerName(passengerName: String) {
         this.passengerName.text = passengerName
     }
 
@@ -121,6 +125,26 @@ class ApproachPassengerWidget @JvmOverloads constructor(
     fun setEventsClickListener(listener: ApproachPassengerWidgetEventClickListener) {
         eventsClickListener = listener
     }
+
+    fun bindData(data: ApproachingPassengerData) {
+        arrivedAtPassengerWidget.bind(
+            ArrivedData(
+                data.passengerName,
+                data.passengerRating,
+                data.passengerImage
+            )
+        )
+        passengerContactWidget.bind(
+            OnTheWayToPassengerData(
+                data.timeLeftToPassengerInfo,
+                data.pickUpPassengerInfo
+            )
+        )
+        setDropOffAtValue(data.dropOffAtInfo)
+        setPassengerName(data.passengerName)
+        bindArrivedData(ArrivedData(data.passengerName, data.passengerRating, data.passengerImage))
+        setPassengerRating(data.passengerRating)
+    }
 }
 
 interface ApproachPassengerWidgetEventClickListener {
@@ -132,3 +156,13 @@ interface ApproachPassengerWidgetEventClickListener {
     fun onNavigateToHomeClicked()
     fun onDropOffClicked()
 }
+
+data class ApproachingPassengerData(
+    val passengerImage: String,
+    val passengerName: String,
+    val passengerRating: String,
+    val timeLeftToPassengerInfo: String,
+    val pickUpPassengerInfo: String,
+    val dropOffAtInfo: String,
+    val pickUpLocationInfo: String
+)

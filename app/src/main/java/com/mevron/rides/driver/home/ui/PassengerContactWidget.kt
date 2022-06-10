@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mevron.rides.driver.R
 
-class PassengerContactWidet @JvmOverloads constructor(
+class PassengerContactWidget @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -32,11 +32,11 @@ class PassengerContactWidet @JvmOverloads constructor(
         this.onContactClickedListener = listener
     }
 
-    fun setTimeRemainingLabel(text: String) {
+    private fun setTimeRemainingLabel(text: String) {
         timeRemainingLabel.text = text
     }
 
-    fun setPassengerLabel(text: String) {
+    private fun setPassengerLabel(text: String) {
         passengerLabel.text = text
     }
 

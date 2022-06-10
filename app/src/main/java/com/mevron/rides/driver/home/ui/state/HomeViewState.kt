@@ -1,5 +1,6 @@
 package com.mevron.rides.driver.home.ui.state
 
+import com.mevron.rides.driver.home.domain.model.MapTripState
 import com.mevron.rides.driver.home.ui.DocumentSubmissionStatus
 
 data class HomeViewState(
@@ -9,7 +10,8 @@ data class HomeViewState(
     val errorMessage: String,
     val isLoadingDocuments: Boolean,
     val isLoadingOnlineStatus: Boolean,
-    val isLocationUpdating: Boolean
+    val isLocationUpdating: Boolean,
+    val currentMapTripState: MapTripState
 ) {
     companion object {
         val EMPTY = HomeViewState(
@@ -19,7 +21,8 @@ data class HomeViewState(
             errorMessage = "",
             isLoadingDocuments = false,
             isLoadingOnlineStatus = false,
-            isLocationUpdating = false
+            isLocationUpdating = false,
+            currentMapTripState = MapTripState.Idle
         )
     }
 }
@@ -31,7 +34,8 @@ fun HomeViewState.transform(
     errorMessage: String? = null,
     isLoadingDocuments: Boolean? = null,
     isLoadingOnlineStatus: Boolean? = null,
-    isLocationUpdating: Boolean? = null
+    isLocationUpdating: Boolean? = null,
+    mapTripState: MapTripState? = null
 ) = copy(
     isDriveActive = isDriveActive ?: this.isDriveActive,
     isOnline = isOnline ?: this.isOnline,
@@ -39,5 +43,6 @@ fun HomeViewState.transform(
     errorMessage = errorMessage ?: this.errorMessage,
     isLoadingDocuments = isLoadingDocuments ?: this.isLoadingDocuments,
     isLoadingOnlineStatus = isLoadingOnlineStatus ?: this.isLoadingOnlineStatus,
-    isLocationUpdating = isLocationUpdating ?: this.isLocationUpdating
+    isLocationUpdating = isLocationUpdating ?: this.isLocationUpdating,
+    currentMapTripState = mapTripState ?: this.currentMapTripState
 )

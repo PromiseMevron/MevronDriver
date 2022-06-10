@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.mevron.rides.driver.home.ui.PassengerContactWidet
+            <com.mevron.rides.driver.home.ui.PassengerContactWidget
                 android:id="@+id/goingToPickupWidget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
