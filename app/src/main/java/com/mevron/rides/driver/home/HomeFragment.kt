@@ -74,10 +74,10 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         binding.loadingView.hide()
     }
 
-    private fun showStateMachineErrorDialog() {
+    private fun showStateMachineErrorDialog(error: String) {
         context?.let {
             if (dialog == null) {
-                dialog = AlertDialog.Builder(it).setTitle("Failed to fetch trip Status")
+                dialog = AlertDialog.Builder(it).setTitle(error)
                     .setCancelable(false)
                     .setPositiveButton(
                         "Reload"
@@ -138,7 +138,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 } else {
                     hideTripStatusLoadingView()
                     if (it.error.isNotEmpty()) {
-                        showStateMachineErrorDialog()
+                        showStateMachineErrorDialog(it.error.toString())
                     } else {
                         routeCorrectly(it.data)
                     }

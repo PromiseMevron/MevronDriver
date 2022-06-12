@@ -18,11 +18,27 @@ interface ISocketManager {
 }
 
 sealed interface SocketEvent {
+
     fun fromJson(string: String): Any?
     fun toJsonString(): String
     val name: String
 
+    object Connected : SocketEvent {
+
+        override fun fromJson(string: String): Any? {
+           return null
+        }
+
+        override fun toJsonString(): String {
+            return "Driver connected"
+        }
+
+        override val name: String
+            get() = "connected"
+    }
+
     data class SendLocationEvent(val locationData: LocationData) : SocketEvent {
+
         override fun fromJson(string: String): LocationData? {
             val gson = GsonBuilder().setPrettyPrinting().create()
             return gson.fromJson(string, LocationData::class.java)
