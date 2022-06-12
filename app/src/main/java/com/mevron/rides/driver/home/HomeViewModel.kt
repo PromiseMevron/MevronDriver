@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.home.domain.model.HomeScreenDomainModel
 import com.mevron.rides.driver.home.domain.usecase.GetDocumentStatusUseCase
+import com.mevron.rides.driver.home.domain.usecase.GetMapTripStateUseCase
+import com.mevron.rides.driver.home.domain.usecase.SetMapTripStateUseCase
 import com.mevron.rides.driver.home.domain.usecase.ToggleOnlineStatusUseCase
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.state.HomeViewState
@@ -14,13 +16,16 @@ import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val onlineStatusUseCase: ToggleOnlineStatusUseCase,
-    private val getDocumentStatusUseCase: GetDocumentStatusUseCase
+    private val getDocumentStatusUseCase: GetDocumentStatusUseCase,
+    private val getMapStateUseCase: GetMapTripStateUseCase,
+    private val setMapStateUSeCase: SetMapTripStateUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<HomeViewState> =
@@ -62,6 +67,14 @@ class HomeViewModel @Inject constructor(
                 val data = result.data as HomeScreenDomainModel
                 // update state
                 mutableState.update { it.transform(isLoadingDocuments = false) }
+            }
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            getMapStateUseCase().collect { mapState ->
+                mutableState.update { it.transform(mapTripState = mapState) }
             }
         }
     }

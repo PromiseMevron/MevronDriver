@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/emergencyWidgetTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/emergency_assistance"
+                android:textColor="@color/field_color"
+                android:textSize="@dimen/_20sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/emergencyLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/emergency_label"
+                android:textColor="#666666"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emergencyWidgetTitle" />
+
+            <View
+                android:id="@+id/topSessionDivider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="16dp"
+                android:background="#F2F2F2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emergencyLabel" />
+
+            <ImageView
+                android:id="@+id/dropIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_drop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topSessionDivider" />
+
+            <TextView
+                android:id="@+id/yourCurrentLocationLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/your_current_location"
+                android:textColor="#666666"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/dropIcon"
+                app:layout_constraintTop_toBottomOf="@+id/topSessionDivider" />
+
+            <TextView
+                android:id="@+id/yourCurrentLocationValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/your_current_location"
+                android:textColor="#8A8A8A"
+                android:textSize="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/dropIcon"
+                app:layout_constraintTop_toBottomOf="@+id/yourCurrentLocationLabel" />
+
+
+            <View
+                android:id="@+id/secondSectionDivider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="16dp"
+                android:background="#F2F2F2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/yourCurrentLocationValue" />
+
+            <ImageView
+                android:id="@+id/ic_card_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_car"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/secondSectionDivider"
+                app:tint="#cc0000" />
+
+            <TextView
+                android:id="@+id/vehicleDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/vehicle_details"
+                android:textColor="#666666"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/dropIcon"
+                app:layout_constraintTop_toBottomOf="@+id/secondSectionDivider" />
+
+            <TextView
+                android:id="@+id/vehicleDetailsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="#8A8A8A"
+                android:textSize="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/dropIcon"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleDetails"
+                tools:text="Honda CIVIC" />
+
+            <View
+                android:id="@+id/shareMyTrip"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/ic_share_my_trip"
+                android:text="Share My Trip"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/vehicleDetailsValue" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:text="Share my trip"
+                android:textColor="#8A8A8A"
+                app:drawableTint="#8A8A8A"
+                app:layout_constraintBottom_toBottomOf="@+id/shareMyTrip"
+                app:layout_constraintEnd_toEndOf="@+id/shareMyTrip"
+                app:layout_constraintStart_toStartOf="@+id/shareMyTrip"
+                app:layout_constraintTop_toTopOf="@+id/shareMyTrip" />
+
+            <View
+                android:id="@+id/callEmergencyNumber"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_call_911"
+                android:text="Call 911"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shareMyTrip" />
+
+            <TextView
+                android:id="@+id/callNumberText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_call_phone"
+                android:drawablePadding="4dp"
+                android:text="Call 911"
+                android:textColor="@color/white"
+                app:drawableTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/callEmergencyNumber"
+                app:layout_constraintEnd_toEndOf="@+id/callEmergencyNumber"
+                app:layout_constraintStart_toStartOf="@+id/callEmergencyNumber"
+                app:layout_constraintTop_toTopOf="@+id/callEmergencyNumber" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

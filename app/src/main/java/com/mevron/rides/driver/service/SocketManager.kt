@@ -9,7 +9,7 @@ import java.util.PriorityQueue
 import java.util.Queue
 
 private const val TAG = "_SocketManager"
-private const val SOCKET_URL = "http://staging.mevron.com:8083/"
+private const val SOCKET_URL = "http://staging.mevron.com:8086/"
 
 class SocketManager(private val preferenceRepository: IPreferenceRepository) : ISocketManager {
 
@@ -33,6 +33,7 @@ class SocketManager(private val preferenceRepository: IPreferenceRepository) : I
         socket?.let { socketInstance ->
             if (!socketInstance.isActive) {
                 socketInstance.open()
+
                 while (eventQueue.isNotEmpty()) {
                     val currentEvent = eventQueue.poll()
                     currentEvent?.let {

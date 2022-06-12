@@ -88,9 +88,14 @@ import com.mapbox.navigation.ui.voice.model.SpeechValue
 import com.mapbox.navigation.ui.voice.model.SpeechVolume
 import com.mapbox.navigation.ui.voice.view.MapboxSoundButton
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.home.domain.model.MapTripState
 import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.map.widgets.OnStatusChangedListener
 import com.mevron.rides.driver.home.map.widgets.AcceptRideView
+import com.mevron.rides.driver.home.ui.ApproachPassengerWidget
+import com.mevron.rides.driver.home.ui.GoingToDestinationWidget
+import com.mevron.rides.driver.home.ui.EmergencyWidget
+import com.mevron.rides.driver.home.ui.StartRideWidget
 import java.util.Locale
 
 private const val TAG = "_MapBoxMapView"
@@ -102,7 +107,7 @@ class MapBoxMapView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr), MevronMapView {
 
-    private var tripView: AcceptRideView? = null
+    private var acceptRideView: AcceptRideView? = null
     private var mapView: MapView? = null
     private var tripProgressView: MapboxTripProgressView? = null
     private var maneuverView: MapboxManeuverView? = null
@@ -111,6 +116,12 @@ class MapBoxMapView @JvmOverloads constructor(
     private var recenter: MapboxRecenterButton? = null
     private lateinit var onStatusChangedListener: OnStatusChangedListener
     private lateinit var onActionButtonClick: OnActionButtonClick
+
+    // widgets
+    private lateinit var layoutEmergencyWidget: EmergencyWidget
+    private lateinit var goingToDestinationWidget: GoingToDestinationWidget
+    private lateinit var startRideWidget: StartRideWidget
+    private lateinit var approachPassengerWidget: ApproachPassengerWidget
 
     private val pixelDensity = Resources.getSystem().displayMetrics.density
     private val overviewPadding: EdgeInsets by lazy {
@@ -278,11 +289,11 @@ class MapBoxMapView @JvmOverloads constructor(
         }
 
         tripProgressView?.visibility = GONE
-        tripView?.visibility = VISIBLE
+        acceptRideView?.visibility = VISIBLE
         // update bottom trip progress summary
         tripProgressView?.render(tripProgressApi.getTripProgress(routeProgress))
 
-        tripView?.renderTripProgress(tripProgressApi.getTripProgress(routeProgress))
+        acceptRideView?.renderTripProgress(tripProgressApi.getTripProgress(routeProgress))
     }
 
     private val navigationCallback: NavigationRouterCallback = object : NavigationRouterCallback {
@@ -709,11 +720,20 @@ class MapBoxMapView @JvmOverloads constructor(
 
     private fun initUIComponents() {
         mapView = findViewById(R.id.mapBoxMapView)
-        tripView = findViewById(R.id.tripView)
+        acceptRideView = findViewById(R.id.tripView)
         maneuverView = findViewById(R.id.maneuverView)
         soundButton = findViewById(R.id.soundButton)
         routeOverview = findViewById(R.id.routeOverview)
         recenter = findViewById(R.id.recenter)
+
+        // initialize widgets
+        goingToDestinationWidget =
+            findViewById(R.id.goingToDestinationWidget)
+        layoutEmergencyWidget = findViewById(R.id.emergencyWidget)
+        startRideWidget = findViewById(R.id.startRideWidget)
+        approachPassengerWidget = findViewById(R.id.approachPassengerWidget)
+
+        // TODO setup listeners and callbacks for widgets
 
         // initialize view interactions
         recenter?.setOnClickListener {
@@ -841,12 +861,12 @@ class MapBoxMapView @JvmOverloads constructor(
         )
     }
 
-    fun showTripView() {
-        tripView?.visibility = VISIBLE
+    private fun showTripView() {
+        acceptRideView?.visibility = VISIBLE
     }
 
     fun hideTripView() {
-        tripView?.visibility = GONE
+        acceptRideView?.visibility = GONE
     }
 
     override fun onDestroy() {
@@ -873,7 +893,7 @@ class MapBoxMapView @JvmOverloads constructor(
      */
     fun setStatusChangedListener(statusChangedListener: OnStatusChangedListener) {
         this.onStatusChangedListener = statusChangedListener
-        tripView?.setOnStatusChangedListener(onStatusChangedListener)
+        acceptRideView?.setOnStatusChangedListener(onStatusChangedListener)
     }
 
     /**
@@ -882,7 +902,44 @@ class MapBoxMapView @JvmOverloads constructor(
      */
     fun setTripViewActionClickListener(onActionButtonClick: OnActionButtonClick) {
         this.onActionButtonClick = onActionButtonClick
-        tripView?.setOnActionClick(onActionButtonClick)
+        acceptRideView?.setOnActionClick(onActionButtonClick)
+    }
+
+    fun renderTripState(tripState: MapTripState) {
+        clearAllStates()
+        when (tripState) {
+            is MapTripState.AcceptRideState -> {
+                acceptRideView?.show()
+                acceptRideView?.bindData(tripState.data)
+            }
+
+            is MapTripState.GoingToDestinationState -> {
+                goingToDestinationWidget.show()
+                goingToDestinationWidget.setGoingToDestinationData(tripState.data)
+            }
+
+            is MapTripState.StartRideState -> {
+                startRideWidget.show()
+                startRideWidget.bindData(tripState.data)
+            }
+            is MapTripState.ApproachingPassengerState -> {
+                approachPassengerWidget.show()
+                approachPassengerWidget.bindData(tripState.data)
+            }
+            is MapTripState.EmergencyState -> {
+                layoutEmergencyWidget.show()
+                layoutEmergencyWidget.setData(tripState.data)
+            }
+            MapTripState.Idle -> {}
+        }
+    }
+
+    private fun clearAllStates() {
+        acceptRideView?.hide()
+        goingToDestinationWidget.hide()
+        approachPassengerWidget.hide()
+        layoutEmergencyWidget.hide()
+        startRideWidget.hide()
     }
 
     init {

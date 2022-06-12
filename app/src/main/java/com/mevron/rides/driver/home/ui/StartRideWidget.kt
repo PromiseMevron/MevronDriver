@@ -17,7 +17,7 @@ class StartRideWidget @JvmOverloads constructor(
     private var passengerOut: LayoutError
     private var timeRemainingForPassenger: TextView
     private var startRideButton: SlideToActView
-    private var passengerContact: PassengerContactWidet
+    private var passengerContact: PassengerContactWidget
 
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_start_the_ride, this, true)
@@ -31,7 +31,37 @@ class StartRideWidget @JvmOverloads constructor(
         passengerContact.setContactClickListener(listener)
     }
 
+    private fun setErrorLabel(label: String) {
+        passengerOut.setErrorLabel(label)
+    }
+
+    fun show() {
+        visibility = VISIBLE
+    }
+
+    fun hide() {
+        visibility = GONE
+    }
+
+    fun bindData(startRideData: StartRideData) {
+        startRideData.passengerDroppedErrorLabel?.let { setErrorLabel(it) }
+        passengerContact.bind(
+            OnTheWayToPassengerData(
+                startRideData.timeRemainingForPassenger,
+                startRideData.passengerInfo
+            )
+        )
+        timeRemainingForPassenger.text = startRideData.timeLeftToPickPassengerInfo
+    }
+
     fun setSlideCompleteCallback(listener: SlideToActView.OnSlideCompleteListener) {
         startRideButton.onSlideCompleteListener = listener
     }
 }
+
+data class StartRideData(
+    val timeRemainingForPassenger: String,
+    val passengerDroppedErrorLabel: String?,
+    val timeLeftToPickPassengerInfo: String,
+    val passengerInfo: String
+)

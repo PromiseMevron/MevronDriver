@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
+import com.mevron.rides.driver.home.domain.model.MapTripState
 import com.mevron.rides.driver.home.domain.model.StateMachineCurrentState
 import com.mevron.rides.driver.home.domain.model.StateMachineDomainData
 import com.mevron.rides.driver.home.map.MapReadyListener
@@ -31,7 +32,6 @@ import com.mevron.rides.driver.service.PermissionsRequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
@@ -74,10 +74,10 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         binding.loadingView.hide()
     }
 
-    private fun showStateMachineErrorDialog() {
+    private fun showStateMachineErrorDialog(error: String) {
         context?.let {
             if (dialog == null) {
-                dialog = AlertDialog.Builder(it).setTitle("Failed to fetch trip Status")
+                dialog = AlertDialog.Builder(it).setTitle(error)
                     .setCancelable(false)
                     .setPositiveButton(
                         "Reload"
@@ -103,12 +103,26 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         when (StateMachineCurrentState.from(data.state.first)) {
             StateMachineCurrentState.ORDER -> {
                 // stay here
+                // bindOrder(MapState.Idle)
+                binding.mapView2.renderTripState(MapTripState.Idle)
             }
             StateMachineCurrentState.IN_TRIP -> {
-                findNavController().navigate(R.id.action_global_rideRequestFragment)
+                /**
+                 * Booking {
+                 *  status: ApproachingPassenger, PassengerOnboard
+                 *  bookingID
+                 *  passengerInfo (Name, image, locationData, ETA)
+                 * }
+                 */
             }
             StateMachineCurrentState.PAYMENT -> {
-              // route to payment page
+                /**
+                 * BookingID
+                 * Estimated/Actual amount
+                 * Request Payment
+                 *
+                 */
+
             }
             else -> {}
         }
@@ -124,7 +138,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 } else {
                     hideTripStatusLoadingView()
                     if (it.error.isNotEmpty()) {
-                        showStateMachineErrorDialog()
+                        showStateMachineErrorDialog(it.error.toString())
                     } else {
                         routeCorrectly(it.data)
                     }
@@ -147,6 +161,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
             viewModel.state.collect { state ->
                 binding.mevronHomeBottom.driverStatus.toggleDrive(state.isDriveActive)
                 binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(state.isOnline)
+                setUpMapTripState(state.currentMapTripState)
             }
         }
 
@@ -165,6 +180,10 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 }
             }
         }
+    }
+
+    private fun setUpMapTripState(mapTripState: MapTripState) {
+        binding.mapView2.renderTripState(mapTripState)
     }
 
     override fun onStart() {
@@ -234,7 +253,6 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     override fun onMapReady() {
-        // TODO Add annotation on user current location
-
+        // TODO Add annotation on user current locatio
     }
 }
