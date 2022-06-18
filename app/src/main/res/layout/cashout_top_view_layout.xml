@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_300sdp"
+    android:background="#1A2A2A72">
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_back_button"
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/we_owe_you"
+        android:fontFamily="@font/poppins_bold"
+        android:textAlignment="center"
+        android:textColor="@color/field_color"
+        android:textFontWeight="400"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/back_button"
+        tools:targetApi="p" />
+
+
+    <TextView
+        android:id="@+id/owned_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
+        android:textAlignment="center"
+        android:textColor="@color/field_color"
+        android:textFontWeight="700"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:targetApi="p"
+        tools:text="$100.00" />
+
+    <View
+        android:id="@+id/down_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#142A2A72"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_next"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/down_view"
+        app:layout_constraintEnd_toStartOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="@id/down_view" />
+
+    <ImageView
+        android:id="@+id/bank_logo"
+        android:layout_width="54dp"
+        android:visibility="invisible"
+        android:layout_height="32dp"
+        android:src="@drawable/flag_albania"
+        app:layout_constraintBottom_toBottomOf="@id/down_view"
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintTop_toTopOf="@id/down_view" />
+
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:textAlignment="center"
+        android:fontFamily="@font/poppins_regular"
+        android:textColor="@color/field_color"
+        android:textFontWeight="700"
+        android:textSize="13sp"
+        android:visibility="invisible"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/bank_logo"
+        app:layout_constraintTop_toTopOf="@+id/bank_logo"
+        tools:targetApi="p"
+        tools:text="....2222" />
+
+    <TextView
+        android:id="@+id/bankName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:fontFamily="@font/poppins_regular"
+        android:textAlignment="center"
+        android:textColor="@color/grey_4"
+        android:textFontWeight="700"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/bank_logo"
+        app:layout_constraintStart_toEndOf="@+id/bank_logo"
+        tools:targetApi="p"
+        tools:text="....2222" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03333" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96667" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -200,6 +200,13 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
+     //   binding.mapView2.initRouting(
+        //    startBearing = 45.0,
+            // Note Point(longitude: Double, latitude: Double) so use accordingly for testing
+         //   destinationPoint = Point.fromLngLat(3.3611049, 6.533664)
+     //   )
+      //  binding.mapView2.onStart()
+      //  binding.mapView2.initRouting()
     }
 
     private fun startLocationUpdate() {

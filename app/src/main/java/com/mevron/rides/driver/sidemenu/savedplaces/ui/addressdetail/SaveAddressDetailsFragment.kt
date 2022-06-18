@@ -86,7 +86,7 @@ class SaveAddressDetailsFragment : Fragment() {
                         Toast.makeText(context, "Failure to save address", Toast.LENGTH_LONG).show()
                     }
 
-                   // binding.saveAddress.isEnabled = state.isCorrect
+                    // binding.saveAddress.isEnabled = state.isCorrect
 
                 }
             }

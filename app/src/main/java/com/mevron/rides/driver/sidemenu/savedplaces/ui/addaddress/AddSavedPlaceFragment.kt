@@ -15,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.AddSavedPlaceFragmentBinding
+import com.mevron.rides.driver.localdb.SavedAddress
+import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetSavedAddressData
 import com.mevron.rides.driver.sidemenu.savedplaces.ui.adapters.AddressAdapter
 import com.mevron.rides.driver.sidemenu.savedplaces.ui.adapters.AddressSelected

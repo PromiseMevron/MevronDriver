@@ -527,8 +527,9 @@ class MapBoxMapView @JvmOverloads constructor(
             // if simulation is enabled (ReplayLocationEngine set to NavigationOptions)
             // but we're not simulating yet,
             // push a single location sample to establish origin
-            val lng = currentLng ?: return
-            val lat = currentLat ?: return
+                //3.3513038,6.5224128
+            val lng = currentLng ?: 3.3513038
+            val lat = currentLat ?: 6.5224128
             mapboxReplayer.pushEvents(
                 listOf(
                     ReplayRouteMapper.mapToUpdateLocation(
@@ -677,7 +678,8 @@ class MapBoxMapView @JvmOverloads constructor(
     fun initRouting(
         startBearing: Double,
         // use default if you are sure origin is set
-        originPoint: Point = Point.fromLngLat(currentLng!!, currentLat!!),
+        //3.3513038,6.5224128,
+        originPoint: Point = Point.fromLngLat(3.3513038, 6.5224128),
         destinationPoint: Point
     ) {
         mapboxNavigation.requestRoutes(

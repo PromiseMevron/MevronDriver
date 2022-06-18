@@ -5,9 +5,7 @@ import com.mevron.rides.driver.sidemenu.savedplaces.data.model.SaveAddressReques
 import com.mevron.rides.driver.sidemenu.savedplaces.data.model.UpdateAddress
 
 interface IAddressRepository {
-
     suspend fun getSavedAddresses(): DomainModel
     suspend fun addAnAddress(data: SaveAddressRequest): DomainModel
     suspend fun updateAnAddress(identifier: String, data: UpdateAddress): DomainModel
 }
-

@@ -7,8 +7,8 @@ import com.mevron.rides.driver.sidemenu.savedplaces.data.model.SaveAddressReques
 import com.mevron.rides.driver.sidemenu.savedplaces.data.model.UpdateAddress
 import com.mevron.rides.driver.sidemenu.savedplaces.data.network.AddressAPI
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.AddressDomainData
-import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetSavedAddressData
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetAddressDomainData
+import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetSavedAddressData
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.repository.IAddressRepository
 
 class AddressRepository(private val addressAPI: AddressAPI) : IAddressRepository {

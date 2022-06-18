@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.13072916666666667" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.335" />
         <entry key="app/src/main/res/drawable-v24/ic_back_button.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_email.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_otp.xml" value="0.2222222222222222" />
@@ -68,6 +69,7 @@
         <entry key="app/src/main/res/drawable/next_unenabled.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable/rounded_border_cancel.xml" value="0.11" />
         <entry key="app/src/main/res/drawable/rounded_border_colored.xml" value="0.11" />
+        <entry key="app/src/main/res/drawable/rounded_border_green.xml" value="0.159" />
         <entry key="app/src/main/res/drawable/rounded_border_review_item.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/rounded_border_save_button.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/rounded_border_update.xml" value="0.1835" />
@@ -77,6 +79,7 @@
         <entry key="app/src/main/res/drawable/rounded_corner_field_red.xml" value="0.1953125" />
         <entry key="app/src/main/res/drawable/rounded_corner_map.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/rounded_corner_rating.xml" value="0.24444444444444444" />
+        <entry key="app/src/main/res/drawable/silver.xml" value="0.159" />
         <entry key="app/src/main/res/drawable/unchecked.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/white.xml" value="0.1375" />
         <entry key="app/src/main/res/layout/account_creation_fragment.xml" value="0.25" />
@@ -85,6 +88,8 @@
         <entry key="app/src/main/res/layout/activity_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/activity_ride.xml" value="0.22604166666666667" />
+        <entry key="app/src/main/res/layout/add_account_fragment.xml" value="0.20516304347826086" />
+        <entry key="app/src/main/res/layout/add_account_item.xml" value="0.18704710144927536" />
         <entry key="app/src/main/res/layout/add_emergency_contact_fragment.xml" value="0.11594202898550725" />
         <entry key="app/src/main/res/layout/add_saved_place_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/add_vehicle_fragment.xml" value="0.165" />
@@ -92,6 +97,11 @@
         <entry key="app/src/main/res/layout/address_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/all_review_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/auth_success_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/balance_detail_top_layout.xml" value="0.20516304347826086" />
+        <entry key="app/src/main/res/layout/balance_details_details_screen.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/balance_details_view.xml" value="0.20516304347826086" />
+        <entry key="app/src/main/res/layout/balance_fragment.xml" value="0.20516304347826086" />
+        <entry key="app/src/main/res/layout/balance_items.xml" value="0.25" />
         <entry key="app/src/main/res/layout/bank_detail_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/bank_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/bullet_item.xml" value="0.25" />
@@ -102,6 +112,11 @@
         <entry key="app/src/main/res/layout/car_year_items_bottom.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/card_add_items.xml" value="0.45" />
         <entry key="app/src/main/res/layout/card_details_fragment.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/cash_out_detail_layout.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/cash_out_fragment.xml" value="0.1734375" />
+        <entry key="app/src/main/res/layout/cash_out_success_fragment.xml" value="0.20516304347826086" />
+        <entry key="app/src/main/res/layout/cashout_details_layout.xml" value="0.1734375" />
+        <entry key="app/src/main/res/layout/cashout_top_view_layout.xml" value="0.335" />
         <entry key="app/src/main/res/layout/color_item.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/dialog_busy_layout.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/doc_chooser_layout.xml" value="0.24010416666666667" />
@@ -119,6 +134,7 @@
         <entry key="app/src/main/res/layout/highlight_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/home_bottom.xml" value="0.25" />
         <entry key="app/src/main/res/layout/home_fragment.xml" value="0.2716049382716049" />
+        <entry key="app/src/main/res/layout/layout_trip_view.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/learn_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/listing_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/notification_fragment.xml" value="0.19157608695652173" />
@@ -131,7 +147,7 @@
         <entry key="app/src/main/res/layout/payments_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/phone_login_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/preference_bottom_layout.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/profile_details_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/profile_details_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/profile_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/regist1_fragment.xml" value="0.2616033755274262" />
         <entry key="app/src/main/res/layout/review_items.xml" value="0.19157608695652173" />
@@ -158,6 +174,9 @@
         <entry key="app/src/main/res/layout/vehicle_images_fragment.xml" value="0.165" />
         <entry key="app/src/main/res/layout/vehicle_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/vehicle_register_item.xml" value="0.24010416666666667" />
+        <entry key="app/src/main/res/layout/view_document_submission_pending.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/view_driver_status.xml" value="0.11684782608695653" />
+        <entry key="app/src/main/res/layout/view_weekly_goals.xml" value="0.15104166666666666" />
         <entry key="app/src/main/res/layout/weekly_item.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/menu/menu_drawer.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/xml/file_paths.xml" value="0.11041666666666666" />

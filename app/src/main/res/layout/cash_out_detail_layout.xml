@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/earning_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:fontFamily="@font/poppins_medium"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="p"
+        android:text="@string/earnings" />
+
+    <TextView
+        android:id="@+id/earning_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="p"
+        tools:text="@string/earnings" />
+
+    <TextView
+        android:id="@+id/tips_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:fontFamily="@font/poppins_medium"
+        android:layout_marginTop="18dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/earning_title"
+        tools:targetApi="p"
+        android:text="@string/tips" />
+
+    <TextView
+        android:id="@+id/tip_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:fontFamily="@font/poppins_medium"
+        android:layout_marginTop="18dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/earning_detail"
+        tools:targetApi="p"
+        tools:text="@string/earnings" />
+
+    <TextView
+        android:id="@+id/other_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:layout_marginTop="18dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/tips_title"
+        tools:targetApi="p"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/other_payments" />
+
+    <TextView
+        android:id="@+id/other_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:layout_marginTop="18dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/tip_detail"
+        tools:targetApi="p"
+        android:fontFamily="@font/poppins_medium"
+        tools:text="@string/earnings" />
+
+    <TextView
+        android:id="@+id/fee_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:layout_marginTop="18dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/other_title"
+        tools:targetApi="p"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/withdrawal_fee" />
+
+    <TextView
+        android:id="@+id/fee_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:layout_marginTop="18dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/other_detail"
+        tools:targetApi="p"
+        android:fontFamily="@font/poppins_medium"
+        tools:text="@string/earnings" />
+
+    <TextView
+        android:id="@+id/total_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/fee_title"
+        tools:targetApi="p"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/total" />
+
+    <TextView
+        android:id="@+id/total_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:lineHeight="56dp"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        android:textColor="@color/grey_5"
+        android:textFontWeight="500"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/fee_detail"
+        tools:targetApi="p"
+        android:fontFamily="@font/poppins_medium"
+        tools:text="@string/earnings" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#f2f2f2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintBottom_toTopOf="@id/total_detail"
+        app:layout_constraintTop_toBottomOf="@id/fee_detail"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03333" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96667" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
