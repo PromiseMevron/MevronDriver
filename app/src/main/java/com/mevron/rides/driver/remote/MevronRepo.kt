@@ -1,7 +1,8 @@
 package com.mevron.rides.driver.remote
 
 import androidx.lifecycle.LiveData
-import com.mevron.rides.driver.auth.model.*
+import com.mevron.rides.driver.auth.model.GeneralResponse
+import com.mevron.rides.driver.auth.model.OTPResponse
 import com.mevron.rides.driver.auth.model.caryear.GetCarYear
 import com.mevron.rides.driver.auth.model.getcar.GetCallsResponse
 import com.mevron.rides.driver.auth.model.getmodel.GetModelResponse
@@ -11,17 +12,17 @@ import com.mevron.rides.driver.home.model.HomeScreenResponse
 import com.mevron.rides.driver.home.model.documents.DocumentStatusResponse
 import com.mevron.rides.driver.localdb.MevronDao
 import com.mevron.rides.driver.localdb.SavedAddress
-import com.mevron.rides.driver.remote.model.GetSavedAddresss
-import com.mevron.rides.driver.remote.model.SaveAddressRequest
-import com.mevron.rides.driver.remote.model.UpdateAddress
 import com.mevron.rides.driver.remote.model.getcard.AddCard
 import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
-import com.mevron.rides.driver.sidemenu.model.AddContactRequest
-import com.mevron.rides.driver.sidemenu.model.GetContactsResponse
-import com.mevron.rides.driver.sidemenu.model.NotificationResponse
-import com.mevron.rides.driver.sidemenu.model.emerg.UpdateEmergencyContact
-import com.mevron.rides.driver.sidemenu.model.pref.GetPrefrenceModel
-import com.mevron.rides.driver.sidemenu.model.pref.UpdatePrefrenceRequest
+import com.mevron.rides.driver.sidemenu.emerg.data.model.AddContactRequest
+import com.mevron.rides.driver.sidemenu.emerg.data.model.GetContactsResponse
+import com.mevron.rides.driver.sidemenu.emerg.data.model.UpdateEmergencyContact
+import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.GetPrefrenceModel
+import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.PrefrenceData
+import com.mevron.rides.driver.sidemenu.savedplaces.data.model.GetSavedAddress
+import com.mevron.rides.driver.sidemenu.savedplaces.data.model.SaveAddressRequest
+import com.mevron.rides.driver.sidemenu.savedplaces.data.model.UpdateAddress
+import com.mevron.rides.driver.sidemenu.supportpages.data.model.NotificationResponse
 import com.mevron.rides.driver.updateprofile.domain.model.AddVehicleRequest
 import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
 import okhttp3.MultipartBody
@@ -98,7 +99,7 @@ class MevronRepo @Inject constructor (private val api: MevronAPI, private val da
         return api.saveAddress(data)
     }
 
-    suspend fun getAddress(): Response<GetSavedAddresss> {
+    suspend fun getAddress(): Response<GetSavedAddress> {
         return api.getAddress()
     }
 
@@ -177,7 +178,7 @@ class MevronRepo @Inject constructor (private val api: MevronAPI, private val da
         return api.deleteCard(id)
     }
 
-    suspend fun setPreference(data: UpdatePrefrenceRequest): Response<GeneralResponse> {
+    suspend fun setPreference(data: PrefrenceData): Response<GeneralResponse> {
         return api.setPreference(data)
     }
 

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
@@ -39,226 +40,21 @@
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/add_a_bank_account" />
 
-    <TextView
-        android:id="@+id/holder_title"
-        android:layout_width="0dp"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:lineHeight="56dp"
-        android:textAlignment="center"
-        android:textColor="@color/grey_3"
-        android:textFontWeight="600"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
+        tools:listitem="@layout/add_account_item"
+        tools:itemCount="5"
+        android:id="@+id/recycler_view"
         app:layout_constraintTop_toBottomOf="@id/back_button"
-        tools:targetApi="p"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/name_of_account_holder" />
-
-    <EditText
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/holder_title"
-        android:layout_width="0dp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        android:layout_marginTop="4dp"
-        android:layout_height="52dp"
-        android:imeOptions="actionNext"
-        android:layout_weight="2"
-        android:id="@+id/holder_field"
-        android:background="@drawable/rounded_corner_field"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        android:textColor="#383838"
-        android:inputType="textPersonName"/>
-
-
-    <TextView
-        android:id="@+id/routing_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:lineHeight="56dp"
-        android:textAlignment="center"
-        android:textColor="@color/grey_3"
-        android:textFontWeight="600"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/holder_field"
-        tools:targetApi="p"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/routing_number" />
-
-    <EditText
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/routing_title"
-        android:layout_width="0dp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        android:layout_marginTop="4dp"
-        android:layout_height="52dp"
-        android:imeOptions="actionNext"
-        android:layout_weight="2"
-        android:id="@+id/routing_field"
-        android:background="@drawable/rounded_corner_field"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        android:textColor="#383838"
-        android:inputType="textPersonName"/>
-
-    <TextView
-        android:id="@+id/number_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:lineHeight="56dp"
-        android:textAlignment="center"
-        android:textColor="@color/grey_3"
-        android:textFontWeight="600"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/routing_field"
-        tools:targetApi="p"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/bank_account_number" />
-
-    <EditText
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/number_title"
-        android:layout_width="0dp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        android:layout_marginTop="4dp"
-        android:layout_height="52dp"
-        android:imeOptions="actionNext"
-        android:layout_weight="2"
-        android:id="@+id/number_field"
-        android:background="@drawable/rounded_corner_field"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        android:textColor="#383838"
-        android:inputType="number"/>
-
-
-    <TextView
-        android:id="@+id/birth_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:lineHeight="56dp"
-        android:textAlignment="center"
-        android:textColor="@color/grey_3"
-        android:textFontWeight="600"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/number_field"
-        tools:targetApi="p"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/date_of_birth" />
-
-    <EditText
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/birth_title"
-        android:layout_width="0dp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        android:layout_marginTop="4dp"
-        android:layout_height="52dp"
-        android:imeOptions="actionNext"
-        android:layout_weight="2"
-        android:id="@+id/birth_field"
-        android:focusable="false"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusableInTouchMode="false"
-        android:background="@drawable/rounded_corner_field"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        android:textColor="#383838"
-        android:inputType="date"/>
-
-    <TextView
-        android:id="@+id/address_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:lineHeight="56dp"
-        android:textAlignment="center"
-        android:textColor="@color/grey_3"
-        android:textFontWeight="600"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/birth_field"
-        tools:targetApi="p"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/address" />
-
-    <EditText
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/address_title"
-        android:layout_width="0dp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        android:layout_marginTop="4dp"
-        android:layout_height="52dp"
-        android:imeOptions="actionNext"
-        android:layout_weight="2"
-        android:id="@+id/address_field"
-        android:background="@drawable/rounded_corner_field"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        android:textColor="#383838"
-        android:inputType="textMultiLine"/>
-
-    <TextView
-        android:id="@+id/zip_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:lineHeight="56dp"
-        android:textAlignment="center"
-        android:textColor="@color/grey_3"
-        android:textFontWeight="600"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/address_field"
-        tools:targetApi="p"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="@string/zipcode" />
-
-    <EditText
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/zip_title"
-        android:layout_width="0dp"
-        android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_10sdp"
-        android:layout_marginTop="4dp"
-        android:layout_height="52dp"
-        android:imeOptions="actionNext"
-        android:layout_weight="2"
-        android:id="@+id/zip_field"
-        android:background="@drawable/rounded_corner_field"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        android:textColor="#383838"
-        android:inputType="text"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/zip_field"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toEndOf="@+id/guideline1"
         android:textColor="@color/grey_3"
@@ -285,8 +81,6 @@
         app:layout_constraintTop_toBottomOf="@id/submit_button"/>
 
 
-
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
@@ -305,3 +99,4 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+</layout>

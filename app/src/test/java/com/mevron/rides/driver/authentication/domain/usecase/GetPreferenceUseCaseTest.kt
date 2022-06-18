@@ -8,7 +8,7 @@ import org.junit.Test
 class GetPreferenceUseCaseTest {
 
     private val repository: IPreferenceRepository = mockk()
-    private val useCase = GetPreferenceUseCase(repository)
+    private val useCase = GetSharedPreferenceUseCase(repository)
 
     @Test
     fun `when GetPreferenceUseCase is invoked - returns data from repository`() {

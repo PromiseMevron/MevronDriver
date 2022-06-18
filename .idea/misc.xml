@@ -89,6 +89,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/activity_ride.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/add_account_fragment.xml" value="0.20516304347826086" />
+        <entry key="app/src/main/res/layout/add_account_item.xml" value="0.18704710144927536" />
         <entry key="app/src/main/res/layout/add_emergency_contact_fragment.xml" value="0.11594202898550725" />
         <entry key="app/src/main/res/layout/add_saved_place_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/add_vehicle_fragment.xml" value="0.165" />
@@ -133,6 +134,7 @@
         <entry key="app/src/main/res/layout/highlight_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/home_bottom.xml" value="0.25" />
         <entry key="app/src/main/res/layout/home_fragment.xml" value="0.2716049382716049" />
+        <entry key="app/src/main/res/layout/layout_trip_view.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/learn_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/listing_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/notification_fragment.xml" value="0.19157608695652173" />
@@ -145,7 +147,7 @@
         <entry key="app/src/main/res/layout/payments_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/phone_login_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/preference_bottom_layout.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/profile_details_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/profile_details_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/profile_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/regist1_fragment.xml" value="0.2616033755274262" />
         <entry key="app/src/main/res/layout/review_items.xml" value="0.19157608695652173" />

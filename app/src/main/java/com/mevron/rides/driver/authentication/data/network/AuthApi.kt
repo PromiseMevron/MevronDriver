@@ -12,12 +12,12 @@ import retrofit2.http.POST
 
 interface AuthApi {
 
-    @POST("api/v1/driver/request-otp")
+    @POST("api/v1/acquisation/driver/request-otp")
     suspend fun registerPhone(@Body registerPhoneRequest: RegisterPhoneRequest): Response<RegisterPhoneResponse>
 
-    @POST("api/v1/driver/validate-otp")
+    @POST("api/v1/acquisation/driver/validate-otp")
     suspend fun verifyOTP(@Body verifyOTPRequest: VerifyOTPRequest): Response<VerifyOTPResponse>
 
-    @POST("api/v1/driver/auth/update-account")
+    @POST("api/v1/acquisation/driver/auth/update-account")
     suspend fun createAccount(@Body data: CreateAccountRequest): Response<CreateAccountResponse>
 }
