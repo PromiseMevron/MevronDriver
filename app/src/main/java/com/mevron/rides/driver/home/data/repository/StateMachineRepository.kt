@@ -25,6 +25,13 @@ class StateMachineRepository(private val api: StateMachineApi) : IStateMachineRe
             data = StateMachineDomainData(Pair(currentState, metaData.toDomainModel()))
         )
 
-    private fun MetaData.toDomainModel() = StateMachineMetaData(tripId, status)
+    private fun MetaData.toDomainModel() = StateMachineMetaData(
+        tripId,
+        status,
+        pickupLatitude,
+        pickupLongitude,
+        destinationLatitude,
+        destinationLongitude
+    )
 }
 

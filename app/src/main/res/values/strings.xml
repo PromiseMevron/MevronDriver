@@ -379,8 +379,5 @@
     <string name="set_as_default_method_to_receive_payouts">Set as default method to receive payouts</string>
     <string name="all_transactions">All Transactions</string>
     <string name="cashed_out_successfully">cashed out successfully!</string>
-    <string name="save_a_place">Save a place</string>
-    <string name="enter_any_address">Enter any address</string>
-    <string name="others">others</string>
 
 </resources>

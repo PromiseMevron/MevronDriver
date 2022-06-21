@@ -6,9 +6,13 @@ fun StateMachineDomainData.isEmpty() = state.first.isEmpty()
 
 data class StateMachineMetaData(
     val tripId: String?,
-    val status: String
+    val status: String,
+    val pickupLatitude: String?,
+    val pickupLongitude: String,
+    val destinationLatitude: String?,
+    val destinationLongitude: String
 ) {
     companion object {
-        val EMPTY = StateMachineMetaData("", "")
+        val EMPTY = StateMachineMetaData("", "", "", "", "", "")
     }
 }

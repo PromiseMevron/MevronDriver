@@ -13,5 +13,14 @@ data class MetaData(
     @SerializedName("trip_id")
     val tripId: String?,
     @SerializedName("status")
-    val status: String
+    val status: String,
+    @SerializedName("pickupLatitude")
+    val pickupLatitude: String,
+    @SerializedName("pickupLongitude")
+    val pickupLongitude: String,
+    @SerializedName("destinationLatitude")
+    val destinationLatitude: String,
+    @SerializedName("destinationLongitude")
+    val destinationLongitude: String
+
 )

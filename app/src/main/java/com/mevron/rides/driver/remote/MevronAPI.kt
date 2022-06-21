@@ -22,9 +22,7 @@ import com.mevron.rides.driver.sidemenu.supportpages.data.model.NotificationResp
 import com.mevron.rides.driver.sidemenu.emerg.data.model.UpdateEmergencyContact
 import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.GetPrefrenceModel
 import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.PrefrenceData
-import com.mevron.rides.driver.sidemenu.savedplaces.data.model.GetSavedAddress
-import com.mevron.rides.driver.sidemenu.savedplaces.data.model.SaveAddressRequest
-import com.mevron.rides.driver.sidemenu.savedplaces.data.model.UpdateAddress
+
 import com.mevron.rides.driver.updateprofile.domain.model.AddVehicleRequest
 import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
 import okhttp3.MultipartBody
