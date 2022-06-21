@@ -260,6 +260,6 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     override fun onMapReady() {
-        // TODO Add annotation on user current locatio
+        // TODO Add annotation on user current location
     }
 }
