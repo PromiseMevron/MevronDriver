@@ -9,8 +9,6 @@
         android:name="com.mevron.rides.driver.home.HomeFragment"
         tools:layout="@layout/home_fragment"
         android:label="HomeFragment" />
-
-
     <fragment
         android:id="@+id/rideRequestFragment"
         android:name="com.mevron.rides.driver.ride.RideRequestFragment"
@@ -238,6 +236,7 @@
     <fragment
         android:id="@+id/cashOutFragment"
         android:name="com.mevron.rides.driver.cashout.ui.CashOutFragment"
+        tools:layout="@layout/cash_out_fragment"
         android:label="CashOutFragment" />
     <fragment
         android:id="@+id/cashOutSuccessFragment"

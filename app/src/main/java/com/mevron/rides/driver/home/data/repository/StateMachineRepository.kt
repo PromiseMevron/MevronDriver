@@ -31,7 +31,12 @@ class StateMachineRepository(private val api: StateMachineApi) : IStateMachineRe
         pickupLatitude,
         pickupLongitude,
         destinationLatitude,
-        destinationLongitude
+        destinationLongitude,
+        estimatedDistance,
+        estimatedTripTime,
+        riderRating,
+        riderImage,
+        riderName
     )
 }
 

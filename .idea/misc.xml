@@ -135,6 +135,10 @@
         <entry key="app/src/main/res/layout/home_bottom.xml" value="0.25" />
         <entry key="app/src/main/res/layout/home_fragment.xml" value="0.2716049382716049" />
         <entry key="app/src/main/res/layout/layout_accept_ride_view.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_approach_passenger.xml" value="0.20572916666666666" />
+        <entry key="app/src/main/res/layout/layout_going_to_destination.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_going_to_passenger.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_start_the_ride.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_trip_view.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/learn_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/listing_item.xml" value="0.19157608695652173" />
@@ -177,6 +181,7 @@
         <entry key="app/src/main/res/layout/vehicle_register_item.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/view_document_submission_pending.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/view_driver_status.xml" value="0.11684782608695653" />
+        <entry key="app/src/main/res/layout/view_map_box.xml" value="0.20572916666666666" />
         <entry key="app/src/main/res/layout/view_weekly_goals.xml" value="0.15104166666666666" />
         <entry key="app/src/main/res/layout/weekly_item.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/menu/menu_drawer.xml" value="0.24010416666666667" />
