@@ -1,7 +1,7 @@
 package com.mevron.rides.driver.home.data.repository
 
 import com.mevron.rides.driver.domain.DomainModel
-import com.mevron.rides.driver.home.data.model.HomeScreenDataResponse
+import com.mevron.rides.driver.home.data.model.home.HomeScreenDataResponse
 import com.mevron.rides.driver.home.data.network.HomeScreenApi
 import com.mevron.rides.driver.home.domain.IHomeScreenRepository
 import com.mevron.rides.driver.home.domain.model.HomeScreenDomainModel
@@ -35,8 +35,7 @@ private fun HomeScreenDataResponse.toDomainModel() = this.successData.contentDat
         documentStatus = it.documentStatus,
         earnings = it.earnings,
         onlineStatus = it.onlineStatus,
-        rides = it.rides,
-        scheduledPickUps = it.scheduledPickUps,
-        weeklyChallenges = it.weeklyChallenges
+        drive = it.drive,
+        rides = it.drive.todayActivity.rides
     )
 }

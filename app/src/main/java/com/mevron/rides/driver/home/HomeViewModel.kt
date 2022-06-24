@@ -8,6 +8,7 @@ import com.mevron.rides.driver.home.domain.usecase.GetDocumentStatusUseCase
 import com.mevron.rides.driver.home.domain.usecase.GetMapTripStateUseCase
 import com.mevron.rides.driver.home.domain.usecase.SetMapTripStateUseCase
 import com.mevron.rides.driver.home.domain.usecase.ToggleOnlineStatusUseCase
+import com.mevron.rides.driver.home.ui.DocumentSubmissionStatus
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.state.HomeViewState
 import com.mevron.rides.driver.home.ui.state.transform
@@ -47,6 +48,9 @@ class HomeViewModel @Inject constructor(
         mutableState.update { it.transform(isOnline = !it.isOnline) }
         viewModelScope.launch(Dispatchers.IO) {
             val result = onlineStatusUseCase()
+            if (result is DomainModel.Success) {
+               getDocument()
+            }
 
             if (result is DomainModel.Error) {
                 mutableState.update {
@@ -66,7 +70,10 @@ class HomeViewModel @Inject constructor(
             if (result is DomainModel.Success) {
                 val data = result.data as HomeScreenDomainModel
                 // update state
+                mutableState.update { it.transform(documentSubmissionStatus = convertToDocumentStatus(data.documentStatus)) }
                 mutableState.update { it.transform(isLoadingDocuments = false) }
+                mutableState.update { it.transform(weeklyChallenge = data.drive.weeklyChallenges) }
+                mutableState.update { it.transform(scheduledPickup = data.drive.scheduledPickups) }
             }
         }
     }
@@ -76,6 +83,14 @@ class HomeViewModel @Inject constructor(
             getMapStateUseCase().collect { mapState ->
                 mutableState.update { it.transform(mapTripState = mapState) }
             }
+        }
+    }
+
+    private fun convertToDocumentStatus(value: Int): DocumentSubmissionStatus{
+        return when (value){
+            0 -> DocumentSubmissionStatus.PENDING
+            1 -> DocumentSubmissionStatus.REVIEW
+            else -> DocumentSubmissionStatus.OKAY
         }
     }
 }

@@ -31,5 +31,9 @@ data class MetaData(
     @SerializedName("riderImage")
     val riderImage: String,
     @SerializedName("riderName")
-    val riderName: String
+    val riderName: String,
+    @SerializedName("destinationAddress")
+    val destinationAddress: String?,
+    @SerializedName("pickupAddress")
+    val pickupAddress: String?
 )

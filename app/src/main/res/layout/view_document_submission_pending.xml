@@ -5,7 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@color/white"
-        android:tag="documentSubmission"
+        android:tag="view_document_submission_pending"
+        android:id="@+id/back_ground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -46,7 +47,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/attention_message_title"
-            tools:text="@string/complete_processes_to_start_earning" />
+            android:text="@string/complete_processes_to_start_earning" />
 
         <ImageView
             android:contentDescription="@string/next"

@@ -29,8 +29,9 @@
                 app:arc_finished_color="#0B973A"
                 app:arc_unfinished_color="#1A000000"
                 app:arc_text_color="#383838"
+                android:id="@+id/progress_bar"
                 app:arc_bottom_text=""
-                app:arc_progress="44"/>
+                app:arc_progress="0"/>
 
             <TextView
                 android:layout_width="0dp"

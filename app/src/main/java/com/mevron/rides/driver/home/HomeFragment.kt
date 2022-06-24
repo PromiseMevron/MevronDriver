@@ -39,11 +39,8 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     MapReadyListener {
 
     private lateinit var binding: HomeFragmentBinding
-
     private lateinit var permissionRequestManager: PermissionsRequestManager
-
     private val locationViewModel: LocationViewModel by viewModels()
-
     private var dialog: AlertDialog? = null
 
     companion object {
@@ -116,12 +113,6 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         }
     }
 
-    /**
-     *
-     *
-     *
-     */
-
     private fun inTripRouting(stateMachineDomainData: StateMachineDomainData){
         val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second.status)
         val data = stateMachineDomainData.state.second
@@ -132,7 +123,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 binding.mapView2.renderTripState(MapTripState.StartRideState(data = startRide))
             }
             InTripState.APPROACHING_PASSENGER ->{
-                val approachingPassengerData = ApproachingPassengerData(passengerImage = data.riderImage, passengerName = data.riderName, passengerRating = data.riderRating, timeLeftToPassengerInfo = "", pickUpPassengerInfo = getString(
+                val approachingPassengerData = ApproachingPassengerData(passengerImage = data.riderImage ?: "", passengerName = data.riderName ?: "", passengerRating = data.riderRating ?: "", timeLeftToPassengerInfo = "", pickUpPassengerInfo = getString(
                         R.string.picking_up) + data.riderName, dropOffAtInfo = "", pickUpLocationInfo = "")
                 binding.mapView2.renderTripState(MapTripState.ApproachingPassengerState(data = approachingPassengerData))
             }
@@ -154,7 +145,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 binding.mapView2.renderTripState(MapTripState.StartRideState(data = startRide))
             }
             InTripState.APPROACHING_PASSENGER ->{
-                val approachingPassengerData = ApproachingPassengerData(passengerImage = data.riderImage, passengerName = data.riderName, passengerRating = data.riderRating, timeLeftToPassengerInfo = "", pickUpPassengerInfo = getString(
+                val approachingPassengerData = ApproachingPassengerData(passengerImage = data.riderImage ?: "", passengerName = data.riderName ?: "", passengerRating = data.riderRating ?: "", timeLeftToPassengerInfo = "", pickUpPassengerInfo = getString(
                     R.string.picking_up) + data.riderName, dropOffAtInfo = "", pickUpLocationInfo = "")
                 binding.mapView2.renderTripState(MapTripState.ApproachingPassengerState(data = approachingPassengerData))
             }
@@ -168,7 +159,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.onEventReceived(HomeViewEvent.OnDocumentSubmissionStatusClick)
         lifecycleScope.launch {
             stateMachineViewModel.stateMachineState.collect {
                 if (it.isLoading) {
@@ -176,7 +167,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 } else {
                     hideTripStatusLoadingView()
                     if (it.error.isNotEmpty()) {
-                      //  showStateMachineErrorDialog(it.error.toString())
+                        showStateMachineErrorDialog(it.error.toString())
                     } else {
                         routeCorrectly(it.data)
                     }
@@ -200,6 +191,9 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 binding.mevronHomeBottom.driverStatus.toggleDrive(state.isDriveActive)
                 binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(state.isOnline)
                 setUpMapTripState(state.currentMapTripState)
+                binding.mevronHomeBottom.documentSubmissionStatus.toggleStatus(state.documentSubmissionStatus)
+                binding.mevronHomeBottom.schedulePickup.bindData(state.scheduledPickup)
+                binding.mevronHomeBottom.weeklyGoals.bindData(state.weeklyChallenge)
             }
         }
 
