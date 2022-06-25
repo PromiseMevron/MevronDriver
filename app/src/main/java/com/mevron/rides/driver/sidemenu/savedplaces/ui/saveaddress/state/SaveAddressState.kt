@@ -1,7 +1,6 @@
 package com.mevron.rides.driver.sidemenu.savedplaces.ui.saveaddress.state
 
 import com.google.android.libraries.places.api.model.AutocompletePrediction
-import com.mevron.rides.driver.sidemenu.savedplaces.ui.addaddress.state.AddSavedPlaceState
 
 data class SaveAddressState(
     val isLoading: Boolean,

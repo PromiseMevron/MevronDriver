@@ -9,8 +9,6 @@
         android:name="com.mevron.rides.driver.home.HomeFragment"
         tools:layout="@layout/home_fragment"
         android:label="HomeFragment" />
-
-
     <fragment
         android:id="@+id/rideRequestFragment"
         android:name="com.mevron.rides.driver.ride.RideRequestFragment"
@@ -38,7 +36,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         tools:layout="@layout/settings_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.SettingsFragment"
+        android:name="com.mevron.rides.driver.sidemenu.settingsandprofile.ui.SettingsFragment"
         android:label="SettingsFragment" >
         <action
             android:id="@+id/action_settingsFragment_to_profileFragment"
@@ -62,7 +60,7 @@
     <fragment
         android:id="@+id/profileFragment"
         tools:layout="@layout/profile_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.ProfileFragment"
+        android:name="com.mevron.rides.driver.sidemenu.settingsandprofile.ui.ProfileFragment"
         android:label="ProfileFragment" >
         <action
             android:id="@+id/action_profileFragment_to_faceLivenessDetectionFragment2"
@@ -108,7 +106,7 @@
     </fragment>
     <fragment
         android:id="@+id/updateAddressFragment"
-        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.updateaddress.UpdateAddressFragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.UpdateAddressFragment"
         android:label="update_address_fragment"
         tools:layout="@layout/update_address_fragment" >
         <argument
@@ -140,7 +138,7 @@
     <fragment
         android:id="@+id/driverPrefrenceFragment"
         tools:layout="@layout/driver_prefrence_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.DriverPrefrenceFragment"
+        android:name="com.mevron.rides.driver.sidemenu.driverprefrence.ui.DriverPrefrenceFragment"
         android:label="DriverPrefrenceFragment" />
     <fragment
         android:id="@+id/paymentsFragment"
@@ -157,16 +155,16 @@
     <fragment
         android:id="@+id/my_rides_fragment"
         tools:layout="@layout/ride_activity_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.RideActivityFragment"
+        android:name="com.mevron.rides.driver.trips.ui.RideActivityFragment"
         android:label="RideActivityFragment" />
     <fragment
         android:id="@+id/allReviewFragment"
-        android:name="com.mevron.rides.driver.sidemenu.AllReviewFragment"
+        android:name="com.mevron.rides.driver.sidemenu.settingsandprofile.ui.AllReviewFragment"
         android:label="all_review_fragment"
         tools:layout="@layout/all_review_fragment" />
     <fragment
         android:id="@+id/profileDetailsFragment"
-        android:name="com.mevron.rides.driver.sidemenu.ProfileDetailsFragment"
+        android:name="com.mevron.rides.driver.sidemenu.settingsandprofile.ui.ProfileDetailsFragment"
         android:label="profile_details_fragment"
         tools:layout="@layout/profile_details_fragment" >
         <action
@@ -201,7 +199,7 @@
         tools:layout="@layout/vehicle_images_fragment" />
     <fragment
         android:id="@+id/emergencyFragment"
-        android:name="com.mevron.rides.driver.sidemenu.EmergencyFragment"
+        android:name="com.mevron.rides.driver.sidemenu.emerg.ui.views.EmergencyFragment"
         android:label="emergency_fragment"
         tools:layout="@layout/emergency_fragment" >
         <action
@@ -213,27 +211,41 @@
     </fragment>
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.mevron.rides.driver.sidemenu.NotificationFragment"
+        android:name="com.mevron.rides.driver.sidemenu.supportpages.ui.notification.NotificationFragment"
         android:label="notification_fragment"
         tools:layout="@layout/notification_fragment" />
     <fragment
         android:id="@+id/addEmergencyContactFragment"
         tools:layout="@layout/add_emergency_contact_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.AddEmergencyContactFragment"
+        android:name="com.mevron.rides.driver.sidemenu.emerg.ui.views.AddEmergencyContactFragment"
         android:label="AddEmergencyContactFragment" />
     <fragment
         android:id="@+id/updateEmergencyFragment"
-        android:name="com.mevron.rides.driver.sidemenu.UpdateEmergencyFragment"
+        android:name="com.mevron.rides.driver.sidemenu.emerg.ui.views.UpdateEmergencyFragment"
         android:label="update_emergency_fragment"
         tools:layout="@layout/update_emergency_fragment" >
         <argument
             android:name="data"
-            app:argType="com.mevron.rides.driver.sidemenu.model.Data" />
+            app:argType="com.mevron.rides.driver.sidemenu.emerg.domain.model.GetContactDomainData" />
     </fragment>
     <fragment
         android:id="@+id/helpFragment"
         tools:layout="@layout/help_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.HelpFragment"
+        android:name="com.mevron.rides.driver.sidemenu.supportpages.ui.help.HelpFragment"
         android:label="HelpFragment" />
+    <fragment
+        android:id="@+id/cashOutFragment"
+        android:name="com.mevron.rides.driver.cashout.ui.CashOutFragment"
+        tools:layout="@layout/cash_out_fragment"
+        android:label="CashOutFragment" />
+    <fragment
+        android:id="@+id/cashOutSuccessFragment"
+        android:name="com.mevron.rides.driver.cashout.ui.CashOutSuccessFragment"
+        android:label="cash_out_success_fragment"
+        tools:layout="@layout/cash_out_success_fragment" >
+        <argument
+            android:name="amount"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

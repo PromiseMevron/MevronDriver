@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:backgroundTint="#000000"
+    android:keepScreenOn="true"
     android:fitsSystemWindows="true"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"

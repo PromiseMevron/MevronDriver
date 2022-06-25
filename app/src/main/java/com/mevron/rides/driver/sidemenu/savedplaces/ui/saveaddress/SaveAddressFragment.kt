@@ -119,7 +119,8 @@ class SaveAddressFragment : Fragment(), PlaceAdapter.OnItemClicked {
         }
 
         binding.close.setOnClickListener {
-            viewModel.handleEvent(SaveAddressEvent.OnBackButtonPressed)
+          //  viewModel.handleEvent(SaveAddressEvent.OnBackButtonPressed)
+            activity?.onBackPressed()
         }
 
         binding.addressField.textChanges().skipInitialValue().onEach {

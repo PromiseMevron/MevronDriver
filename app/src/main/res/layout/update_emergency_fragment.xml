@@ -4,7 +4,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 xmlns:app="http://schemas.android.com/apk/res-auto"
-tools:context=".sidemenu.UpdateEmergencyFragment">
+tools:context=".sidemenu.emerg.ui.views.UpdateEmergencyFragment">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -93,7 +93,7 @@ tools:context=".sidemenu.UpdateEmergencyFragment">
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/help_amp_support"
+            tools:text="@string/help_amp_support"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/avatar"
@@ -110,7 +110,7 @@ tools:context=".sidemenu.UpdateEmergencyFragment">
             android:id="@+id/number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/help_amp_support"
+            tools:text="@string/help_amp_support"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name"

@@ -62,6 +62,6 @@ class StartRideWidget @JvmOverloads constructor(
 data class StartRideData(
     val timeRemainingForPassenger: String,
     val passengerDroppedErrorLabel: String?,
-    val timeLeftToPickPassengerInfo: String,
+    val timeLeftToPickPassengerInfo: String = "",
     val passengerInfo: String
 )

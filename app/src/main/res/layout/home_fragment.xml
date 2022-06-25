@@ -31,12 +31,14 @@
                 android:layout_marginBottom="@dimen/_260sdp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerCrop"
+                android:visibility="gone"
                 android:src="@drawable/ic_hamburger"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
+            android:visibility="visible"
             android:id="@+id/mevron_home_bottom"
             layout="@layout/home_bottom" />
         <com.mevron.rides.driver.shared.ui.LoadingView
