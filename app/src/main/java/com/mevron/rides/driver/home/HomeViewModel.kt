@@ -6,7 +6,6 @@ import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.home.domain.model.HomeScreenDomainModel
 import com.mevron.rides.driver.home.domain.usecase.GetDocumentStatusUseCase
 import com.mevron.rides.driver.home.domain.usecase.GetMapTripStateUseCase
-import com.mevron.rides.driver.home.domain.usecase.SetMapTripStateUseCase
 import com.mevron.rides.driver.home.domain.usecase.ToggleOnlineStatusUseCase
 import com.mevron.rides.driver.home.ui.DocumentSubmissionStatus
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
@@ -26,7 +25,6 @@ class HomeViewModel @Inject constructor(
     private val onlineStatusUseCase: ToggleOnlineStatusUseCase,
     private val getDocumentStatusUseCase: GetDocumentStatusUseCase,
     private val getMapStateUseCase: GetMapTripStateUseCase,
-    private val setMapStateUSeCase: SetMapTripStateUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<HomeViewState> =

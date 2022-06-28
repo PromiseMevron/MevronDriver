@@ -13,4 +13,5 @@ sealed interface MapTripState {
     data class ApproachingPassengerState(val data: ApproachingPassengerData) : MapTripState
     data class AcceptRideState(val data: AcceptRideData) : MapTripState
     object Idle : MapTripState
+    object Payment: MapTripState
 }

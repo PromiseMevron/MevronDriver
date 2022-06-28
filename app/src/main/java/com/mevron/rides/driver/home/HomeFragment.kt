@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
+import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.home.domain.model.*
 import com.mevron.rides.driver.home.map.MapReadyListener
 import com.mevron.rides.driver.home.ui.ApproachingPassengerData
@@ -33,6 +34,7 @@ import com.mevron.rides.driver.service.PermissionsRequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
@@ -42,6 +44,8 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     private lateinit var permissionRequestManager: PermissionsRequestManager
     private val locationViewModel: LocationViewModel by viewModels()
     private var dialog: AlertDialog? = null
+    @Inject
+    lateinit var socketManager: ISocketManager
 
     companion object {
         fun newInstance() = HomeFragment()
