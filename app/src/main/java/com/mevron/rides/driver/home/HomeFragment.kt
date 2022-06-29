@@ -20,10 +20,7 @@ import com.mevron.rides.driver.databinding.HomeFragmentBinding
 import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.home.domain.model.*
 import com.mevron.rides.driver.home.map.MapReadyListener
-import com.mevron.rides.driver.home.ui.ApproachingPassengerData
-import com.mevron.rides.driver.home.ui.GetStateMachineViewModel
-import com.mevron.rides.driver.home.ui.GoingToDestinationData
-import com.mevron.rides.driver.home.ui.StartRideData
+import com.mevron.rides.driver.home.ui.*
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 import com.mevron.rides.driver.location.ui.LocationViewModel
@@ -38,14 +35,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
-    MapReadyListener {
+    MapReadyListener, ApproachPassengerWidgetEventClickListener {
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var permissionRequestManager: PermissionsRequestManager
     private val locationViewModel: LocationViewModel by viewModels()
     private var dialog: AlertDialog? = null
-    @Inject
-    lateinit var socketManager: ISocketManager
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -164,6 +159,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.onEventReceived(HomeViewEvent.OnDocumentSubmissionStatusClick)
+        binding.mapView2.approachingPassengerEventListener(this)
         lifecycleScope.launch {
             stateMachineViewModel.stateMachineState.collect {
                 if (it.isLoading) {
@@ -297,5 +293,33 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     override fun onMapReady() {
         // TODO Add annotation on user current location
+    }
+
+    override fun onCallClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMessageClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onCancelRideClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onStopNewRideRequestClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDriverArrivedClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onNavigateToHomeClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDropOffClicked() {
+        TODO("Not yet implemented")
     }
 }

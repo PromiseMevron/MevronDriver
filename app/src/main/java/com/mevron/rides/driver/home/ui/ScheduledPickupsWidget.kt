@@ -23,11 +23,13 @@ class ScheduledPickupsWidget @JvmOverloads constructor(
     private var recyclerView: RecyclerView
     private var card: MaterialCardView
     private var adapter: ScheduleAdapter
+    private var empty: View
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_scheduled_pickups, this, true)
         recyclerView = findViewById(R.id.schedule_recycler)
         card = findViewById(R.id.card)
+        empty = findViewById(R.id.empty_bottom)
         adapter = ScheduleAdapter()
     }
 
@@ -39,9 +41,11 @@ class ScheduledPickupsWidget @JvmOverloads constructor(
         if (data.isEmpty()){
             recyclerView.visibility = View.GONE
             card.visibility = View.VISIBLE
+            empty.visibility = View.VISIBLE
         }else{
             recyclerView.visibility = View.VISIBLE
             card.visibility = View.GONE
+            empty.visibility = View.GONE
         }
 
     }

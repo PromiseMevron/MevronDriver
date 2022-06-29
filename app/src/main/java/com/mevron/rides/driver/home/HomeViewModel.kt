@@ -72,6 +72,7 @@ class HomeViewModel @Inject constructor(
                 mutableState.update { it.transform(isLoadingDocuments = false) }
                 mutableState.update { it.transform(weeklyChallenge = data.drive.weeklyChallenges) }
                 mutableState.update { it.transform(scheduledPickup = data.drive.scheduledPickups) }
+                mutableState.update { it.transform(isOnline = data.onlineStatus) }
             }
         }
     }

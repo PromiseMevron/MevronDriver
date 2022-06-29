@@ -53,21 +53,30 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/poppins_regular"
-                    android:textColor="#383838"
-                    android:text="No weekly challenge"
-                    android:textFontWeight="600"
                     android:gravity="center"
+                    android:text="No weekly challenge"
+                    android:textColor="#383838"
+                    android:textFontWeight="600"
                     android:textSize="@dimen/_10ssp"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
                     tools:targetApi="p" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <View
+            app:layout_constraintTop_toBottomOf="@id/card"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:id="@+id/empty_bottom"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

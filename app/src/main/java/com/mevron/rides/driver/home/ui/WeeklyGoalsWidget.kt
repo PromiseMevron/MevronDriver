@@ -21,12 +21,14 @@ class WeeklyGoalsWidget @JvmOverloads constructor(
     private var recyclerView: RecyclerView
     private var card: MaterialCardView
     private var adapter: WeeklyChallengeAdapter
+    private var empty: View
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_weekly_goals, this, true)
         recyclerView = findViewById(R.id.weekly_recycler)
         card = findViewById(R.id.card)
         adapter = WeeklyChallengeAdapter()
+        empty = findViewById(R.id.empty_bottom)
     }
     private val binding by viewBinding(ViewWeeklyGoalsBinding::bind)
 
@@ -36,9 +38,11 @@ class WeeklyGoalsWidget @JvmOverloads constructor(
         if (data.isEmpty()){
             recyclerView.visibility = View.GONE
             card.visibility = View.VISIBLE
+            empty.visibility = View.VISIBLE
         }else{
             recyclerView.visibility = View.VISIBLE
             card.visibility = View.GONE
+            empty.visibility = View.GONE
         }
 
     }
