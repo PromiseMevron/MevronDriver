@@ -12,13 +12,13 @@ import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.state.HomeViewState
 import com.mevron.rides.driver.home.ui.state.transform
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val result = onlineStatusUseCase()
             if (result is DomainModel.Success) {
-               getDocument()
+                getDocument()
             }
 
             if (result is DomainModel.Error) {
@@ -68,11 +68,18 @@ class HomeViewModel @Inject constructor(
             if (result is DomainModel.Success) {
                 val data = result.data as HomeScreenDomainModel
                 // update state
-                mutableState.update { it.transform(documentSubmissionStatus = convertToDocumentStatus(data.documentStatus)) }
+                mutableState.update {
+                    it.transform(
+                        documentSubmissionStatus = convertToDocumentStatus(
+                            data.documentStatus
+                        )
+                    )
+                }
                 mutableState.update { it.transform(isLoadingDocuments = false) }
                 mutableState.update { it.transform(weeklyChallenge = data.drive.weeklyChallenges) }
                 mutableState.update { it.transform(scheduledPickup = data.drive.scheduledPickups) }
                 mutableState.update { it.transform(isOnline = data.onlineStatus) }
+                mutableState.update { it.transform(earnings = data.earnings) }
             }
         }
     }
@@ -85,8 +92,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun convertToDocumentStatus(value: Int): DocumentSubmissionStatus{
-        return when (value){
+    private fun convertToDocumentStatus(value: Int): DocumentSubmissionStatus {
+        return when (value) {
             0 -> DocumentSubmissionStatus.PENDING
             1 -> DocumentSubmissionStatus.REVIEW
             else -> DocumentSubmissionStatus.OKAY

@@ -12,9 +12,7 @@ import com.mevron.rides.driver.sidemenu.RideActivitySubAdapter
 
 class RideActivityAdapter(): RecyclerView.Adapter<RideActivityAdapter.VehiHolder>() {
 
-    class VehiHolder(val binding: RideActivityItemBinding): RecyclerView.ViewHolder(binding.root) {
-
-    }
+    class VehiHolder(val binding: RideActivityItemBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,7 +26,7 @@ class RideActivityAdapter(): RecyclerView.Adapter<RideActivityAdapter.VehiHolder
 
         }
 
-        holder.binding.recyclerView.adapter = RideActivitySubAdapter(holder.binding.recyclerView.context)
+        holder.binding.recyclerView.adapter = RideActivitySubAdapter()
     }
 
     override fun getItemCount(): Int {

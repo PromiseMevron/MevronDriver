@@ -30,7 +30,6 @@ class WeeklyGoalsWidget @JvmOverloads constructor(
         adapter = WeeklyChallengeAdapter()
         empty = findViewById(R.id.empty_bottom)
     }
-    private val binding by viewBinding(ViewWeeklyGoalsBinding::bind)
 
     fun bindData(data: List<WeeklyChallenge>){
         recyclerView.adapter = adapter
@@ -44,6 +43,5 @@ class WeeklyGoalsWidget @JvmOverloads constructor(
             card.visibility = View.GONE
             empty.visibility = View.GONE
         }
-
     }
 }

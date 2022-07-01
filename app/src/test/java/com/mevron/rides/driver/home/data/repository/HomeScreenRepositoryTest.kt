@@ -2,9 +2,7 @@ package com.mevron.rides.driver.home.data.repository
 
 import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.domain.DomainModel
-import com.mevron.rides.driver.home.data.model.HomeScreenContentData
-import com.mevron.rides.driver.home.data.model.HomeScreenDataResponse
-import com.mevron.rides.driver.home.data.model.SuccessData
+import com.mevron.rides.driver.home.data.model.home.*
 import com.mevron.rides.driver.home.data.network.HomeScreenApi
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -21,15 +19,16 @@ class HomeScreenRepositoryTest {
     private val repository = HomeScreenRepository(api)
 
     @Test
-    fun `when repository#toggleStatus is invoked with success - api toggles status`(): Unit = runBlocking {
-        val response: Response<GeneralResponse> = mockk {
-            every { isSuccessful }.returns(true)
+    fun `when repository#toggleStatus is invoked with success - api toggles status`(): Unit =
+        runBlocking {
+            val response: Response<GeneralResponse> = mockk {
+                every { isSuccessful }.returns(true)
+            }
+            coEvery { api.toggleStatus() }.coAnswers { response }
+            val result = repository.toggleStatus()
+            coVerify { api.toggleStatus() }
+            assertTrue(result is DomainModel.Success)
         }
-        coEvery { api.toggleStatus() }.coAnswers { response }
-        val result = repository.toggleStatus()
-        coVerify { api.toggleStatus() }
-        assertTrue(result is DomainModel.Success)
-    }
 
     @Test
     fun `when repository#toggleStatus is invoked with error - returns error`(): Unit = runBlocking {
@@ -49,7 +48,12 @@ class HomeScreenRepositoryTest {
             every { isSuccessful }.returns(true)
             every { body() }.returns(
                 HomeScreenDataResponse(
-                    successData = SuccessData(contentData = emptyHomeScreenData(), status = "SUCCESS")))
+                    successData = SuccessData(
+                        contentData = emptyHomeScreenData(),
+                        status = "SUCCESS"
+                    )
+                )
+            )
         }
         coEvery { api.getHomeStatus() }.returns(response)
         val result = repository.getDocumentStatus()
@@ -71,10 +75,37 @@ class HomeScreenRepositoryTest {
 
     private fun emptyHomeScreenData() = HomeScreenContentData(
         documentStatus = 0,
-        earnings = 0,
+        earnings = Earnings(
+            balance = "",
+            currency = "",
+            nextPaymentDate = "",
+            earningGoal = EarningGoal(
+                earned_goal = "",
+                expiryDate = "",
+                percentage = "",
+                weeklyGoal = ""
+            ),
+            todayActivity = TodayActivityX(
+                earnings = "",
+                online = "",
+                rides = 0,
+                trip_list = mutableListOf()
+            ),
+            weeklySummary = WeeklySummary(
+                earnings = "",
+                online = "",
+                rides = 0,
+                tripList = mutableListOf()
+            )
+        ),
         onlineStatus = false,
-        rides = 0,
-        scheduledPickUps = listOf(),
-        weeklyChallenges = listOf()
+        drive = Drive(
+            mutableListOf(),
+            mutableListOf(),
+            0,
+            todayActivity = TodayActivity(earnings = "", online = "", rides = 0),
+            weeklyChallenges = mutableListOf()
+        )
+
     )
 }

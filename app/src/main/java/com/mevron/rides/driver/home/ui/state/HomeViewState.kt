@@ -1,7 +1,6 @@
 package com.mevron.rides.driver.home.ui.state
 
-import com.mevron.rides.driver.home.data.model.home.ScheduledPickup
-import com.mevron.rides.driver.home.data.model.home.WeeklyChallenge
+import com.mevron.rides.driver.home.data.model.home.*
 import com.mevron.rides.driver.home.domain.model.MapTripState
 import com.mevron.rides.driver.home.ui.DocumentSubmissionStatus
 
@@ -15,7 +14,8 @@ data class HomeViewState(
     val isLocationUpdating: Boolean,
     val currentMapTripState: MapTripState,
     val weeklyChallenge: List<WeeklyChallenge>,
-    val scheduledPickup: List<ScheduledPickup>
+    val scheduledPickup: List<ScheduledPickup>,
+    val earnings: Earnings
 ) {
     companion object {
         val EMPTY = HomeViewState(
@@ -28,7 +28,30 @@ data class HomeViewState(
             isLocationUpdating = false,
             currentMapTripState = MapTripState.Idle,
             weeklyChallenge = mutableListOf(),
-            scheduledPickup = mutableListOf()
+            scheduledPickup = mutableListOf(),
+            earnings = Earnings(
+                balance = "",
+                currency = "",
+                earningGoal = EarningGoal(
+                    earned_goal = "",
+                    expiryDate = "",
+                    percentage = "0",
+                    weeklyGoal = ""
+                ),
+                nextPaymentDate = "",
+                todayActivity = TodayActivityX(
+                    earnings = "",
+                    online = "",
+                    rides = 0,
+                    trip_list = mutableListOf()
+                ),
+                weeklySummary = WeeklySummary(
+                    earnings = "",
+                    online = "",
+                    rides = 0,
+                    tripList = mutableListOf()
+                )
+            )
         )
     }
 }
@@ -43,7 +66,8 @@ fun HomeViewState.transform(
     isLocationUpdating: Boolean? = null,
     mapTripState: MapTripState? = null,
     weeklyChallenge: List<WeeklyChallenge>? = null,
-    scheduledPickup: List<ScheduledPickup>? = null
+    scheduledPickup: List<ScheduledPickup>? = null,
+    earnings: Earnings? = null
 ) = copy(
     isDriveActive = isDriveActive ?: this.isDriveActive,
     isOnline = isOnline ?: this.isOnline,
@@ -54,5 +78,6 @@ fun HomeViewState.transform(
     isLocationUpdating = isLocationUpdating ?: this.isLocationUpdating,
     currentMapTripState = mapTripState ?: this.currentMapTripState,
     weeklyChallenge = weeklyChallenge ?: this.weeklyChallenge,
-    scheduledPickup = scheduledPickup ?: this.scheduledPickup
+    scheduledPickup = scheduledPickup ?: this.scheduledPickup,
+    earnings = earnings ?: this.earnings
 )

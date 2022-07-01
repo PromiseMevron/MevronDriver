@@ -13,11 +13,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
-import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.home.domain.model.*
 import com.mevron.rides.driver.home.map.MapReadyListener
 import com.mevron.rides.driver.home.ui.*
@@ -31,7 +29,6 @@ import com.mevron.rides.driver.service.PermissionsRequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
@@ -105,52 +102,88 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 inTripRouting(data)
             }
             StateMachineCurrentState.PAYMENT -> {
-               // binding.mapView2.renderTripState(MapTripState.)
+                // binding.mapView2.renderTripState(MapTripState.)
                 paymentRouting(data)
             }
             else -> {}
         }
     }
 
-    private fun inTripRouting(stateMachineDomainData: StateMachineDomainData){
+    private fun inTripRouting(stateMachineDomainData: StateMachineDomainData) {
         val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second.status)
         val data = stateMachineDomainData.state.second
-        when(status.state){
-            InTripState.DRIVER_ARRIVED ->{
-                val startRide = StartRideData(timeRemainingForPassenger = "", passengerInfo = getString(
-                                    R.string.picking_up) + data.riderName, timeLeftToPickPassengerInfo = "", passengerDroppedErrorLabel = "")
+        when (status.state) {
+            InTripState.DRIVER_ARRIVED -> {
+                val startRide = StartRideData(
+                    timeRemainingForPassenger = "",
+                    passengerInfo = getString(
+                        R.string.picking_up
+                    ) + data.riderName,
+                    timeLeftToPickPassengerInfo = "",
+                    passengerDroppedErrorLabel = ""
+                )
                 binding.mapView2.renderTripState(MapTripState.StartRideState(data = startRide))
             }
-            InTripState.APPROACHING_PASSENGER ->{
-                val approachingPassengerData = ApproachingPassengerData(passengerImage = data.riderImage ?: "", passengerName = data.riderName ?: "", passengerRating = data.riderRating ?: "", timeLeftToPassengerInfo = "", pickUpPassengerInfo = getString(
-                        R.string.picking_up) + data.riderName, dropOffAtInfo = "", pickUpLocationInfo = "")
+            InTripState.APPROACHING_PASSENGER -> {
+                val approachingPassengerData = ApproachingPassengerData(
+                    passengerImage = data.riderImage ?: "",
+                    passengerName = data.riderName ?: "",
+                    passengerRating = data.riderRating ?: "",
+                    timeLeftToPassengerInfo = "",
+                    pickUpPassengerInfo = getString(
+                        R.string.picking_up
+                    ) + data.riderName,
+                    dropOffAtInfo = "",
+                    pickUpLocationInfo = ""
+                )
                 binding.mapView2.renderTripState(MapTripState.ApproachingPassengerState(data = approachingPassengerData))
             }
-            InTripState.GOING_TO_DESTINATION ->{
-                val goingToDestinationData = GoingToDestinationData(timeToDestinationMessage = "", actionText = getString(
-                    R.string.dropping_off) + data.riderName)
+            InTripState.GOING_TO_DESTINATION -> {
+                val goingToDestinationData = GoingToDestinationData(
+                    timeToDestinationMessage = "", actionText = getString(
+                        R.string.dropping_off
+                    ) + data.riderName
+                )
                 binding.mapView2.renderTripState(MapTripState.GoingToDestinationState(data = goingToDestinationData))
             }
         }
     }
 
-    private fun paymentRouting(stateMachineDomainData: StateMachineDomainData){
+    private fun paymentRouting(stateMachineDomainData: StateMachineDomainData) {
         val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second.status)
         val data = stateMachineDomainData.state.second
-        when(status.state){
-            InTripState.DRIVER_ARRIVED ->{
-                val startRide = StartRideData(timeRemainingForPassenger = "", passengerInfo = getString(
-                    R.string.picking_up) + data.riderName, timeLeftToPickPassengerInfo = "", passengerDroppedErrorLabel = "")
+        when (status.state) {
+            InTripState.DRIVER_ARRIVED -> {
+                val startRide = StartRideData(
+                    timeRemainingForPassenger = "",
+                    passengerInfo = getString(
+                        R.string.picking_up
+                    ) + data.riderName,
+                    timeLeftToPickPassengerInfo = "",
+                    passengerDroppedErrorLabel = ""
+                )
                 binding.mapView2.renderTripState(MapTripState.StartRideState(data = startRide))
             }
-            InTripState.APPROACHING_PASSENGER ->{
-                val approachingPassengerData = ApproachingPassengerData(passengerImage = data.riderImage ?: "", passengerName = data.riderName ?: "", passengerRating = data.riderRating ?: "", timeLeftToPassengerInfo = "", pickUpPassengerInfo = getString(
-                    R.string.picking_up) + data.riderName, dropOffAtInfo = "", pickUpLocationInfo = "")
+            InTripState.APPROACHING_PASSENGER -> {
+                val approachingPassengerData = ApproachingPassengerData(
+                    passengerImage = data.riderImage ?: "",
+                    passengerName = data.riderName ?: "",
+                    passengerRating = data.riderRating ?: "",
+                    timeLeftToPassengerInfo = "",
+                    pickUpPassengerInfo = getString(
+                        R.string.picking_up
+                    ) + data.riderName,
+                    dropOffAtInfo = "",
+                    pickUpLocationInfo = ""
+                )
                 binding.mapView2.renderTripState(MapTripState.ApproachingPassengerState(data = approachingPassengerData))
             }
-            InTripState.GOING_TO_DESTINATION ->{
-                val goingToDestinationData = GoingToDestinationData(timeToDestinationMessage = "", actionText = getString(
-                    R.string.dropping_off) + data.riderName)
+            InTripState.GOING_TO_DESTINATION -> {
+                val goingToDestinationData = GoingToDestinationData(
+                    timeToDestinationMessage = "", actionText = getString(
+                        R.string.dropping_off
+                    ) + data.riderName
+                )
                 binding.mapView2.renderTripState(MapTripState.GoingToDestinationState(data = goingToDestinationData))
             }
         }
@@ -172,6 +205,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                         routeCorrectly(it.data)
                     }
                 }
+
             }
         }
 
@@ -194,6 +228,16 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 binding.mevronHomeBottom.documentSubmissionStatus.toggleStatus(state.documentSubmissionStatus)
                 binding.mevronHomeBottom.schedulePickup.bindData(state.scheduledPickup)
                 binding.mevronHomeBottom.weeklyGoals.bindData(state.weeklyChallenge)
+                binding.mevronHomeBottom.earningCashout.setUpData(state.earnings)
+                binding.mevronHomeBottom.earningToday.setUpData(state.earnings.todayActivity)
+                binding.mevronHomeBottom.earningWeekly.setUpData(state.earnings.weeklySummary)
+                if (state.isDriveActive) {
+                    binding.mevronHomeBottom.driveTab.visibility = View.VISIBLE
+                    binding.mevronHomeBottom.earnTab.visibility = View.GONE
+                } else {
+                    binding.mevronHomeBottom.driveTab.visibility = View.GONE
+                    binding.mevronHomeBottom.earnTab.visibility = View.VISIBLE
+                }
             }
         }
 
@@ -232,13 +276,13 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
-     //   binding.mapView2.initRouting(
+        //   binding.mapView2.initRouting(
         //    startBearing = 45.0,
-            // Note Point(longitude: Double, latitude: Double) so use accordingly for testing
-         //   destinationPoint = Point.fromLngLat(3.3611049, 6.533664)
-     //   )
-      //  binding.mapView2.onStart()
-      //  binding.mapView2.initRouting()
+        // Note Point(longitude: Double, latitude: Double) so use accordingly for testing
+        //   destinationPoint = Point.fromLngLat(3.3611049, 6.533664)
+        //   )
+        //  binding.mapView2.onStart()
+        //  binding.mapView2.initRouting()
     }
 
     private fun startLocationUpdate() {

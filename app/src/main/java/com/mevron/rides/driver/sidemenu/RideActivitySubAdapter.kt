@@ -4,34 +4,48 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.databinding.DocumentItemBinding
-import com.mevron.rides.driver.databinding.RideSubActivityBinding
+import com.mevron.rides.driver.databinding.RideSubItemBinding
+import com.mevron.rides.driver.home.data.model.home.Trip
 
-class RideActivitySubAdapter(val context: Context): RecyclerView.Adapter<RideActivitySubAdapter.VehiHolder>() {
 
-    class VehiHolder(val binding: RideSubActivityBinding): RecyclerView.ViewHolder(binding.root) {
-
-    }
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): VehiHolder {
-        return VehiHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.ride_sub_activity, parent, false))
+class RideActivitySubAdapter():  ListAdapter<Trip, VehiHolder>(
+    RideActivityDiffUti()
+) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehiHolder {
+        return VehiHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.ride_sub_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: VehiHolder, position: Int) {
-        holder.binding.root.setOnClickListener {
-
-        }
+        val data = getItem(position)
+        holder.binding.amount.text = data.amount
+        holder.binding.time.text = data.time
+        holder.binding.location.text = ""
     }
-
-    override fun getItemCount(): Int {
-        return 3
-    }
-
-
 }
+
+class RideActivityDiffUti : DiffUtil.ItemCallback<Trip>() {
+    override fun areItemsTheSame(
+        oldItem: Trip,
+        newItem: Trip
+    ): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(
+        oldItem: Trip,
+        newItem: Trip
+    ): Boolean {
+        return areItemsTheSame(oldItem, newItem)
+    }
+}
+
+    class VehiHolder(val binding: RideSubItemBinding): RecyclerView.ViewHolder(binding.root)
+
+
+
+
 

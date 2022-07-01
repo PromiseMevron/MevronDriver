@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.13072916666666667" />
-        <entry key="../../../../layout/custom_preview.xml" value="0.5" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.335" />
         <entry key="app/src/main/res/drawable-v24/ic_back_button.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_email.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_otp.xml" value="0.2222222222222222" />
@@ -123,6 +123,10 @@
         <entry key="app/src/main/res/layout/document_check_fragment.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/document_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/driver_prefrence_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/earning_cashout_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/earning_today_activity_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/earning_today_layout.xml" value="0.22735507246376813" />
+        <entry key="app/src/main/res/layout/earning_weekly_layout.xml" value="0.22735507246376813" />
         <entry key="app/src/main/res/layout/emergency_add_contact.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/emergency_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/emergency_item.xml" value="0.19157608695652173" />
@@ -133,9 +137,12 @@
         <entry key="app/src/main/res/layout/help_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/highlight_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/home_bottom.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/home_bottom_earn.xml" value="0.22735507246376813" />
         <entry key="app/src/main/res/layout/home_fragment.xml" value="0.2716049382716049" />
         <entry key="app/src/main/res/layout/layout_accept_ride_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_approach_passenger.xml" value="0.20572916666666666" />
+        <entry key="app/src/main/res/layout/layout_approach_passenger_bottom_sheet.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/layout_emergency_widget.xml" value="0.16354166666666667" />
         <entry key="app/src/main/res/layout/layout_going_to_destination.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_going_to_passenger.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_start_the_ride.xml" value="0.25" />
@@ -181,7 +188,11 @@
         <entry key="app/src/main/res/layout/vehicle_register_item.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/view_document_submission_pending.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/view_driver_status.xml" value="0.11684782608695653" />
+        <entry key="app/src/main/res/layout/view_help_and_support.xml" value="0.16354166666666667" />
+        <entry key="app/src/main/res/layout/view_learning_hub.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_map_box.xml" value="0.20572916666666666" />
+        <entry key="app/src/main/res/layout/view_opportunity_for_you.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/view_scheduled_pickups.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_weekly_goals.xml" value="0.15104166666666666" />
         <entry key="app/src/main/res/layout/weekly_item.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/menu/menu_drawer.xml" value="0.24010416666666667" />
