@@ -1,6 +1,5 @@
-package com.mevron.rides.driver.sidemenu
+package com.mevron.rides.driver.trips.ui
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -12,11 +11,18 @@ import com.mevron.rides.driver.databinding.RideSubItemBinding
 import com.mevron.rides.driver.home.data.model.home.Trip
 
 
-class RideActivitySubAdapter():  ListAdapter<Trip, VehiHolder>(
+class RideActivitySubAdapter() : ListAdapter<Trip, VehiHolder>(
     RideActivityDiffUti()
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehiHolder {
-        return VehiHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.ride_sub_item, parent, false))
+        return VehiHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.ride_sub_item,
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: VehiHolder, position: Int) {
@@ -43,7 +49,7 @@ class RideActivityDiffUti : DiffUtil.ItemCallback<Trip>() {
     }
 }
 
-    class VehiHolder(val binding: RideSubItemBinding): RecyclerView.ViewHolder(binding.root)
+class VehiHolder(val binding: RideSubItemBinding) : RecyclerView.ViewHolder(binding.root)
 
 
 

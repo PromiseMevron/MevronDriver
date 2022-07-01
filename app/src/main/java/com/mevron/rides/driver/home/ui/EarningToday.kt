@@ -9,9 +9,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.home.data.model.home.Earnings
 import com.mevron.rides.driver.home.data.model.home.TodayActivityX
-import com.mevron.rides.driver.sidemenu.RideActivitySubAdapter
+import com.mevron.rides.driver.trips.ui.RideActivitySubAdapter
 
 class EarningToday @JvmOverloads constructor(
     context: Context,

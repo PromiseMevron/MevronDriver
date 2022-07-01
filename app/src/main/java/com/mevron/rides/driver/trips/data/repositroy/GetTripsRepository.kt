@@ -1,7 +1,9 @@
 package com.mevron.rides.driver.trips.data.repositroy
 
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.home.data.model.home.Trip
 import com.mevron.rides.driver.trips.data.model.alltrips.AllTripsResponse
+import com.mevron.rides.driver.trips.data.model.alltrips.AllTripsResult
 import com.mevron.rides.driver.trips.data.network.TripsAPI
 import com.mevron.rides.driver.trips.domain.model.AllTripsDomainData
 import com.mevron.rides.driver.trips.domain.model.GetTripDomainData
@@ -28,13 +30,14 @@ class GetTripsRepository(private val api: TripsAPI) : IGetTripsRepository {
                 rides = rides,
                 startDate = startDate,
                 results = results.map {
-                    AllTripsDomainData(
+                    AllTripsResult(
                         amount = it.amount,
-                        date = it.date,
-                        id = it.id,
-                        status = it.status,
                         time = it.time,
-                        title = it.title
+                     date =it.date,
+                        id = it.id,
+                    status = it.status,
+                    title = it.title
+
                     )
                 })
         }

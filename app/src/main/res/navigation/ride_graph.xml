@@ -246,6 +246,6 @@
         <argument
             android:name="amount"
             app:argType="string" />
-    </fragment>
+    </fragment><action android:id="@+id/action_global_cashOutFragment" app:destination="@id/cashOutFragment"/><action android:id="@+id/action_global_cashOutSuccessFragment" app:destination="@id/cashOutSuccessFragment"/><action android:id="@+id/action_global_my_rides_fragment" app:destination="@id/my_rides_fragment"/>
 
 </navigation>
