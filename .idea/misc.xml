@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.13072916666666667" />
-        <entry key="../../../../layout/custom_preview.xml" value="0.335" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.165" />
         <entry key="app/src/main/res/drawable-v24/ic_back_button.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_email.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_otp.xml" value="0.2222222222222222" />
@@ -20,6 +20,7 @@
         <entry key="app/src/main/res/drawable/grey.xml" value="0.1375" />
         <entry key="app/src/main/res/drawable/hollow_background.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_add_account.xml" value="0.1875" />
+        <entry key="app/src/main/res/drawable/ic_add_fund.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/ic_address_image.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_alert.xml" value="0.1875" />
         <entry key="app/src/main/res/drawable/ic_all_saved.xml" value="0.136" />
@@ -91,6 +92,8 @@
         <entry key="app/src/main/res/layout/add_account_fragment.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/add_account_item.xml" value="0.18704710144927536" />
         <entry key="app/src/main/res/layout/add_emergency_contact_fragment.xml" value="0.11594202898550725" />
+        <entry key="app/src/main/res/layout/add_fund_cash_out_layout.xml" value="0.22735507246376813" />
+        <entry key="app/src/main/res/layout/add_fund_layout.xml" value="0.22735507246376813" />
         <entry key="app/src/main/res/layout/add_saved_place_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/add_vehicle_fragment.xml" value="0.165" />
         <entry key="app/src/main/res/layout/add_vehicle_fragment2.xml" value="0.19157608695652173" />

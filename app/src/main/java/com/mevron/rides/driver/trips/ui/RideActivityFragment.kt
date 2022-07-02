@@ -72,7 +72,9 @@ class RideActivityFragment : Fragment() {
                     adapter.submitList(it.items)
                     binding.disaplyDate.text = it.displayDate
                     binding.displayButtton.text = it.displayDate
-
+                    binding.onlineAmountDrive.text = it.data.online
+                    binding.earningAmountDrive.text = it.data.amount
+                    binding.ridesAmountDrive.text = it.data.rides.toString()
                 }
             }
         }

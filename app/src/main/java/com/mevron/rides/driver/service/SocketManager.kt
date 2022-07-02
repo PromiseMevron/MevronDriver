@@ -69,6 +69,13 @@ class SocketManager @Inject constructor(private val mapStateRepository: IMapStat
                 val rideDuration: String,
                 val distanceRemaining: String
                  */
+                socketInstance.on(SocketEvent.Connected.name) {
+                    print("the response from socket ${it}")
+                    if (it.isNotEmpty()) {
+                       print("the response from socket ${it}")
+                    }
+                }
+
                 socketInstance.on(SocketEvent.IncomingRideRequestEvent.name) {
                     if (it.isNotEmpty()) {
                         val item = it[0] as JSONObject

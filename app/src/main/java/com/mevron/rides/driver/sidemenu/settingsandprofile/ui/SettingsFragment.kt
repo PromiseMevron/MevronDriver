@@ -54,7 +54,7 @@ class SettingsFragment : Fragment() {
                         binding.userName.text = this.firstName + " " + this.lastName
                         binding.userRating.text = this.rating
                         if (!this.profilePicture.isNullOrEmpty())
-                        Picasso.get().load(this.profilePicture).centerCrop().into(binding.profileImage)
+                        Picasso.get().load(this.profilePicture).into(binding.profileImage)
                     }
                     if (state.error.isNotEmpty()){
                         Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()

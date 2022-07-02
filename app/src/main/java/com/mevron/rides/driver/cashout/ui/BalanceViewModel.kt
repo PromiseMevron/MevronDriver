@@ -2,12 +2,14 @@ package com.mevron.rides.driver.cashout.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mevron.rides.driver.cashout.data.model.CashOutData
+import com.mevron.rides.driver.cashout.data.model.CashActionData
 import com.mevron.rides.driver.cashout.domain.model.PaymentBalanceDetailsDomainDatum
 import com.mevron.rides.driver.cashout.domain.model.PaymentDetailsDomainData
 import com.mevron.rides.driver.cashout.domain.model.PaymentDetailsDomainDatum
 import com.mevron.rides.driver.cashout.domain.usecase.CashOutUseCase
 import com.mevron.rides.driver.cashout.domain.usecase.GetWalletDetailsUseCase
+import com.mevron.rides.driver.cashout.ui.event.AddAccountEvent
+import com.mevron.rides.driver.cashout.ui.event.CashOutAddFundEvent
 import com.mevron.rides.driver.cashout.ui.state.GetWalletDetailState
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
@@ -37,7 +39,8 @@ class BalanceViewModel @Inject constructor(private val useCase: GetWalletDetails
                     updateState(
                         loading = false,
                         errorMessage = "",
-                        balance = data.balance
+                        balance = data.balance,
+                        date = data.nextPaymentDate
                     )
                     createSection(data)
                 }
@@ -54,10 +57,11 @@ class BalanceViewModel @Inject constructor(private val useCase: GetWalletDetails
 
     fun cashOutWallet() {
         updateState(loading = true)
-        val balance = mutableState.value.balance
+        val balance = mutableState.value.cashOutAmount
         if (balance.isEmpty()){
             return
         }
+
         val data = mutableState.value.toRequest()
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = cashOutUseCase(data = data)) {
@@ -79,10 +83,16 @@ class BalanceViewModel @Inject constructor(private val useCase: GetWalletDetails
     }
 
 
-    private fun GetWalletDetailState.toRequest(): CashOutData =
-        CashOutData(
+    private fun GetWalletDetailState.toRequest(): CashActionData =
+        CashActionData(
             amount = this.balance
         )
+
+    fun onEvent(event: CashOutAddFundEvent) {
+        when (event) {
+            CashOutAddFundEvent.OnCashOutClick -> cashOutWallet()
+        }
+    }
 
     private fun createSection(data: PaymentDetailsDomainData){
         val arr = data.data.sortedByDescending {
@@ -171,7 +181,9 @@ class BalanceViewModel @Inject constructor(private val useCase: GetWalletDetails
         balance: String? = null,
         success: Boolean? = null,
         data: List<PaymentBalanceDetailsDomainDatum>? = null,
-        date: String? = null
+        date: String? = null,
+        cashOut: String? = null,
+        addFund: String? = null
     ) {
         val currentState = mutableState.value
         mutableState.update {
@@ -181,7 +193,9 @@ class BalanceViewModel @Inject constructor(private val useCase: GetWalletDetails
                 balance = balance ?: currentState.balance,
                 success = success ?: currentState.success,
                 data = data ?: currentState.data,
-                date = date ?: currentState.date
+                date = date ?: currentState.date,
+                cashOutAmount = cashOut ?: currentState.cashOutAmount,
+                addFundAmount = addFund ?: currentState.addFundAmount
             )
         }
     }

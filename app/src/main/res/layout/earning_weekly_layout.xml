@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
                     android:lineHeight="@dimen/_24sdp"
-                    tools:text="@string/rides"
+                    android:text="@string/rides"
                     android:textColor="#9c9c9c"
                     android:textAlignment="center"
                     android:maxLines="1"

@@ -246,6 +246,14 @@
         <argument
             android:name="amount"
             app:argType="string" />
-    </fragment><action android:id="@+id/action_global_cashOutFragment" app:destination="@id/cashOutFragment"/><action android:id="@+id/action_global_cashOutSuccessFragment" app:destination="@id/cashOutSuccessFragment"/><action android:id="@+id/action_global_my_rides_fragment" app:destination="@id/my_rides_fragment"/>
+    </fragment>
+    <action android:id="@+id/action_global_cashOutFragment" app:destination="@id/cashOutFragment" />
+    <action android:id="@+id/action_global_cashOutSuccessFragment" app:destination="@id/cashOutSuccessFragment" />
+    <action android:id="@+id/action_global_my_rides_fragment" app:destination="@id/my_rides_fragment" />
+    <fragment
+        android:id="@+id/balanceFragment"
+        android:name="com.mevron.rides.driver.cashout.ui.BalanceFragment"
+        android:label="balance_fragment"
+        tools:layout="@layout/balance_fragment" /><action android:id="@+id/action_global_balanceFragment" app:destination="@id/balanceFragment"/>
 
 </navigation>

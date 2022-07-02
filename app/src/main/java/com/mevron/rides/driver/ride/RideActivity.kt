@@ -58,7 +58,7 @@ class RideActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
 
         appBarConfiguration = AppBarConfiguration(setOf(R.id.my_rides_fragment,
-            R.id.notificationFragment, R.id.savedpaymentFragment, R.id.helpFragment,
+            R.id.notificationFragment, R.id.balanceFragment, R.id.helpFragment,
             R.id.settingsFragment), drawerLayout)
         // NavigationUI.setupWithNavController(navigationView, navController)
         navView.setupWithNavController(navController)

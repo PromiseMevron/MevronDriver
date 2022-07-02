@@ -2,7 +2,7 @@ package com.mevron.rides.driver.cashout.data.repository
 
 import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.cashout.data.model.AddBankAccountSpecification
-import com.mevron.rides.driver.cashout.data.model.CashOutData
+import com.mevron.rides.driver.cashout.data.model.CashActionData
 import com.mevron.rides.driver.cashout.data.model.GetBankSpecifications
 import com.mevron.rides.driver.cashout.data.model.PaymentDetailsResponse
 import com.mevron.rides.driver.cashout.data.network.PaymentAPI
@@ -20,9 +20,17 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         }
     }
 
-    override suspend fun cashOut(data: CashOutData): DomainModel = api.cashOut(data = data).let {
+    override suspend fun cashOut(data: CashActionData): DomainModel = api.cashOut(data = data).let {
         if (it.isSuccessful) {
             it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in cash out"))
+        } else {
+            DomainModel.Error(Throwable(it.errorBody().toString()))
+        }
+    }
+
+    override suspend fun addFund(data: CashActionData): DomainModel = api.addFund(data = data).let {
+        if (it.isSuccessful) {
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in adding fund"))
         } else {
             DomainModel.Error(Throwable(it.errorBody().toString()))
         }

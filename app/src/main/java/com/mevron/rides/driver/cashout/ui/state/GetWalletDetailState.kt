@@ -5,6 +5,8 @@ import com.mevron.rides.driver.cashout.domain.model.PaymentBalanceDetailsDomainD
 data class GetWalletDetailState(
     val loading: Boolean,
     val balance: String,
+    val cashOutAmount: String,
+    val addFundAmount: String,
     val date: String,
     val errorMessage: String,
     val success: Boolean,
@@ -18,7 +20,9 @@ data class GetWalletDetailState(
             errorMessage = "",
             success = false,
             data = mutableListOf(),
-            date = ""
+            date = "",
+            cashOutAmount = "0",
+            addFundAmount = "0"
         )
     }
 }

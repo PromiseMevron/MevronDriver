@@ -4,3 +4,7 @@ sealed interface AddAccountEvent{
     object OnContinueClick : AddAccountEvent
     object OnGetSpecicif : AddAccountEvent
 }
+
+sealed interface CashOutAddFundEvent{
+    object OnCashOutClick : CashOutAddFundEvent
+}

@@ -2,7 +2,7 @@ package com.mevron.rides.driver.cashout.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mevron.rides.driver.cashout.data.model.CashOutData
+import com.mevron.rides.driver.cashout.data.model.CashActionData
 import com.mevron.rides.driver.cashout.domain.model.PaymentDetailsDomainData
 import com.mevron.rides.driver.cashout.domain.usecase.CashOutUseCase
 import com.mevron.rides.driver.cashout.domain.usecase.GetWalletDetailsUseCase
@@ -75,8 +75,8 @@ class CashOutViewModel @Inject constructor(
     }
 
 
-    private fun GetWalletDetailState.toRequest(): CashOutData =
-        CashOutData(
+    private fun GetWalletDetailState.toRequest(): CashActionData =
+        CashActionData(
             amount = this.balance
         )
 

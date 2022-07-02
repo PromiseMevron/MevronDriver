@@ -74,6 +74,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
+    implementation "androidx.core:core-ktx:1.8.0"
+
     //mapbox
     implementation 'com.mapbox.maps:android:10.5.0'
     implementation "com.mapbox.navigation:android:2.6.0-alpha.1"

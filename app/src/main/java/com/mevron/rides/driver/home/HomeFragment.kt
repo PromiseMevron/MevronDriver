@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
@@ -32,7 +33,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
-    MapReadyListener, ApproachPassengerWidgetEventClickListener {
+    MapReadyListener, ApproachPassengerWidgetEventClickListener, OnEarningCashOutButtonClickListener {
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var permissionRequestManager: PermissionsRequestManager
@@ -219,6 +220,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
         binding.mevronHomeBottom.driverStatus.setClickEventListener(this)
         binding.mapView2.setMapReadyListener(this)
+        binding.mevronHomeBottom.earningCashout.setEventsClickListener(this)
 
         lifecycleScope.launch {
             viewModel.state.collect { state ->
@@ -365,5 +367,13 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     override fun onDropOffClicked() {
         TODO("Not yet implemented")
+    }
+
+    override fun onCashOutClicked() {
+        findNavController().navigate(R.id.action_global_cashOutFragment)
+    }
+
+    override fun onDetailOutClicked() {
+        findNavController().navigate(R.id.action_global_balanceFragment)
     }
 }

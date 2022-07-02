@@ -4,6 +4,6 @@ import com.mevron.rides.driver.cashout.data.model.CashActionData
 import com.mevron.rides.driver.cashout.domain.repository.IPayOutRepository
 import javax.inject.Inject
 
-class CashOutUseCase @Inject constructor(private val repository: IPayOutRepository) {
-    suspend operator fun invoke(data: CashActionData) = repository.cashOut(data = data)
+class AddFundUseCase  @Inject constructor(private val repository: IPayOutRepository) {
+    suspend operator fun invoke(data: CashActionData) = repository.addFund(data = data)
 }
