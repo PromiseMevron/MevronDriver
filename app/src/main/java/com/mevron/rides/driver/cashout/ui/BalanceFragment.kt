@@ -121,6 +121,7 @@ class BalanceFragment : Fragment(), OnBalanceDetailButtonClickListener,
 
     override fun addFundDone() {
         bottomView.visibility = View.GONE
+        findNavController().navigate(R.id.action_global_cashOutCardsFragment)
     }
 
     override fun cashOutDone() {

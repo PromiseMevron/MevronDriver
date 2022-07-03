@@ -10,4 +10,5 @@ interface IPayOutRepository {
     suspend fun cashOut(data: CashActionData): DomainModel
     suspend fun addFund(data: CashActionData): DomainModel
     suspend fun bankSpecification(): DomainModel
+    suspend fun getCards(): DomainModel
 }

@@ -112,7 +112,7 @@ fun Fragment.showImagePickerDialog() {
 
 fun Fragment.dispatchStartGalleryIntent() {
 
-    if(requireContext().hasWriteToStoragePermission() == PackageManager.PERMISSION_GRANTED) {
+    if (requireContext().hasWriteToStoragePermission() == PackageManager.PERMISSION_GRANTED) {
 
         val imageIntent =
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -120,17 +120,15 @@ fun Fragment.dispatchStartGalleryIntent() {
         startActivityForResult(
             Intent.createChooser(imageIntent, "Select photo"), Constants.REQUEST_PICK_IMAGE
         )
-    }
-    else{
+    } else {
 
-        val permissionListener = object: PermissionListener {
+        val permissionListener = object : PermissionListener {
             override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
                 dispatchStartGalleryIntent()
             }
 
             override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
             }
-
 
 
             override fun onPermissionRationaleShouldBeShown(

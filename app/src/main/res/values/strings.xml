@@ -383,5 +383,6 @@
     <string name="dropping_off">Dropping off </string>
     <string name="enter_amount">Enter Amount</string>
     <string name="add_custom_cash_out">Add a Custom Cash Out</string>
+    <string name="add_card">Add Card</string>
 
 </resources>

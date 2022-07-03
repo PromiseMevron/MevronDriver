@@ -5,6 +5,7 @@ import com.mevron.rides.driver.cashout.data.model.AddBankAccountSpecification
 import com.mevron.rides.driver.cashout.data.model.CashActionData
 import com.mevron.rides.driver.cashout.data.model.GetBankSpecifications
 import com.mevron.rides.driver.cashout.data.model.PaymentDetailsResponse
+import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,4 +27,7 @@ interface PaymentAPI {
 
     @POST("api/v1/driver/auth/bank/create")
     suspend fun addFund(@Body data : CashActionData): Response<GeneralResponse>
+
+    @GET("api/v1/driver/auth/payment-method")
+    suspend fun getCards(): Response<GetCardResponse>
 }

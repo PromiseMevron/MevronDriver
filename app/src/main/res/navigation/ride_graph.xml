@@ -133,7 +133,7 @@
         android:label="CardDetailsFragment" >
         <argument
             android:name="data"
-            app:argType="com.mevron.rides.driver.remote.model.getcard.Data" />
+            app:argType="com.mevron.rides.driver.remote.model.getcard.CardData" />
     </fragment>
     <fragment
         android:id="@+id/driverPrefrenceFragment"
@@ -255,5 +255,10 @@
         android:name="com.mevron.rides.driver.cashout.ui.BalanceFragment"
         android:label="balance_fragment"
         tools:layout="@layout/balance_fragment" /><action android:id="@+id/action_global_balanceFragment" app:destination="@id/balanceFragment"/>
+    <fragment
+        android:id="@+id/cashOutCardsFragment"
+        android:name="com.mevron.rides.driver.cashout.ui.CashOutCardsFragment"
+        android:label="CashOutCardsFragment"
+        tools:layout="@layout/cash_out_cards_layout_fragment"/><action android:id="@+id/action_global_cashOutCardsFragment" app:destination="@id/cashOutCardsFragment"/>
 
 </navigation>

@@ -113,8 +113,9 @@
         <entry key="app/src/main/res/layout/car_color_add.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/car_model_items_bottom.xml" value="0.1" />
         <entry key="app/src/main/res/layout/car_year_items_bottom.xml" value="0.24010416666666667" />
-        <entry key="app/src/main/res/layout/card_add_items.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/card_add_items.xml" value="0.39439655172413796" />
         <entry key="app/src/main/res/layout/card_details_fragment.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/cash_out_cards_layout_fragment.xml" value="0.22735507246376813" />
         <entry key="app/src/main/res/layout/cash_out_detail_layout.xml" value="0.335" />
         <entry key="app/src/main/res/layout/cash_out_fragment.xml" value="0.1734375" />
         <entry key="app/src/main/res/layout/cash_out_success_fragment.xml" value="0.20516304347826086" />

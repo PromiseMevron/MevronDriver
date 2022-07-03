@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.util.hideKeyboard
 
 class CashOutAddFundLayout @JvmOverloads constructor(
     context: Context,
@@ -36,9 +37,11 @@ class CashOutAddFundLayout @JvmOverloads constructor(
         doneButton = findViewById(R.id.add_fund_done)
         titleText = findViewById(R.id.title)
         closeButton.setOnClickListener {
+            hideKeyboard()
             cashOutAddFundEventListener?.closeButton()
         }
         skipButton.setOnClickListener {
+            hideKeyboard()
             cashOutAddFundEventListener?.skipAction()
         }
 
@@ -52,6 +55,7 @@ class CashOutAddFundLayout @JvmOverloads constructor(
         titleText.text = context.getString(R.string.enter_amount)
         skipButton.visibility = GONE
         doneButton.setOnClickListener {
+            hideKeyboard()
             cashOutAddFundEventListener?.addFundDone()
         }
         amountField.doOnTextChanged { text, _, _, _ ->
@@ -82,6 +86,7 @@ class CashOutAddFundLayout @JvmOverloads constructor(
         titleText.text = context.getString(R.string.add_custom_cash_out)
         skipButton.visibility = VISIBLE
         doneButton.setOnClickListener {
+            hideKeyboard()
             cashOutAddFundEventListener?.cashOutDone()
         }
         amountField.doOnTextChanged { text, _, _, _ ->

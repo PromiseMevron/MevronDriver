@@ -19,7 +19,7 @@ import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.PaymentsFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.remote.model.getcard.AddCard
-import com.mevron.rides.driver.remote.model.getcard.Data
+import com.mevron.rides.driver.remote.model.getcard.CardData
 import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -134,9 +134,9 @@ class PaymentsFragment : Fragment(), PaySelected2  {
                 when(res){
 
                     is  GenericStatus.Success ->{
-                        adapter = res.data?.success?.data?.let { it1 -> PaymentAdapter2(this, it1) }!!
+                        adapter = PaymentAdapter2(this)
                         binding.recyclerView.adapter = adapter
-
+                        res.data?.success?.cardData?.let { data ->adapter.submitList(data)  }!!
                     }
 
                     is  GenericStatus.Error ->{
@@ -184,7 +184,7 @@ class PaymentsFragment : Fragment(), PaySelected2  {
         }
     }
 
-    override fun selected(data: Data) {
+    override fun selected(data: CardData) {
         val action = PaymentsFragmentDirections.actionPaymentsFragmentToCardDetailsFragment(data)
         findNavController().navigate(action)
     }

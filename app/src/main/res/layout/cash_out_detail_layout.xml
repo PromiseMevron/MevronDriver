@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/earning_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
-        android:fontFamily="@font/poppins_medium"
         android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
+        android:text="@string/earnings"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -20,16 +21,15 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/guideline1"
         app:layout_constraintTop_toTopOf="parent"
-        tools:targetApi="p"
-        android:text="@string/earnings" />
+        tools:targetApi="p" />
 
     <TextView
         android:id="@+id/earning_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
         android:layout_marginTop="24dp"
+        android:lineHeight="56dp"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -45,9 +45,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
-        android:fontFamily="@font/poppins_medium"
         android:layout_marginTop="18dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
+        android:text="@string/tips"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -55,17 +56,16 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/earning_title"
-        tools:targetApi="p"
-        android:text="@string/tips" />
+        tools:targetApi="p" />
 
     <TextView
         android:id="@+id/tip_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
-        android:fontFamily="@font/poppins_medium"
         android:layout_marginTop="18dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -81,8 +81,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
         android:layout_marginTop="18dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
+        android:text="@string/other_payments"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -90,17 +92,16 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/tips_title"
-        tools:targetApi="p"
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/other_payments" />
+        tools:targetApi="p" />
 
     <TextView
         android:id="@+id/other_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
         android:layout_marginTop="18dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -109,7 +110,6 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/tip_detail"
         tools:targetApi="p"
-        android:fontFamily="@font/poppins_medium"
         tools:text="@string/earnings" />
 
     <TextView
@@ -117,8 +117,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
         android:layout_marginTop="18dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
+        android:text="@string/withdrawal_fee"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -126,17 +128,16 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/other_title"
-        tools:targetApi="p"
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/withdrawal_fee" />
+        tools:targetApi="p" />
 
     <TextView
         android:id="@+id/fee_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
         android:layout_marginTop="18dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -145,7 +146,6 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/other_detail"
         tools:targetApi="p"
-        android:fontFamily="@font/poppins_medium"
         tools:text="@string/earnings" />
 
     <TextView
@@ -153,8 +153,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
         android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
+        android:text="@string/total"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -162,17 +164,16 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/fee_title"
-        tools:targetApi="p"
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/total" />
+        tools:targetApi="p" />
 
     <TextView
         android:id="@+id/total_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:lineHeight="56dp"
         android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppins_medium"
+        android:lineHeight="56dp"
         android:textAlignment="center"
         android:textColor="@color/grey_5"
         android:textFontWeight="500"
@@ -181,17 +182,16 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/fee_detail"
         tools:targetApi="p"
-        android:fontFamily="@font/poppins_medium"
         tools:text="@string/earnings" />
 
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="#f2f2f2"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintBottom_toTopOf="@id/total_detail"
-        app:layout_constraintTop_toBottomOf="@id/fee_detail"/>
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/fee_detail" />
 
 
     <androidx.constraintlayout.widget.Guideline

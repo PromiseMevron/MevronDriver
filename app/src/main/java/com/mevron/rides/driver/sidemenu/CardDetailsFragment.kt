@@ -1,7 +1,6 @@
 package com.mevron.rides.driver.sidemenu
 
 import android.app.Dialog
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +12,7 @@ import androidx.fragment.app.viewModels
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.CardDetailsFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
-import com.mevron.rides.driver.remote.model.getcard.Data
+import com.mevron.rides.driver.remote.model.getcard.CardData
 import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +27,7 @@ class CardDetailsFragment : Fragment() {
 
     private  val viewModel: CardDetailsViewModel by viewModels()
     private lateinit var binding: CardDetailsFragmentBinding
-    private lateinit var cards: Data
+    private lateinit var cards: CardData
     var mDialog: Dialog? = null
 
     override fun onCreateView(
