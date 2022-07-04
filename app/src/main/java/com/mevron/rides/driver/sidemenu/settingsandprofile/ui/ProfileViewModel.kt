@@ -9,13 +9,11 @@ import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.GetProfileData
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.SaveDetailsRequest
-import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.model.ProfileData
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.usecase.GetProfileUseCase
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.usecase.UpdateProfileUseCase
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.event.SettingsProfileEvent
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.state.SettingsProfileState
 import com.mevron.rides.driver.util.Constants
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -103,7 +101,6 @@ class ProfileViewModel @Inject constructor(
         }
 
     }
-
 
     fun handleEvent(event: SettingsProfileEvent) {
         when (event) {

@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.google.gson.Gson
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.SettingsFragmentBinding
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.event.SettingsProfileEvent
@@ -27,7 +26,7 @@ class SettingsFragment : Fragment() {
         fun newInstance() = SettingsFragment()
     }
 
-    private lateinit var binding:SettingsFragmentBinding
+    private lateinit var binding: SettingsFragmentBinding
     private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
@@ -48,15 +47,15 @@ class SettingsFragment : Fragment() {
         viewModel.handleEvent(SettingsProfileEvent.FetchFromApi)
 
         lifecycleScope.launchWhenResumed {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
                     state.profile.apply {
                         binding.userName.text = this.firstName + " " + this.lastName
                         binding.userRating.text = this.rating
                         if (!this.profilePicture.isNullOrEmpty())
-                        Picasso.get().load(this.profilePicture).into(binding.profileImage)
+                            Picasso.get().load(this.profilePicture).into(binding.profileImage)
                     }
-                    if (state.error.isNotEmpty()){
+                    if (state.error.isNotEmpty()) {
                         Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
                     }
                 }
@@ -100,7 +99,6 @@ class SettingsFragment : Fragment() {
 
 
     }
-
 
 
 }

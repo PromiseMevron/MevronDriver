@@ -38,7 +38,7 @@ class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingPro
     }
 
     private fun GetProfileResponse.toDomainModel() = DomainModel.Success(
-        data = this.success.getProfileData.apply {
+        data = this.getProfileSuccess.profileData.apply {
             ProfileData(
                 email ?: "",
                 emailStatus,
@@ -48,8 +48,14 @@ class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingPro
                 phoneNumberStatus,
                 profilePicture ?: "",
                 rating ?: "",
-                type ?: "",
-                uuid ?: ""
+                uuid ?: "",
+                about = about,
+                acceptanceRate = acceptanceRate,
+                cancellationRate = cancellationRate,
+                country = country,
+                currency = currency,
+                reviews = reviews,
+                tripsCompleted = tripsCompleted,
             )
         }
     )

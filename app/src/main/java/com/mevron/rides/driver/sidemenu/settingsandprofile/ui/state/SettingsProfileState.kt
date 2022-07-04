@@ -1,7 +1,6 @@
 package com.mevron.rides.driver.sidemenu.settingsandprofile.ui.state
 
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.GetProfileData
-import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.model.ProfileData
 
 data class SettingsProfileState(
     val isLoading: Boolean,

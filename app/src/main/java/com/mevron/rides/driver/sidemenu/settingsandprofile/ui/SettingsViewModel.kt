@@ -8,7 +8,6 @@ import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCas
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.GetProfileData
-import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.model.ProfileData
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.usecase.GetProfileUseCase
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.event.SettingsProfileEvent
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.state.SettingsProfileState

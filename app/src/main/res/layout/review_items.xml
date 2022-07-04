@@ -77,6 +77,7 @@
         android:layout_height="@dimen/_24sdp"
         android:id="@+id/bullet_recycler"
         tools:listitem="@layout/bullet_item"
+        tools:itemCount="6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rate_detail"/>
 

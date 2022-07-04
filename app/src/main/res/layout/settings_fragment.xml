@@ -95,7 +95,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:layout_marginEnd="@dimen/_14sdp"
-                    android:src="@drawable/ic_logo"
+                    android:src="@drawable/ic_avatar"
                     app:civ_border_width="1dp"
                     app:civ_border_color="@color/white"
                     android:id="@+id/profile_image"/>
