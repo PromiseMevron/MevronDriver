@@ -61,6 +61,21 @@ class ProfileDetailsFragment : Fragment() {
                         binding.acceptNumbers.text = "${this.acceptanceRate}%"
                         binding.cancelNumbers.text = "${this.cancellationRate}%"
                         adapter.submitList(this.reviews)
+                        if (this.reviews.isEmpty()) {
+                            binding.noReview.visibility = View.VISIBLE
+                            binding.noReviewBody.visibility = View.VISIBLE
+                            binding.riderRecycler.visibility = View.GONE
+                            binding.seeAllReview.visibility = View.GONE
+                            binding.highlightRecycler.visibility = View.GONE
+                            binding.text6.visibility = View.GONE
+                        } else{
+                            binding.noReview.visibility = View.GONE
+                            binding.noReviewBody.visibility = View.GONE
+                            binding.riderRecycler.visibility = View.VISIBLE
+                            binding.seeAllReview.visibility = View.VISIBLE
+                            binding.highlightRecycler.visibility = View.VISIBLE
+                            binding.text6.visibility = View.VISIBLE
+                        }
                         if (!this.profilePicture.isNullOrEmpty())
                             Picasso.get().load(this.profilePicture).centerCrop()
                                 .into(binding.profileImage)

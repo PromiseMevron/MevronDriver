@@ -337,10 +337,10 @@
         android:fontFamily="@font/poppins_semibold"
         android:layout_marginTop="@dimen/_12sdp"
         android:textSize="@dimen/_14ssp"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:textColor="#383838"
         android:maxLines="1"
-        android:id="@+id/text5"
+        android:id="@+id/no_review"
         android:textFontWeight="400"
         tools:targetApi="p" />
 
@@ -352,14 +352,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textAlignment="center"
-        android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@id/text5"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/no_review"
         android:fontFamily="@font/poppins_regular"
         android:layout_marginTop="@dimen/_2sdp"
         android:textSize="@dimen/_10ssp"
         android:textColor="#666666"
         android:maxLines="1"
-        android:id="@+id/text6"
+        android:id="@+id/no_review_body"
         android:textFontWeight="600"
         tools:targetApi="p" />
 
@@ -378,6 +378,7 @@
         android:textSize="@dimen/_17ssp"
         android:textColor="#383838"
         android:maxLines="1"
+        android:visibility="visible"
         android:id="@+id/text_6"
         android:textFontWeight="600"
         tools:targetApi="p" />
@@ -387,6 +388,7 @@
         android:layout_height="@dimen/_210sdp"
         android:id="@+id/highlight_recycler"
         tools:itemCount="5"
+        android:visibility="visible"
         tools:listitem="@layout/highlight_item"
         app:layout_constraintTop_toBottomOf="@id/text_6"/>
 
@@ -405,6 +407,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/rider_recycler"
         android:layout_marginTop="@dimen/_20sdp"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@android:color/transparent"
