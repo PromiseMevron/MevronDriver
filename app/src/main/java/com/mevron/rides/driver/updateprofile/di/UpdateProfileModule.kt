@@ -3,6 +3,7 @@ package com.mevron.rides.driver.updateprofile.di
 import com.mevron.rides.driver.updateprofile.data.network.UpdateProfileApi
 import com.mevron.rides.driver.updateprofile.data.repository.UpdateProfileRepository
 import com.mevron.rides.driver.updateprofile.domain.repository.IUpdateProfileRepository
+import com.mevron.rides.driver.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +18,7 @@ object UpdateProfileModule {
 
     @Provides
     @Singleton
-    fun provideUpdateProfileApi(@Named("mevronCalls") retrofit: Retrofit): UpdateProfileApi =
+    fun provideUpdateProfileApi(@Named(Constants.MEVRON_CALL) retrofit: Retrofit): UpdateProfileApi =
         retrofit.create(UpdateProfileApi::class.java)
 
     @Provides

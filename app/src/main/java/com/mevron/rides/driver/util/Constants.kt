@@ -17,6 +17,8 @@ object Constants {
     const val LOCATION_REQUEST_CODE = 4555
     const val REQUEST_TAKE_PHOTO = 1
     const val REQUEST_PICK_IMAGE = 2
+    const val MEVRON_CALL = "MEVRON_CALL"
+    const val GOOGLE_CALL = "GOOGLE_CALL"
 
     fun isNewNumberType(number: String): Boolean {
         return if (number.isEmpty() || number.length < 4) {

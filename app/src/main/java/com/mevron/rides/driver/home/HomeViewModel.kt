@@ -11,6 +11,7 @@ import com.mevron.rides.driver.home.ui.DocumentSubmissionStatus
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.state.HomeViewState
 import com.mevron.rides.driver.home.ui.state.transform
+import com.mevron.rides.driver.remote.geoservice.domain.usecase.GetGoogleResponseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ class HomeViewModel @Inject constructor(
     private val onlineStatusUseCase: ToggleOnlineStatusUseCase,
     private val getDocumentStatusUseCase: GetDocumentStatusUseCase,
     private val getMapStateUseCase: GetMapTripStateUseCase,
+    private val googleUseCase: GetGoogleResponseUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<HomeViewState> =

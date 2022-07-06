@@ -8,6 +8,8 @@ import com.mevron.rides.driver.localdb.MevronDatabase
 import com.mevron.rides.driver.remote.MevronAPI
 import com.mevron.rides.driver.remote.MevronRepo
 import com.mevron.rides.driver.util.Constants.BASE_URL
+import com.mevron.rides.driver.util.Constants.GOOGLE_CALL
+import com.mevron.rides.driver.util.Constants.MEVRON_CALL
 import com.mevron.rides.driver.util.Constants.SHARED_PREF_KEY
 import com.mevron.rides.driver.util.Constants.TOKEN
 import dagger.Module
@@ -90,7 +92,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named("mevronCalls")
+    @Named(MEVRON_CALL)
     fun provideRetrofit(@Named("mevronHTTPClient") client: OkHttpClient, factory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(factory)
@@ -101,7 +103,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named("googleCalls")
+    @Named(GOOGLE_CALL)
     fun provideRetrofitForGoogle(@Named("googleHTTPClient") client: OkHttpClient, factory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(factory)

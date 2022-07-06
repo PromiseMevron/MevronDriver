@@ -3,6 +3,7 @@ package com.mevron.rides.driver.sidemenu.settingsandprofile.di
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.network.SettingProfileAPI
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.repository.SettingProfileRepository
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.repository.ISettingProfileRepository
+import com.mevron.rides.driver.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +18,7 @@ object SettingsProfileModule {
 
     @Provides
     @Singleton
-    fun provideSettingProfileApi(@Named("mevronCalls") retrofit: Retrofit): SettingProfileAPI =
+    fun provideSettingProfileApi(@Named(Constants.MEVRON_CALL) retrofit: Retrofit): SettingProfileAPI =
         retrofit.create(SettingProfileAPI::class.java)
 
     @Provides
