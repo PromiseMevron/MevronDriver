@@ -23,6 +23,7 @@ import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -30,7 +31,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideApi(retrofit: Retrofit): MevronAPI = retrofit.create(MevronAPI::class.java)
+    @Named("mevronAPI")
+    fun provideApi(@Named("mevronCalls") retrofit: Retrofit): MevronAPI = retrofit.create(MevronAPI::class.java)
 
     @Provides
     @Singleton
@@ -41,6 +43,7 @@ object AppModule {
 
     @Provides
     @Singleton
+    @Named("mevronHTTPClient")
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
         OkHttpClient.Builder().followRedirects(true)
             .retryOnConnectionFailure(true)
@@ -67,11 +70,43 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient, factory: GsonConverterFactory): Retrofit {
+    @Named("googleHTTPClient")
+    fun provideOkHttpClientForGoogleAPI(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+        OkHttpClient.Builder().followRedirects(true)
+            .retryOnConnectionFailure(true)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(Interceptor { chain ->
+                val newRequest: Request = chain.request().newBuilder()
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Content-Type", "application/json")
+                    .build()
+                chain.proceed(newRequest)
+                // return response
+            }).readTimeout(180, TimeUnit.SECONDS)
+            .connectTimeout(180, TimeUnit.SECONDS)
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+
+
+    @Provides
+    @Singleton
+    @Named("mevronCalls")
+    fun provideRetrofit(@Named("mevronHTTPClient") client: OkHttpClient, factory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(factory)
             .client(client)
             .baseUrl(BASE_URL)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("googleCalls")
+    fun provideRetrofitForGoogle(@Named("googleHTTPClient") client: OkHttpClient, factory: GsonConverterFactory): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(factory)
+            .client(client)
+            .baseUrl("https://maps.googleapis.com/maps/api/directions/")
             .build()
     }
 

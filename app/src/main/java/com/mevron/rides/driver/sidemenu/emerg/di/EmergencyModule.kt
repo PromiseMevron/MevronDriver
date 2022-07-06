@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -16,7 +17,7 @@ object EmergencyModule {
 
     @Provides
     @Singleton
-    fun provideEmergencyApi(retrofit: Retrofit): EmergencyAPI =
+    fun provideEmergencyApi(@Named("mevronCalls") retrofit: Retrofit): EmergencyAPI =
         retrofit.create(EmergencyAPI::class.java)
 
     @Provides

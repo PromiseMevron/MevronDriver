@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import retrofit2.Retrofit
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -16,7 +17,7 @@ object HomeRepositoryModule {
 
     @Provides
     @Singleton
-    fun provideHomeApi(retrofit: Retrofit): HomeScreenApi =
+    fun provideHomeApi(@Named("mevronCalls") retrofit: Retrofit): HomeScreenApi =
         retrofit.create(HomeScreenApi::class.java)
 
     @Provides

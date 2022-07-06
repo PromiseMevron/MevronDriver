@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.util
+package com.mevron.rides.driver.remote.geoservice.data.model
 
 import com.google.gson.annotations.SerializedName
 

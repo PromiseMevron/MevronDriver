@@ -9,6 +9,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import retrofit2.Retrofit
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -16,7 +17,7 @@ object CarPropertiesModule {
 
     @Provides
     @Singleton
-    fun provideCarPropertiesApi(retrofit: Retrofit): CarPropertiesApi =
+    fun provideCarPropertiesApi(@Named("mevronCalls") retrofit: Retrofit): CarPropertiesApi =
         retrofit.create(CarPropertiesApi::class.java)
 
     @Provides

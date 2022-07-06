@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -17,7 +18,7 @@ object PrefrenceModule {
 
     @Provides
     @Singleton
-    fun provideSaveAddressApi(retrofit: Retrofit): PrefrenceAPI =
+    fun provideSaveAddressApi(@Named("mevronCalls") retrofit: Retrofit): PrefrenceAPI =
         retrofit.create(PrefrenceAPI::class.java)
 
     @Provides

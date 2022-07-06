@@ -194,6 +194,9 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         super.onViewCreated(view, savedInstanceState)
         viewModel.onEventReceived(HomeViewEvent.OnDocumentSubmissionStatusClick)
         binding.mapView2.approachingPassengerEventListener(this)
+        binding.mevronHomeBottom.documentSubmissionStatus.setOnClickListener {
+            findNavController().navigate(R.id.action_global_documentCheckFragment)
+        }
         lifecycleScope.launch {
             stateMachineViewModel.stateMachineState.collect {
                 if (it.isLoading) {

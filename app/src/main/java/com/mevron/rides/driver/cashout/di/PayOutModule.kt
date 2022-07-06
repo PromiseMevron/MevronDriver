@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -16,7 +17,7 @@ object PayOutModule {
 
     @Provides
     @Singleton
-    fun providePayOutApi(retrofit: Retrofit): PaymentAPI =
+    fun providePayOutApi(@Named("mevronCalls") retrofit: Retrofit): PaymentAPI =
         retrofit.create(PaymentAPI::class.java)
 
     @Provides

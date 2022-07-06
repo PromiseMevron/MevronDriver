@@ -35,6 +35,7 @@ import com.mevron.rides.driver.remote.socket.SocketHandler
 import com.mevron.rides.driver.util.*
 import com.ncorti.slidetoact.SlideToActView
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.remote.geoservice.data.model.GeoDirectionsResponse
 import dagger.hilt.android.AndroidEntryPoint
 
 

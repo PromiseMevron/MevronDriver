@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -16,7 +17,7 @@ object SettingsProfileModule {
 
     @Provides
     @Singleton
-    fun provideSettingProfileApi(retrofit: Retrofit): SettingProfileAPI =
+    fun provideSettingProfileApi(@Named("mevronCalls") retrofit: Retrofit): SettingProfileAPI =
         retrofit.create(SettingProfileAPI::class.java)
 
     @Provides

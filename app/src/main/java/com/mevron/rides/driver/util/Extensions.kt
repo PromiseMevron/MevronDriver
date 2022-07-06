@@ -46,7 +46,8 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.remote.geoservice.GeoAPIClient
-import com.mevron.rides.driver.remote.geoservice.GeoAPIInterface
+import com.mevron.rides.driver.remote.geoservice.data.network.GeoAPIInterface
+import com.mevron.rides.driver.remote.geoservice.data.model.GeoDirectionsResponse
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import retrofit2.Call
 import retrofit2.Callback
@@ -440,7 +441,7 @@ fun Fragment.plotPolyLines(geoDirections: GeoDirectionsResponse, gMap: GoogleMap
 
 }
 
-fun Fragment.plotPolyLinesForDriverArrival(geoDirections: GeoDirectionsResponse, gMap: GoogleMap,  addMarker: (GeoDirectionsResponse) -> Unit){
+fun Fragment.plotPolyLinesForDriverArrival(geoDirections: GeoDirectionsResponse, gMap: GoogleMap, addMarker: (GeoDirectionsResponse) -> Unit){
     val steps: ArrayList<LatLng> = ArrayList()
 
     if (geoDirections.routes.isNullOrEmpty()) {
