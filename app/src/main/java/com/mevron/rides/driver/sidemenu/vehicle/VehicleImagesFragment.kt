@@ -1,6 +1,5 @@
-package com.mevron.rides.driver.sidemenu
+package com.mevron.rides.driver.sidemenu.vehicle
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

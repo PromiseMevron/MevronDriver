@@ -158,6 +158,7 @@ class BalanceViewModel @Inject constructor(
             CashOutAddFundEvent.OnCashOutClick -> cashOutWallet()
             CashOutAddFundEvent.AddFundClicked -> addFundToWallet()
             CashOutAddFundEvent.GetCards -> getCards()
+            CashOutAddFundEvent.GetWalletDetail -> getWalletDetails()
         }
     }
 

@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".auth.DocumentCheckFragment">
+    tools:context=".documentcheck.ui.DocumentCheckFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
         tools:targetApi="p" />
 
     <TextView
-        android:id="@+id/text2"
+        android:id="@+id/car_prop"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/driver_documents"
@@ -58,8 +58,18 @@
         android:layout_marginStart="@dimen/_14sdp"
         tools:targetApi="p" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:itemCount="5"
+        tools:listitem="@layout/document_item"
+        android:id="@+id/recycler_view"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/car_prop"
+        android:paddingTop="@dimen/_10sdp"/>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <!--<androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_64sdp"
         android:id="@+id/licence"
@@ -329,7 +339,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
 

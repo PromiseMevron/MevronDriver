@@ -1,6 +1,5 @@
-package com.mevron.rides.driver.sidemenu
+package com.mevron.rides.driver.sidemenu.vehicle
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.VehicleDetailsFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +37,7 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
             activity?.onBackPressed()
         }
 
-        adapter = VehicleDetailAdapter(this)
+        adapter = VehicleDetailAdapter(this, requireContext())
         binding.documentRecycler.adapter = adapter
         viewModel.getAVehicle("").observe(viewLifecycleOwner, Observer {
 
@@ -47,7 +45,7 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
     }
 
     override fun selectVehicle() {
-        findNavController().navigate(R.id.action_vehicleDetailsFragment_to_vehicleImagesFragment)
+       // findNavController().navigate(R.id.action_vehicleDetailsFragment_to_vehicleImagesFragment)
     }
 
 

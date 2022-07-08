@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.sidemenu
+package com.mevron.rides.driver.sidemenu.vehicle
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

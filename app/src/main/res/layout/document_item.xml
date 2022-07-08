@@ -6,15 +6,18 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_70sdp">
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp"
+    android:id="@+id/back_ground"
+    android:background="@color/document_ok"
+    android:layout_marginBottom="@dimen/_10sdp"
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:background="#140B973A"
-        android:id="@+id/back_ground"/>
+        android:layout_marginBottom="@dimen/_5sdp" />
 
     <ImageView
         android:layout_width="@dimen/_20sdp"
@@ -36,24 +39,50 @@
         android:layout_marginEnd="@dimen/_14sdp"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-
-    <TextView
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Promise Ochornma"
-        android:layout_marginStart="@dimen/_14sdp"
-        app:layout_constraintStart_toEndOf="@id/check"
-        app:layout_constraintEnd_toStartOf="@id/next"
-        android:textAlignment="textStart"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:fontFamily="@font/poppins_semibold"
-        android:textSize="@dimen/_12ssp"
-        android:textColor="#383838"
-        android:maxLines="1"
-        android:id="@+id/car_name"
-        android:textFontWeight="400"
-        tools:targetApi="p" />
+        app:layout_constraintStart_toEndOf="@id/check"
+        app:layout_constraintEnd_toStartOf="@id/next"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Promise Ochornma"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:textAlignment="textStart"
+            android:fontFamily="@font/poppins_semibold"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="#383838"
+            android:maxLines="1"
+            android:id="@+id/car_doc"
+            android:textFontWeight="400"
+            tools:targetApi="p" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Promise Ochornma"
+            android:layout_marginStart="@dimen/_14sdp"
+            app:layout_constraintStart_toEndOf="@id/check"
+            app:layout_constraintEnd_toStartOf="@id/next"
+            android:textAlignment="textStart"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:fontFamily="@font/poppins_semibold"
+            android:textSize="@dimen/_9ssp"
+            android:textColor="#383838"
+            android:maxLines="1"
+            android:visibility="gone"
+            android:id="@+id/doc_status"
+            android:textFontWeight="400"
+            tools:targetApi="p" />
+
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

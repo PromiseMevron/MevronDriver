@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/documentCheckFragment"
-        android:name="com.mevron.rides.driver.auth.DocumentCheckFragment"
+        android:name="com.mevron.rides.driver.documentcheck.ui.DocumentCheckFragment"
         android:label="document_check_fragment"
         tools:layout="@layout/document_check_fragment" /><action android:id="@+id/action_global_documentCheckFragment" app:destination="@id/documentCheckFragment"/>
     <action android:id="@+id/action_global_rideRequestFragment" app:destination="@id/rideRequestFragment" />
@@ -173,7 +173,7 @@
     </fragment>
     <fragment
         android:id="@+id/vehicleDetailsFragment"
-        android:name="com.mevron.rides.driver.sidemenu.VehicleDetailsFragment"
+        android:name="com.mevron.rides.driver.sidemenu.vehicle.VehicleDetailsFragment"
         android:label="vehicle_details_fragment"
         tools:layout="@layout/vehicle_details_fragment" >
         <action
@@ -182,7 +182,7 @@
     </fragment>
     <fragment
         android:id="@+id/vehicleFragment"
-        android:name="com.mevron.rides.driver.sidemenu.VehicleFragment"
+        android:name="com.mevron.rides.driver.sidemenu.vehicle.VehicleFragment"
         android:label="vehicle_fragment"
         tools:layout="@layout/vehicle_fragment" >
         <action
@@ -194,7 +194,7 @@
     </fragment>
     <fragment
         android:id="@+id/vehicleImagesFragment"
-        android:name="com.mevron.rides.driver.sidemenu.VehicleImagesFragment"
+        android:name="com.mevron.rides.driver.sidemenu.vehicle.VehicleImagesFragment"
         android:label="vehicle_images_fragment"
         tools:layout="@layout/vehicle_images_fragment" />
     <fragment

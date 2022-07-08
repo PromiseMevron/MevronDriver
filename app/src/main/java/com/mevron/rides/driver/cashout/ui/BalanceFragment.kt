@@ -51,7 +51,7 @@ class BalanceFragment : Fragment(), OnBalanceDetailButtonClickListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getWalletDetails()
+       viewModel.onEvent(CashOutAddFundEvent.GetWalletDetail)
         topView.setEventsClickListener(this)
         bottomView.setEventListener(this)
         lifecycleScope.launchWhenResumed {
@@ -70,7 +70,7 @@ class BalanceFragment : Fragment(), OnBalanceDetailButtonClickListener,
                     if (state.success){
                         Toast.makeText(context, "Successful", Toast.LENGTH_LONG).show()
                         viewModel.updateState(success = false)
-                        viewModel.getWalletDetails()
+                        viewModel.onEvent(CashOutAddFundEvent.GetWalletDetail)
                     }
 
                 }

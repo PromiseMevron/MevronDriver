@@ -9,4 +9,5 @@ sealed interface CashOutAddFundEvent{
     object OnCashOutClick : CashOutAddFundEvent
     object AddFundClicked: CashOutAddFundEvent
     object GetCards: CashOutAddFundEvent
+    object GetWalletDetail: CashOutAddFundEvent
 }

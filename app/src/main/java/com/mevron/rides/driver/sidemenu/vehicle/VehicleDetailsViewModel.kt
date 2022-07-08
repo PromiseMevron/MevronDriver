@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.sidemenu
+package com.mevron.rides.driver.sidemenu.vehicle
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,16 +13,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class VehicleViewModel  @Inject constructor (private val repository: MevronRepo): ViewModel() {
 
-    fun getAllVehicle(): LiveData<GenericStatus<GeneralResponse>> {
+@HiltViewModel
+class VehicleDetailsViewModel  @Inject constructor (private val repository: MevronRepo): ViewModel() {
+
+
+    fun getAVehicle(id: String): LiveData<GenericStatus<GeneralResponse>> {
 
         val result = MutableLiveData<GenericStatus<GeneralResponse>>()
 
         CoroutineScope(Dispatchers.IO).launch {
             try{
-                val response = repository.getAllVehicle()
+                val response = repository.getAVehicle(id)
                 if(response.isSuccessful){
                     result.postValue(GenericStatus.Success(response.body()))
                 }
