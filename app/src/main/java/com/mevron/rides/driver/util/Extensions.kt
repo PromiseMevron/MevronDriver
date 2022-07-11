@@ -367,9 +367,12 @@ fun Fragment.getGeoLocation(location: Array<LocationModel>, gMap: GoogleMap, isA
     val directionsEndpoint = "json?origin=" + "${location[0].lat}" + "," + "${location[0].lng}"+
             "&destination=" + "${location[1].lat}" + "," + "${location[1].lng}" +
             "&sensor=false&units=metric&mode=driving"+ "&key=" + "AIzaSyACHmEwJsDug1l3_IDU_E4WEN4Qo_i_NoE"
-    val call: Call<GeoDirectionsResponse> = GeoAPIClient().getClient()?.create(GeoAPIInterface::class.java)!!.getGeoDirections(directionsEndpoint)
+    val call: Call<GeoDirectionsResponse> = GeoAPIClient().getClient()?.create(GeoAPIInterface::class.java)!!.getGeoDirectionsCall(directionsEndpoint)
     call.enqueue(object : Callback<GeoDirectionsResponse?> {
-        override fun onResponse(call: Call<GeoDirectionsResponse?>?, response: Response<GeoDirectionsResponse?>) {
+        override fun onResponse(
+            call: Call<GeoDirectionsResponse?>,
+            response: Response<GeoDirectionsResponse?>
+        ) {
             if (response.isSuccessful) {
                 response.body().let {
                     val directionsPayload = it

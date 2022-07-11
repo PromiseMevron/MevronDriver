@@ -16,8 +16,10 @@ import com.mevron.rides.driver.databinding.DocumentCheckFragmentBinding
 import com.mevron.rides.driver.sidemenu.vehicle.SelectVehicleDetail
 import com.mevron.rides.driver.sidemenu.vehicle.VehicleDetailAdapter
 import com.mevron.rides.driver.util.LauncherUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
+@AndroidEntryPoint
 class DocumentCheckFragment : Fragment(), SelectVehicleDetail {
 
     private val viewModel: DocumentCheckViewModel by viewModels()

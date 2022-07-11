@@ -9,4 +9,8 @@ import retrofit2.http.Url
 interface GeoAPIInterface {
     @GET
     suspend fun getGeoDirections(@Url url: String): Response<GeoDirectionsResponse>
+
+    @GET
+     fun getGeoDirectionsCall(@Url url: String): Call<GeoDirectionsResponse>
+
 }

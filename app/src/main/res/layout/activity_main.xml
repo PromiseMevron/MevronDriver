@@ -17,7 +17,6 @@ tools:context=".MainActivity">
     android:scaleType="centerCrop"
     tools:ignore="ContentDescription" />
 
-
 <ImageView
     android:layout_width="150dp"
     android:layout_height="50dp"

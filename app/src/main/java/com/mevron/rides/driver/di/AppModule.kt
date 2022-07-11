@@ -34,7 +34,7 @@ object AppModule {
     @Singleton
     @Provides
     @Named("mevronAPI")
-    fun provideApi(@Named("mevronCalls") retrofit: Retrofit): MevronAPI = retrofit.create(MevronAPI::class.java)
+    fun provideApi(@Named(MEVRON_CALL) retrofit: Retrofit): MevronAPI = retrofit.create(MevronAPI::class.java)
 
     @Provides
     @Singleton
@@ -118,7 +118,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun mainRepo(api: MevronAPI, dao: MevronDao): MevronRepo {
+    fun mainRepo(@Named("mevronAPI") api: MevronAPI, dao: MevronDao): MevronRepo {
         return MevronRepo(api = api, dao = dao)
     }
 

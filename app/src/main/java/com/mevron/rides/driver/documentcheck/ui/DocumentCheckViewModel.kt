@@ -8,12 +8,14 @@ import com.mevron.rides.driver.documentcheck.data.model.GetDocumentResponse
 import com.mevron.rides.driver.documentcheck.domain.usecase.GetDocumentsStatusUseCase
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class DocumentCheckViewModel @Inject constructor(
     private val useCase: GetDocumentsStatusUseCase,
 ) : ViewModel() {

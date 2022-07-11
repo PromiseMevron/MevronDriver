@@ -25,11 +25,13 @@ import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.PrefrenceData
 import com.mevron.rides.driver.sidemenu.supportpages.data.model.NotificationResponse
 import com.mevron.rides.driver.updateprofile.domain.model.AddVehicleRequest
 import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
+import com.mevron.rides.driver.util.Constants
 import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Named
 
-class MevronRepo @Inject constructor (private val api: MevronAPI, private val dao: MevronDao) {
+class MevronRepo @Inject constructor ( private val api: MevronAPI, private val dao: MevronDao) {
 
     suspend fun validateOTP(data: VerifyOTPRequest): Response<OTPResponse> {
         return api.verifyOTP(data)
