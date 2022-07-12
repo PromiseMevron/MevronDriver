@@ -26,8 +26,8 @@ tools:context=".sidemenu.vehicle.ui.VehicleDetailsFragment">
                 android:layout_height="match_parent"
                 android:id="@+id/car_enlarged"
                 android:src="@drawable/ic_car"
-                android:alpha="0.1"
-                android:visibility="gone"
+                android:alpha="0.5"
+                android:visibility="visible"
                 android:scaleType="centerCrop"
                 />
 
@@ -35,8 +35,8 @@ tools:context=".sidemenu.vehicle.ui.VehicleDetailsFragment">
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/gray_background"
-                android:background="#66000000"
-                android:visibility="gone"/>
+                tools:background="#66000000"
+                android:visibility="visible"/>
 
             <ImageButton
                 android:layout_width="wrap_content"

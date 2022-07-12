@@ -164,6 +164,10 @@ dependencies {
     //implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.0.0'
     implementation("com.google.guava:guava:31.0.1-android")
 
+    //pallet
+   // implementation("androidx.palette:palette com.android.support:palette-v7")
+    implementation  'androidx.palette:palette-ktx:1.0.0'
+
     //socket.io
     implementation('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
