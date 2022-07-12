@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.sidemenu.vehicle
+package com.mevron.rides.driver.sidemenu.vehicle.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,7 +15,6 @@ class VehicleImagesFragment : Fragment() {
         fun newInstance() = VehicleImagesFragment()
     }
 
-    private lateinit var viewModel: VehicleImagesViewModel
     private lateinit var binding: VehicleImagesFragmentBinding
 
     override fun onCreateView(

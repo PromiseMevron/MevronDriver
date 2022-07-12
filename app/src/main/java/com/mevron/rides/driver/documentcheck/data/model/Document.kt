@@ -4,5 +4,6 @@ data class Document(
     val id: Int,
     val name: String,
     val status: Int,
-    val url: String
+    val url: String,
+    val type: String? = null,
 )

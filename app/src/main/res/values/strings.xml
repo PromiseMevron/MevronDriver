@@ -386,5 +386,6 @@
     <string name="add_card">Add Card</string>
     <string name="upload_photo">\"Upload Photo of \"</string>
     <string name="under_review">Submitted, under review</string>
+    <string name="vehicle_number">Vehicle Number</string>
 
 </resources>
