@@ -1,6 +1,5 @@
 package com.mevron.rides.driver.sidemenu.vehicle.ui
 
-import android.R.attr.bitmap
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -18,6 +17,7 @@ import androidx.palette.graphics.Palette
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.VehicleDetailsFragmentBinding
 import com.mevron.rides.driver.sidemenu.vehicle.ui.event.VehicleEvent
+import com.mevron.rides.driver.sidemenu.vehicle.ui.state.VehicleState
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -75,41 +75,7 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
                     if (state.error.isNotEmpty()) {
                         Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
                     }
-                    if (state.detail.image.isNotEmpty()) {
-                        binding.carEnlarged.visibility = View.VISIBLE
-                        binding.grayBackground.visibility = View.VISIBLE
-                        Picasso.get().load(state.detail.image).placeholder(R.drawable.ic_car)
-                            .error(R.drawable.ic_car).into(binding.carImage)
-                        Picasso.get().load(state.detail.image).placeholder(R.drawable.ic_car)
-                            .error(R.drawable.ic_car).into(binding.carEnlarged)
-                        Executors.newSingleThreadExecutor().execute {
-                            try {
-                                val inputStream: InputStream = URL(state.detail.image).openStream()
-                                val bitmap: Bitmap? = BitmapFactory.decodeStream(inputStream)
-                                if (bitmap != null) {
-                                    Palette.from(bitmap).maximumColorCount(4)
-                                        .generate { palette ->
-                                            // Get the "vibrant" color swatch based on the bitmap
-                                            val vibrant: Palette.Swatch? = palette?.vibrantSwatch
-                                            if (vibrant != null) {
-                                                binding.grayBackground.setBackgroundColor(vibrant.rgb)
-                                                binding.grayBackground.alpha = 0.7F
-                                                binding.carName.setTextColor(vibrant.titleTextColor)
-                                                binding.carType.setTextColor(vibrant.titleTextColor)
-                                            }
-                                        }
-                                }
-                            }catch (e: Exception){
-                                print(e.message)
-                            }
-
-                        }
-
-
-                    } else {
-                        binding.grayBackground.visibility = View.GONE
-                        binding.carEnlarged.visibility = View.GONE
-                    }
+                    topBackgroundImage(state)
                     binding.carName.text = state.detail.make
                     binding.vehicleNumbers.text = state.detail.plateNumber
                     binding.color.text = state.detail.color
@@ -117,6 +83,41 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
                     binding.carType.text = state.detail.model
                 }
             }
+        }
+    }
+
+    private fun topBackgroundImage(state: VehicleState) {
+        if (state.detail.image.isNotEmpty()) {
+            Picasso.get().load(state.detail.image).placeholder(R.drawable.ic_car)
+                .error(R.drawable.ic_car).into(binding.carImage)
+            Picasso.get().load(state.detail.image).placeholder(R.drawable.ic_car)
+                .error(R.drawable.ic_car).into(binding.carEnlarged)
+            Executors.newSingleThreadExecutor().execute {
+                try {
+                    val inputStream: InputStream = URL(state.detail.image).openStream()
+                    val bitmap: Bitmap? = BitmapFactory.decodeStream(inputStream)
+                    if (bitmap != null) {
+                        binding.carEnlarged.visibility = View.VISIBLE
+                        binding.grayBackground.visibility = View.VISIBLE
+                        Palette.from(bitmap).maximumColorCount(10)
+                            .generate { palette ->
+                                // Get the "vibrant" color swatch based on the bitmap
+                                val vibrant: Palette.Swatch? = palette?.vibrantSwatch
+                                if (vibrant != null) {
+                                    binding.grayBackground.setBackgroundColor(vibrant.rgb)
+                                    binding.grayBackground.alpha = 0.7F
+                                    binding.carName.setTextColor(vibrant.titleTextColor)
+                                    binding.carType.setTextColor(vibrant.titleTextColor)
+                                }
+                            }
+                    }
+                } catch (e: Exception) {
+                    print(e.message)
+                }
+            }
+        } else {
+            binding.grayBackground.visibility = View.GONE
+            binding.carEnlarged.visibility = View.GONE
         }
     }
 
