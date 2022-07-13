@@ -24,7 +24,6 @@ class CardDetailsFragment : Fragment() {
         fun newInstance() = CardDetailsFragment()
     }
 
-
     private  val viewModel: CardDetailsViewModel by viewModels()
     private lateinit var binding: CardDetailsFragmentBinding
     private lateinit var cards: CardData
@@ -41,7 +40,6 @@ class CardDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // val cards = CardDetailsFragmentArgs.fromBundle(arguments).card
         cards = arguments?.let { CardDetailsFragmentArgs.fromBundle(it).data }!!
         binding.close.setOnClickListener {
             activity?.onBackPressed()

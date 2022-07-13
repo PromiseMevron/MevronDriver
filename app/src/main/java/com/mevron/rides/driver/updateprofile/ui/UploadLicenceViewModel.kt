@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.updateprofile.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,14 +15,14 @@ import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
-class UploadInsuranceViewModel @Inject constructor (private val repository: MevronRepo)  : ViewModel() {
+class UploadLicenceViewModel  @Inject constructor (private val repository: MevronRepo)  : ViewModel() {
 
 
-    fun uploadInsurance(data: MultipartBody.Part): LiveData<GenericStatus<GeneralResponse>> {
+    fun uploadLicence(data: MultipartBody.Part): LiveData<GenericStatus<GeneralResponse>> {
         val result = MutableLiveData<GenericStatus<GeneralResponse>>()
         CoroutineScope(Dispatchers.IO).launch {
             try{
-                val response = repository.uploadInsurance(data)
+                val response = repository.uploadLicence(data)
                 if(response.isSuccessful)
                     result.postValue(GenericStatus.Success(response.body()))
                 else

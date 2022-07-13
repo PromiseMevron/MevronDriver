@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/uploadDocumFragment"
-        android:name="com.mevron.rides.driver.auth.UploadLicenceFragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.UploadLicenceFragment"
         android:label="upload_docum_fragment"
         tools:layout="@layout/upload_licence_fragment" >
         <action
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/uploadInsuranceFragment"
-        android:name="com.mevron.rides.driver.auth.UploadInsuranceFragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.UploadInsuranceFragment"
         android:label="upload_insurance_fragment"
         tools:layout="@layout/upload_insurance_fragment" >
         <action
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/uploadStickerFragment"
-        android:name="com.mevron.rides.driver.auth.UploadStickerFragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.UploadStickerFragment"
         android:label="upload_sticker_fragment"
         tools:layout="@layout/upload_sticker_fragment" >
         <action
@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/uploadProfileFragment"
-        android:name="com.mevron.rides.driver.auth.UploadProfileFragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.UploadProfileFragment"
         android:label="upload_profile_fragment"
         tools:layout="@layout/upload_profile_fragment" >
         <action

@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.updateprofile.ui
 
 import android.app.Activity
 import android.app.Dialog
@@ -19,7 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.BuildConfig
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.databinding.UploadStickerFragmentBinding
+import com.mevron.rides.driver.databinding.UploadProfileFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.util.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,14 +33,16 @@ import java.io.FileOutputStream
 
 
 @AndroidEntryPoint
-class UploadStickerFragment : Fragment() {
+class UploadProfileFragment : Fragment() {
 
     companion object {
-        fun newInstance() = UploadStickerFragment()
+        fun newInstance() = UploadProfileFragment()
     }
 
-    private val viewModel: UploadStickerViewModel by viewModels()
-    private lateinit var binding: UploadStickerFragmentBinding
+
+    private val viewModel: UploadProfileViewModel by viewModels()
+    private lateinit var binding: UploadProfileFragmentBinding
+
     private var image: Bitmap? = null
     private var imageUri: Uri? = null
     private var mDialog: Dialog? = null
@@ -49,7 +51,7 @@ class UploadStickerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.upload_sticker_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.upload_profile_fragment, container, false)
 
         return binding.root
     }
@@ -60,6 +62,11 @@ class UploadStickerFragment : Fragment() {
             activity?.onBackPressed()
         }
 
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bitmap>("key")?.observe(viewLifecycleOwner) {result ->
+            // Do something with the result.
+            binding.uploadedImage.setImageBitmap(result)
+        }
+
         binding.reUpload.setOnClickListener {
             showImagePickerDialog()
         }
@@ -68,7 +75,8 @@ class UploadStickerFragment : Fragment() {
         }
 
         binding.upload.setOnClickListener {
-            uploadData()
+           // uploadData()
+            findNavController().navigate(R.id.action_uploadProfileFragment_to_faceLivenessDetectionFragment)
         }
     }
 
@@ -91,9 +99,9 @@ class UploadStickerFragment : Fragment() {
         val requestFile: RequestBody =
             file.asRequestBody("multipart/form-data".toMediaTypeOrNull())!!
         val body: MultipartBody.Part =  MultipartBody.Part.createFormData("document", file.name, requestFile)
-        toggleBusyDialog(true,"Uploading Sticker...")
+        toggleBusyDialog(true,"Uploading Profile Picture...")
 
-        viewModel.uploadSticker(body).observe(viewLifecycleOwner, Observer {
+        viewModel.uploadProfile(body).observe(viewLifecycleOwner, Observer {
 
             it.let { res ->
                 when(res){
@@ -108,11 +116,14 @@ class UploadStickerFragment : Fragment() {
                         snackbar?.show()
 
 
+
+
                     }
 
                     is  GenericStatus.Success ->{
                         toggleBusyDialog(false)
-                        findNavController().navigate(R.id.action_uploadStickerFragment_to_uploadProfileFragment)
+                        findNavController().navigate(R.id.action_uploadProfileFragment_to_socialSecurityFragment)
+                      //  findNavController().navigate(R.id.action_uploadInsuranceFragment_to_uploadStickerFragment)
                     }
                 }
             }
@@ -156,8 +167,10 @@ class UploadStickerFragment : Fragment() {
                             imageUri = photoURI
                             image = MediaStore.Images.Media.getBitmap(
                                 requireContext().contentResolver, photoURI)
-                            binding.uploadClick.setImageBitmap(image)
+                            binding.uploadedImage.setImageBitmap(image)
                             binding.buttonsLayout.visibility = View.VISIBLE
+                            binding.uploadClick.visibility = View.INVISIBLE
+                            binding.uploadedImage.visibility = View.VISIBLE
                             binding.text13.text = context?.resources?.getString(R.string.submit_if_readable)
 
                         }
@@ -170,9 +183,11 @@ class UploadStickerFragment : Fragment() {
                     imageUri = fileUri
                     image = MediaStore.Images.Media.getBitmap(
                         requireContext().contentResolver, fileUri)
-                    binding.uploadClick.setImageBitmap(image)
+                    binding.uploadedImage.setImageBitmap(image)
                     binding.buttonsLayout.visibility = View.VISIBLE
-                    binding.text13.text = context?.resources?.getString(R.string.submit_if_readable)
+                    binding.uploadClick.visibility = View.INVISIBLE
+                    binding.uploadedImage.visibility = View.VISIBLE
+                    binding.text13.text = context?.resources?.getString(R.string.submit_if_lit)
                 }
             }
         }

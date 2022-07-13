@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.updateprofile.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,14 +15,13 @@ import okhttp3.MultipartBody
 import javax.inject.Inject
 
 @HiltViewModel
-class UploadProfileViewModel  @Inject constructor (private val repository: MevronRepo)  : ViewModel() {
-
-
-    fun uploadProfile(data: MultipartBody.Part): LiveData<GenericStatus<GeneralResponse>> {
+class UploadStickerViewModel @Inject constructor (private val repository: MevronRepo)  : ViewModel() {
+    
+    fun uploadSticker(data: MultipartBody.Part): LiveData<GenericStatus<GeneralResponse>> {
         val result = MutableLiveData<GenericStatus<GeneralResponse>>()
         CoroutineScope(Dispatchers.IO).launch {
             try{
-                val response = repository.uploadProfile(data)
+                val response = repository.uploadSticker(data)
                 if(response.isSuccessful)
                     result.postValue(GenericStatus.Success(response.body()))
                 else

@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.updateprofile.ui
 
 import android.app.Activity
 import android.app.Dialog
@@ -7,19 +7,19 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.BuildConfig
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.databinding.UploadLicenceFragmentBinding
+import com.mevron.rides.driver.databinding.UploadStickerFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.util.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,15 +33,14 @@ import java.io.FileOutputStream
 
 
 @AndroidEntryPoint
-class UploadLicenceFragment : Fragment() {
+class UploadStickerFragment : Fragment() {
 
     companion object {
-        fun newInstance() = UploadLicenceFragment()
+        fun newInstance() = UploadStickerFragment()
     }
 
-
-    private val viewModel: UploadLicenceViewModel by viewModels()
-    private lateinit var binding: UploadLicenceFragmentBinding
+    private val viewModel: UploadStickerViewModel by viewModels()
+    private lateinit var binding: UploadStickerFragmentBinding
     private var image: Bitmap? = null
     private var imageUri: Uri? = null
     private var mDialog: Dialog? = null
@@ -49,8 +48,9 @@ class UploadLicenceFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.upload_licence_fragment, container, false)
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.upload_sticker_fragment, container, false)
+
         return binding.root
     }
 
@@ -91,9 +91,9 @@ class UploadLicenceFragment : Fragment() {
         val requestFile: RequestBody =
             file.asRequestBody("multipart/form-data".toMediaTypeOrNull())!!
         val body: MultipartBody.Part =  MultipartBody.Part.createFormData("document", file.name, requestFile)
-        toggleBusyDialog(true,"Uploading Licence...")
+        toggleBusyDialog(true,"Uploading Sticker...")
 
-        viewModel.uploadLicence(body).observe(viewLifecycleOwner, Observer {
+        viewModel.uploadSticker(body).observe(viewLifecycleOwner, Observer {
 
             it.let { res ->
                 when(res){
@@ -106,11 +106,13 @@ class UploadLicenceFragment : Fragment() {
                                 })
                         }
                         snackbar?.show()
+
+
                     }
 
                     is  GenericStatus.Success ->{
                         toggleBusyDialog(false)
-                        findNavController().navigate(R.id.action_uploadDocumFragment_to_uploadInsuranceFragment)
+                        findNavController().navigate(R.id.action_uploadStickerFragment_to_uploadProfileFragment)
                     }
                 }
             }
@@ -134,7 +136,6 @@ class UploadLicenceFragment : Fragment() {
         }else{
             mDialog?.dismiss()
         }
-
     }
 
 

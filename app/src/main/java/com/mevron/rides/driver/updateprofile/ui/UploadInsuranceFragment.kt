@@ -1,4 +1,4 @@
-package com.mevron.rides.driver.auth
+package com.mevron.rides.driver.updateprofile.ui
 
 import android.app.Activity
 import android.app.Dialog
@@ -19,7 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.BuildConfig
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.databinding.UploadProfileFragmentBinding
+import com.mevron.rides.driver.databinding.UploadInsuranceFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.util.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,22 +27,21 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-
 @AndroidEntryPoint
-class UploadProfileFragment : Fragment() {
+class UploadInsuranceFragment : Fragment() {
 
     companion object {
-        fun newInstance() = UploadProfileFragment()
+        fun newInstance() = UploadInsuranceFragment()
     }
 
 
-    private val viewModel: UploadProfileViewModel by viewModels()
-    private lateinit var binding: UploadProfileFragmentBinding
-
+    private val viewModel: UploadInsuranceViewModel by viewModels()
+    private lateinit var binding: UploadInsuranceFragmentBinding
     private var image: Bitmap? = null
     private var imageUri: Uri? = null
     private var mDialog: Dialog? = null
@@ -50,9 +49,8 @@ class UploadProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.upload_profile_fragment, container, false)
-
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.upload_insurance_fragment, container, false)
         return binding.root
     }
 
@@ -60,11 +58,6 @@ class UploadProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
-        }
-
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bitmap>("key")?.observe(viewLifecycleOwner) {result ->
-            // Do something with the result.
-            binding.uploadedImage.setImageBitmap(result)
         }
 
         binding.reUpload.setOnClickListener {
@@ -75,8 +68,7 @@ class UploadProfileFragment : Fragment() {
         }
 
         binding.upload.setOnClickListener {
-           // uploadData()
-            findNavController().navigate(R.id.action_uploadProfileFragment_to_faceLivenessDetectionFragment)
+            uploadData()
         }
     }
 
@@ -99,9 +91,9 @@ class UploadProfileFragment : Fragment() {
         val requestFile: RequestBody =
             file.asRequestBody("multipart/form-data".toMediaTypeOrNull())!!
         val body: MultipartBody.Part =  MultipartBody.Part.createFormData("document", file.name, requestFile)
-        toggleBusyDialog(true,"Uploading Profile Picture...")
+        toggleBusyDialog(true,"Uploading Insurance...")
 
-        viewModel.uploadProfile(body).observe(viewLifecycleOwner, Observer {
+        viewModel.uploadInsurance(body).observe(viewLifecycleOwner, Observer {
 
             it.let { res ->
                 when(res){
@@ -122,8 +114,7 @@ class UploadProfileFragment : Fragment() {
 
                     is  GenericStatus.Success ->{
                         toggleBusyDialog(false)
-                        findNavController().navigate(R.id.action_uploadProfileFragment_to_socialSecurityFragment)
-                      //  findNavController().navigate(R.id.action_uploadInsuranceFragment_to_uploadStickerFragment)
+                        findNavController().navigate(R.id.action_uploadInsuranceFragment_to_uploadStickerFragment)
                     }
                 }
             }
@@ -167,10 +158,8 @@ class UploadProfileFragment : Fragment() {
                             imageUri = photoURI
                             image = MediaStore.Images.Media.getBitmap(
                                 requireContext().contentResolver, photoURI)
-                            binding.uploadedImage.setImageBitmap(image)
+                            binding.uploadClick.setImageBitmap(image)
                             binding.buttonsLayout.visibility = View.VISIBLE
-                            binding.uploadClick.visibility = View.INVISIBLE
-                            binding.uploadedImage.visibility = View.VISIBLE
                             binding.text13.text = context?.resources?.getString(R.string.submit_if_readable)
 
                         }
@@ -183,16 +172,13 @@ class UploadProfileFragment : Fragment() {
                     imageUri = fileUri
                     image = MediaStore.Images.Media.getBitmap(
                         requireContext().contentResolver, fileUri)
-                    binding.uploadedImage.setImageBitmap(image)
+                    binding.uploadClick.setImageBitmap(image)
                     binding.buttonsLayout.visibility = View.VISIBLE
-                    binding.uploadClick.visibility = View.INVISIBLE
-                    binding.uploadedImage.visibility = View.VISIBLE
-                    binding.text13.text = context?.resources?.getString(R.string.submit_if_lit)
+                    binding.text13.text = context?.resources?.getString(R.string.submit_if_readable)
                 }
             }
         }
     }
-
 
 
 }
