@@ -387,5 +387,6 @@
     <string name="upload_photo">\"Upload Photo of \"</string>
     <string name="under_review">Submitted, under review</string>
     <string name="vehicle_number">Vehicle Number</string>
+    <string name="do_you_want_to_logout_from_this_device">Do you want to logout from this device?</string>
 
 </resources>

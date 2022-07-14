@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/drawable/ic_add_fund.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/ic_address_image.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_alert.xml" value="0.1875" />
+        <entry key="app/src/main/res/drawable/ic_alert_circle_fill.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_all_saved.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_avatar_emerge.xml" value="0.137" />
         <entry key="app/src/main/res/drawable/ic_back_button.xml" value="0.136" />
@@ -153,6 +154,7 @@
         <entry key="app/src/main/res/layout/layout_trip_view.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/learn_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/listing_item.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/logout_dialog.xml" value="0.2515625" />
         <entry key="app/src/main/res/layout/notification_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/notification_item.xml" value="0.12698412698412698" />
         <entry key="app/src/main/res/layout/notification_sub_item.xml" value="0.19157608695652173" />

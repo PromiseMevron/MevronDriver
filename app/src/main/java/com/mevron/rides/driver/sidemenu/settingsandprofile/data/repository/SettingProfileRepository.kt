@@ -37,6 +37,15 @@ class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingPro
         }
     }
 
+    override suspend fun signOut(): DomainModel  = api.signOut().let {
+        if (it.isSuccessful) {
+            it.body()?.toDomainModel()
+                ?: DomainModel.Error(Throwable("Error in signing out"))
+        } else {
+            DomainModel.Error(Throwable("Error in signing out"))
+        }
+    }
+
     private fun GetProfileResponse.toDomainModel() = DomainModel.Success(
         data = this.getProfileSuccess.profileData.apply {
             ProfileData(

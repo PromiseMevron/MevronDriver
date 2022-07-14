@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UploadStickerViewModel @Inject constructor (private val repository: MevronRepo)  : ViewModel() {
-    
+
     fun uploadSticker(data: MultipartBody.Part): LiveData<GenericStatus<GeneralResponse>> {
         val result = MutableLiveData<GenericStatus<GeneralResponse>>()
         CoroutineScope(Dispatchers.IO).launch {
@@ -31,7 +31,6 @@ class UploadStickerViewModel @Inject constructor (private val repository: Mevron
                 result.postValue(GenericStatus.Error(HTTPErrorHandler.httpFailWithCode(ex)))
             }
         }
-
         return  result
     }
 }

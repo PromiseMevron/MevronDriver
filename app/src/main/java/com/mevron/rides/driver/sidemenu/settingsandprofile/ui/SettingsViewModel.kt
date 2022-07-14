@@ -9,6 +9,7 @@ import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.GetProfileData
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.usecase.GetProfileUseCase
+import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.usecase.SignOutUseCase
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.event.SettingsProfileEvent
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.state.SettingsProfileState
 import com.mevron.rides.driver.util.Constants
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val useCase: GetProfileUseCase,
     private val useSharedCase: GetSharedPreferenceUseCase,
-    private val setSharedCase: SetPreferenceUseCase
+    private val setSharedCase: SetPreferenceUseCase,
+    private val signOutUseCase: SignOutUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<SettingsProfileState> =
@@ -66,10 +68,34 @@ class SettingsViewModel @Inject constructor(
     }
 
 
+    private fun signOut() {
+        updateState(isLoading = true)
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = signOutUseCase()) {
+                is DomainModel.Error -> mutableState.update {
+                    mutableState.value.copy(
+                        isLoading = false,
+                        isSuccess = false,
+                        error = "Error in signing out"
+                    )
+                }
+                is DomainModel.Success -> {
+                  //  setSharedCase(Constants.PROFILE, user)
+                    updateState(
+                        isLoading = false,
+                        signOut = true,
+
+                    )
+                }
+            }
+        }
+    }
+
     fun handleEvent(event: SettingsProfileEvent) {
         when (event) {
             SettingsProfileEvent.FetchFromApi -> getProfile()
             SettingsProfileEvent.UpdateProfile -> {}
+            SettingsProfileEvent.SignOut -> signOut()
         }
     }
 
@@ -77,7 +103,8 @@ class SettingsViewModel @Inject constructor(
         isLoading: Boolean? = null,
         isRequestSuccess: Boolean? = null,
         error: String? = null,
-        profile: GetProfileData? = null
+        profile: GetProfileData? = null,
+        signOut: Boolean? = null
     ) {
         val currentState = mutableState.value
         mutableState.update {
@@ -85,7 +112,8 @@ class SettingsViewModel @Inject constructor(
                 isLoading = isLoading ?: currentState.isLoading,
                 isSuccess = isRequestSuccess ?: currentState.isSuccess,
                 error = error ?: currentState.error,
-                profile = profile ?: currentState.profile
+                profile = profile ?: currentState.profile,
+                signOutSuccess = signOut ?: currentState.signOutSuccess
             )
         }
     }

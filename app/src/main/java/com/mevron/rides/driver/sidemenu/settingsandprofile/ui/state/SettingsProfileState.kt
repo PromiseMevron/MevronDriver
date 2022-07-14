@@ -6,14 +6,16 @@ data class SettingsProfileState(
     val isLoading: Boolean,
     val isSuccess: Boolean,
     val error: String,
-    val profile: GetProfileData
+    val profile: GetProfileData,
+    val signOutSuccess: Boolean
 ) {
     companion object {
         val EMPTY = SettingsProfileState(
             isLoading = false,
             isSuccess = false,
             error = "",
-            profile = GetProfileData()
+            profile = GetProfileData(),
+            signOutSuccess = false
         )
     }
 }

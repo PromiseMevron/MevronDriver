@@ -1,9 +1,15 @@
 package com.mevron.rides.driver.sidemenu.settingsandprofile.ui
 
+import android.app.Dialog
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.method.TextKeyListener.clear
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -12,9 +18,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.button.MaterialButton
+import com.mevron.rides.driver.MainActivity
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.SettingsFragmentBinding
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.event.SettingsProfileEvent
+import com.mevron.rides.driver.util.Constants
+import com.mevron.rides.driver.util.LauncherUtil
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -28,6 +38,7 @@ class SettingsFragment : Fragment() {
 
     private lateinit var binding: SettingsFragmentBinding
     private val viewModel: SettingsViewModel by viewModels()
+    private var mDialog: Dialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +68,17 @@ class SettingsFragment : Fragment() {
                     }
                     if (state.error.isNotEmpty()) {
                         Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                    }
+
+                    toggleBusyDialog(
+                        state.isLoading,
+                        desc = if (state.isLoading) "Logging out..." else null
+                    )
+
+                    if (state.signOutSuccess){
+                        context?.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)?.edit()?.clear()?.commit()
+                        startActivity(Intent(requireActivity(), MainActivity::class.java))
+                        activity?.finishAffinity()
                     }
                 }
             }
@@ -97,8 +119,47 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_global_addSavedPlaceFragment)
         }
 
+        binding.logout.setOnClickListener {
+            showDialog()
+        }
 
     }
 
+    private fun toggleBusyDialog(busy: Boolean, desc: String? = null) {
+        if (busy) {
+            if (mDialog == null) {
+                val view = LayoutInflater.from(requireContext())
+                    .inflate(R.layout.dialog_busy_layout, null)
+                mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
+            } else {
+                if (!desc.isNullOrBlank()) {
+                    val view = LayoutInflater.from(requireContext())
+                        .inflate(R.layout.dialog_busy_layout, null)
+                    mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
+                }
+            }
+            mDialog?.show()
+        } else {
+            mDialog?.dismiss()
+        }
+    }
+
+    private fun showDialog() {
+        val dialog = activity?.let { Dialog(it) }!!
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.logout_dialog)
+        // val body = dialog.findViewById(R.id.body) as TextView
+        //  body.text = title
+        val yesBtn = dialog.findViewById(R.id.do_cancel) as MaterialButton
+        val noBtn = dialog.findViewById(R.id.dont) as MaterialButton
+        yesBtn.setOnClickListener {
+           viewModel.handleEvent(SettingsProfileEvent.SignOut)
+            dialog.dismiss()
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+
+    }
 
 }
