@@ -73,6 +73,7 @@ class SaveAddressFragment : Fragment(), PlaceAdapter.OnItemClicked {
             Places.initialize(it.applicationContext, "AIzaSyACHmEwJsDug1l3_IDU_E4WEN4Qo_i_NoE")
             placesClient = Places.createClient(it)
         }
+        viewModel.updateState(isLoading = false)
 
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

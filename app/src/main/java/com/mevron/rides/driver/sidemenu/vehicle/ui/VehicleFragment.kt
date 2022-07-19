@@ -41,6 +41,7 @@ class VehicleFragment : Fragment(), SelectVehicle {
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
+        viewModel.updateState(isLoading = false)
         viewModel.onEvent(VehicleEvent.MakeAPICall)
         binding.addAVehicle.setOnClickListener {
             findNavController().navigate(R.id.action_vehicleFragment_to_addVehicleFragment2)

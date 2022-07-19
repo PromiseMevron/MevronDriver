@@ -97,7 +97,7 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
 
     private fun GetCardResponse.toDomainModel() = DomainModel.Success(
         data = GetCardData(
-            cardData = this.success.cardData.map {
+            cardData = this.success.cardData/*.map {
                 GetCardData.GetCardDatum(
                     bin = it.bin,
                     brand = it.brand,
@@ -107,7 +107,7 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
                     type = it.type,
                     uuid = it.uuid
                 )
-            }
+            }*/
         )
     )
 

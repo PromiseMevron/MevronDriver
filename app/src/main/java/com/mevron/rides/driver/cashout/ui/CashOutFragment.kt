@@ -66,7 +66,7 @@ class CashOutFragment : Fragment(), TopLayerButtonClicked {
                         desc = if (state.loading) "Processing..." else null
                     )
 
-                    if (state.success){
+                    if (state.successCard){
                         Toast.makeText(context, "Successful", Toast.LENGTH_LONG).show()
                         viewModel.updateState(success = false)
                         viewModel.getWalletDetails()
@@ -74,7 +74,6 @@ class CashOutFragment : Fragment(), TopLayerButtonClicked {
                 }
             }
         }
-
     }
 
     private fun toggleBusyDialog(busy: Boolean, desc: String? = null) {

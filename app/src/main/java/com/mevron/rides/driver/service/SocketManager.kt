@@ -1,5 +1,6 @@
 package com.mevron.rides.driver.service
 
+import android.util.Log
 import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.domain.SocketEvent
 import com.mevron.rides.driver.home.data.model.MetaData
@@ -33,7 +34,8 @@ private const val SOCKET_URL = "http://staging.mevron.com:8086/"
  *  }
  * }
  */
-class SocketManager @Inject constructor(private val mapStateRepository: IMapStateRepository) : ISocketManager {
+class SocketManager @Inject constructor(private val mapStateRepository: IMapStateRepository) :
+    ISocketManager {
 
     private var socket: io.socket.client.Socket? = null
 
@@ -48,14 +50,10 @@ class SocketManager @Inject constructor(private val mapStateRepository: IMapStat
         } catch (e: URISyntaxException) {
             throw RuntimeException(e)
         }
-
-        socket?.open()
-
         // manage events.
         socket?.let { socketInstance ->
+            Log.d(TAG, "Sending Location $4444")
             if (!socketInstance.isActive) {
-                socketInstance.open()
-
                 while (eventQueue.isNotEmpty()) {
                     val currentEvent = eventQueue.poll()
                     currentEvent?.let {
@@ -70,10 +68,24 @@ class SocketManager @Inject constructor(private val mapStateRepository: IMapStat
                 val distanceRemaining: String
                  */
                 socketInstance.on(SocketEvent.Connected.name) {
-                    print("the response from socket ${it}")
+                    socketInstance.emit("{\"uuid\":\"7f2ca768-3331-4009-a24d-1cb013366f81\",\"type\":\"driver\"}")
+                    Log.d(TAG, "Sending Location $2222")
                     if (it.isNotEmpty()) {
-                       print("the response from socket ${it}")
+                        Log.d(TAG, "Sending Location $333")
                     }
+                }
+
+                socketInstance.on(SocketEvent.EventManager.name) {
+                    print("the response from event")
+                    //SocketEventSuccess
+                    Log.d(TAG, "Sending Location $it")
+                    if (it.isNotEmpty()){
+                        val item = it[0] as JSONObject
+                        val data = SocketEvent.EventManager.fromJson(item.toString())
+                        Log.d(TAG, "Sending Location 22 $data")
+                    }
+
+                    socketInstance.emit("{\"uuid\":\"7f2ca768-3331-4009-a24d-1cb013366f81\",\"type\":\"driver\"}")
                 }
 
                 socketInstance.on(SocketEvent.IncomingRideRequestEvent.name) {
@@ -135,8 +147,11 @@ class SocketManager @Inject constructor(private val mapStateRepository: IMapStat
                         // repo sets incoming request data
                     }
                 }
+            //    socketInstance.open()
             }
         }
+        socket?.open()
+
     }
 
     override fun disconnect() {

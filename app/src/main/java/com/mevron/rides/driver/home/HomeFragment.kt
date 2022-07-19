@@ -250,9 +250,9 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
             locationViewModel.currentLocationState.collect {
                 it?.let { locationData ->
                     binding.mapView2.routeToPosition(
-                        locationData.latitude,
-                        locationData.longitude,
-                        locationData.bearing
+                        locationData.lat,
+                        locationData.long,
+                        locationData.direction
                     )
                     if (!locationViewModel.locationNotLoaded()) {
                         binding.mapView2.getMapForNavigationAsync()

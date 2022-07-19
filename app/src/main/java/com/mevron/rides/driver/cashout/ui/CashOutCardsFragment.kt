@@ -48,7 +48,7 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
-                    adapter.submitList(state.cardData.map {
+                    adapter.submitList(state.cardData/*.map {
                         CardData(
                             bin = it.bin,
                             brand = it.brand,
@@ -58,8 +58,8 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
                             uuid = it.uuid,
                             type = it.type
                         )
-                    })
-                    if (state.success)
+                    }*/)
+                    if (state.successFund)
                         Toast.makeText(
                             requireContext(),
                             "Fund Added Successfully",

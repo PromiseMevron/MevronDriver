@@ -105,7 +105,7 @@ class BalanceViewModel @Inject constructor(
                     updateState(
                         loading = false,
                         errorMessage = "",
-                        success = true
+                        successFund = true
                     )
                 }
                 is DomainModel.Error -> mutableState.update {
@@ -126,7 +126,7 @@ class BalanceViewModel @Inject constructor(
                     updateState(
                         loading = false,
                         errorMessage = "",
-                        success = true,
+                        successCard = true,
                         cardData = result.data as GetCardData
                     )
                 }
@@ -271,7 +271,9 @@ class BalanceViewModel @Inject constructor(
         cashOut: String? = null,
         addFund: String? = null,
         cardNumber: String? = null,
-        cardData: GetCardData? = null
+        cardData: GetCardData? = null,
+        successFund: Boolean? = null,
+        successCard: Boolean? = null
     ) {
         val currentState = mutableState.value
         mutableState.update {
@@ -285,7 +287,9 @@ class BalanceViewModel @Inject constructor(
                 cashOutAmount = cashOut ?: currentState.cashOutAmount,
                 addFundAmount = addFund ?: currentState.addFundAmount,
                 cardNumber = cardNumber ?: currentState.cardNumber,
-                cardData = cardData?.cardData ?: currentState.cardData
+                cardData = cardData?.cardData ?: currentState.cardData,
+                successFund = successFund ?: currentState.successFund,
+                successCard = successCard ?: currentState.successCard
             )
         }
     }

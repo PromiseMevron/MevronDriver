@@ -114,6 +114,7 @@ class UploadStickerFragment : Fragment() {
                         toggleBusyDialog(false)
                         findNavController().navigate(R.id.action_uploadStickerFragment_to_uploadProfileFragment)
                     }
+                    else -> {}
                 }
             }
         })

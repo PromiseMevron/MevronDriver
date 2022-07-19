@@ -1,6 +1,5 @@
 package com.mevron.rides.driver.cashout.ui.state
 
-import com.mevron.rides.driver.cashout.domain.model.GetCardData
 import com.mevron.rides.driver.cashout.domain.model.PaymentBalanceDetailsDomainDatum
 import com.mevron.rides.driver.remote.model.getcard.CardData
 
@@ -13,8 +12,11 @@ data class GetWalletDetailState(
     val date: String,
     val errorMessage: String,
     val success: Boolean,
+    val successCash: Boolean,
+    val successFund: Boolean,
+    val successCard: Boolean,
     val data: List<PaymentBalanceDetailsDomainDatum>,
-    val cardData: List<GetCardData.GetCardDatum>
+    val cardData: List<CardData>
 ){
     companion object {
         val EMPTY = GetWalletDetailState(
@@ -27,7 +29,10 @@ data class GetWalletDetailState(
             cashOutAmount = "0",
             addFundAmount = "0",
             cardNumber = "",
-            cardData = mutableListOf()
+            cardData = mutableListOf(),
+            successCash = false,
+            successFund = false,
+            successCard = false
         )
     }
 }

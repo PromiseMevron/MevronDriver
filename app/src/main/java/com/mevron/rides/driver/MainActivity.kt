@@ -21,9 +21,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
+
+        /**
+         * ","type":"account","uuid":""
+         */
         val editor = sPref.edit()
-        editor.putString(Constants.TOKEN, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiIiLCJuYW1lIjoiIiwidXVpZCI6Ijg3Yjg2YTA1LTQ1Y2ItNDBkZS1hMWJmLTkyZmQ4MzYyNTg4OCIsInBob25lTnVtYmVyIjoiMjM0NzAzMzUwNTAxMyIsInR5cGUiOiJkcml2ZXIiLCJpYXQiOjE2NDYzNTY4NDh9.icyUCSLOxulAxTsNl_AqJzY4E4_9YXxl9zf_1LaTXcQ")
-        editor.putString(Constants.UUID, "87b86a05-45cb-40de-a1bf-92fd83625888")
+        editor.putString(Constants.TOKEN, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksInV1aWQiOiI0YjZjNzRlOC1mMTM1LTQyNmQtYmQwNi00ZTRkY2E3MGVhZTQiLCJ0eXBlIjoiZHJpdmVyIiwiaWF0IjoxNjU3ODg2MjA4fQ.G1P93LchZq5o6NdnqK9k9UO7sh-ToU-JpfUTHoFs-TM")
+        editor.putString(Constants.UUID, "4b6c74e8-f135-426d-bd06-4e4dca70eae4")
         editor.apply()
       //  SocketHandler.setSocket("", "", "")
        // SocketHandler.establishConnection()

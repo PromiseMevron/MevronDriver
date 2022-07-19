@@ -109,6 +109,7 @@ class RideRequestFragment : Fragment(), OnMapReadyCallback , LocationListener,
                             binding.mevronArrivedBottom.bottomSheet.visibility = View.GONE
                             binding.bottomSheetStartRide.visibility = View.VISIBLE
                         }
+                        else -> {}
                     }
                 }
             })
@@ -134,6 +135,7 @@ class RideRequestFragment : Fragment(), OnMapReadyCallback , LocationListener,
                             binding.mevronArrivedBottom.bottomSheet.visibility = View.VISIBLE
                             binding.bottomSheetAcceptRide.visibility = View.GONE
                         }
+                        else -> {}
                     }
                 }
             })
@@ -339,6 +341,7 @@ class RideRequestFragment : Fragment(), OnMapReadyCallback , LocationListener,
                         binding.mevronHomeBottom.bottomSheet.visibility = View.VISIBLE
                         binding.navigateCard.visibility = View.VISIBLE
                     }
+                    else -> {}
                 }
             }
         })

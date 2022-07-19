@@ -388,5 +388,14 @@
     <string name="under_review">Submitted, under review</string>
     <string name="vehicle_number">Vehicle Number</string>
     <string name="do_you_want_to_logout_from_this_device">Do you want to logout from this device?</string>
+    <string name="referral_code">Referral Code</string>
+    <string name="enter_code">Enter Code</string>
+    <string name="referral_bonus_received">Referral bonus received</string>
+    <string name="invite_your_friends_and_family_to_this_app_using_your_referral_code">Invite your friends and family to this app using your referral code.</string>
+    <string name="no_referral_bonus_recieved">No referral bonus recieved</string>
+    <string name="share_the_referral_link_to_maximum_number_of_people_once_they_joined_both_of_you_will_recieve_bonus">Share the referral link to maximum number of people, once they joined both of you will recieve bonus.</string>
+    <string name="bella_doe_ride_report">Bella Doe Ride Report</string>
+    <string name="to">To</string>
+    <string name="add_a_referral_code">Add a Referral Code</string>
 
 </resources>

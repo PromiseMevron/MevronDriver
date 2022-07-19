@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_vehicleFragment"
             app:destination="@id/vehicleFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_referralFragment"
+            app:destination="@id/referralFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -260,5 +263,10 @@
         android:name="com.mevron.rides.driver.cashout.ui.CashOutCardsFragment"
         android:label="CashOutCardsFragment"
         tools:layout="@layout/cash_out_cards_layout_fragment"/><action android:id="@+id/action_global_cashOutCardsFragment" app:destination="@id/cashOutCardsFragment"/>
+    <fragment
+        android:id="@+id/referralFragment"
+        tools:layout="@layout/fragment_referral"
+        android:name="com.mevron.rides.driver.sidemenu.settingsandprofile.ui.ReferralFragment"
+        android:label="ReferralFragment" />
 
 </navigation>

@@ -931,6 +931,7 @@ class MapBoxMapView @JvmOverloads constructor(
                 layoutEmergencyWidget.setData(tripState.data)
             }
             MapTripState.Idle -> {}
+            else -> {}
         }
     }
 

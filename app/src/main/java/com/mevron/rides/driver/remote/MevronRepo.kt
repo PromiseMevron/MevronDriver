@@ -106,24 +106,24 @@ class MevronRepo @Inject constructor ( private val api: MevronAPI, private val d
     }
 
     suspend fun saveAddressInDb(add: SavedAddress) {
-        dao.insert(add)
+      //  dao.insert(add)
     }
 
     suspend fun deleteAllAdd() {
-        dao.deleteAllAddress()
+       // dao.deleteAllAddress()
     }
 
     suspend fun updataAddInDB(add: SavedAddress) {
-        dao.update(add)
+      //  dao.update(add)
     }
 
     suspend fun updataAdd(path: String, add: UpdateAddress): Response<GeneralResponse> {
         return api.updateAddress(path, add)
     }
 
-    fun getllAddress(): LiveData<MutableList<SavedAddress>> {
+   /* fun getllAddress(): LiveData<MutableList<SavedAddress>> {
         return dao.getAllAddress()
-    }
+    }*/
 
 
     suspend fun saveEmergency(data: AddContactRequest): Response<GeneralResponse> {

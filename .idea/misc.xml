@@ -34,6 +34,7 @@
         <entry key="app/src/main/res/drawable/ic_chat_help.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/ic_close_drawer.xml" value="0.1835" />
+        <entry key="app/src/main/res/drawable/ic_copy_code.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_curved_image_large.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_curved_view.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_drive.xml" value="0.146" />
@@ -58,14 +59,21 @@
         <entry key="app/src/main/res/drawable/ic_notifi_other.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/ic_okay.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/ic_pencil.xml" value="0.1835" />
+        <entry key="app/src/main/res/drawable/ic_people_black.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_photo_gallery.xml" value="0.1405" />
         <entry key="app/src/main/res/drawable/ic_remove_card.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_resend.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.1835" />
+        <entry key="app/src/main/res/drawable/ic_share_code.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/ic_share_to_contact.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/ic_share_white.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/ic_signal.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_stop_new_ride.xml" value="0.25625" />
+        <entry key="app/src/main/res/drawable/ic_telegram.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_unchecked.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/ic_vector.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable/ic_vector_benefit.xml" value="0.1875" />
+        <entry key="app/src/main/res/drawable/ic_whatsapp.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_work_address.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_year_ok.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/next_unenabled.xml" value="0.2222222222222222" />
@@ -139,6 +147,7 @@
         <entry key="app/src/main/res/layout/fragment_face_liveness_detection.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/fragment_face_liveness_detection_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/fragment_facial_recognition.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/fragment_referral.xml" value="0.2328125" />
         <entry key="app/src/main/res/layout/help_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/highlight_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/home_bottom.xml" value="0.25" />
@@ -167,6 +176,7 @@
         <entry key="app/src/main/res/layout/preference_bottom_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/profile_details_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/profile_fragment.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/referal_item.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/regist1_fragment.xml" value="0.2616033755274262" />
         <entry key="app/src/main/res/layout/review_items.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/ride_activity_fragment.xml" value="0.19157608695652173" />
@@ -178,6 +188,7 @@
         <entry key="app/src/main/res/layout/schedule_confirm_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/schedule_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/settings_fragment.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/share_dialog.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/social_security_fragment.xml" value="0.35694444444444445" />
         <entry key="app/src/main/res/layout/spinner_dropdown_layout.xml" value="0.1796875" />
         <entry key="app/src/main/res/layout/update_address_fragment.xml" value="0.19157608695652173" />

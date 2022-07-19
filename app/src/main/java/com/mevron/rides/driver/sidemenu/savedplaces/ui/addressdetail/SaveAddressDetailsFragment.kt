@@ -56,6 +56,7 @@ class SaveAddressDetailsFragment : Fragment() {
         location = SaveAddressDetailsFragmentArgs.fromBundle(
             arguments!!
         ).location
+        viewModel.updateState(isLoading = false)
 
         viewModel.updateState(
             address = location.address,

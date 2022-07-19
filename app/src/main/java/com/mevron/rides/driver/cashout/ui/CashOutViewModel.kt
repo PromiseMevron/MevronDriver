@@ -93,7 +93,7 @@ class CashOutViewModel @Inject constructor(
                 loading = loading ?: currentState.loading,
                 errorMessage = errorMessage ?: currentState.errorMessage,
                 balance = balance ?: currentState.balance,
-                success = success ?: currentState.success
+                successCash = success ?: currentState.success
             )
         }
     }

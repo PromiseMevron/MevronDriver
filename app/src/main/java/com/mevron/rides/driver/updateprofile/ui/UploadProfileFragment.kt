@@ -125,6 +125,7 @@ class UploadProfileFragment : Fragment() {
                         findNavController().navigate(R.id.action_uploadProfileFragment_to_socialSecurityFragment)
                       //  findNavController().navigate(R.id.action_uploadInsuranceFragment_to_uploadStickerFragment)
                     }
+                    else -> {}
                 }
             }
         })

@@ -112,6 +112,7 @@ class UploadLicenceFragment : Fragment() {
                         toggleBusyDialog(false)
                         findNavController().navigate(R.id.action_uploadDocumFragment_to_uploadInsuranceFragment)
                     }
+                    else -> {}
                 }
             }
         })

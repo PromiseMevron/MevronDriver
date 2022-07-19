@@ -106,6 +106,7 @@ class ProfileViewModel @Inject constructor(
         when (event) {
             SettingsProfileEvent.FetchFromApi -> getProfile()
             SettingsProfileEvent.UpdateProfile -> updateProfile()
+            else -> {}
         }
     }
 

@@ -116,6 +116,7 @@ class UploadInsuranceFragment : Fragment() {
                         toggleBusyDialog(false)
                         findNavController().navigate(R.id.action_uploadInsuranceFragment_to_uploadStickerFragment)
                     }
+                    else -> {}
                 }
             }
         })

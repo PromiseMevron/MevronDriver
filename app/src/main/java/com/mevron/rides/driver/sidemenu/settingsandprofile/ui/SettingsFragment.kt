@@ -54,6 +54,7 @@ class SettingsFragment : Fragment() {
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
+        viewModel.updateState(isLoading = false)
 
         viewModel.handleEvent(SettingsProfileEvent.FetchFromApi)
 
@@ -70,10 +71,10 @@ class SettingsFragment : Fragment() {
                         Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
                     }
 
-                    toggleBusyDialog(
+                   /* toggleBusyDialog(
                         state.isLoading,
                         desc = if (state.isLoading) "Logging out..." else null
-                    )
+                    )*/
 
                     if (state.signOutSuccess){
                         context?.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)?.edit()?.clear()?.commit()
@@ -123,6 +124,10 @@ class SettingsFragment : Fragment() {
             showDialog()
         }
 
+        binding.referal.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_referralFragment)
+        }
+
     }
 
     private fun toggleBusyDialog(busy: Boolean, desc: String? = null) {
@@ -154,8 +159,8 @@ class SettingsFragment : Fragment() {
         val yesBtn = dialog.findViewById(R.id.do_cancel) as MaterialButton
         val noBtn = dialog.findViewById(R.id.dont) as MaterialButton
         yesBtn.setOnClickListener {
-           viewModel.handleEvent(SettingsProfileEvent.SignOut)
             dialog.dismiss()
+           viewModel.handleEvent(SettingsProfileEvent.SignOut)
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
