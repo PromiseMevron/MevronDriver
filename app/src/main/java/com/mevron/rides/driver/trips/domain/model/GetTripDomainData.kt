@@ -1,6 +1,5 @@
 package com.mevron.rides.driver.trips.domain.model
 
-import com.mevron.rides.driver.home.data.model.home.Trip
 import com.mevron.rides.driver.trips.data.model.alltrips.AllTripsResult
 
 data class GetTripDomainData(
