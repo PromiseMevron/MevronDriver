@@ -8,6 +8,6 @@ import retrofit2.http.POST
 
 interface TripManagementAPI {
 
-    @POST("api/v1/driver/auth/trip")
+    @POST("api/v1/trip/driver/auth/trip")
     suspend fun tripManagement(@Body data: TripManagementModel): Response<TripManagementResponse>
 }
