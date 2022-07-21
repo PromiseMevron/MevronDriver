@@ -92,10 +92,7 @@ import com.mevron.rides.driver.home.domain.model.MapTripState
 import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.map.widgets.OnStatusChangedListener
 import com.mevron.rides.driver.home.map.widgets.AcceptRideView
-import com.mevron.rides.driver.home.ui.ApproachPassengerWidget
-import com.mevron.rides.driver.home.ui.GoingToDestinationWidget
-import com.mevron.rides.driver.home.ui.EmergencyWidget
-import com.mevron.rides.driver.home.ui.StartRideWidget
+import com.mevron.rides.driver.home.ui.*
 import java.util.Locale
 
 private const val TAG = "_MapBoxMapView"
@@ -927,13 +924,19 @@ class MapBoxMapView @JvmOverloads constructor(
             is MapTripState.ApproachingPassengerState -> {
                 approachPassengerWidget.show()
                 approachPassengerWidget.bindData(tripState.data)
+
             }
             is MapTripState.EmergencyState -> {
                 layoutEmergencyWidget.show()
                 layoutEmergencyWidget.setData(tripState.data)
             }
             MapTripState.Idle -> {}
+            else -> {}
         }
+    }
+
+    fun approachingPassengerEventListener(listener: ApproachPassengerWidgetEventClickListener){
+        approachPassengerWidget.setEventsClickListener(listener)
     }
 
     private fun clearAllStates() {

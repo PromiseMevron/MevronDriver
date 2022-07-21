@@ -58,20 +58,22 @@ class CashOutFragment : Fragment(), TopLayerButtonClicked {
                         Toast.makeText(context, state.errorMessage, Toast.LENGTH_LONG).show()
                     }
                     binding.topView.setUpTopView(state.balance)
+                    binding.detailView.setUpDetailsView(state.balance)
+                    binding.cashOut.text = "${getString(R.string.cash_out)} ${state.balance}"
 
                     toggleBusyDialog(
                         state.loading,
                         desc = if (state.loading) "Processing..." else null
                     )
 
-                    if (state.success){
+                    if (state.successCard){
                         Toast.makeText(context, "Successful", Toast.LENGTH_LONG).show()
+                        viewModel.updateState(success = false)
                         viewModel.getWalletDetails()
                     }
                 }
             }
         }
-
     }
 
     private fun toggleBusyDialog(busy: Boolean, desc: String? = null) {

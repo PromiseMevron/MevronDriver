@@ -2,13 +2,14 @@ package com.mevron.rides.driver.cashout.data.repository
 
 import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.cashout.data.model.AddBankAccountSpecification
-import com.mevron.rides.driver.cashout.data.model.CashOutData
+import com.mevron.rides.driver.cashout.data.model.CashActionData
 import com.mevron.rides.driver.cashout.data.model.GetBankSpecifications
 import com.mevron.rides.driver.cashout.data.model.PaymentDetailsResponse
 import com.mevron.rides.driver.cashout.data.network.PaymentAPI
 import com.mevron.rides.driver.cashout.domain.model.*
 import com.mevron.rides.driver.cashout.domain.repository.IPayOutRepository
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
 
 class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
 
@@ -20,9 +21,17 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         }
     }
 
-    override suspend fun cashOut(data: CashOutData): DomainModel = api.cashOut(data = data).let {
+    override suspend fun cashOut(data: CashActionData): DomainModel = api.cashOut(data = data).let {
         if (it.isSuccessful) {
             it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in cash out"))
+        } else {
+            DomainModel.Error(Throwable(it.errorBody().toString()))
+        }
+    }
+
+    override suspend fun addFund(data: CashActionData): DomainModel = api.addFund(data = data).let {
+        if (it.isSuccessful) {
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in adding fund"))
         } else {
             DomainModel.Error(Throwable(it.errorBody().toString()))
         }
@@ -42,6 +51,14 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         if (it.isSuccessful) {
             it.body()?.toDomainModel()
                 ?: DomainModel.Error(Throwable("Error in getting required specifications"))
+        } else {
+            DomainModel.Error(Throwable(it.errorBody().toString()))
+        }
+    }
+
+    override suspend fun getCards(): DomainModel = api.getCards().let {
+        if (it.isSuccessful) {
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in fetching cards"))
         } else {
             DomainModel.Error(Throwable(it.errorBody().toString()))
         }
@@ -75,6 +92,22 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
             param = this.specificSuccess.specdata.infoData.map {
                 AddAccount(title = it.title, name = it.name)
             }
+        )
+    )
+
+    private fun GetCardResponse.toDomainModel() = DomainModel.Success(
+        data = GetCardData(
+            cardData = this.success.cardData/*.map {
+                GetCardData.GetCardDatum(
+                    bin = it.bin,
+                    brand = it.brand,
+                    expiryMonth = it.expiryMonth,
+                    expiryYear = it.expiryYear,
+                    lastDigits = it.lastDigits,
+                    type = it.type,
+                    uuid = it.uuid
+                )
+            }*/
         )
     )
 

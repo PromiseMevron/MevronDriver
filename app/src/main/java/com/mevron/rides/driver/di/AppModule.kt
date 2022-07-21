@@ -8,6 +8,8 @@ import com.mevron.rides.driver.localdb.MevronDatabase
 import com.mevron.rides.driver.remote.MevronAPI
 import com.mevron.rides.driver.remote.MevronRepo
 import com.mevron.rides.driver.util.Constants.BASE_URL
+import com.mevron.rides.driver.util.Constants.GOOGLE_CALL
+import com.mevron.rides.driver.util.Constants.MEVRON_CALL
 import com.mevron.rides.driver.util.Constants.SHARED_PREF_KEY
 import com.mevron.rides.driver.util.Constants.TOKEN
 import dagger.Module
@@ -23,6 +25,7 @@ import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -30,7 +33,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideApi(retrofit: Retrofit): MevronAPI = retrofit.create(MevronAPI::class.java)
+    @Named("mevronAPI")
+    fun provideApi(@Named(MEVRON_CALL) retrofit: Retrofit): MevronAPI = retrofit.create(MevronAPI::class.java)
 
     @Provides
     @Singleton
@@ -41,6 +45,7 @@ object AppModule {
 
     @Provides
     @Singleton
+    @Named("mevronHTTPClient")
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
         OkHttpClient.Builder().followRedirects(true)
             .retryOnConnectionFailure(true)
@@ -67,7 +72,28 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient, factory: GsonConverterFactory): Retrofit {
+    @Named("googleHTTPClient")
+    fun provideOkHttpClientForGoogleAPI(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+        OkHttpClient.Builder().followRedirects(true)
+            .retryOnConnectionFailure(true)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(Interceptor { chain ->
+                val newRequest: Request = chain.request().newBuilder()
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Content-Type", "application/json")
+                    .build()
+                chain.proceed(newRequest)
+                // return response
+            }).readTimeout(180, TimeUnit.SECONDS)
+            .connectTimeout(180, TimeUnit.SECONDS)
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+
+
+    @Provides
+    @Singleton
+    @Named(MEVRON_CALL)
+    fun provideRetrofit(@Named("mevronHTTPClient") client: OkHttpClient, factory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(factory)
             .client(client)
@@ -77,11 +103,22 @@ object AppModule {
 
     @Provides
     @Singleton
+    @Named(GOOGLE_CALL)
+    fun provideRetrofitForGoogle(@Named("googleHTTPClient") client: OkHttpClient, factory: GsonConverterFactory): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(factory)
+            .client(client)
+            .baseUrl("https://maps.googleapis.com/maps/api/directions/")
+            .build()
+    }
+
+    @Provides
+    @Singleton
     fun provideGsonConverterFactory() = GsonConverterFactory.create()
 
     @Singleton
     @Provides
-    fun mainRepo(api: MevronAPI, dao: MevronDao): MevronRepo {
+    fun mainRepo(@Named("mevronAPI") api: MevronAPI, dao: MevronDao): MevronRepo {
         return MevronRepo(api = api, dao = dao)
     }
 

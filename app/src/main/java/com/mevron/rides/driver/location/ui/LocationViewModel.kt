@@ -42,9 +42,10 @@ class LocationViewModel @Inject constructor(
                it?.let { locationData ->
                    mutableState.update {
                        currentState?.copy(
-                           latitude = locationData.latitude,
-                           longitude = locationData.longitude,
-                           bearing = locationData.bearing,
+                           lat = locationData.lat,
+                           long = locationData.long,
+                           direction = locationData.direction,
+                           uuid = locationData.uuid,
                            isForeground = locationData.isForeground
                        )
                    }

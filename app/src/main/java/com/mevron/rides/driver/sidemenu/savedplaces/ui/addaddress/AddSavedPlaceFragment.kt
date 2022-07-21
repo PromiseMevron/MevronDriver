@@ -50,7 +50,7 @@ class AddSavedPlaceFragment : Fragment(), AddressSelected {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.updateState(isLoading = false)
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->

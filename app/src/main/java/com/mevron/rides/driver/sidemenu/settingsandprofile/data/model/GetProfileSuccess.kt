@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class GetProfileSuccess(
     @SerializedName("data")
-    val getProfileData: GetProfileData,
+    val profileData: GetProfileData,
     val message: String,
     val status: String
 )

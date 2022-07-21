@@ -1,7 +1,7 @@
 package com.mevron.rides.driver.di
 
-import com.mevron.rides.driver.authentication.domain.repository.IPreferenceRepository
 import com.mevron.rides.driver.domain.ISocketManager
+import com.mevron.rides.driver.home.domain.IMapStateRepository
 import com.mevron.rides.driver.service.SocketManager
 import dagger.Module
 import dagger.Provides
@@ -15,6 +15,6 @@ object SocketModule {
 
     @Provides
     @Singleton
-    fun provideSocketManager(preferenceRepository: IPreferenceRepository): ISocketManager =
+    fun provideSocketManager(preferenceRepository: IMapStateRepository): ISocketManager =
         SocketManager(preferenceRepository)
 }

@@ -14,63 +14,134 @@
         tools:context=".home.HomeFragment">
 
         <com.mevron.rides.driver.home.ui.DriverStatusWidget
-            android:tag="driverStatus"
             android:id="@+id/driver_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:tag="driverStatus"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.mevron.rides.driver.home.ui.DocumentSubmissionPendingWidget
-            android:tag="documentSubmission"
-            android:id="@+id/document_submission_status"
-            android:layout_width="0dp"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/drive_tab"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/driver_status" />
+            android:background="@color/white"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/driver_status">
 
-        <com.mevron.rides.driver.home.ui.WeeklyGoalsWidget
-            android:id="@+id/weekly_goals"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/document_submission_status" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <com.mevron.rides.driver.home.ui.ScheduledPickupsWidget
-            android:id="@+id/schedule_pickup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weekly_goals" />
+                <com.mevron.rides.driver.home.ui.DocumentSubmissionPendingWidget
+                    android:id="@+id/document_submission_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:tag="documentSubmission"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <com.mevron.rides.driver.home.ui.OpportunitiesForYouWidget
-            android:id="@+id/opportunities_for_you"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/schedule_pickup" />
+                <com.mevron.rides.driver.home.ui.WeeklyGoalsWidget
+                    android:id="@+id/weekly_goals"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/document_submission_status" />
 
-        <com.mevron.rides.driver.home.ui.LearningHubWidget
-            android:id="@+id/leaning_hub"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/opportunities_for_you" />
+                <com.mevron.rides.driver.home.ui.ScheduledPickupsWidget
+                    android:id="@+id/schedule_pickup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/weekly_goals" />
 
-        <com.mevron.rides.driver.home.ui.HelpAndSupportWidget
-            android:id="@+id/help_and_support"
-            android:layout_width="0dp"
+                <com.mevron.rides.driver.home.ui.OpportunitiesForYouWidget
+                    android:id="@+id/opportunities_for_you"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/schedule_pickup" />
+
+                <com.mevron.rides.driver.home.ui.LearningHubWidget
+                    android:id="@+id/leaning_hub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/opportunities_for_you" />
+
+                <com.mevron.rides.driver.home.ui.HelpAndSupportWidget
+                    android:id="@+id/help_and_support"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/leaning_hub" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:layout_constraintTop_toBottomOf="@id/help_and_support" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/earn_tab"
+            android:layout_width="match_parent"
+            android:background="@color/white"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/leaning_hub" />
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/driver_status">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.mevron.rides.driver.home.ui.EarningCashOut
+                    android:id="@+id/earning_cashout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.mevron.rides.driver.home.ui.EarningToday
+                    android:id="@+id/earning_today"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/earning_cashout" />
+
+                <com.mevron.rides.driver.home.ui.EarningWeeklyWidget
+                    android:id="@+id/earning_weekly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/earning_today" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintTop_toBottomOf="@id/earning_weekly" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

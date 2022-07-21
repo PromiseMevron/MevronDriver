@@ -39,5 +39,43 @@
             tools:itemCount="1"
             tools:listitem="@layout/learn_item" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:id="@+id/card"
+            android:visibility="visible"
+            app:cardCornerRadius="@dimen/_4sdp"
+            app:layout_constraintTop_toBottomOf="@id/learning_hub_header"
+            app:cardElevation="@dimen/_5sdp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="#383838"
+                    android:text="No material available"
+                    android:textFontWeight="600"
+                    android:gravity="center"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:targetApi="p" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <View
+            app:layout_constraintTop_toBottomOf="@id/card"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:id="@+id/empty_bottom"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

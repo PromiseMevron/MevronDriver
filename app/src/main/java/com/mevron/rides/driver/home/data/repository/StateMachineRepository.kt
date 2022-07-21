@@ -36,7 +36,9 @@ class StateMachineRepository(private val api: StateMachineApi) : IStateMachineRe
         estimatedTripTime,
         riderRating,
         riderImage,
-        riderName
+        riderName,
+        destinationAddress,
+        pickupAddress
     )
 }
 

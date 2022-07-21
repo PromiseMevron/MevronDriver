@@ -46,7 +46,8 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.App
 import com.mevron.rides.driver.remote.geoservice.GeoAPIClient
-import com.mevron.rides.driver.remote.geoservice.GeoAPIInterface
+import com.mevron.rides.driver.remote.geoservice.data.network.GeoAPIInterface
+import com.mevron.rides.driver.remote.geoservice.data.model.GeoDirectionsResponse
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import retrofit2.Call
 import retrofit2.Callback
@@ -112,7 +113,7 @@ fun Fragment.showImagePickerDialog() {
 
 fun Fragment.dispatchStartGalleryIntent() {
 
-    if(requireContext().hasWriteToStoragePermission() == PackageManager.PERMISSION_GRANTED) {
+    if (requireContext().hasWriteToStoragePermission() == PackageManager.PERMISSION_GRANTED) {
 
         val imageIntent =
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -120,17 +121,15 @@ fun Fragment.dispatchStartGalleryIntent() {
         startActivityForResult(
             Intent.createChooser(imageIntent, "Select photo"), Constants.REQUEST_PICK_IMAGE
         )
-    }
-    else{
+    } else {
 
-        val permissionListener = object: PermissionListener {
+        val permissionListener = object : PermissionListener {
             override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
                 dispatchStartGalleryIntent()
             }
 
             override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
             }
-
 
 
             override fun onPermissionRationaleShouldBeShown(
@@ -368,9 +367,12 @@ fun Fragment.getGeoLocation(location: Array<LocationModel>, gMap: GoogleMap, isA
     val directionsEndpoint = "json?origin=" + "${location[0].lat}" + "," + "${location[0].lng}"+
             "&destination=" + "${location[1].lat}" + "," + "${location[1].lng}" +
             "&sensor=false&units=metric&mode=driving"+ "&key=" + "AIzaSyACHmEwJsDug1l3_IDU_E4WEN4Qo_i_NoE"
-    val call: Call<GeoDirectionsResponse> = GeoAPIClient().getClient()?.create(GeoAPIInterface::class.java)!!.getGeoDirections(directionsEndpoint)
+    val call: Call<GeoDirectionsResponse> = GeoAPIClient().getClient()?.create(GeoAPIInterface::class.java)!!.getGeoDirectionsCall(directionsEndpoint)
     call.enqueue(object : Callback<GeoDirectionsResponse?> {
-        override fun onResponse(call: Call<GeoDirectionsResponse?>?, response: Response<GeoDirectionsResponse?>) {
+        override fun onResponse(
+            call: Call<GeoDirectionsResponse?>,
+            response: Response<GeoDirectionsResponse?>
+        ) {
             if (response.isSuccessful) {
                 response.body().let {
                     val directionsPayload = it
@@ -442,7 +444,7 @@ fun Fragment.plotPolyLines(geoDirections: GeoDirectionsResponse, gMap: GoogleMap
 
 }
 
-fun Fragment.plotPolyLinesForDriverArrival(geoDirections: GeoDirectionsResponse, gMap: GoogleMap,  addMarker: (GeoDirectionsResponse) -> Unit){
+fun Fragment.plotPolyLinesForDriverArrival(geoDirections: GeoDirectionsResponse, gMap: GoogleMap, addMarker: (GeoDirectionsResponse) -> Unit){
     val steps: ArrayList<LatLng> = ArrayList()
 
     if (geoDirections.routes.isNullOrEmpty()) {

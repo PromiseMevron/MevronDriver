@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface TripsAPI {
 
-    @GET("api/v1/driver/auth/trips")
+    @GET("api/v1/trip/driver/auth/trips")
     suspend fun getAllTrips(@Query("startDate") startDate: String, @Query("endDate") endDate: String): Response<AllTripsResponse>
 
 }

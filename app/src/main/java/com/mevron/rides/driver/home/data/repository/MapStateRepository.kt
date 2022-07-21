@@ -2,6 +2,7 @@ package com.mevron.rides.driver.home.data.repository
 
 import com.mevron.rides.driver.home.domain.IMapStateRepository
 import com.mevron.rides.driver.home.domain.model.MapTripState
+import com.mevron.rides.driver.home.domain.model.StateMachineDomainData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -21,7 +22,7 @@ class MapStateRepository : IMapStateRepository {
 
     private var mutableState: MutableStateFlow<MapTripState> = MutableStateFlow(MapTripState.Idle)
 
-    override fun setCurrentState(mapTripState: MapTripState) {
-        mutableState.value = mapTripState
+    override fun setCurrentState(state: MapTripState) {
+        mutableState.value = state
     }
 }

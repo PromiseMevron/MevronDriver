@@ -19,4 +19,7 @@ interface SettingProfileAPI {
     @POST("api/v1/driver/auth/resend-verification")
     suspend fun resendEmailLink(): Response<GeneralResponse>
 
+    @POST("api/v1/driver/auth/sign-out")
+    suspend fun signOut(): Response<GeneralResponse>
+
 }

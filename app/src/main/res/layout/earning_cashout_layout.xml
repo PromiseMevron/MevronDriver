@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:visibility="visible"
+    android:tag="earning_cashout_layout"
+    android:background="#142A2A72"
+    android:layout_height="220dp">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:fontFamily="@font/poppins_regular"
+        android:lineHeight="@dimen/_24sdp"
+        android:text="@string/balance"
+        android:textColor="#8a8a8a"
+        android:textFontWeight="600"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="p" />
+
+    <TextView
+        android:id="@+id/balance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:fontFamily="@font/poppins_regular"
+        android:lineHeight="@dimen/_24sdp"
+        tools:text="@string/balance"
+        android:textColor="#383838"
+        android:textFontWeight="600"
+        android:textSize="@dimen/_22ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text1"
+        tools:targetApi="p" />
+
+    <TextView
+        android:id="@+id/due_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:fontFamily="@font/poppins_regular"
+        android:lineHeight="@dimen/_24sdp"
+        android:textColor="#8a8a8a"
+        android:textFontWeight="600"
+        android:textSize="@dimen/_10ssp"
+        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/balance"
+        tools:targetApi="p"
+        tools:text="Your payout is scheduled on Fri, 16th Mar"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_cash_out"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/due_date"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:id="@+id/cash_out"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_details"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toEndOf="@id/cash_out"
+        app:layout_constraintTop_toBottomOf="@id/due_date"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:id="@+id/details"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

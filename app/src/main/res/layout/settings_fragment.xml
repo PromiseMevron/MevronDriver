@@ -95,7 +95,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:layout_marginEnd="@dimen/_14sdp"
-                    android:src="@drawable/ic_logo"
+                    android:src="@drawable/ic_avatar"
                     app:civ_border_width="1dp"
                     app:civ_border_color="@color/white"
                     android:id="@+id/profile_image"/>
@@ -443,10 +443,62 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@id/add_emerg"
+                android:layout_height="@dimen/_60sdp"
+                android:id="@+id/referal">
+
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:id="@+id/refer_image2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:src="@drawable/ic_people_black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/referral_code"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textSize="@dimen/_14ssp"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:textColor="#2A2A72"
+                    app:layout_constraintStart_toEndOf="@id/refer_image2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:id="@+id/text_promp2"
+                    tools:targetApi="p" />
+
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:src="@drawable/ic_next_blue"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="#f2f2f2"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/referal"
                 android:layout_height="@dimen/_60sdp"
                 android:id="@+id/logout">
 

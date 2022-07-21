@@ -140,6 +140,7 @@ class ApproachPassengerWidget @JvmOverloads constructor(
                 data.pickUpPassengerInfo
             )
         )
+
         setDropOffAtValue(data.dropOffAtInfo)
         setPassengerName(data.passengerName)
         bindArrivedData(ArrivedData(data.passengerName, data.passengerRating, data.passengerImage))

@@ -4,13 +4,13 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +18,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.ProfileFragmentBinding
-import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.model.ProfileData
 import com.mevron.rides.driver.util.Constants
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +31,7 @@ class ProfileFragment : Fragment() {
     }
 
     private val viewModel: ProfileViewModel by viewModels()
-    private lateinit var binding:ProfileFragmentBinding
+    private lateinit var binding: ProfileFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

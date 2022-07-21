@@ -9,7 +9,7 @@
             android:title="@string/ride_activity" />
 
         <item
-            android:id="@+id/savedpaymentFragment"
+            android:id="@+id/balanceFragment"
             android:title="@string/wallet" />
 
         <item

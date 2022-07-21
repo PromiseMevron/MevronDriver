@@ -1,7 +1,10 @@
 package com.mevron.rides.driver.domain
 
 import com.google.gson.GsonBuilder
+import com.mevron.rides.driver.home.data.model.StateMachineResponse
+import com.mevron.rides.driver.home.data.model.sockets.RideRequestSocketData
 import com.mevron.rides.driver.location.domain.model.LocationData
+import com.mevron.rides.driver.service.SocketEventSuccess
 
 // TODO REMOVE as soon as possible
 private const val TEST_UUID = "87b86a05-45cb-40de-a1bf-92fd83625888"
@@ -47,15 +50,69 @@ sealed interface SocketEvent {
         override fun toJsonString(): String {
             val gson = GsonBuilder().setPrettyPrinting().create()
             val map = hashMapOf<String, String>()
-            map["lat"] = "${locationData.latitude}"
-            map["long"] = "${locationData.longitude}"
-            map["direction"] = "${locationData.bearing}"
+            map["lat"] = "${locationData.lat}"
+            map["long"] = "${locationData.long}"
+            map["direction"] = "${locationData.direction}"
             map["uuid"] = TEST_UUID
             return gson.toJson(map)
         }
 
         override val name: String = SocketName.SEND_DRIVER_LOCATION
     }
+
+    object IncomingRideRequestEvent : IncomingEvent() {
+
+        override fun fromJson(string: String): RideRequestSocketData? {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            // TODO map what mr babafemi sends for incoming socket event
+            return gson.fromJson(string, RideRequestSocketData::class.java)
+        }
+
+        override val name: String = SocketName.RIDE_REQUESTED
+    }
+
+    object IncomingRideCancelledEvent : IncomingEvent() {
+
+        override fun fromJson(string: String): LocationData? {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            // TODO map what mr babafemi sends for incoming socket event
+            return gson.fromJson(string, LocationData::class.java)
+        }
+
+        override val name: String = SocketName.RIDER_CANCELLED
+    }
+
+    object StateManagerEvent : IncomingEvent() {
+
+        override fun fromJson(string: String): StateMachineResponse? {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            // TODO map what mr babafemi sends for incoming socket event
+            return gson.fromJson(string, StateMachineResponse::class.java)
+        }
+
+        override val name: String = SocketName.STATE_MANAGER
+    }
+
+    object EventManager: SocketEvent{
+        override fun fromJson(string: String): SocketEventSuccess? {
+            print("we received a response")
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            return gson.fromJson(string, SocketEventSuccess::class.java)
+           // return null
+        }
+
+        override fun toJsonString(): String {
+            return ""
+        }
+
+        override val name: String
+            get() = SocketName.EVENT
+
+    }
+}
+
+abstract class IncomingEvent : SocketEvent {
+    override fun toJsonString(): String = ""
 }
 
 object SocketName {
@@ -63,7 +120,10 @@ object SocketName {
     const val SEARCH_DRIVERS = "search_drivers"
     const val TRIP_STATUS = "trip_status"
     const val DRIVER_PICK_UP = "trip_status"
-    const val START_RIDE = "start_ride"
+    const val EVENT = "event"
+    const val CONNECTED = "connected"
+    const val STATE_MANAGER = "state_manager"
     const val RIDE_REQUESTED = "ride_requests"
     const val SEND_DRIVER_LOCATION = "driver_location"
+    const val RIDER_CANCELLED = "rider_cancelled"
 }

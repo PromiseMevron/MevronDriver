@@ -25,11 +25,13 @@ import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.PrefrenceData
 import com.mevron.rides.driver.sidemenu.supportpages.data.model.NotificationResponse
 import com.mevron.rides.driver.updateprofile.domain.model.AddVehicleRequest
 import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
+import com.mevron.rides.driver.util.Constants
 import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Named
 
-class MevronRepo @Inject constructor (private val api: MevronAPI, private val dao: MevronDao) {
+class MevronRepo @Inject constructor ( private val api: MevronAPI, private val dao: MevronDao) {
 
     suspend fun validateOTP(data: VerifyOTPRequest): Response<OTPResponse> {
         return api.verifyOTP(data)
@@ -104,24 +106,24 @@ class MevronRepo @Inject constructor (private val api: MevronAPI, private val da
     }
 
     suspend fun saveAddressInDb(add: SavedAddress) {
-        dao.insert(add)
+      //  dao.insert(add)
     }
 
     suspend fun deleteAllAdd() {
-        dao.deleteAllAddress()
+       // dao.deleteAllAddress()
     }
 
     suspend fun updataAddInDB(add: SavedAddress) {
-        dao.update(add)
+      //  dao.update(add)
     }
 
     suspend fun updataAdd(path: String, add: UpdateAddress): Response<GeneralResponse> {
         return api.updateAddress(path, add)
     }
 
-    fun getllAddress(): LiveData<MutableList<SavedAddress>> {
+   /* fun getllAddress(): LiveData<MutableList<SavedAddress>> {
         return dao.getAllAddress()
-    }
+    }*/
 
 
     suspend fun saveEmergency(data: AddContactRequest): Response<GeneralResponse> {

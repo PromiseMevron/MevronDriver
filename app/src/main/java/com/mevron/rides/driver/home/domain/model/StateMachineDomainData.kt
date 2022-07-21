@@ -13,12 +13,16 @@ data class StateMachineMetaData(
     val destinationLongitude: String,
     val estimatedDistance: String,
     val estimatedTripTime: String,
-    val riderRating: String,
-    val riderImage: String,
-    val riderName: String
+    val riderRating: String?,
+    val riderImage: String?,
+    val riderName: String?,
+    val destinationAddress: String?,
+    val pickupAddress: String?
+
+
 
 ) {
     companion object {
-        val EMPTY = StateMachineMetaData("", "", "", "", "", "", "", "", "", "", "")
+        val EMPTY = StateMachineMetaData("", "", "", "", "", "", "", "", "", "", "", "", "")
     }
 }

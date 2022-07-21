@@ -51,5 +51,16 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.96667" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_no_trips"
+        android:visibility="visible"
+        android:id="@+id/none"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

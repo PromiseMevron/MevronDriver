@@ -3,11 +3,13 @@ package com.mevron.rides.driver.sidemenu.savedplaces.di
 import com.mevron.rides.driver.sidemenu.savedplaces.data.network.AddressAPI
 import com.mevron.rides.driver.sidemenu.savedplaces.data.repository.AddressRepository
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.repository.IAddressRepository
+import com.mevron.rides.driver.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -16,7 +18,7 @@ object SaveAddressModule {
 
     @Provides
     @Singleton
-    fun provideSaveAddressApi(retrofit: Retrofit): AddressAPI =
+    fun provideSaveAddressApi(@Named(Constants.MEVRON_CALL) retrofit: Retrofit): AddressAPI =
         retrofit.create(AddressAPI::class.java)
 
     @Provides

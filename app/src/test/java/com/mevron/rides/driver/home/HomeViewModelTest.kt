@@ -18,7 +18,7 @@ class HomeViewModelTest {
     private val getMapStateUseCase: GetMapTripStateUseCase = mockk()
     private val setMapStateUSeCase: SetMapTripStateUseCase = mockk()
 
-    private val viewModel = HomeViewModel(onlineStatusUseCase, getDocumentStatusUseCase, getMapStateUseCase, setMapStateUSeCase)
+    private val viewModel = HomeViewModel(onlineStatusUseCase, getDocumentStatusUseCase, getMapStateUseCase)
 
     @Test
     fun `when viewModel receives event - viewModel handles event`(): Unit = runBlocking {

@@ -29,7 +29,7 @@ class CashOutDetaailsView @JvmOverloads constructor(
         fee = findViewById(R.id.fee_detail)
     }
 
-    fun setUpDetailsView(){
-
+    fun setUpDetailsView(totalAmount: String){
+        total.text = totalAmount
     }
 }

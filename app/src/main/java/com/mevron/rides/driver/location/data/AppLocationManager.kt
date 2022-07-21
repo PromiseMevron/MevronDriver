@@ -13,13 +13,17 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.mevron.rides.driver.App
+import com.mevron.rides.driver.authentication.domain.repository.IPreferenceRepository
 import com.mevron.rides.driver.location.LocationUpdatesBroadcastReceiver
 import com.mevron.rides.driver.location.domain.model.LocationData
 import com.mevron.rides.driver.location.domain.repository.IAppLocationManager
 import com.mevron.rides.driver.location.hasPermission
+import com.mevron.rides.driver.util.Constants
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
 
 private const val TAG = "AppLocationManager"
@@ -28,6 +32,9 @@ class AppLocationManager(private val context: Context) : IAppLocationManager {
 
     private val _receivingLocationUpdates: MutableStateFlow<Boolean> =
         MutableStateFlow(false)
+
+   // @Inject
+   // lateinit var sharedPreferences: IPreferenceRepository
 
     /**
      * Status of location updates, i.e., whether the app is actively subscribed to location changes.
@@ -145,10 +152,18 @@ class AppLocationManager(private val context: Context) : IAppLocationManager {
 
     private fun getLocationProvider(): FusedLocationProviderClient? = fusedLocationClient
 
-    private fun Location.toLocationData(): LocationData = LocationData(
-        latitude = this.latitude,
-        longitude = this.longitude,
-        bearing = this.bearing,
-        isForeground = true
-    )
+    private fun Location.toLocationData(): LocationData {
+        val sPref = App.ApplicationContext.getSharedPreferences(
+            Constants.SHARED_PREF_KEY,
+            Context.MODE_PRIVATE
+        )
+        val uuid = sPref.getString(Constants.UUID, "")
+        return LocationData(
+            lat = this.latitude,
+            long = this.longitude,
+            direction = this.bearing,
+            uuid = uuid ?: "",
+            isForeground = true
+        )
+    }
 }

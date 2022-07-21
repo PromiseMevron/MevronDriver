@@ -19,7 +19,7 @@
             <com.mevron.rides.driver.home.map.MapBoxMapView
                 android:id="@+id/mapView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </RelativeLayout>
 
             <ImageButton
@@ -31,7 +31,7 @@
                 android:layout_marginBottom="@dimen/_260sdp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerCrop"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:src="@drawable/ic_hamburger"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,6 +44,7 @@
         <com.mevron.rides.driver.shared.ui.LoadingView
             android:id="@+id/loadingView"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="match_parent"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

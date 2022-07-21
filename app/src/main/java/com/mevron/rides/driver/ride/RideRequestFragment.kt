@@ -35,6 +35,7 @@ import com.mevron.rides.driver.remote.socket.SocketHandler
 import com.mevron.rides.driver.util.*
 import com.ncorti.slidetoact.SlideToActView
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.remote.geoservice.data.model.GeoDirectionsResponse
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -108,6 +109,7 @@ class RideRequestFragment : Fragment(), OnMapReadyCallback , LocationListener,
                             binding.mevronArrivedBottom.bottomSheet.visibility = View.GONE
                             binding.bottomSheetStartRide.visibility = View.VISIBLE
                         }
+                        else -> {}
                     }
                 }
             })
@@ -133,6 +135,7 @@ class RideRequestFragment : Fragment(), OnMapReadyCallback , LocationListener,
                             binding.mevronArrivedBottom.bottomSheet.visibility = View.VISIBLE
                             binding.bottomSheetAcceptRide.visibility = View.GONE
                         }
+                        else -> {}
                     }
                 }
             })
@@ -338,6 +341,7 @@ class RideRequestFragment : Fragment(), OnMapReadyCallback , LocationListener,
                         binding.mevronHomeBottom.bottomSheet.visibility = View.VISIBLE
                         binding.navigateCard.visibility = View.VISIBLE
                     }
+                    else -> {}
                 }
             }
         })

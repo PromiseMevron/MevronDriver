@@ -72,7 +72,7 @@ interface MevronAPI {
     @GET("api/v1/driver/auth/get-car-year")
     suspend fun getCarYear(@QueryMap params: HashMap<String, String>): Response<GetCarYear>
 
-    @POST("api/v1/driver/auth/trip")
+    @POST("api/v1/trip/driver/auth/trip")
     suspend fun tripManagement(@Body data: TripManagementModel): Response<GeneralResponse>
 
     @POST("api/v1/driver/auth/toggle-online-status")

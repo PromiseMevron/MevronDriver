@@ -4,9 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-
-
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -63,7 +60,7 @@
         android:layout_marginTop="@dimen/_45sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="4"
-        tools:listitem="@layout/ride_sub_activity"/>
+        tools:listitem="@layout/ride_sub_item"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

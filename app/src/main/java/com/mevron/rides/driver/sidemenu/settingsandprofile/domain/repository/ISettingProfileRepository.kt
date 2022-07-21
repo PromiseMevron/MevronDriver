@@ -7,4 +7,5 @@ interface ISettingProfileRepository {
     suspend fun getProfile(): DomainModel
     suspend fun updateTheProfile(data: SaveDetailsRequest): DomainModel
     suspend fun resendEmailLink(): DomainModel
+    suspend fun signOut(): DomainModel
 }

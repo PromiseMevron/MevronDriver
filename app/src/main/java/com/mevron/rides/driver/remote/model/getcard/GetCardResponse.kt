@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.remote.model.getcard
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 
@@ -9,13 +10,14 @@ data class GetCardResponse(
 )
 
 data class Success(
-    val `data`: List<Data>,
+    @SerializedName("data")
+    val cardData: List<CardData>,
     val message: String,
     val status: String
 )
 
 @Parcelize
-data class Data(
+data class CardData(
     val bin: String,
     val brand: String,
     val expiryMonth: String,
