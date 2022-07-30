@@ -114,6 +114,7 @@ class MapBoxMapView @JvmOverloads constructor(
     private lateinit var onStatusChangedListener: OnStatusChangedListener
     private lateinit var onActionButtonClick: OnActionButtonClick
 
+
     // widgets
     private lateinit var layoutEmergencyWidget: EmergencyWidget
     private lateinit var goingToDestinationWidget: GoingToDestinationWidget
@@ -937,6 +938,14 @@ class MapBoxMapView @JvmOverloads constructor(
 
     fun approachingPassengerEventListener(listener: ApproachPassengerWidgetEventClickListener){
         approachPassengerWidget.setEventsClickListener(listener)
+    }
+
+    fun setSlideCompleteListener(onSlideComplete: GoingToDestinationSlideCompleteListener) {
+        goingToDestinationWidget.setSlideCompleteListener(onSlideComplete)
+    }
+
+    fun slideToStartEventListener(listener: AcceptSlideCompleteListener){
+        startRideWidget.setSlideCompleteCallback(listener)
     }
 
     private fun clearAllStates() {

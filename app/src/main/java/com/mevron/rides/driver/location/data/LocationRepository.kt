@@ -23,10 +23,10 @@ class LocationRepository(
 
     private fun sendLocation(location: LocationData) {
         mutableLocation.value = location
-        Log.d(TAG, "Sending Location $location")
+      //  Log.d(TAG, "Sending Location $location")
         if (location.isForeground) {
             executor.execute {
-               socketManager.emitEvent(SocketEvent.SendLocationEvent(location))
+             //  socketManager.emitEvent(SocketEvent.SendLocationEvent(location))
             }
         } else {
             // api send location

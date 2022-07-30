@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toStartOf="@+id/nextButton"
         app:layout_constraintStart_toEndOf="@+id/alertIcon"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Tap here to cancel this ride, if rider don't show up" />
+        android:text="Tap here to cancel this ride, if rider don't show up" />
 
     <ImageView
         android:id="@+id/nextButton"

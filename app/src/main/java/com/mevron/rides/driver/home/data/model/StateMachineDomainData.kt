@@ -23,7 +23,7 @@ data class MetaData(
     @SerializedName("destinationLongitude")
     val destinationLongitude: String,
     @SerializedName("estimatedDistance")
-    val estimatedDistance: String,
+    val estimatedDistance: Any?,
     @SerializedName("estimatedTripTime")
     val estimatedTripTime: String,
     @SerializedName("riderRating")

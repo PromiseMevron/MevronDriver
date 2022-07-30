@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,270 +15,283 @@
         app:behavior_hideable="false"
         tools:context=".home.HomeFragment"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
         <!-- Going to pickup widget -->
-
-        <FrameLayout
-            android:id="@+id/contactContainer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.mevron.rides.driver.home.ui.PassengerContactWidget
-                android:id="@+id/goingToPickupWidget"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
 
-            <com.mevron.rides.driver.home.ui.ArrivedAtPickupWidget
-                android:id="@+id/arrivedAtPickupWidget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-        </FrameLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/contactContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <View
-            android:id="@+id/topSectionDivider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:background="#F2F2F2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contactContainer" />
+                    <com.mevron.rides.driver.home.ui.PassengerContactWidget
+                        android:id="@+id/goingToPickupWidget"
+                        android:layout_width="match_parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content" />
 
-        <ImageView
-            android:id="@+id/passengerImage"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topSectionDivider"
-            tools:src="@drawable/ic_home_address" />
+                    <com.mevron.rides.driver.home.ui.ArrivedAtPickupWidget
+                        android:id="@+id/arrivedAtPickupWidget"
+                        android:layout_width="match_parent"
+                        app:layout_constraintTop_toBottomOf="@id/goingToPickupWidget"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/passengerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textSize="@dimen/_16sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/passengerImage"
-            app:layout_constraintStart_toEndOf="@+id/passengerImage"
-            app:layout_constraintTop_toTopOf="@+id/passengerImage"
-            tools:text="Rebecca Davis" />
+                <View
+                    android:id="@+id/topSectionDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#F2F2F2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/contactContainer" />
 
-        <View
-            android:id="@+id/ratingBackground"
-            android:layout_width="40dp"
-            android:layout_height="22dp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            android:background="@drawable/ic_chip_background"
-            app:layout_constraintBottom_toBottomOf="@+id/passengerImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/passengerImage" />
+                <ImageView
+                    android:id="@+id/passengerImage"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/topSectionDivider"
+                    tools:src="@drawable/ic_home_address" />
 
-        <TextView
-            android:id="@+id/passengerRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:drawableStartCompat="@drawable/ic_star"
-            app:layout_constraintBottom_toBottomOf="@+id/ratingBackground"
-            app:layout_constraintEnd_toEndOf="@+id/ratingBackground"
-            app:layout_constraintStart_toStartOf="@+id/ratingBackground"
-            app:layout_constraintTop_toTopOf="@+id/ratingBackground"
-            tools:text="4.8" />
+                <TextView
+                    android:id="@+id/passengerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textSize="@dimen/_16sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/passengerImage"
+                    app:layout_constraintStart_toEndOf="@+id/passengerImage"
+                    app:layout_constraintTop_toTopOf="@+id/passengerImage"
+                    tools:text="Rebecca Davis" />
 
-        <View
-            android:id="@+id/passengerSection"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:background="#F2F2F2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passengerImage" />
+                <View
+                    android:id="@+id/ratingBackground"
+                    android:layout_width="40dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    android:background="@drawable/ic_chip_background"
+                    app:layout_constraintBottom_toBottomOf="@+id/passengerImage"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/passengerImage" />
 
-        <TextView
-            android:id="@+id/rideDetailsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/ride_details"
-            android:textColor="#383838"
-            android:textSize="@dimen/_20sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.02"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passengerSection" />
+                <TextView
+                    android:id="@+id/passengerRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:drawableStartCompat="@drawable/ic_star"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratingBackground"
+                    app:layout_constraintEnd_toEndOf="@+id/ratingBackground"
+                    app:layout_constraintStart_toStartOf="@+id/ratingBackground"
+                    app:layout_constraintTop_toTopOf="@+id/ratingBackground"
+                    tools:text="4.8" />
 
-        <!--pick up region -->
-        <View
-            android:id="@+id/pickUpBackground"
-            android:layout_width="match_parent"
-            android:layout_height="92dp"
-            android:layout_marginTop="16dp"
-            android:background="#062A2A72"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rideDetailsLabel" />
+                <View
+                    android:id="@+id/passengerSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#F2F2F2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/passengerImage" />
 
-        <ImageView
-            android:id="@+id/pickUpLabelLeftDrawable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_dot"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/pickUpLabel" />
+                <TextView
+                    android:id="@+id/rideDetailsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/ride_details"
+                    android:textColor="#383838"
+                    android:textSize="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.02"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/passengerSection" />
 
-        <TextView
-            android:id="@+id/pickUpLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="Pickup"
-            android:textColor="#383838"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/pickUpLabelDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/pickUpLabelLeftDrawable"
-            app:layout_constraintTop_toTopOf="@+id/pickUpBackground"
-            app:layout_constraintVertical_bias="1.0" />
+                <!--pick up region -->
+                <View
+                    android:id="@+id/pickUpBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="92dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#062A2A72"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rideDetailsLabel" />
 
-        <TextView
-            android:id="@+id/pickUpValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/pickUpLabel"
-            app:layout_constraintTop_toBottomOf="@+id/pickUpLabelDivider"
-            tools:text="8132 Franz way" />
+                <ImageView
+                    android:id="@+id/pickUpLabelLeftDrawable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_dot"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/pickUpLabel" />
 
-        <View
-            android:id="@+id/pickUpLabelDivider"
-            android:layout_width="wrap_content"
-            android:layout_height="4dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/pickUpBackground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/pickUpBackground" />
+                <TextView
+                    android:id="@+id/pickUpLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="Pickup"
+                    android:textColor="#383838"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/pickUpLabelDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/pickUpLabelLeftDrawable"
+                    app:layout_constraintTop_toTopOf="@+id/pickUpBackground"
+                    app:layout_constraintVertical_bias="1.0" />
 
-        <!-- drop off -->
-        <View
-            android:id="@+id/dropOffBackground"
-            android:layout_width="0dp"
-            android:layout_height="92dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pickUpBackground" />
+                <TextView
+                    android:id="@+id/pickUpValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/pickUpLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/pickUpLabelDivider"
+                    tools:text="8132 Franz way" />
 
-        <ImageView
-            android:id="@+id/lightDot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_light_dot"
-            app:layout_constraintBottom_toBottomOf="@+id/dropOffAtValue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/dropOffAtValue" />
+                <View
+                    android:id="@+id/pickUpLabelDivider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="4dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/pickUpBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/pickUpBackground" />
 
-        <TextView
-            android:id="@+id/dropOffAtValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Alezo"
-            android:textColor="#383838"
-            android:textSize="@dimen/_16sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/dropOffBackground"
-            app:layout_constraintStart_toEndOf="@+id/lightDot"
-            app:layout_constraintTop_toTopOf="@+id/dropOffBackground" />
+                <!-- drop off -->
+                <View
+                    android:id="@+id/dropOffBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="92dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pickUpBackground" />
 
-        <!-- Navigate to home -->
+                <ImageView
+                    android:id="@+id/lightDot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_light_dot"
+                    app:layout_constraintBottom_toBottomOf="@+id/dropOffAtValue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/dropOffAtValue" />
 
-        <View
-            android:id="@+id/navigateToHomeBackground"
-            android:layout_width="0dp"
-            android:layout_height="92dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dropOffBackground" />
+                <TextView
+                    android:id="@+id/dropOffAtValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Alezo"
+                    android:textColor="#383838"
+                    android:textSize="@dimen/_16sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/dropOffBackground"
+                    app:layout_constraintStart_toEndOf="@+id/lightDot"
+                    app:layout_constraintTop_toTopOf="@+id/dropOffBackground" />
 
-        <ImageView
-            android:id="@+id/lightDotNavigateToHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_light_dot"
-            app:layout_constraintBottom_toBottomOf="@+id/navigateToHomeBackground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/navigateToHomeBackground" />
+                <!-- Navigate to home -->
 
-        <TextView
-            android:id="@+id/navigateToHomeValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Navigate to Home"
-            android:textColor="#383838"
-            android:textSize="@dimen/_16sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/navigateToHomeBackground"
-            app:layout_constraintStart_toEndOf="@+id/lightDotNavigateToHome"
-            app:layout_constraintTop_toTopOf="@+id/navigateToHomeBackground" />
+                <View
+                    android:id="@+id/navigateToHomeBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="92dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dropOffBackground" />
 
-        <ImageView
-            android:id="@+id/closeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_vector_close"
-            app:layout_constraintBottom_toBottomOf="@+id/navigateToHomeBackground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/navigateToHomeBackground" />
+                <ImageView
+                    android:id="@+id/lightDotNavigateToHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_light_dot"
+                    app:layout_constraintBottom_toBottomOf="@+id/navigateToHomeBackground"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/navigateToHomeBackground" />
 
-        <View
-            android:id="@+id/bottomSection"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="#F2F2F2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/navigateToHomeBackground" />
+                <TextView
+                    android:id="@+id/navigateToHomeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Navigate to Home"
+                    android:textColor="#383838"
+                    android:textSize="@dimen/_16sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/navigateToHomeBackground"
+                    app:layout_constraintStart_toEndOf="@+id/lightDotNavigateToHome"
+                    app:layout_constraintTop_toTopOf="@+id/navigateToHomeBackground" />
 
-        <Button
-            android:id="@+id/stopNewRideRequestsButton"
-            android:background="@drawable/ic_stop_ride_request"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="Stop new ride requests"
-            app:layout_constraintTop_toBottomOf="@+id/bottomSection" />
+                <ImageView
+                    android:id="@+id/closeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_vector_close"
+                    app:layout_constraintBottom_toBottomOf="@+id/navigateToHomeBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/navigateToHomeBackground" />
 
-        <Button
-            android:background="@drawable/ic_cancel_ride"
-            android:id="@+id/cancelRideButton"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:textColor="@color/primary"
-            android:text="Cancel Ride"
-            app:layout_constraintTop_toBottomOf="@+id/stopNewRideRequestsButton" />
+                <View
+                    android:id="@+id/bottomSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#F2F2F2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/navigateToHomeBackground" />
 
+                <Button
+                    android:id="@+id/stopNewRideRequestsButton"
+                    android:background="@drawable/ic_stop_ride_request"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Stop new ride requests"
+                    app:layout_constraintTop_toBottomOf="@+id/bottomSection" />
+
+                <Button
+                    android:background="@drawable/ic_cancel_ride"
+                    android:id="@+id/cancelRideButton"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@color/primary"
+                    android:text="Cancel Ride"
+                    app:layout_constraintTop_toBottomOf="@+id/stopNewRideRequestsButton" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

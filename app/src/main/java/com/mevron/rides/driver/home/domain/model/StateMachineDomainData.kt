@@ -11,7 +11,7 @@ data class StateMachineMetaData(
     val pickupLongitude: String,
     val destinationLatitude: String?,
     val destinationLongitude: String,
-    val estimatedDistance: String,
+    val estimatedDistance: Any?,
     val estimatedTripTime: String,
     val riderRating: String?,
     val riderImage: String?,

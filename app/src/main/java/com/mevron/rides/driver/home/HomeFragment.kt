@@ -19,21 +19,27 @@ import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
 import com.mevron.rides.driver.home.domain.model.*
 import com.mevron.rides.driver.home.map.MapReadyListener
+import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.ui.*
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
+import com.mevron.rides.driver.home.ui.state.transform
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 import com.mevron.rides.driver.location.ui.LocationViewModel
 import com.mevron.rides.driver.location.ui.event.LocationEvent
+import com.mevron.rides.driver.remote.TripManagementModel
 import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.service.PermissionRequestRationaleListener
 import com.mevron.rides.driver.service.PermissionsRequestManager
+import com.ncorti.slidetoact.SlideToActView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
-    MapReadyListener, ApproachPassengerWidgetEventClickListener, OnEarningCashOutButtonClickListener {
+    MapReadyListener, ApproachPassengerWidgetEventClickListener, OnEarningCashOutButtonClickListener,
+    OnActionButtonClick, AcceptSlideCompleteListener, GoingToDestinationSlideCompleteListener {
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var permissionRequestManager: PermissionsRequestManager
@@ -84,7 +90,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                         "Cancel"
                     ) { dialog, _ ->
                         dialog?.dismiss()
-                        activity?.finish()
+                      //  activity?.finish()
                     }
                     .create()
                 dialog?.show()
@@ -194,6 +200,10 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         super.onViewCreated(view, savedInstanceState)
         viewModel.onEventReceived(HomeViewEvent.OnDocumentSubmissionStatusClick)
         binding.mapView2.approachingPassengerEventListener(this)
+        binding.mapView2.setTripViewActionClickListener(this)
+        binding.mapView2.approachingPassengerEventListener(this)
+        binding.mapView2.slideToStartEventListener(this)
+        binding.mapView2.setSlideCompleteListener(this)
         binding.mevronHomeBottom.documentSubmissionStatus.setOnClickListener {
             findNavController().navigate(R.id.action_global_documentCheckFragment)
         }
@@ -230,6 +240,10 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 binding.mevronHomeBottom.driverStatus.toggleDrive(state.isDriveActive)
                 binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(state.isOnline)
                 setUpMapTripState(state.currentMapTripState)
+                if (state.getStatus){
+                    stateMachineViewModel.getStateMachine()
+                    viewModel.updateStatusLoading()
+                }
                 binding.mevronHomeBottom.documentSubmissionStatus.toggleStatus(state.documentSubmissionStatus)
                 binding.mevronHomeBottom.schedulePickup.bindData(state.scheduledPickup)
                 binding.mevronHomeBottom.weeklyGoals.bindData(state.weeklyChallenge)
@@ -264,6 +278,11 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     private fun setUpMapTripState(mapTripState: MapTripState) {
+        if (mapTripState == MapTripState.Idle){
+            binding.mevronHomeBottom.bottomSheet.visibility = View.VISIBLE
+        }else{
+            binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
+        }
         binding.mapView2.renderTripState(mapTripState)
     }
 
@@ -361,7 +380,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     override fun onDriverArrivedClick() {
-        TODO("Not yet implemented")
+        viewModel.arrivedRide()
     }
 
     override fun onNavigateToHomeClicked() {
@@ -378,5 +397,17 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     override fun onDetailOutClicked() {
         findNavController().navigate(R.id.action_global_balanceFragment)
+    }
+
+    override fun onActionButtonClick() {
+        viewModel.onEventReceived(HomeViewEvent.AcceptRideClick)
+    }
+
+    override fun startRide(code: String) {
+        viewModel.startRide(code)
+    }
+
+    override fun onSlideComplete() {
+        viewModel.completeRide()
     }
 }

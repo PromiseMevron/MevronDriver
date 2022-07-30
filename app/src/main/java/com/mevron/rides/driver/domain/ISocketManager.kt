@@ -22,6 +22,16 @@ interface ISocketManager {
 
 sealed interface SocketEvent {
 
+    fun <T : Any, U : Any> toData(keys: Array<T>, values: Array<U>): Map<T, U> {
+        val map = mutableMapOf<T, U>()
+
+        for (index in keys.indices) {
+            map[keys[index]] = values[index]
+        }
+
+        return map.toMap()
+    }
+
     fun fromJson(string: String): Any?
     fun toJsonString(): String
     val name: String
@@ -122,7 +132,7 @@ object SocketName {
     const val DRIVER_PICK_UP = "trip_status"
     const val EVENT = "event"
     const val CONNECTED = "connected"
-    const val STATE_MANAGER = "state_manager"
+    const val STATE_MANAGER = "driver_state_machine"
     const val RIDE_REQUESTED = "ride_requests"
     const val SEND_DRIVER_LOCATION = "driver_location"
     const val RIDER_CANCELLED = "rider_cancelled"

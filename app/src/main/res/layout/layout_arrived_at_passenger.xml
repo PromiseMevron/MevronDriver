@@ -10,6 +10,7 @@
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_margin="16dp"
+       android:visibility="visible"
         android:background="@drawable/grey_circle"
         app:layout_constraintBottom_toBottomOf="@+id/passengerName"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -20,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_call_phone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/callBackground"
         app:layout_constraintEnd_toEndOf="@+id/callBackground"
         app:layout_constraintStart_toStartOf="@+id/callBackground"
@@ -30,6 +32,7 @@
         android:layout_width="52dp"
         android:layout_height="52dp"
         android:layout_margin="16dp"
+        android:visibility="invisible"
         android:background="@drawable/grey_circle"
         app:layout_constraintBottom_toBottomOf="@+id/passengerName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_icon_message"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/messageBackground"
         app:layout_constraintEnd_toEndOf="@+id/messageBackground"
         app:layout_constraintStart_toStartOf="@+id/messageBackground"
@@ -63,6 +67,7 @@
         android:layout_width="40dp"
         android:layout_height="22dp"
         android:layout_marginTop="-11dp"
+
         android:background="@drawable/ic_chip_background"
         app:layout_constraintEnd_toEndOf="@+id/passengerAvatar"
         app:layout_constraintStart_toStartOf="@+id/passengerAvatar"
@@ -91,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passengerAvatar"
         tools:text="Rebecca Davis" />
 
-    <Button
+    <ImageButton
         android:id="@+id/arrivedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

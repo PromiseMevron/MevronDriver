@@ -19,7 +19,7 @@ class ApproachPassengerWidget @JvmOverloads constructor(
 ) : ConstraintLayout(context, attributeSet, defStyleAttr), View.OnClickListener,
     OnContactClickedListener, OnArriveButtonClickedListener {
 
-    private var contactContainer: FrameLayout
+ //   private var contactContainer: ConstraintLayout
     private var passengerImage: ImageView
     private var passengerName: TextView
     private var pickUp: TextView
@@ -42,7 +42,7 @@ class ApproachPassengerWidget @JvmOverloads constructor(
             .inflate(R.layout.layout_approach_passenger_bottom_sheet, this, true)
         root = findViewById(R.id.bottomSheetLink)
 
-        contactContainer = root.findViewById(R.id.contactContainer)
+     //   contactContainer = root.findViewById(R.id.contactContainer)
         passengerImage = root.findViewById(R.id.passengerImage)
         passengerName = root.findViewById(R.id.passengerName)
         pickUp = root.findViewById(R.id.pickUpValue)
