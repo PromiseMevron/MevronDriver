@@ -26,7 +26,7 @@ class RatingRiderWidget @JvmOverloads constructor(
 
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.pay_and_tip_layout, this, true)
+        LayoutInflater.from(context).inflate(R.layout.rating_layout, this, true)
         ratingText = findViewById(R.id.customer_to_pay)
         doneButton = findViewById(R.id.done_rating)
         cancelButton = findViewById(R.id.close_rating)
