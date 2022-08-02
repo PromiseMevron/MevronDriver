@@ -151,6 +151,52 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun rateRide(rating: String) {
+        val currentTripState = state.value.currentMapTripState
+        Log.d("TAG", "crossed the check $currentTripState")
+        //    if (currentTripState !is MapTripState.StartRideState) return
+        Log.d("TAG", "crossed the check")
+        viewModelScope.launch {
+            val result = tripManageUseCase(
+                TripManagementModel(
+                    type = "rate",
+                    trip_id = currentTripState.tripId ?: "",
+                    rating = rating.toInt()
+                )
+            )
+            if (result is DomainModel.Success) {
+                mutableState.update { it.transform(getStatus = true) }
+                // update This should be a fire and forget
+
+            } else {
+                mutableState.update { it.transform(errorMessage = (result as DomainModel.Error).error.localizedMessage) }
+            }
+        }
+    }
+
+    fun collectCash(amount: String) {
+        val currentTripState = state.value.currentMapTripState
+        Log.d("TAG", "crossed the check $currentTripState")
+        //    if (currentTripState !is MapTripState.StartRideState) return
+        Log.d("TAG", "crossed the check")
+        viewModelScope.launch {
+            val result = tripManageUseCase(
+                TripManagementModel(
+                    type = "cash_collected",
+                    trip_id = currentTripState.tripId ?: "",
+                    amount = amount
+                )
+            )
+            if (result is DomainModel.Success) {
+                mutableState.update { it.transform(getStatus = true) }
+                // update This should be a fire and forget
+
+            } else {
+                mutableState.update { it.transform(errorMessage = (result as DomainModel.Error).error.localizedMessage) }
+            }
+        }
+    }
+
     private fun toggleOnlineStatus() {
         mutableState.update { it.transform(isOnline = !it.isOnline) }
         viewModelScope.launch(Dispatchers.IO) {

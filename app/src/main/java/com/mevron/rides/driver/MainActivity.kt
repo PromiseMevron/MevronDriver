@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
-
         /**
          * ","type":"account","uuid":""
          */
@@ -37,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, IntroActivity::class.java))
             finish()
         }else{
+            sendTokenToBackend()
            checkLocationPermission()
         }
 
@@ -115,5 +115,9 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun sendTokenToBackend(){
+
     }
 }

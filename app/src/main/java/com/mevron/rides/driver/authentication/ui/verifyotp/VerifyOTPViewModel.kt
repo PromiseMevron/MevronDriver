@@ -1,17 +1,11 @@
 package com.mevron.rides.driver.authentication.ui.verifyotp
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mevron.rides.driver.App
-import com.mevron.rides.driver.authentication.domain.model.RegisterPhoneDomainData
-import com.mevron.rides.driver.authentication.domain.model.RegisterPhoneRequest
 import com.mevron.rides.driver.authentication.domain.model.VerifyOTPDomainModel
 import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
-import com.mevron.rides.driver.authentication.domain.usecase.RegisterPhoneUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.VerifyOTPUseCase
-import com.mevron.rides.driver.authentication.ui.registerphone.state.RegisterPhoneState
 import com.mevron.rides.driver.authentication.ui.verifyotp.event.VerifyOTPEvent
 import com.mevron.rides.driver.authentication.ui.verifyotp.state.VerifyOTPState
 import com.mevron.rides.driver.domain.DomainModel
@@ -20,11 +14,11 @@ import com.mevron.rides.driver.util.Constants
 import com.mevron.rides.driver.util.Constants.TOKEN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 
 @HiltViewModel
 class VerifyOTPViewModel @Inject constructor(
@@ -48,6 +42,7 @@ class VerifyOTPViewModel @Inject constructor(
                     val data = result.data as VerifyOTPDomainModel
                     setPreferenceUseCase(TOKEN, data.accessToken)
                     setPreferenceUseCase(Constants.UUID, data.uuid)
+                    sendTokenToBackend()
 
                     updateState(
                         isLoading = false,
@@ -76,6 +71,10 @@ class VerifyOTPViewModel @Inject constructor(
                 verifyOTP()
             }
         }
+    }
+
+    private fun sendTokenToBackend(){
+
     }
 
     private fun VerifyOTPState.toRequest(): VerifyOTPRequest =

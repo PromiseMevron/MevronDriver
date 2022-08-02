@@ -14,6 +14,7 @@ import com.mevron.rides.driver.home.ui.ApproachingPassengerData
 import com.mevron.rides.driver.home.ui.GoingToDestinationData
 import com.mevron.rides.driver.home.ui.StartRideData
 import com.mevron.rides.driver.authentication.domain.repository.IPreferenceRepository
+import com.mevron.rides.driver.home.ui.PayData
 import com.mevron.rides.driver.util.Constants
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -130,6 +131,7 @@ class SocketManager @Inject constructor(private val mapStateRepository: IMapStat
                 Log.d("State Machine", "State Machine 2 $it")
                 val item = it[0] as JSONObject
                 val data = SocketEvent.StateManagerEvent.fromJson(item.toString())
+                Log.d("State Machine", "State Machine 3  $data")
                 val stateMachineDomainData = data?.toDomainData()
                 Log.d("State Machine", "State Machine  $stateMachineDomainData")
                 when (stateMachineDomainData?.state?.first?.let { it1 ->
@@ -148,8 +150,7 @@ class SocketManager @Inject constructor(private val mapStateRepository: IMapStat
                         )
                     }
                     StateMachineCurrentState.PAYMENT -> {
-
-                        mapStateRepository.setCurrentState(MapTripState.Payment)
+                        mapStateRepository.setCurrentState(MapTripState.Payment(PayData(image = data.metaData?.riderImage ?: "", amount = "", name = data.metaData?.riderName ?: "")))
                     }
                     else -> {}
                 }
@@ -221,33 +222,33 @@ class SocketManager @Inject constructor(private val mapStateRepository: IMapStat
     }
 
     private fun StateMachineResponse.toDomainData(): StateMachineDomainData =
-        StateMachineDomainData(Pair(currentState, metaData.toDomainModel()))
+        StateMachineDomainData(Pair(currentState, metaData?.toDomainModel()))
 
 
     private fun MetaData.toDomainModel() = StateMachineMetaData(
-        tripId,
-        status,
-        pickupLatitude,
-        pickupLongitude,
-        destinationLatitude,
-        destinationLongitude,
-        estimatedDistance,
-        estimatedTripTime,
-        riderRating,
-        riderImage,
-        riderName,
-        destinationAddress,
-        pickupAddress
+        tripId = tripId ?: "",
+        status = status ?: "",
+        pickupLatitude = pickupLatitude ?: "0.0",
+        pickupLongitude ?: "0.0",
+        destinationLatitude ?: "0.0",
+        destinationLongitude ?: "0.0",
+        estimatedDistance ?: "",
+        estimatedTripTime ?: "",
+        riderRating ?: "",
+        riderImage ?: "",
+        riderName ?: "",
+        destinationAddress ?: "",
+        pickupAddress ?: ""
     )
 
     private fun inTripRouting(stateMachineDomainData: StateMachineDomainData): MapTripState {
-        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second.status)
+        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second?.status)
         val data = stateMachineDomainData.state.second
         return when (status.state) {
             InTripState.DRIVER_ARRIVED -> {
                 val startRide = StartRideData(
                     timeRemainingForPassenger = "",
-                    passengerInfo = "Picking up " + data.riderName,
+                    passengerInfo = "Picking up " + data?.riderName,
                     timeLeftToPickPassengerInfo = "",
                     passengerDroppedErrorLabel = ""
                 )
@@ -255,11 +256,11 @@ class SocketManager @Inject constructor(private val mapStateRepository: IMapStat
             }
             InTripState.APPROACHING_PASSENGER -> {
                 val approachingPassengerData = ApproachingPassengerData(
-                    passengerImage = data.riderImage ?: "",
-                    passengerName = data.riderName ?: "",
-                    passengerRating = data.riderRating ?: "",
+                    passengerImage = data?.riderImage ?: "",
+                    passengerName = data?.riderName ?: "",
+                    passengerRating = data?.riderRating ?: "",
                     timeLeftToPassengerInfo = "",
-                    pickUpPassengerInfo = "Picking up " + data.riderName,
+                    pickUpPassengerInfo = "Picking up " + data?.riderName,
                     dropOffAtInfo = "",
                     pickUpLocationInfo = ""
                 )
@@ -269,7 +270,7 @@ class SocketManager @Inject constructor(private val mapStateRepository: IMapStat
             InTripState.GOING_TO_DESTINATION -> {
                 val goingToDestinationData = GoingToDestinationData(
                     timeToDestinationMessage = "",
-                    actionText = "Dropping off " + data.riderName
+                    actionText = "Dropping off " + data?.riderName
                 )
                 (MapTripState.GoingToDestinationState(data = goingToDestinationData))
             }

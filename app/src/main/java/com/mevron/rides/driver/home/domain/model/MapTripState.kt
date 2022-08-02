@@ -1,10 +1,7 @@
 package com.mevron.rides.driver.home.domain.model
 
 import com.mevron.rides.driver.home.map.widgets.AcceptRideData
-import com.mevron.rides.driver.home.ui.ApproachingPassengerData
-import com.mevron.rides.driver.home.ui.EmergencyData
-import com.mevron.rides.driver.home.ui.GoingToDestinationData
-import com.mevron.rides.driver.home.ui.StartRideData
+import com.mevron.rides.driver.home.ui.*
 
 sealed interface MapTripState {
     var tripId: String?
@@ -33,7 +30,11 @@ sealed interface MapTripState {
         override var tripId: String? = null
     }
 
-    object Payment : MapTripState {
+    data class  Payment(val data: PayData) : MapTripState {
+        override var tripId: String? = null
+    }
+
+    data class  Rating(val data: PayData) : MapTripState {
         override var tripId: String? = null
     }
 }

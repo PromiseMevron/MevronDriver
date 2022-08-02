@@ -24,16 +24,20 @@
         <entry key="app/src/main/res/drawable/ic_address_image.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_alert.xml" value="0.1875" />
         <entry key="app/src/main/res/drawable/ic_alert_circle_fill.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/ic_all_review.xml" value="0.168" />
         <entry key="app/src/main/res/drawable/ic_all_saved.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_avatar_emerge.xml" value="0.137" />
         <entry key="app/src/main/res/drawable/ic_back_button.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/ic_back_white.xml" value="0.168" />
         <entry key="app/src/main/res/drawable/ic_black_background.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_call_help.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_cancel_x.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_car.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_chat_help.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.173" />
+        <entry key="app/src/main/res/drawable/ic_close.xml" value="0.1815" />
         <entry key="app/src/main/res/drawable/ic_close_drawer.xml" value="0.1835" />
+        <entry key="app/src/main/res/drawable/ic_close_white.xml" value="0.1815" />
         <entry key="app/src/main/res/drawable/ic_copy_code.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_curved_image_large.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_curved_view.xml" value="0.2523076923076923" />
@@ -172,12 +176,16 @@
         <entry key="app/src/main/res/layout/o_t_fragment.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/on_arrive_bottom.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/on_ride_bottom.xml" value="0.3268698060941828" />
+        <entry key="app/src/main/res/layout/pay_and_tip_layout.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/layout/pay_layout.xml" value="0.19202898550724637" />
+        <entry key="app/src/main/res/layout/pay_tip_layout.xml" value="0.19202898550724637" />
         <entry key="app/src/main/res/layout/pay_type_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/payments_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/phone_login_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/preference_bottom_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/profile_details_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/profile_fragment.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/rating_layout.xml" value="0.17074275362318841" />
         <entry key="app/src/main/res/layout/referal_item.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/regist1_fragment.xml" value="0.2616033755274262" />
         <entry key="app/src/main/res/layout/review_items.xml" value="0.19157608695652173" />

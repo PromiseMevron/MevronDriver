@@ -114,12 +114,15 @@ class MapBoxMapView @JvmOverloads constructor(
     private lateinit var onStatusChangedListener: OnStatusChangedListener
     private lateinit var onActionButtonClick: OnActionButtonClick
 
-
+///RatingRiderWidget
     // widgets
     private lateinit var layoutEmergencyWidget: EmergencyWidget
     private lateinit var goingToDestinationWidget: GoingToDestinationWidget
     private lateinit var startRideWidget: StartRideWidget
     private lateinit var approachPassengerWidget: ApproachPassengerWidget
+    private lateinit var paymentAndRatingWidget: PaymentAndRatingWidget
+    private lateinit var ratingRiderWidget: RatingRiderWidget
+
 
     private val pixelDensity = Resources.getSystem().displayMetrics.density
     private val overviewPadding: EdgeInsets by lazy {
@@ -732,6 +735,8 @@ class MapBoxMapView @JvmOverloads constructor(
         layoutEmergencyWidget = findViewById(R.id.emergencyWidget)
         startRideWidget = findViewById(R.id.startRideWidget)
         approachPassengerWidget = findViewById(R.id.approachPassengerWidget)
+        paymentAndRatingWidget = findViewById(R.id.paymentWidget)
+        ratingRiderWidget = findViewById(R.id.ratingWidget)
 
         // TODO setup listeners and callbacks for widgets
 
@@ -931,6 +936,15 @@ class MapBoxMapView @JvmOverloads constructor(
                 layoutEmergencyWidget.show()
                 layoutEmergencyWidget.setData(tripState.data)
             }
+            is MapTripState.Payment ->{
+                paymentAndRatingWidget.show()
+                paymentAndRatingWidget.setData(tripState.data)
+            }
+
+            is MapTripState.Rating ->{
+                ratingRiderWidget.show()
+                ratingRiderWidget.setData(tripState.data)
+            }
             MapTripState.Idle -> {}
             else -> {}
         }
@@ -938,6 +952,14 @@ class MapBoxMapView @JvmOverloads constructor(
 
     fun approachingPassengerEventListener(listener: ApproachPassengerWidgetEventClickListener){
         approachPassengerWidget.setEventsClickListener(listener)
+    }
+
+    fun paymentEventListener(listener: PaymentWidgetEventListener){
+        paymentAndRatingWidget.setListener(listener)
+    }
+
+    fun ratingEventListener(listener: RatingEventListener){
+        ratingRiderWidget.setListener(listener)
     }
 
     fun setSlideCompleteListener(onSlideComplete: GoingToDestinationSlideCompleteListener) {
@@ -954,6 +976,8 @@ class MapBoxMapView @JvmOverloads constructor(
         approachPassengerWidget.hide()
         layoutEmergencyWidget.hide()
         startRideWidget.hide()
+        paymentAndRatingWidget.hide()
+        ratingRiderWidget.hide()
     }
 
     init {

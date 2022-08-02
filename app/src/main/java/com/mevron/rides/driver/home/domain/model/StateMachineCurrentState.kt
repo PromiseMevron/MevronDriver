@@ -4,6 +4,7 @@ object State {
     const val ORDER = "ORDER"
     const val IN_TRIP = "INTRIP"
     const val PAYMENT = "PAYMENT"
+    const val RATING = "RATING"
 }
 
 object InTripState {
@@ -16,7 +17,8 @@ enum class StateMachineCurrentState(val state: String) {
     ORDER("ORDER"),
     IN_TRIP("INTRIP"),
     PAYMENT("PAYMENT"),
-    UNKNOWN("UNKNOWN");
+    UNKNOWN("UNKNOWN"),
+    RATING("RATING");
 
     companion object {
         fun from(string: String): StateMachineCurrentState =
@@ -24,6 +26,7 @@ enum class StateMachineCurrentState(val state: String) {
                 State.ORDER -> ORDER
                 State.IN_TRIP -> IN_TRIP
                 State.PAYMENT -> PAYMENT
+                State.RATING -> RATING
                 else -> UNKNOWN
             }
     }
@@ -36,7 +39,7 @@ enum class InTripStateMachineCurrentState(val state: String) {
     UNKNOWN("UNKNOWN");
 
     companion object {
-        fun from(string: String): InTripStateMachineCurrentState =
+        fun from(string: String?): InTripStateMachineCurrentState =
             when (string) {
                 InTripState.APPROACHING_PASSENGER -> APPROACHING_PASSENGER
                 InTripState.DRIVER_ARRIVED -> DRIVER_ARRIVED

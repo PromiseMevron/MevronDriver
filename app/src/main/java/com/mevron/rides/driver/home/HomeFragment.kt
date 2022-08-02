@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
@@ -39,7 +40,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
     MapReadyListener, ApproachPassengerWidgetEventClickListener, OnEarningCashOutButtonClickListener,
-    OnActionButtonClick, AcceptSlideCompleteListener, GoingToDestinationSlideCompleteListener {
+    OnActionButtonClick, AcceptSlideCompleteListener, GoingToDestinationSlideCompleteListener, PaymentWidgetEventListener, RatingEventListener {
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var permissionRequestManager: PermissionsRequestManager
@@ -110,14 +111,22 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
             }
             StateMachineCurrentState.PAYMENT -> {
                 // binding.mapView2.renderTripState(MapTripState.)
-                paymentRouting(data)
+                val theData = data.state.second
+                binding.mapView2.renderTripState(MapTripState.Payment(PayData(image = theData?.riderImage ?: "", amount = "", name = theData?.riderName ?: "")))
+             //   paymentRouting(data)
+            }
+            StateMachineCurrentState.RATING -> {
+                // binding.mapView2.renderTripState(MapTripState.)
+                val theData = data.state.second
+                binding.mapView2.renderTripState(MapTripState.Payment(PayData(image = theData?.riderImage ?: "", amount = "", name = theData?.riderName ?: "")))
+                //   paymentRouting(data)
             }
             else -> {}
         }
     }
 
     private fun inTripRouting(stateMachineDomainData: StateMachineDomainData) {
-        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second.status)
+        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second?.status)
         val data = stateMachineDomainData.state.second
         when (status.state) {
             InTripState.DRIVER_ARRIVED -> {
@@ -125,7 +134,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                     timeRemainingForPassenger = "",
                     passengerInfo = getString(
                         R.string.picking_up
-                    ) + data.riderName,
+                    ) + data?.riderName,
                     timeLeftToPickPassengerInfo = "",
                     passengerDroppedErrorLabel = ""
                 )
@@ -133,13 +142,13 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
             }
             InTripState.APPROACHING_PASSENGER -> {
                 val approachingPassengerData = ApproachingPassengerData(
-                    passengerImage = data.riderImage ?: "",
-                    passengerName = data.riderName ?: "",
-                    passengerRating = data.riderRating ?: "",
+                    passengerImage = data?.riderImage ?: "",
+                    passengerName = data?.riderName ?: "",
+                    passengerRating = data?.riderRating ?: "",
                     timeLeftToPassengerInfo = "",
                     pickUpPassengerInfo = getString(
                         R.string.picking_up
-                    ) + data.riderName,
+                    ) + data?.riderName,
                     dropOffAtInfo = "",
                     pickUpLocationInfo = ""
                 )
@@ -149,7 +158,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 val goingToDestinationData = GoingToDestinationData(
                     timeToDestinationMessage = "", actionText = getString(
                         R.string.dropping_off
-                    ) + data.riderName
+                    ) + data?.riderName
                 )
                 binding.mapView2.renderTripState(MapTripState.GoingToDestinationState(data = goingToDestinationData))
             }
@@ -157,7 +166,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     private fun paymentRouting(stateMachineDomainData: StateMachineDomainData) {
-        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second.status)
+        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second?.status)
         val data = stateMachineDomainData.state.second
         when (status.state) {
             InTripState.DRIVER_ARRIVED -> {
@@ -165,7 +174,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                     timeRemainingForPassenger = "",
                     passengerInfo = getString(
                         R.string.picking_up
-                    ) + data.riderName,
+                    ) + data?.riderName,
                     timeLeftToPickPassengerInfo = "",
                     passengerDroppedErrorLabel = ""
                 )
@@ -173,13 +182,13 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
             }
             InTripState.APPROACHING_PASSENGER -> {
                 val approachingPassengerData = ApproachingPassengerData(
-                    passengerImage = data.riderImage ?: "",
-                    passengerName = data.riderName ?: "",
-                    passengerRating = data.riderRating ?: "",
+                    passengerImage = data?.riderImage ?: "",
+                    passengerName = data?.riderName ?: "",
+                    passengerRating = data?.riderRating ?: "",
                     timeLeftToPassengerInfo = "",
                     pickUpPassengerInfo = getString(
                         R.string.picking_up
-                    ) + data.riderName,
+                    ) + data?.riderName,
                     dropOffAtInfo = "",
                     pickUpLocationInfo = ""
                 )
@@ -189,7 +198,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 val goingToDestinationData = GoingToDestinationData(
                     timeToDestinationMessage = "", actionText = getString(
                         R.string.dropping_off
-                    ) + data.riderName
+                    ) + data?.riderName
                 )
                 binding.mapView2.renderTripState(MapTripState.GoingToDestinationState(data = goingToDestinationData))
             }
@@ -204,6 +213,9 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         binding.mapView2.approachingPassengerEventListener(this)
         binding.mapView2.slideToStartEventListener(this)
         binding.mapView2.setSlideCompleteListener(this)
+        binding.mapView2.paymentEventListener(this)
+        binding.mapView2.ratingEventListener(this)
+
         binding.mevronHomeBottom.documentSubmissionStatus.setOnClickListener {
             findNavController().navigate(R.id.action_global_documentCheckFragment)
         }
@@ -409,5 +421,17 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     override fun onSlideComplete() {
         viewModel.completeRide()
+    }
+
+    override fun cashCollected(amount: String) {
+        viewModel.collectCash(amount)
+    }
+
+    override fun errorOnCashCollected() {
+       Toast.makeText(context, "Ensure that amount field is not empty", Toast.LENGTH_LONG).show()
+    }
+
+    override fun ratingScore(rating: String) {
+        viewModel.rateRide(rating)
     }
 }

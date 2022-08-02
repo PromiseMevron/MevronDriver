@@ -86,6 +86,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.mevron.rides.driver.home.ui.PaymentAndRatingWidget
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/paymentWidget"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mevron.rides.driver.home.ui.RatingRiderWidget
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ratingWidget"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.mevron.rides.driver.home.ui.EmergencyWidget
         android:id="@+id/emergencyWidget"
         android:layout_width="match_parent"
@@ -94,5 +112,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

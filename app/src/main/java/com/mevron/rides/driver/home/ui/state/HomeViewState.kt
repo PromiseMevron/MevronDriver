@@ -17,7 +17,8 @@ data class HomeViewState(
     val scheduledPickup: List<ScheduledPickup>,
     val earnings: Earnings,
     val getStatus: Boolean,
-    val tripId: String
+    val tripId: String,
+    val collectedAmount: String
 ) {
     companion object {
         val EMPTY = HomeViewState(
@@ -55,7 +56,8 @@ data class HomeViewState(
                     tripList = mutableListOf()
                 )
             ),
-            tripId = ""
+            tripId = "",
+            collectedAmount = ""
         )
     }
 }
@@ -73,7 +75,8 @@ fun HomeViewState.transform(
     weeklyChallenge: List<WeeklyChallenge>? = null,
     scheduledPickup: List<ScheduledPickup>? = null,
     earnings: Earnings? = null,
-    tripId: String? = null
+    tripId: String? = null,
+    collectedAmount: String? = null
 ) = copy(
     isDriveActive = isDriveActive ?: this.isDriveActive,
     isOnline = isOnline ?: this.isOnline,
@@ -87,5 +90,6 @@ fun HomeViewState.transform(
     scheduledPickup = scheduledPickup ?: this.scheduledPickup,
     earnings = earnings ?: this.earnings,
     getStatus = getStatus ?: this.getStatus,
-    tripId = tripId ?: this.tripId
+    tripId = tripId ?: this.tripId,
+    collectedAmount = collectedAmount ?: this.collectedAmount
 )

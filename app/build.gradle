@@ -109,6 +109,8 @@ dependencies {
     // ViewBinding
     implementation "io.github.reactivecircus.flowbinding:flowbinding-android:1.2.0"
 
+
+
     //room
     implementation "androidx.room:room-runtime:2.4.2"
     kapt "androidx.room:room-compiler:2.4.2"

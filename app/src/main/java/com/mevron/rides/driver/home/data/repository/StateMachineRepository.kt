@@ -22,7 +22,7 @@ class StateMachineRepository(private val api: StateMachineApi) : IStateMachineRe
 
     private fun StateMachineResponse.toDomainData(): DomainModel.Success =
         DomainModel.Success(
-            data = StateMachineDomainData(Pair(currentState, metaData.toDomainModel()))
+            data = StateMachineDomainData(Pair(currentState, metaData?.toDomainModel()))
         )
 
     private fun MetaData.toDomainModel() = StateMachineMetaData(
