@@ -14,7 +14,6 @@ class PassengerContactWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr), View.OnClickListener {
     private var onContactClickedListener: OnContactClickedListener? = null
-
     private var callImage: View
     private var messageImage: View
     private var passengerLabel: TextView

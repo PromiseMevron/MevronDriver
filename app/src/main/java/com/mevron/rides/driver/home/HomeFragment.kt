@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
@@ -19,21 +20,28 @@ import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
 import com.mevron.rides.driver.home.domain.model.*
 import com.mevron.rides.driver.home.map.MapReadyListener
+import com.mevron.rides.driver.home.map.widgets.AcceptRideData
+import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.ui.*
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
+import com.mevron.rides.driver.home.ui.state.transform
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 import com.mevron.rides.driver.location.ui.LocationViewModel
 import com.mevron.rides.driver.location.ui.event.LocationEvent
+import com.mevron.rides.driver.remote.TripManagementModel
 import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.service.PermissionRequestRationaleListener
 import com.mevron.rides.driver.service.PermissionsRequestManager
+import com.ncorti.slidetoact.SlideToActView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
-    MapReadyListener, ApproachPassengerWidgetEventClickListener, OnEarningCashOutButtonClickListener {
+    MapReadyListener, ApproachPassengerWidgetEventClickListener, OnEarningCashOutButtonClickListener,
+    OnActionButtonClick, AcceptSlideCompleteListener, GoingToDestinationSlideCompleteListener, PaymentWidgetEventListener, RatingEventListener {
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var permissionRequestManager: PermissionsRequestManager
@@ -84,7 +92,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                         "Cancel"
                     ) { dialog, _ ->
                         dialog?.dismiss()
-                        activity?.finish()
+                      //  activity?.finish()
                     }
                     .create()
                 dialog?.show()
@@ -96,22 +104,39 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     private fun routeCorrectly(data: StateMachineDomainData) {
         when (StateMachineCurrentState.from(data.state.first)) {
-            StateMachineCurrentState.ORDER -> {
+            StateMachineCurrentState.IDLE -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.VISIBLE
                 binding.mapView2.renderTripState(MapTripState.Idle)
             }
+            StateMachineCurrentState.ORDER -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
+                val theData = data.state.second
+                binding.mapView2.renderTripState(MapTripState.AcceptRideState(AcceptRideData(passengerImage = theData?.riderImage ?: "", tripInfo = "Pick up is ${theData?.estimatedDistance} away", rideDuration = theData?.estimatedTripTime ?: "", distanceRemaining = theData?.estimatedDistance.toString() ?: "")))
+            }
             StateMachineCurrentState.IN_TRIP -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
                 inTripRouting(data)
             }
             StateMachineCurrentState.PAYMENT -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
                 // binding.mapView2.renderTripState(MapTripState.)
-                paymentRouting(data)
+                val theData = data.state.second
+                binding.mapView2.renderTripState(MapTripState.Payment(PayData(image = theData?.riderImage ?: "", amount = theData?.amount ?: "0", name = theData?.riderName ?: "", currency = theData?.currency ?: "")))
+             //   paymentRouting(data)
+            }
+            StateMachineCurrentState.RATING -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
+                // binding.mapView2.renderTripState(MapTripState.)
+                val theData = data.state.second
+                binding.mapView2.renderTripState(MapTripState.Rating(PayData(image = theData?.riderImage ?: "", amount = theData?.amount ?: "0", name = theData?.riderName ?: "", currency = theData?.currency ?: "")))
+                //   paymentRouting(data)
             }
             else -> {}
         }
     }
 
     private fun inTripRouting(stateMachineDomainData: StateMachineDomainData) {
-        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second.status)
+        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second?.status)
         val data = stateMachineDomainData.state.second
         when (status.state) {
             InTripState.DRIVER_ARRIVED -> {
@@ -119,7 +144,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                     timeRemainingForPassenger = "",
                     passengerInfo = getString(
                         R.string.picking_up
-                    ) + data.riderName,
+                    ) + data?.riderName,
                     timeLeftToPickPassengerInfo = "",
                     passengerDroppedErrorLabel = ""
                 )
@@ -127,13 +152,13 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
             }
             InTripState.APPROACHING_PASSENGER -> {
                 val approachingPassengerData = ApproachingPassengerData(
-                    passengerImage = data.riderImage ?: "",
-                    passengerName = data.riderName ?: "",
-                    passengerRating = data.riderRating ?: "",
+                    passengerImage = data?.riderImage ?: "",
+                    passengerName = data?.riderName ?: "",
+                    passengerRating = data?.riderRating ?: "",
                     timeLeftToPassengerInfo = "",
                     pickUpPassengerInfo = getString(
                         R.string.picking_up
-                    ) + data.riderName,
+                    ) + data?.riderName,
                     dropOffAtInfo = "",
                     pickUpLocationInfo = ""
                 )
@@ -143,7 +168,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 val goingToDestinationData = GoingToDestinationData(
                     timeToDestinationMessage = "", actionText = getString(
                         R.string.dropping_off
-                    ) + data.riderName
+                    ) + data?.riderName
                 )
                 binding.mapView2.renderTripState(MapTripState.GoingToDestinationState(data = goingToDestinationData))
             }
@@ -151,7 +176,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     private fun paymentRouting(stateMachineDomainData: StateMachineDomainData) {
-        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second.status)
+        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second?.status)
         val data = stateMachineDomainData.state.second
         when (status.state) {
             InTripState.DRIVER_ARRIVED -> {
@@ -159,7 +184,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                     timeRemainingForPassenger = "",
                     passengerInfo = getString(
                         R.string.picking_up
-                    ) + data.riderName,
+                    ) + data?.riderName,
                     timeLeftToPickPassengerInfo = "",
                     passengerDroppedErrorLabel = ""
                 )
@@ -167,13 +192,13 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
             }
             InTripState.APPROACHING_PASSENGER -> {
                 val approachingPassengerData = ApproachingPassengerData(
-                    passengerImage = data.riderImage ?: "",
-                    passengerName = data.riderName ?: "",
-                    passengerRating = data.riderRating ?: "",
+                    passengerImage = data?.riderImage ?: "",
+                    passengerName = data?.riderName ?: "",
+                    passengerRating = data?.riderRating ?: "",
                     timeLeftToPassengerInfo = "",
                     pickUpPassengerInfo = getString(
                         R.string.picking_up
-                    ) + data.riderName,
+                    ) + data?.riderName,
                     dropOffAtInfo = "",
                     pickUpLocationInfo = ""
                 )
@@ -183,7 +208,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 val goingToDestinationData = GoingToDestinationData(
                     timeToDestinationMessage = "", actionText = getString(
                         R.string.dropping_off
-                    ) + data.riderName
+                    ) + data?.riderName
                 )
                 binding.mapView2.renderTripState(MapTripState.GoingToDestinationState(data = goingToDestinationData))
             }
@@ -194,6 +219,13 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         super.onViewCreated(view, savedInstanceState)
         viewModel.onEventReceived(HomeViewEvent.OnDocumentSubmissionStatusClick)
         binding.mapView2.approachingPassengerEventListener(this)
+        binding.mapView2.setTripViewActionClickListener(this)
+        binding.mapView2.approachingPassengerEventListener(this)
+        binding.mapView2.slideToStartEventListener(this)
+        binding.mapView2.setSlideCompleteListener(this)
+        binding.mapView2.paymentEventListener(this)
+        binding.mapView2.ratingEventListener(this)
+
         binding.mevronHomeBottom.documentSubmissionStatus.setOnClickListener {
             findNavController().navigate(R.id.action_global_documentCheckFragment)
         }
@@ -230,6 +262,10 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 binding.mevronHomeBottom.driverStatus.toggleDrive(state.isDriveActive)
                 binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(state.isOnline)
                 setUpMapTripState(state.currentMapTripState)
+                if (state.getStatus){
+                    stateMachineViewModel.getStateMachine()
+                    viewModel.updateStatusLoading()
+                }
                 binding.mevronHomeBottom.documentSubmissionStatus.toggleStatus(state.documentSubmissionStatus)
                 binding.mevronHomeBottom.schedulePickup.bindData(state.scheduledPickup)
                 binding.mevronHomeBottom.weeklyGoals.bindData(state.weeklyChallenge)
@@ -264,6 +300,11 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     private fun setUpMapTripState(mapTripState: MapTripState) {
+        if (mapTripState == MapTripState.Idle){
+            binding.mevronHomeBottom.bottomSheet.visibility = View.VISIBLE
+        }else{
+            binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
+        }
         binding.mapView2.renderTripState(mapTripState)
     }
 
@@ -361,7 +402,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     override fun onDriverArrivedClick() {
-        TODO("Not yet implemented")
+        viewModel.arrivedRide()
     }
 
     override fun onNavigateToHomeClicked() {
@@ -378,5 +419,29 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     override fun onDetailOutClicked() {
         findNavController().navigate(R.id.action_global_balanceFragment)
+    }
+
+    override fun onActionButtonClick() {
+        viewModel.onEventReceived(HomeViewEvent.AcceptRideClick)
+    }
+
+    override fun startRide(code: String) {
+        viewModel.startRide(code)
+    }
+
+    override fun onSlideComplete() {
+        viewModel.completeRide()
+    }
+
+    override fun cashCollected(amount: String) {
+        viewModel.collectCash(amount)
+    }
+
+    override fun errorOnCashCollected(amount: String) {
+       Toast.makeText(context, "Ensure that amount field is not empty and it's not below $amount", Toast.LENGTH_LONG).show()
+    }
+
+    override fun ratingScore(rating: String) {
+        viewModel.rateRide(rating)
     }
 }

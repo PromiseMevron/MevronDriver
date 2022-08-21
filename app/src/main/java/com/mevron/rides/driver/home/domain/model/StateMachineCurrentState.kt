@@ -1,9 +1,11 @@
 package com.mevron.rides.driver.home.domain.model
 
 object State {
+    const val IDLE = "IDLE"
     const val ORDER = "ORDER"
     const val IN_TRIP = "INTRIP"
     const val PAYMENT = "PAYMENT"
+    const val RATING = "RATING"
 }
 
 object InTripState {
@@ -13,17 +15,21 @@ object InTripState {
 }
 
 enum class StateMachineCurrentState(val state: String) {
+    IDLE("IDLE"),
     ORDER("ORDER"),
     IN_TRIP("INTRIP"),
     PAYMENT("PAYMENT"),
-    UNKNOWN("UNKNOWN");
+    UNKNOWN("UNKNOWN"),
+    RATING("RATING");
 
     companion object {
         fun from(string: String): StateMachineCurrentState =
             when (string) {
+                State.IDLE  -> IDLE
                 State.ORDER -> ORDER
                 State.IN_TRIP -> IN_TRIP
                 State.PAYMENT -> PAYMENT
+                State.RATING -> RATING
                 else -> UNKNOWN
             }
     }
@@ -36,7 +42,7 @@ enum class InTripStateMachineCurrentState(val state: String) {
     UNKNOWN("UNKNOWN");
 
     companion object {
-        fun from(string: String): InTripStateMachineCurrentState =
+        fun from(string: String?): InTripStateMachineCurrentState =
             when (string) {
                 InTripState.APPROACHING_PASSENGER -> APPROACHING_PASSENGER
                 InTripState.DRIVER_ARRIVED -> DRIVER_ARRIVED

@@ -15,7 +15,10 @@ data class HomeViewState(
     val currentMapTripState: MapTripState,
     val weeklyChallenge: List<WeeklyChallenge>,
     val scheduledPickup: List<ScheduledPickup>,
-    val earnings: Earnings
+    val earnings: Earnings,
+    val getStatus: Boolean,
+    val tripId: String,
+    val collectedAmount: String
 ) {
     companion object {
         val EMPTY = HomeViewState(
@@ -29,6 +32,7 @@ data class HomeViewState(
             currentMapTripState = MapTripState.Idle,
             weeklyChallenge = mutableListOf(),
             scheduledPickup = mutableListOf(),
+            getStatus = false,
             earnings = Earnings(
                 balance = "",
                 currency = "",
@@ -51,7 +55,9 @@ data class HomeViewState(
                     rides = 0,
                     tripList = mutableListOf()
                 )
-            )
+            ),
+            tripId = "",
+            collectedAmount = ""
         )
     }
 }
@@ -65,9 +71,12 @@ fun HomeViewState.transform(
     isLoadingOnlineStatus: Boolean? = null,
     isLocationUpdating: Boolean? = null,
     mapTripState: MapTripState? = null,
+    getStatus: Boolean? = null,
     weeklyChallenge: List<WeeklyChallenge>? = null,
     scheduledPickup: List<ScheduledPickup>? = null,
-    earnings: Earnings? = null
+    earnings: Earnings? = null,
+    tripId: String? = null,
+    collectedAmount: String? = null
 ) = copy(
     isDriveActive = isDriveActive ?: this.isDriveActive,
     isOnline = isOnline ?: this.isOnline,
@@ -79,5 +88,8 @@ fun HomeViewState.transform(
     currentMapTripState = mapTripState ?: this.currentMapTripState,
     weeklyChallenge = weeklyChallenge ?: this.weeklyChallenge,
     scheduledPickup = scheduledPickup ?: this.scheduledPickup,
-    earnings = earnings ?: this.earnings
+    earnings = earnings ?: this.earnings,
+    getStatus = getStatus ?: this.getStatus,
+    tripId = tripId ?: this.tripId,
+    collectedAmount = collectedAmount ?: this.collectedAmount
 )

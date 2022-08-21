@@ -1,17 +1,14 @@
 package com.mevron.rides.driver.cashout.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mevron.rides.driver.cashout.data.model.CashActionData
-import com.mevron.rides.driver.cashout.domain.model.GetCardData
-import com.mevron.rides.driver.cashout.domain.model.PaymentBalanceDetailsDomainDatum
-import com.mevron.rides.driver.cashout.domain.model.PaymentDetailsDomainData
-import com.mevron.rides.driver.cashout.domain.model.PaymentDetailsDomainDatum
-import com.mevron.rides.driver.cashout.domain.usecase.AddFundUseCase
-import com.mevron.rides.driver.cashout.domain.usecase.CashOutUseCase
-import com.mevron.rides.driver.cashout.domain.usecase.GetCardsUseCase
-import com.mevron.rides.driver.cashout.domain.usecase.GetWalletDetailsUseCase
+import com.mevron.rides.driver.cashout.data.model.GetLinkAmount
+import com.mevron.rides.driver.cashout.domain.model.*
+import com.mevron.rides.driver.cashout.domain.usecase.*
 import com.mevron.rides.driver.cashout.ui.event.CashOutAddFundEvent
+import com.mevron.rides.driver.cashout.ui.state.AddFundState
 import com.mevron.rides.driver.cashout.ui.state.GetWalletDetailState
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
@@ -24,6 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BalanceViewModel @Inject constructor(
+    private val linkCase: GetPaymentLinkUseCase,
     private val useCase: GetWalletDetailsUseCase,
     private val cashOutUseCase: CashOutUseCase,
     private val addFundUseCase: AddFundUseCase,
@@ -33,6 +31,9 @@ class BalanceViewModel @Inject constructor(
 
     private val mutableState: MutableStateFlow<GetWalletDetailState> =
         MutableStateFlow(GetWalletDetailState.EMPTY)
+
+    private val addFundMutableState: MutableStateFlow<AddFundState> =
+        MutableStateFlow(AddFundState.EMPTY)
 
     val state: StateFlow<GetWalletDetailState>
         get() = mutableState
@@ -95,12 +96,15 @@ class BalanceViewModel @Inject constructor(
         val balance = mutableState.value.cashOutAmount
         val cardNumber = mutableState.value.cardNumber
         if (balance.isEmpty() || cardNumber.isEmpty()) {
-            updateState(loading = false)
-            return
+           // updateState(loading = false)
+          //  return
         }
         val data = mutableState.value.toCardRequest()
         viewModelScope.launch(Dispatchers.IO) {
-            when (val result = addFundUseCase(data = data)) {
+            when (val result = addFundUseCase(data =   CashActionData(
+                amount = balance,
+                card_id = cardNumber
+            ))) {
                 is DomainModel.Success -> {
                     updateState(
                         loading = false,
@@ -123,11 +127,13 @@ class BalanceViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = getCardsUseCase()) {
                 is DomainModel.Success -> {
+                    val dd = result.data as GetCardData
+                    Log.d("THE CARDS ARE", "THE CARDS ARE 2 $dd")
                     updateState(
                         loading = false,
                         errorMessage = "",
                         successCard = true,
-                        cardData = result.data as GetCardData
+                        cardData = dd
                     )
                 }
                 is DomainModel.Error -> mutableState.update {
@@ -161,6 +167,33 @@ class BalanceViewModel @Inject constructor(
             CashOutAddFundEvent.GetWalletDetail -> getWalletDetails()
         }
     }
+
+    fun getPayLink() {
+        updateState(loading = true)
+        val request = mutableState.value.toLinkRequest()
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = linkCase(request)) {
+                is DomainModel.Success -> {
+                    val data = result.data as PaymentLinkDomain
+                    updateState(
+                        loading = false,
+                        payLink = data.link
+                    )
+                }
+                is DomainModel.Error -> mutableState.update {
+                    mutableState.value.copy(
+                        loading = false,
+                        errorLink = "Failure to get payment link"
+                    )
+                }
+            }
+        }
+    }
+
+    private fun GetWalletDetailState.toLinkRequest(): GetLinkAmount =
+        GetLinkAmount(
+            amount = this.addFundAmount
+        )
 
     private fun createSection(data: PaymentDetailsDomainData) {
         val arr = data.data.sortedByDescending {
@@ -273,9 +306,12 @@ class BalanceViewModel @Inject constructor(
         cardNumber: String? = null,
         cardData: GetCardData? = null,
         successFund: Boolean? = null,
-        successCard: Boolean? = null
+        successCard: Boolean? = null,
+        error: String? = null,
+        payLink: String? = null
     ) {
         val currentState = mutableState.value
+        val addFundState = addFundMutableState.value
         mutableState.update {
             currentState.copy(
                 loading = loading ?: currentState.loading,
@@ -289,7 +325,14 @@ class BalanceViewModel @Inject constructor(
                 cardNumber = cardNumber ?: currentState.cardNumber,
                 cardData = cardData?.cardData ?: currentState.cardData,
                 successFund = successFund ?: currentState.successFund,
-                successCard = successCard ?: currentState.successCard
+                successCard = successCard ?: currentState.successCard,
+                errorLink = error ?: currentState.errorLink,
+                payLink = payLink ?: currentState.payLink
+            )
+        }
+        addFundMutableState.update {
+            addFundState.copy(
+                amount = addFund ?: addFundState.amount
             )
         }
     }

@@ -11,12 +11,14 @@ data class GetWalletDetailState(
     val cardNumber: String,
     val date: String,
     val errorMessage: String,
+    val errorLink: String,
     val success: Boolean,
     val successCash: Boolean,
     val successFund: Boolean,
     val successCard: Boolean,
     val data: List<PaymentBalanceDetailsDomainDatum>,
-    val cardData: List<CardData>
+    val cardData: List<CardData>,
+    val payLink: String
 ){
     companion object {
         val EMPTY = GetWalletDetailState(
@@ -32,7 +34,17 @@ data class GetWalletDetailState(
             cardData = mutableListOf(),
             successCash = false,
             successFund = false,
-            successCard = false
+            successCard = false,
+            errorLink = "",
+            payLink = ""
+        )
+    }
+}
+
+data class AddFundState(val amount: String){
+    companion object {
+        val EMPTY = AddFundState(
+            amount = "0"
         )
     }
 }

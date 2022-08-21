@@ -17,6 +17,7 @@ class HomeViewModelTest {
     private val getDocumentStatusUseCase: GetDocumentStatusUseCase = mockk()
     private val getMapStateUseCase: GetMapTripStateUseCase = mockk()
     private val setMapStateUSeCase: SetMapTripStateUseCase = mockk()
+    private val googleUseCase:  = mockk()
 
     private val viewModel = HomeViewModel(onlineStatusUseCase, getDocumentStatusUseCase, getMapStateUseCase)
 

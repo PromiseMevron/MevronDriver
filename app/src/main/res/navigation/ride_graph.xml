@@ -262,7 +262,12 @@
         android:id="@+id/cashOutCardsFragment"
         android:name="com.mevron.rides.driver.cashout.ui.CashOutCardsFragment"
         android:label="CashOutCardsFragment"
-        tools:layout="@layout/cash_out_cards_layout_fragment"/><action android:id="@+id/action_global_cashOutCardsFragment" app:destination="@id/cashOutCardsFragment"/>
+        tools:layout="@layout/cash_out_cards_layout_fragment">
+    <argument
+        android:name="amount"
+        app:argType="string"/>
+    </fragment>
+    <action android:id="@+id/action_global_cashOutCardsFragment" app:destination="@id/cashOutCardsFragment"/>
     <fragment
         android:id="@+id/referralFragment"
         tools:layout="@layout/fragment_referral"

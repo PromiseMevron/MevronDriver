@@ -121,7 +121,9 @@ class BalanceFragment : Fragment(), OnBalanceDetailButtonClickListener,
 
     override fun addFundDone() {
         bottomView.visibility = View.GONE
-        findNavController().navigate(R.id.action_global_cashOutCardsFragment)
+        val action = BalanceFragmentDirections.actionGlobalCashOutCardsFragment(viewModel.state.value.addFundAmount)
+       // findNavController().navigate(R.id.action_global_cashOutCardsFragment)
+        findNavController().navigate(action)
     }
 
     override fun cashOutDone() {

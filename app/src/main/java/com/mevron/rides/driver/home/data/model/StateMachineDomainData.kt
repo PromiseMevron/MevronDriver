@@ -6,34 +6,38 @@ data class StateMachineResponse(
     @SerializedName("current_state")
     val currentState: String,
     @SerializedName("meta_data")
-    val metaData: MetaData
+    val metaData: MetaData?
 )
 
 data class MetaData(
     @SerializedName("trip_id")
     val tripId: String?,
     @SerializedName("status")
-    val status: String,
+    val status: String?,
     @SerializedName("pickupLatitude")
-    val pickupLatitude: String,
+    val pickupLatitude: String?,
     @SerializedName("pickupLongitude")
-    val pickupLongitude: String,
+    val pickupLongitude: String?,
     @SerializedName("destinationLatitude")
-    val destinationLatitude: String,
+    val destinationLatitude: String?,
     @SerializedName("destinationLongitude")
-    val destinationLongitude: String,
+    val destinationLongitude: String?,
     @SerializedName("estimatedDistance")
-    val estimatedDistance: String,
+    val estimatedDistance: Any?,
     @SerializedName("estimatedTripTime")
-    val estimatedTripTime: String,
+    val estimatedTripTime: String?,
     @SerializedName("riderRating")
-    val riderRating: String,
+    val riderRating: String?,
     @SerializedName("riderImage")
-    val riderImage: String,
+    val riderImage: String?,
     @SerializedName("riderName")
-    val riderName: String,
+    val riderName: String?,
     @SerializedName("destinationAddress")
     val destinationAddress: String?,
     @SerializedName("pickupAddress")
-    val pickupAddress: String?
+    val pickupAddress: String?,
+    @SerializedName("amount")
+    val amount: String?,
+    @SerializedName("currency")
+    val currency: String?
 )

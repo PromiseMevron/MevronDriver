@@ -88,11 +88,11 @@ class AcceptRideView @JvmOverloads constructor(
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.map_trip_view_action_button -> {
-                when (status) {
-                    TripStatus.TO_ACCEPT -> onStatusChangedListener?.onNewStatus(TripStatus.IN_TRIP)
-                    TripStatus.IN_TRIP -> onStatusChangedListener?.onNewStatus(TripStatus.PAYMENT)
-                    TripStatus.PAYMENT -> {}
-                }
+//                when (status) {
+//                    TripStatus.TO_ACCEPT -> onStatusChangedListener?.onNewStatus(TripStatus.IN_TRIP)
+//                    TripStatus.IN_TRIP -> onStatusChangedListener?.onNewStatus(TripStatus.PAYMENT)
+//                    TripStatus.PAYMENT -> {}
+//                }
                 onActionButtonClick?.onActionButtonClick()
             }
         }

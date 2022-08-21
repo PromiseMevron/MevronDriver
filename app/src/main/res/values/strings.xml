@@ -397,5 +397,9 @@
     <string name="bella_doe_ride_report">Bella Doe Ride Report</string>
     <string name="to">To</string>
     <string name="add_a_referral_code">Add a Referral Code</string>
+    <string name="cash_collected">Cash Collected</string>
+    <string name="how_much_cash_you_received">How much cash you received?</string>
+    <string name="rate_your_experience_with">Rate your experience with</string>
+    <string name="use_other_payment_methods">Use other Payment Methods</string>
 
 </resources>

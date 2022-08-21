@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +17,7 @@ class ArrivedAtPickupWidget @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleAttr), View.OnClickListener {
 
-    private var arrivedActionButton: Button
+    private var arrivedActionButton: ImageButton
     private var callButton: View
     private var messageButton: View
     private var passengerAvatar: ImageView
@@ -35,6 +36,7 @@ class ArrivedAtPickupWidget @JvmOverloads constructor(
         ratingBackground = findViewById(R.id.ratingBackground)
         ratingText = findViewById(R.id.ratingText)
         passengerName = findViewById(R.id.passengerName)
+        arrivedActionButton.setOnClickListener(this)
     }
 
     fun setPassengerName(passengerName: String) {

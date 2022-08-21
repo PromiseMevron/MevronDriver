@@ -113,7 +113,7 @@ class PhoneLoginFragment : Fragment() {
         if (isCorrectNumber) {
             binding.incorrectNumber.visibility = View.INVISIBLE
             binding.nextButton.setImageResource(R.drawable.next_enabled)
-            binding.nextButton.isEnabled = true
+           // binding.nextButton.isEnabled = true
             binding.phoneNumber.setBackgroundResource(R.drawable.rounded_corner_field)
             binding.ccpLayout.setBackgroundResource(R.drawable.rounded_corner_field)
             binding.phoneNumber.setTextColor(resources.getColor(R.color.field_color))
@@ -121,7 +121,7 @@ class PhoneLoginFragment : Fragment() {
         } else {
             binding.incorrectNumber.visibility = View.VISIBLE
             binding.nextButton.setImageResource(R.drawable.next_unenabled)
-            binding.nextButton.isEnabled = false
+         //   binding.nextButton.isEnabled = false
             binding.phoneNumber.setBackgroundResource(R.drawable.rounded_corner_field_red)
             binding.ccpLayout.setBackgroundResource(R.drawable.rounded_corner_field_red)
             binding.phoneNumber.setTextColor(resources.getColor(R.color.red))
