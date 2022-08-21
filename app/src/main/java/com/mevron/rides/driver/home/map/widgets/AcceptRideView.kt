@@ -99,6 +99,7 @@ class AcceptRideView @JvmOverloads constructor(
     }
 
     fun renderTripProgress(tripProgress: TripProgressUpdateValue) {
+        show()
         rideDuration.setText(
             tripProgress.formatter.getTimeRemaining(tripProgress.currentLegTimeRemaining),
             TextView.BufferType.SPANNABLE

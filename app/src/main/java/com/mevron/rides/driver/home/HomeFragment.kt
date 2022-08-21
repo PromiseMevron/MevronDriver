@@ -24,24 +24,28 @@ import com.mevron.rides.driver.home.map.widgets.AcceptRideData
 import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.ui.*
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
-import com.mevron.rides.driver.home.ui.state.transform
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 import com.mevron.rides.driver.location.ui.LocationViewModel
 import com.mevron.rides.driver.location.ui.event.LocationEvent
-import com.mevron.rides.driver.remote.TripManagementModel
 import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.service.PermissionRequestRationaleListener
 import com.mevron.rides.driver.service.PermissionsRequestManager
-import com.ncorti.slidetoact.SlideToActView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRationaleListener,
-    MapReadyListener, ApproachPassengerWidgetEventClickListener, OnEarningCashOutButtonClickListener,
-    OnActionButtonClick, AcceptSlideCompleteListener, GoingToDestinationSlideCompleteListener, PaymentWidgetEventListener, RatingEventListener {
+class HomeFragment : Fragment(),
+    DriverStatusClickListener,
+    PermissionRequestRationaleListener,
+    MapReadyListener,
+    ApproachPassengerWidgetEventClickListener,
+    OnEarningCashOutButtonClickListener,
+    OnActionButtonClick,
+    AcceptSlideCompleteListener,
+    GoingToDestinationSlideCompleteListener,
+    PaymentWidgetEventListener,
+    RatingEventListener {
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var permissionRequestManager: PermissionsRequestManager
@@ -92,7 +96,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                         "Cancel"
                     ) { dialog, _ ->
                         dialog?.dismiss()
-                      //  activity?.finish()
+                        //  activity?.finish()
                     }
                     .create()
                 dialog?.show()
@@ -111,7 +115,16 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
             StateMachineCurrentState.ORDER -> {
                 binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
                 val theData = data.state.second
-                binding.mapView2.renderTripState(MapTripState.AcceptRideState(AcceptRideData(passengerImage = theData?.riderImage ?: "", tripInfo = "Pick up is ${theData?.estimatedDistance} away", rideDuration = theData?.estimatedTripTime ?: "", distanceRemaining = theData?.estimatedDistance.toString() ?: "")))
+                binding.mapView2.renderTripState(
+                    MapTripState.AcceptRideState(
+                        AcceptRideData(
+                            passengerImage = theData?.riderImage ?: "",
+                            tripInfo = "Pick up is ${theData?.estimatedDistance} away",
+                            rideDuration = theData?.estimatedTripTime ?: "",
+                            distanceRemaining = theData?.estimatedDistance.toString() ?: ""
+                        )
+                    )
+                )
             }
             StateMachineCurrentState.IN_TRIP -> {
                 binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
@@ -121,14 +134,32 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
                 // binding.mapView2.renderTripState(MapTripState.)
                 val theData = data.state.second
-                binding.mapView2.renderTripState(MapTripState.Payment(PayData(image = theData?.riderImage ?: "", amount = theData?.amount ?: "0", name = theData?.riderName ?: "", currency = theData?.currency ?: "")))
-             //   paymentRouting(data)
+                binding.mapView2.renderTripState(
+                    MapTripState.Payment(
+                        PayData(
+                            image = theData?.riderImage ?: "",
+                            amount = theData?.amount ?: "0",
+                            name = theData?.riderName ?: "",
+                            currency = theData?.currency ?: ""
+                        )
+                    )
+                )
+                //   paymentRouting(data)
             }
             StateMachineCurrentState.RATING -> {
                 binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
                 // binding.mapView2.renderTripState(MapTripState.)
                 val theData = data.state.second
-                binding.mapView2.renderTripState(MapTripState.Rating(PayData(image = theData?.riderImage ?: "", amount = theData?.amount ?: "0", name = theData?.riderName ?: "", currency = theData?.currency ?: "")))
+                binding.mapView2.renderTripState(
+                    MapTripState.Rating(
+                        PayData(
+                            image = theData?.riderImage ?: "",
+                            amount = theData?.amount ?: "0",
+                            name = theData?.riderName ?: "",
+                            currency = theData?.currency ?: ""
+                        )
+                    )
+                )
                 //   paymentRouting(data)
             }
             else -> {}
@@ -136,7 +167,8 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     private fun inTripRouting(stateMachineDomainData: StateMachineDomainData) {
-        val status = InTripStateMachineCurrentState.from(stateMachineDomainData.state.second?.status)
+        val status =
+            InTripStateMachineCurrentState.from(stateMachineDomainData.state.second?.status)
         val data = stateMachineDomainData.state.second
         when (status.state) {
             InTripState.DRIVER_ARRIVED -> {
@@ -262,7 +294,7 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 binding.mevronHomeBottom.driverStatus.toggleDrive(state.isDriveActive)
                 binding.mevronHomeBottom.driverStatus.toggleOnlineStatus(state.isOnline)
                 setUpMapTripState(state.currentMapTripState)
-                if (state.getStatus){
+                if (state.getStatus) {
                     stateMachineViewModel.getStateMachine()
                     viewModel.updateStatusLoading()
                 }
@@ -300,9 +332,9 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     private fun setUpMapTripState(mapTripState: MapTripState) {
-        if (mapTripState == MapTripState.Idle){
+        if (mapTripState == MapTripState.Idle) {
             binding.mevronHomeBottom.bottomSheet.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
         }
         binding.mapView2.renderTripState(mapTripState)
@@ -322,13 +354,6 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
-        //   binding.mapView2.initRouting(
-        //    startBearing = 45.0,
-        // Note Point(longitude: Double, latitude: Double) so use accordingly for testing
-        //   destinationPoint = Point.fromLngLat(3.3611049, 6.533664)
-        //   )
-        //  binding.mapView2.onStart()
-        //  binding.mapView2.initRouting()
     }
 
     private fun startLocationUpdate() {
@@ -382,7 +407,9 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     override fun onMapReady() {
-        // TODO Add annotation on user current location
+        // This is for testing, comment out when not in use.
+        binding.mapView2.initRouting(45.0)
+        binding.mapView2.startNavigation()
     }
 
     override fun onCallClicked() {
@@ -438,7 +465,11 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
     }
 
     override fun errorOnCashCollected(amount: String) {
-       Toast.makeText(context, "Ensure that amount field is not empty and it's not below $amount", Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            context,
+            "Ensure that amount field is not empty and it's not below $amount",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun ratingScore(rating: String) {

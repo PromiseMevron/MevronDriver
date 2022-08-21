@@ -39,11 +39,11 @@ class ArrivedAtPickupWidget @JvmOverloads constructor(
         arrivedActionButton.setOnClickListener(this)
     }
 
-    fun setPassengerName(passengerName: String) {
+    private fun setPassengerName(passengerName: String) {
         this.passengerName.text = passengerName
     }
 
-    fun setRating(rating: String) {
+    private fun setRating(rating: String) {
         ratingText.text = rating
     }
 

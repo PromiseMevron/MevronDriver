@@ -17,20 +17,18 @@ import com.mapbox.api.directions.v5.models.Bearing
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.bindgen.Expected
 import com.mapbox.geojson.Point
-import com.mapbox.maps.CameraOptions
-import com.mapbox.maps.EdgeInsets
-import com.mapbox.maps.MapInitOptions
-import com.mapbox.maps.MapView
-import com.mapbox.maps.Style
+import com.mapbox.maps.*
 import com.mapbox.maps.extension.style.expressions.dsl.generated.interpolate
 import com.mapbox.maps.plugin.LocationPuck2D
 import com.mapbox.maps.plugin.animation.MapAnimationOptions
 import com.mapbox.maps.plugin.animation.camera
+import com.mapbox.maps.plugin.compass.compass
 import com.mapbox.maps.plugin.gestures.OnMoveListener
 import com.mapbox.maps.plugin.gestures.gestures
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorBearingChangedListener
 import com.mapbox.maps.plugin.locationcomponent.OnIndicatorPositionChangedListener
 import com.mapbox.maps.plugin.locationcomponent.location
+import com.mapbox.maps.plugin.scalebar.scalebar
 import com.mapbox.navigation.base.TimeFormat
 import com.mapbox.navigation.base.extensions.applyDefaultNavigationOptions
 import com.mapbox.navigation.base.extensions.applyLanguageAndVoiceUnitOptions
@@ -46,11 +44,7 @@ import com.mapbox.navigation.core.replay.MapboxReplayer
 import com.mapbox.navigation.core.replay.ReplayLocationEngine
 import com.mapbox.navigation.core.replay.route.ReplayProgressObserver
 import com.mapbox.navigation.core.replay.route.ReplayRouteMapper
-import com.mapbox.navigation.core.trip.session.LocationMatcherResult
-import com.mapbox.navigation.core.trip.session.LocationObserver
-import com.mapbox.navigation.core.trip.session.OffRouteObserver
-import com.mapbox.navigation.core.trip.session.RouteProgressObserver
-import com.mapbox.navigation.core.trip.session.VoiceInstructionsObserver
+import com.mapbox.navigation.core.trip.session.*
 import com.mapbox.navigation.ui.base.util.MapboxNavigationConsumer
 import com.mapbox.navigation.ui.maneuver.api.MapboxManeuverApi
 import com.mapbox.navigation.ui.maneuver.api.RoadShieldCallback
@@ -74,11 +68,7 @@ import com.mapbox.navigation.ui.maps.route.line.model.NavigationRouteLine
 import com.mapbox.navigation.ui.maps.route.line.model.RouteLineColorResources
 import com.mapbox.navigation.ui.maps.route.line.model.RouteLineResources
 import com.mapbox.navigation.ui.tripprogress.api.MapboxTripProgressApi
-import com.mapbox.navigation.ui.tripprogress.model.DistanceRemainingFormatter
-import com.mapbox.navigation.ui.tripprogress.model.EstimatedTimeToArrivalFormatter
-import com.mapbox.navigation.ui.tripprogress.model.PercentDistanceTraveledFormatter
-import com.mapbox.navigation.ui.tripprogress.model.TimeRemainingFormatter
-import com.mapbox.navigation.ui.tripprogress.model.TripProgressUpdateFormatter
+import com.mapbox.navigation.ui.tripprogress.model.*
 import com.mapbox.navigation.ui.tripprogress.view.MapboxTripProgressView
 import com.mapbox.navigation.ui.voice.api.MapboxSpeechApi
 import com.mapbox.navigation.ui.voice.api.MapboxVoiceInstructionsPlayer
@@ -89,11 +79,11 @@ import com.mapbox.navigation.ui.voice.model.SpeechVolume
 import com.mapbox.navigation.ui.voice.view.MapboxSoundButton
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.home.domain.model.MapTripState
+import com.mevron.rides.driver.home.map.widgets.AcceptRideView
 import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.map.widgets.OnStatusChangedListener
-import com.mevron.rides.driver.home.map.widgets.AcceptRideView
 import com.mevron.rides.driver.home.ui.*
-import java.util.Locale
+import java.util.*
 
 private const val TAG = "_MapBoxMapView"
 private const val ANIMATION_DURATION = 1000L
@@ -106,7 +96,6 @@ class MapBoxMapView @JvmOverloads constructor(
 
     private var acceptRideView: AcceptRideView? = null
     private var mapView: MapView? = null
-    private var tripProgressView: MapboxTripProgressView? = null
     private var maneuverView: MapboxManeuverView? = null
     private var soundButton: MapboxSoundButton? = null
     private var routeOverview: MapboxRouteOverviewButton? = null
@@ -114,7 +103,7 @@ class MapBoxMapView @JvmOverloads constructor(
     private lateinit var onStatusChangedListener: OnStatusChangedListener
     private lateinit var onActionButtonClick: OnActionButtonClick
 
-///RatingRiderWidget
+    ///RatingRiderWidget
     // widgets
     private lateinit var layoutEmergencyWidget: EmergencyWidget
     private lateinit var goingToDestinationWidget: GoingToDestinationWidget
@@ -288,11 +277,6 @@ class MapBoxMapView @JvmOverloads constructor(
                 }
             )
         }
-
-        tripProgressView?.visibility = GONE
-        acceptRideView?.visibility = VISIBLE
-        // update bottom trip progress summary
-        tripProgressView?.render(tripProgressApi.getTripProgress(routeProgress))
 
         acceptRideView?.renderTripProgress(tripProgressApi.getTripProgress(routeProgress))
     }
@@ -510,9 +494,7 @@ class MapBoxMapView @JvmOverloads constructor(
     }
 
     override fun getMapAsync() {
-        mapView?.getMapboxMap()?.loadStyleUri(
-            Style.MAPBOX_STREETS
-        ) {
+        mapView?.getMapboxMap()?.loadStyleUri(Style.MAPBOX_STREETS) {
             mapReadyListener?.onMapReady()
         }
     }
@@ -528,7 +510,7 @@ class MapBoxMapView @JvmOverloads constructor(
             // if simulation is enabled (ReplayLocationEngine set to NavigationOptions)
             // but we're not simulating yet,
             // push a single location sample to establish origin
-                //3.3513038,6.5224128
+            //3.3513038,6.5224128
             val lng = currentLng ?: 3.3513038
             val lat = currentLat ?: 6.5224128
             mapboxReplayer.pushEvents(
@@ -553,8 +535,6 @@ class MapBoxMapView @JvmOverloads constructor(
             CameraOptions.Builder()
                 .center(point)
                 .bearing(bearing)
-                .pitch(45.0)
-                .zoom(17.0)
                 .padding(EdgeInsets(1000.0, 0.0, 0.0, 0.0))
                 .build(),
             mapAnimationOptionsBuilder.build()
@@ -641,7 +621,6 @@ class MapBoxMapView @JvmOverloads constructor(
 
     // TODO disabling camera tracking isn't working properly
     private fun onCameraTrackingDismissed() {
-        Toast.makeText(context, "onCameraTrackingDismissed", Toast.LENGTH_SHORT).show()
         mapView?.location
             ?.removeOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
         mapView?.location
@@ -650,7 +629,6 @@ class MapBoxMapView @JvmOverloads constructor(
     }
 
     private fun onCameraTrackingEnabled() {
-        Toast.makeText(context, "onCameraTrackingEnabled", Toast.LENGTH_SHORT).show()
         mapView?.location
             ?.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
         mapView?.location
@@ -659,11 +637,11 @@ class MapBoxMapView @JvmOverloads constructor(
     }
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
-        mapView?.getMapboxMap()?.setCamera(CameraOptions.Builder().bearing(it).build())
+        centerMapCamera(it)
     }
 
     private val onIndicatorPositionChangedListener = OnIndicatorPositionChangedListener {
-        mapView?.getMapboxMap()?.setCamera(CameraOptions.Builder().center(it).build())
+        centerMapCamera(it)
         mapView?.gestures?.focalPoint = mapView?.getMapboxMap()?.pixelForCoordinate(it)
     }
 
@@ -673,15 +651,44 @@ class MapBoxMapView @JvmOverloads constructor(
      */
     @SuppressLint("MissingPermission")
     override fun startNavigation() {
+        centerMapCamera(zoomLevel = ZOOM_LEVEL_CITY_DETAIL)
         mapboxNavigation.startTripSession()
+    }
+
+    private fun centerMapCamera(center: Point, zoomLevel: Double = ZOOM_LEVEL_RESTING) {
+        mapView?.getMapboxMap()?.setCamera(
+            CameraOptions.Builder()
+                .zoom(zoomLevel)
+                .center(center).build()
+        )
+    }
+
+    private fun centerMapCamera(center: Double? = null, zoomLevel: Double = ZOOM_LEVEL_RESTING) {
+        val lng = currentLng
+        val lat = currentLat
+        if (lng != null && lat != null) {
+            mapView?.getMapboxMap()?.setCamera(
+                CameraOptions.Builder()
+                    .center(
+                        Point.fromLngLat(
+                            lng, lat
+                        )
+                    )
+                    .zoom(zoomLevel)
+                    .bearing(center)
+                    .build()
+            )
+        }
     }
 
     fun initRouting(
         startBearing: Double,
         // use default if you are sure origin is set
-        //3.3513038,6.5224128,
-        originPoint: Point = Point.fromLngLat(3.3513038, 6.5224128),
-        destinationPoint: Point
+        // Comment this out and replace with yours for testing.
+        // from Hammerbrook, Hamburg to
+        originPoint: Point = Point.fromLngLat(10.04234663, 53.5432329),
+        // Jungfernstieg, Hamburg
+        destinationPoint: Point = Point.fromLngLat(9.9897526, 53.5536507)
     ) {
         mapboxNavigation.requestRoutes(
             routeOptions = RouteOptions.builder()
@@ -743,15 +750,18 @@ class MapBoxMapView @JvmOverloads constructor(
         // initialize view interactions
         recenter?.setOnClickListener {
             placeFocusOnMe()
-            routeOverview?.showTextAndExtend(ANIMATION_DURATION, "Recenter")
+            routeOverview?.showTextAndExtend(ANIMATION_DURATION)
         }
         routeOverview?.setOnClickListener {
             navigationCamera.requestNavigationCameraToOverview()
-            recenter?.showTextAndExtend(ANIMATION_DURATION)
+            routeOverview?.showTextAndExtend(ANIMATION_DURATION)
         }
         soundButton?.setOnClickListener {
             isVoiceInstructionsMuted = !isVoiceInstructionsMuted
         }
+
+        mapView?.scalebar?.updateSettings { enabled = false }
+        mapView?.compass?.updateSettings { enabled = false }
 
         soundButton?.unmute()
     }
@@ -759,8 +769,8 @@ class MapBoxMapView @JvmOverloads constructor(
     private fun placeFocusOnMe() {
         val lat = currentLat
         val lng = currentLng
-        val bearing = currentBearing
-        if (lat != null && lng != null && bearing != null) {
+        val bearing = currentBearing ?: -17.6
+        if (lat != null && lng != null) {
             updateCamera(Point.fromLngLat(lng, lat), bearing)
         }
     }
@@ -806,7 +816,6 @@ class MapBoxMapView @JvmOverloads constructor(
         // show UI elements
         soundButton?.visibility = View.VISIBLE
         routeOverview?.visibility = View.VISIBLE
-//        tripProgressCard?.visibility = View.VISIBLE
         showTripView()
 
         // move the camera to overview when new route is available
@@ -921,6 +930,7 @@ class MapBoxMapView @JvmOverloads constructor(
             is MapTripState.GoingToDestinationState -> {
                 goingToDestinationWidget.show()
                 goingToDestinationWidget.setGoingToDestinationData(tripState.data)
+
             }
 
             is MapTripState.StartRideState -> {
@@ -936,33 +946,31 @@ class MapBoxMapView @JvmOverloads constructor(
                 layoutEmergencyWidget.show()
                 layoutEmergencyWidget.setData(tripState.data)
             }
-            is MapTripState.Payment ->{
+            is MapTripState.Payment -> {
                 paymentAndRatingWidget.show()
                 paymentAndRatingWidget.setData(tripState.data)
             }
 
-            is MapTripState.Rating ->{
+            is MapTripState.Rating -> {
+                stopNavigation()
                 ratingRiderWidget.show()
                 ratingRiderWidget.setData(tripState.data)
             }
             MapTripState.Idle -> {
                 clearAllStates()
             }
-            else -> {
-                clearAllStates()
-            }
         }
     }
 
-    fun approachingPassengerEventListener(listener: ApproachPassengerWidgetEventClickListener){
+    fun approachingPassengerEventListener(listener: ApproachPassengerWidgetEventClickListener) {
         approachPassengerWidget.setEventsClickListener(listener)
     }
 
-    fun paymentEventListener(listener: PaymentWidgetEventListener){
+    fun paymentEventListener(listener: PaymentWidgetEventListener) {
         paymentAndRatingWidget.setListener(listener)
     }
 
-    fun ratingEventListener(listener: RatingEventListener){
+    fun ratingEventListener(listener: RatingEventListener) {
         ratingRiderWidget.setListener(listener)
     }
 
@@ -970,7 +978,7 @@ class MapBoxMapView @JvmOverloads constructor(
         goingToDestinationWidget.setSlideCompleteListener(onSlideComplete)
     }
 
-    fun slideToStartEventListener(listener: AcceptSlideCompleteListener){
+    fun slideToStartEventListener(listener: AcceptSlideCompleteListener) {
         startRideWidget.setSlideCompleteCallback(listener)
     }
 
@@ -982,6 +990,7 @@ class MapBoxMapView @JvmOverloads constructor(
         startRideWidget.hide()
         paymentAndRatingWidget.hide()
         ratingRiderWidget.hide()
+        clearRouteAndStopNavigation()
     }
 
     init {
