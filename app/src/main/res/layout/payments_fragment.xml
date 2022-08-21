@@ -27,15 +27,12 @@
         app:layout_constraintStart_toStartOf="parent"
         android:contentDescription="@string/back_button"/>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/back_button"
         android:id="@+id/no_method_layout">
-
-
 
         <TextView
             android:id="@+id/heading"
@@ -48,14 +45,12 @@
             android:textFontWeight="600"
             android:textColor="#383838"
             android:lineHeight="@dimen/_28sdp"
-
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/_34sdp"
             android:layout_marginStart="@dimen/_14sdp"
             tools:targetApi="p" />
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -108,7 +103,6 @@
                 android:layout_marginStart="@dimen/_14sdp"
                 tools:targetApi="p" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -159,11 +153,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="@dimen/_14sdp"
                 tools:targetApi="p" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -198,8 +188,6 @@
                 android:layout_marginStart="@dimen/_14sdp"
                 tools:targetApi="p" />
 
-
-
             <ImageView
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_30sdp"
@@ -209,7 +197,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/image"
                 android:layout_marginStart="@dimen/_16sdp"/>
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -241,7 +228,6 @@
                 android:id="@+id/type_detail"
                 tools:targetApi="p" />
 
-
             <ImageView
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
@@ -253,12 +239,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:visibility="visible"
                 android:layout_marginEnd="@dimen/_16sdp"/>
-
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -295,10 +276,7 @@
                 tools:itemCount="2"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_marginBottom="@dimen/_20sdp"/>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <TextView
             android:id="@+id/heading1"
@@ -373,12 +351,10 @@
                     android:textColor="#383838"
                     android:lineHeight="@dimen/_22sdp"
                     app:layout_constraintBottom_toBottomOf="@id/ic_add_bank1"
-
                     app:layout_constraintStart_toEndOf="@id/ic_add_bank1"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="@dimen/_14sdp"
                     tools:targetApi="p" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -409,7 +385,6 @@
                     android:textFontWeight="600"
                     app:layout_constraintTop_toTopOf="@id/ic_card_add1"
                     app:layout_constraintBottom_toBottomOf="@id/ic_card_add1"
-
                     android:textColor="#383838"
                     android:lineHeight="@dimen/_22sdp"
                     app:layout_constraintStart_toEndOf="@id/ic_card_add1"
@@ -417,20 +392,10 @@
                     android:layout_marginStart="@dimen/_14sdp"
                     tools:targetApi="p" />
 
-
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

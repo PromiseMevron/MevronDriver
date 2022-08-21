@@ -55,6 +55,7 @@
         android:textColor="#383838"
         android:textSize="@dimen/_30ssp"
         android:textStyle="bold"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/customer_to_pay"

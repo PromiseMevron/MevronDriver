@@ -35,12 +35,14 @@ class RatingRiderWidget @JvmOverloads constructor(
 
         doneButton.setOnClickListener {
             val rate = theRating.rating
-            if (rate > 0) {
+            if (rate > 1) {
                 listener?.ratingScore(rate.toString())
+            }else{
+                listener?.ratingScore("1")
             }
         }
         cancelButton.setOnClickListener {
-            listener?.ratingScore("0")
+            listener?.ratingScore("1")
         }
     }
 

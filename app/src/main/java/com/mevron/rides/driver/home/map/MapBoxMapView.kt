@@ -945,8 +945,12 @@ class MapBoxMapView @JvmOverloads constructor(
                 ratingRiderWidget.show()
                 ratingRiderWidget.setData(tripState.data)
             }
-            MapTripState.Idle -> {}
-            else -> {}
+            MapTripState.Idle -> {
+                clearAllStates()
+            }
+            else -> {
+                clearAllStates()
+            }
         }
     }
 

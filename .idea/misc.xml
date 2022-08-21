@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.13072916666666667" />
-        <entry key="../../../../layout/custom_preview.xml" value="0.335" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.165" />
         <entry key="app/src/main/res/drawable-v24/ic_back_button.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_email.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_otp.xml" value="0.2222222222222222" />
@@ -35,12 +35,14 @@
         <entry key="app/src/main/res/drawable/ic_car.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_chat_help.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_check.xml" value="0.173" />
+        <entry key="app/src/main/res/drawable/ic_check_green.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.1815" />
         <entry key="app/src/main/res/drawable/ic_close_drawer.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_close_white.xml" value="0.1815" />
         <entry key="app/src/main/res/drawable/ic_copy_code.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_curved_image_large.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_curved_view.xml" value="0.2523076923076923" />
+        <entry key="app/src/main/res/drawable/ic_done.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/ic_drive.xml" value="0.146" />
         <entry key="app/src/main/res/drawable/ic_drive_un.xml" value="0.146" />
         <entry key="app/src/main/res/drawable/ic_earning.xml" value="0.146" />
@@ -53,6 +55,8 @@
         <entry key="app/src/main/res/drawable/ic_home_address.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_icon_call.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_icon_message.xml" value="0.2523076923076923" />
+        <entry key="app/src/main/res/drawable/ic_icon_minus.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_icon_plus.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/ic_icons_next_white.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_icons_prev_white.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_icons_right.xml" value="0.1095" />
@@ -60,6 +64,7 @@
         <entry key="app/src/main/res/drawable/ic_indicator_2.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_mevon_log_new.xml" value="0.1875" />
         <entry key="app/src/main/res/drawable/ic_next_red.xml" value="0.2523076923076923" />
+        <entry key="app/src/main/res/drawable/ic_no_trips.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/ic_notifi_other.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/ic_okay.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/ic_pencil.xml" value="0.1835" />

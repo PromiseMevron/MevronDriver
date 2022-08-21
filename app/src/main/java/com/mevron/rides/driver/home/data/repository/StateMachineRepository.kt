@@ -38,7 +38,9 @@ class StateMachineRepository(private val api: StateMachineApi) : IStateMachineRe
         riderImage,
         riderName,
         destinationAddress,
-        pickupAddress
+        pickupAddress,
+        amount,
+        currency
     )
 }
 

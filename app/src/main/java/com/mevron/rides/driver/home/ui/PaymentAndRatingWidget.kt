@@ -30,6 +30,7 @@ class PaymentAndRatingWidget @JvmOverloads constructor(
     private var includedTipLayout: View
     private var riderImageView: ImageView
     private var defaultAmount: Int = 0
+    private var currency: String = ""
     private var listener: PaymentWidgetEventListener? = null
 
     init {
@@ -57,7 +58,7 @@ class PaymentAndRatingWidget @JvmOverloads constructor(
                 includedPayLayout.visibility = VISIBLE
                 includedTipLayout.visibility = GONE
             } else {
-                listener?.errorOnCashCollected()
+                listener?.errorOnCashCollected("${currency}${defaultAmount}")
             }
         }
 
@@ -65,8 +66,9 @@ class PaymentAndRatingWidget @JvmOverloads constructor(
 
     fun setData(data: PayData) {
         collectText.text = "Collect Cash from ${data.name}"
-        collectAmountText.text = data.amount
-        defaultAmount = data.amount.toInt()
+        collectAmountText.text = "${data.currency}${data.amount}"
+        currency = data.currency
+       defaultAmount = (data.amount.toDoubleOrNull() ?: 0.0).toInt()
         if (!data.image.isNullOrEmpty())
         Picasso.get().load(Uri.parse(data.amount)).into(riderImageView)
     }
@@ -88,7 +90,7 @@ class PaymentAndRatingWidget @JvmOverloads constructor(
 
 interface PaymentWidgetEventListener {
     fun cashCollected(amount: String)
-    fun errorOnCashCollected()
+    fun errorOnCashCollected(amount: String)
 }
 
-data class PayData(val image: String, val name: String, val amount: String)
+data class PayData(val image: String, val name: String, val amount: String, val currency: String)

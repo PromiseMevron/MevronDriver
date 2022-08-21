@@ -1,10 +1,7 @@
 package com.mevron.rides.driver.cashout.data.repository
 
 import com.mevron.rides.driver.auth.model.GeneralResponse
-import com.mevron.rides.driver.cashout.data.model.AddBankAccountSpecification
-import com.mevron.rides.driver.cashout.data.model.CashActionData
-import com.mevron.rides.driver.cashout.data.model.GetBankSpecifications
-import com.mevron.rides.driver.cashout.data.model.PaymentDetailsResponse
+import com.mevron.rides.driver.cashout.data.model.*
 import com.mevron.rides.driver.cashout.data.network.PaymentAPI
 import com.mevron.rides.driver.cashout.domain.model.*
 import com.mevron.rides.driver.cashout.domain.repository.IPayOutRepository
@@ -61,6 +58,21 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
             it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in fetching cards"))
         } else {
             DomainModel.Error(Throwable(it.errorBody().toString()))
+        }
+    }
+
+    override suspend fun getPaymentLink(data: GetLinkAmount): DomainModel {
+        return try {
+            val response = api.getPaymentLink(data = data)
+            if (response.isSuccessful) {
+                DomainModel.Success(
+                    data = PaymentLinkDomain(response.body()?.link ?: "")
+                )
+            } else {
+                DomainModel.Error(Throwable(response.errorBody().toString()))
+            }
+        } catch (error: Throwable) {
+            DomainModel.Error(Throwable("Error fetching payment links $error"))
         }
     }
 

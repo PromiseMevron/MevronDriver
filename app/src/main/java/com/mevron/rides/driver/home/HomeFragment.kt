@@ -20,6 +20,7 @@ import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
 import com.mevron.rides.driver.home.domain.model.*
 import com.mevron.rides.driver.home.map.MapReadyListener
+import com.mevron.rides.driver.home.map.widgets.AcceptRideData
 import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.ui.*
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
@@ -103,22 +104,31 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
 
     private fun routeCorrectly(data: StateMachineDomainData) {
         when (StateMachineCurrentState.from(data.state.first)) {
-            StateMachineCurrentState.ORDER -> {
+            StateMachineCurrentState.IDLE -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.VISIBLE
                 binding.mapView2.renderTripState(MapTripState.Idle)
             }
+            StateMachineCurrentState.ORDER -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
+                val theData = data.state.second
+                binding.mapView2.renderTripState(MapTripState.AcceptRideState(AcceptRideData(passengerImage = theData?.riderImage ?: "", tripInfo = "Pick up is ${theData?.estimatedDistance} away", rideDuration = theData?.estimatedTripTime ?: "", distanceRemaining = theData?.estimatedDistance.toString() ?: "")))
+            }
             StateMachineCurrentState.IN_TRIP -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
                 inTripRouting(data)
             }
             StateMachineCurrentState.PAYMENT -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
                 // binding.mapView2.renderTripState(MapTripState.)
                 val theData = data.state.second
-                binding.mapView2.renderTripState(MapTripState.Payment(PayData(image = theData?.riderImage ?: "", amount = "", name = theData?.riderName ?: "")))
+                binding.mapView2.renderTripState(MapTripState.Payment(PayData(image = theData?.riderImage ?: "", amount = theData?.amount ?: "0", name = theData?.riderName ?: "", currency = theData?.currency ?: "")))
              //   paymentRouting(data)
             }
             StateMachineCurrentState.RATING -> {
+                binding.mevronHomeBottom.bottomSheet.visibility = View.GONE
                 // binding.mapView2.renderTripState(MapTripState.)
                 val theData = data.state.second
-                binding.mapView2.renderTripState(MapTripState.Payment(PayData(image = theData?.riderImage ?: "", amount = "", name = theData?.riderName ?: "")))
+                binding.mapView2.renderTripState(MapTripState.Rating(PayData(image = theData?.riderImage ?: "", amount = theData?.amount ?: "0", name = theData?.riderName ?: "", currency = theData?.currency ?: "")))
                 //   paymentRouting(data)
             }
             else -> {}
@@ -427,8 +437,8 @@ class HomeFragment : Fragment(), DriverStatusClickListener, PermissionRequestRat
         viewModel.collectCash(amount)
     }
 
-    override fun errorOnCashCollected() {
-       Toast.makeText(context, "Ensure that amount field is not empty", Toast.LENGTH_LONG).show()
+    override fun errorOnCashCollected(amount: String) {
+       Toast.makeText(context, "Ensure that amount field is not empty and it's not below $amount", Toast.LENGTH_LONG).show()
     }
 
     override fun ratingScore(rating: String) {

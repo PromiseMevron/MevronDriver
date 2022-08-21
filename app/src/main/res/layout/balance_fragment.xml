@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/balance_top_layer"
+        android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.mevron.rides.driver.cashout.ui.widgets.balancedetails.BalanceDetaillsDetails

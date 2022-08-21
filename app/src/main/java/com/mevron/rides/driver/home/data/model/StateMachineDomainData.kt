@@ -35,5 +35,9 @@ data class MetaData(
     @SerializedName("destinationAddress")
     val destinationAddress: String?,
     @SerializedName("pickupAddress")
-    val pickupAddress: String?
+    val pickupAddress: String?,
+    @SerializedName("amount")
+    val amount: String?,
+    @SerializedName("currency")
+    val currency: String?
 )

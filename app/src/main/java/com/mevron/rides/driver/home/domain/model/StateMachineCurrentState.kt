@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.home.domain.model
 
 object State {
+    const val IDLE = "IDLE"
     const val ORDER = "ORDER"
     const val IN_TRIP = "INTRIP"
     const val PAYMENT = "PAYMENT"
@@ -14,6 +15,7 @@ object InTripState {
 }
 
 enum class StateMachineCurrentState(val state: String) {
+    IDLE("IDLE"),
     ORDER("ORDER"),
     IN_TRIP("INTRIP"),
     PAYMENT("PAYMENT"),
@@ -23,6 +25,7 @@ enum class StateMachineCurrentState(val state: String) {
     companion object {
         fun from(string: String): StateMachineCurrentState =
             when (string) {
+                State.IDLE  -> IDLE
                 State.ORDER -> ORDER
                 State.IN_TRIP -> IN_TRIP
                 State.PAYMENT -> PAYMENT

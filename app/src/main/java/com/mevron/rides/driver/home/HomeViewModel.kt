@@ -69,7 +69,7 @@ class HomeViewModel @Inject constructor(
             val result = tripManageUseCase(
                 TripManagementModel(
                     type = "accept",
-                    trip_id = currentTripState.tripId ?: ""
+                    trip_id = currentTripState.tripId ?: preferenceUseCase("TRIPID")
 
                 )
             )
@@ -92,7 +92,7 @@ class HomeViewModel @Inject constructor(
             val result = tripManageUseCase(
                 TripManagementModel(
                     type = "driver_arrived",
-                    trip_id = currentTripState.tripId ?: ""
+                    trip_id = currentTripState.tripId ?: preferenceUseCase("TRIPID")
 
                 )
             )
@@ -115,7 +115,7 @@ class HomeViewModel @Inject constructor(
             val result = tripManageUseCase(
                 TripManagementModel(
                     type = "completed",
-                    trip_id = currentTripState.tripId ?: "",
+                    trip_id = currentTripState.tripId ?: preferenceUseCase("TRIPID"),
                 )
             )
             if (result is DomainModel.Success) {
@@ -137,7 +137,7 @@ class HomeViewModel @Inject constructor(
             val result = tripManageUseCase(
                 TripManagementModel(
                     type = "trip_began",
-                    trip_id = currentTripState.tripId ?: "",
+                    trip_id = currentTripState.tripId ?: preferenceUseCase("TRIPID"),
                     code = code
                 )
             )
@@ -160,8 +160,8 @@ class HomeViewModel @Inject constructor(
             val result = tripManageUseCase(
                 TripManagementModel(
                     type = "rate",
-                    trip_id = currentTripState.tripId ?: "",
-                    rating = rating.toInt()
+                    trip_id = currentTripState.tripId ?: preferenceUseCase("TRIPID"),
+                    rating = (rating.toDoubleOrNull() ?: 1.0).toInt()
                 )
             )
             if (result is DomainModel.Success) {
@@ -183,7 +183,7 @@ class HomeViewModel @Inject constructor(
             val result = tripManageUseCase(
                 TripManagementModel(
                     type = "cash_collected",
-                    trip_id = currentTripState.tripId ?: "",
+                    trip_id = currentTripState.tripId ?: preferenceUseCase("TRIPID"),
                     amount = amount
                 )
             )
