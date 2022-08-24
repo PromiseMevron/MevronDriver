@@ -37,7 +37,10 @@ import com.mapbox.navigation.base.route.NavigationRoute
 import com.mapbox.navigation.base.route.NavigationRouterCallback
 import com.mapbox.navigation.base.route.RouterFailure
 import com.mapbox.navigation.base.route.RouterOrigin
+import com.mapbox.navigation.base.trip.model.RouteLegProgress
+import com.mapbox.navigation.base.trip.model.RouteProgress
 import com.mapbox.navigation.core.MapboxNavigationProvider
+import com.mapbox.navigation.core.arrival.ArrivalObserver
 import com.mapbox.navigation.core.directions.session.RoutesObserver
 import com.mapbox.navigation.core.formatter.MapboxDistanceFormatter
 import com.mapbox.navigation.core.replay.MapboxReplayer
@@ -84,6 +87,7 @@ import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.map.widgets.OnStatusChangedListener
 import com.mevron.rides.driver.home.ui.*
 import java.util.*
+import kotlin.math.abs
 
 private const val TAG = "_MapBoxMapView"
 private const val ANIMATION_DURATION = 1000L
@@ -98,7 +102,6 @@ class MapBoxMapView @JvmOverloads constructor(
     private var mapView: MapView? = null
     private var maneuverView: MapboxManeuverView? = null
     private var soundButton: MapboxSoundButton? = null
-    private var routeOverview: MapboxRouteOverviewButton? = null
     private var recenter: MapboxRecenterButton? = null
     private lateinit var onStatusChangedListener: OnStatusChangedListener
     private lateinit var onActionButtonClick: OnActionButtonClick
@@ -238,6 +241,21 @@ class MapBoxMapView @JvmOverloads constructor(
 
     private val offRouteObserver = OffRouteObserver { onOffRoute ->
         // TODO Handle when off route (Mostly reroute)
+    }
+
+    private val arrivalObserver = object : ArrivalObserver {
+
+        override fun onWaypointArrival(routeProgress: RouteProgress) {
+            // do something when the user arrives at a waypoint
+        }
+
+        override fun onNextRouteLegStart(routeLegProgress: RouteLegProgress) {
+            // do something when the user starts a new leg
+        }
+
+        override fun onFinalDestinationArrival(routeProgress: RouteProgress) {
+            // TODO we need to handle the icon when we reach final destination
+        }
     }
 
     private val roadShieldCallback = RoadShieldCallback { _, shieldMap, _ ->
@@ -475,6 +493,7 @@ class MapBoxMapView @JvmOverloads constructor(
             unregisterRouteProgressObserver(replayProgressObserver)
             unregisterOffRouteObserver(offRouteObserver)
             unregisterVoiceInstructionsObserver(voiceInstructionsObserver)
+            unregisterArrivalObserver(arrivalObserver)
         }
     }
 
@@ -490,12 +509,22 @@ class MapBoxMapView @JvmOverloads constructor(
             initLocationComponent()
             setupGesturesListener()
             mapReadyListener?.onMapReady()
+            navigationCamera.requestNavigationCameraToOverview()
+            mapReady = true
         }
     }
 
     override fun getMapAsync() {
         mapView?.getMapboxMap()?.loadStyleUri(Style.MAPBOX_STREETS) {
             mapReadyListener?.onMapReady()
+            navigationCamera.requestNavigationCameraToOverview()
+            mapReady = true
+        }
+    }
+
+    override fun renderSurgeFromUrl(url: String) {
+        mapView?.getMapboxMap()?.getStyle()?.let {
+            renderSurge(it, url)
         }
     }
 
@@ -505,6 +534,7 @@ class MapBoxMapView @JvmOverloads constructor(
         mapboxNavigation.registerRouteProgressObserver(routeProgressObserver)
         mapboxNavigation.registerLocationObserver(locationObserver)
         mapboxNavigation.registerVoiceInstructionsObserver(voiceInstructionsObserver)
+        mapboxNavigation.registerArrivalObserver(arrivalObserver)
 
         if (mapboxNavigation.getRoutes().isEmpty()) {
             // if simulation is enabled (ReplayLocationEngine set to NavigationOptions)
@@ -633,16 +663,53 @@ class MapBoxMapView @JvmOverloads constructor(
             ?.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
         mapView?.location
             ?.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
-        mapView?.gestures?.addOnMoveListener(onMoveListener)
     }
+
+    private var theOldPoint = 0.0
+    private var isNewIndicatorLocation = true
+    private var mapReady = false
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
-        centerMapCamera(it)
+        if (!mapReady || isNewIndicatorLocation) {
+            mapView?.getMapboxMap()?.setCamera(CameraOptions.Builder().bearing(it).build())
+            if (mapReady) {
+                isNewIndicatorLocation = false
+            }
+        }
+
+        if (abs(theOldPoint - it) > 50) {
+            isNewIndicatorLocation = true
+            theOldPoint = it
+        }
     }
 
+    private var isNewIndicatorPosition = true
     private val onIndicatorPositionChangedListener = OnIndicatorPositionChangedListener {
-        centerMapCamera(it)
-        mapView?.gestures?.focalPoint = mapView?.getMapboxMap()?.pixelForCoordinate(it)
+        if (isNewIndicatorPosition) {
+            mapView?.getMapboxMap()?.setCamera(CameraOptions.Builder().center(it).build())
+            mapView?.gestures?.focalPoint = mapView?.getMapboxMap()?.pixelForCoordinate(it)
+            isNewIndicatorPosition = false
+        }
+        if (currentDistanceTravelled(it) >= 49) {
+            isNewIndicatorPosition = true
+        }
+    }
+
+    private var oldPoint = Point.fromLngLat(0.0, 0.0)
+
+    private fun currentDistanceTravelled(newPoint: Point): Double {
+
+        val results = FloatArray(1)
+        Location.distanceBetween(
+            oldPoint.latitude(), oldPoint.longitude(),
+            newPoint.latitude(), newPoint.longitude(),
+            results
+        )
+
+        if (results[0] >= 50.0) {
+            oldPoint = newPoint
+        }
+        return results[0].toDouble()
     }
 
     /**
@@ -653,14 +720,6 @@ class MapBoxMapView @JvmOverloads constructor(
     override fun startNavigation() {
         centerMapCamera(zoomLevel = ZOOM_LEVEL_CITY_DETAIL)
         mapboxNavigation.startTripSession()
-    }
-
-    private fun centerMapCamera(center: Point, zoomLevel: Double = ZOOM_LEVEL_RESTING) {
-        mapView?.getMapboxMap()?.setCamera(
-            CameraOptions.Builder()
-                .zoom(zoomLevel)
-                .center(center).build()
-        )
     }
 
     private fun centerMapCamera(center: Double? = null, zoomLevel: Double = ZOOM_LEVEL_RESTING) {
@@ -733,7 +792,6 @@ class MapBoxMapView @JvmOverloads constructor(
         acceptRideView = findViewById(R.id.tripView)
         maneuverView = findViewById(R.id.maneuverView)
         soundButton = findViewById(R.id.soundButton)
-        routeOverview = findViewById(R.id.routeOverview)
         recenter = findViewById(R.id.recenter)
 
         // initialize widgets
@@ -750,12 +808,9 @@ class MapBoxMapView @JvmOverloads constructor(
         // initialize view interactions
         recenter?.setOnClickListener {
             placeFocusOnMe()
-            routeOverview?.showTextAndExtend(ANIMATION_DURATION)
+            recenter?.showTextAndExtend(ANIMATION_DURATION)
         }
-        routeOverview?.setOnClickListener {
-            navigationCamera.requestNavigationCameraToOverview()
-            routeOverview?.showTextAndExtend(ANIMATION_DURATION)
-        }
+
         soundButton?.setOnClickListener {
             isVoiceInstructionsMuted = !isVoiceInstructionsMuted
         }
@@ -792,7 +847,6 @@ class MapBoxMapView @JvmOverloads constructor(
         mapboxReplayer.stop()
         soundButton?.visibility = View.INVISIBLE
         maneuverView?.visibility = View.INVISIBLE
-        routeOverview?.visibility = View.INVISIBLE
     }
 
     private fun setRouteAndStartNavigation(routes: List<NavigationRoute>) {
@@ -815,7 +869,6 @@ class MapBoxMapView @JvmOverloads constructor(
 
         // show UI elements
         soundButton?.visibility = View.VISIBLE
-        routeOverview?.visibility = View.VISIBLE
         showTripView()
 
         // move the camera to overview when new route is available
@@ -852,8 +905,7 @@ class MapBoxMapView @JvmOverloads constructor(
                     )
                 )
                 .layersList(listOf(mapboxNavigation.getZLevel(), null))
-                .build(),
-            callback = object : NavigationRouterCallback {
+                .build(), callback = object : NavigationRouterCallback {
                 override fun onRoutesReady(
                     routes: List<NavigationRoute>,
                     routerOrigin: RouterOrigin

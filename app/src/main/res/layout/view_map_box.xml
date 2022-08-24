@@ -30,16 +30,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/maneuverView" />
 
-    <com.mapbox.navigation.ui.maps.camera.view.MapboxRouteOverviewButton
-        android:id="@+id/routeOverview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/soundButton" />
-
     <com.mapbox.navigation.ui.maps.camera.view.MapboxRecenterButton
         android:id="@+id/recenter"
         android:layout_width="wrap_content"
@@ -47,7 +37,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/routeOverview" />
+        app:layout_constraintTop_toBottomOf="@id/soundButton" />
 
     <com.mevron.rides.driver.home.map.widgets.AcceptRideView
         android:id="@+id/tripView"

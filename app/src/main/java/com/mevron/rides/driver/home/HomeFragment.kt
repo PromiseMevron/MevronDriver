@@ -261,6 +261,7 @@ class HomeFragment : Fragment(),
         binding.mevronHomeBottom.documentSubmissionStatus.setOnClickListener {
             findNavController().navigate(R.id.action_global_documentCheckFragment)
         }
+
         lifecycleScope.launch {
             stateMachineViewModel.stateMachineState.collect {
                 if (it.isLoading) {
@@ -317,18 +318,20 @@ class HomeFragment : Fragment(),
         lifecycleScope.launch {
             locationViewModel.currentLocationState.collect {
                 it?.let { locationData ->
-                    binding.mapView2.routeToPosition(
-                        locationData.lat,
-                        locationData.long,
-                        locationData.direction
-                    )
                     if (!locationViewModel.locationNotLoaded()) {
                         binding.mapView2.getMapForNavigationAsync()
+                        binding.mapView2.routeToPosition(
+                            locationData.lat,
+                            locationData.long,
+                            locationData.direction
+                        )
                     }
                     locationViewModel.setLocationLoaded(true)
                 }
             }
         }
+
+        viewModel.startObservingSurge()
     }
 
     private fun setUpMapTripState(mapTripState: MapTripState) {
@@ -407,9 +410,16 @@ class HomeFragment : Fragment(),
     }
 
     override fun onMapReady() {
+        // Use this url to test surge. Remove when socket event testing is complete for surge
+        val url = "https://sandbox.mevron.com/api/v1/trip/auth/getSurge/4b6c74e8-f135-426d-bd06-4e4dca70eae4?lat=6.6039714&long=3.2419436"
         // This is for testing, comment out when not in use.
         binding.mapView2.initRouting(45.0)
         binding.mapView2.startNavigation()
+        lifecycleScope.launch {
+            viewModel.surgeState.collect {
+                binding.mapView2.renderSurgeFromUrl(it)
+            }
+        }
     }
 
     override fun onCallClicked() {
@@ -474,5 +484,10 @@ class HomeFragment : Fragment(),
 
     override fun ratingScore(rating: String) {
         viewModel.rateRide(rating)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.mapView2.onStop()
     }
 }

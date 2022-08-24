@@ -1,5 +1,6 @@
 package com.mevron.rides.driver.domain
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mevron.rides.driver.home.data.model.StateMachineResponse
 import com.mevron.rides.driver.home.data.model.sockets.RideRequestSocketData
@@ -33,13 +34,15 @@ sealed interface SocketEvent {
     }
 
     fun fromJson(string: String): Any?
+
     fun toJsonString(): String
+
     val name: String
 
     object Connected : SocketEvent {
 
         override fun fromJson(string: String): Any? {
-           return null
+            return null
         }
 
         override fun toJsonString(): String {
@@ -73,12 +76,22 @@ sealed interface SocketEvent {
     object IncomingRideRequestEvent : IncomingEvent() {
 
         override fun fromJson(string: String): RideRequestSocketData? {
-            val gson = GsonBuilder().setPrettyPrinting().create()
+            val gson = getGson()
             // TODO map what mr babafemi sends for incoming socket event
             return gson.fromJson(string, RideRequestSocketData::class.java)
         }
 
         override val name: String = SocketName.RIDE_REQUESTED
+    }
+
+    object SurgeEvent: IncomingEvent() {
+
+        override fun fromJson(string: String): SurgeResponse? {
+            val gson =getGson()
+            return gson.fromJson(string, SurgeResponse::class.java)
+        }
+
+        override val name: String = SocketName.SURGE
     }
 
     object IncomingRideCancelledEvent : IncomingEvent() {
@@ -103,12 +116,12 @@ sealed interface SocketEvent {
         override val name: String = SocketName.STATE_MANAGER
     }
 
-    object EventManager: SocketEvent{
+    object EventManager : SocketEvent {
         override fun fromJson(string: String): SocketEventSuccess? {
             print("we received a response")
             val gson = GsonBuilder().setPrettyPrinting().create()
             return gson.fromJson(string, SocketEventSuccess::class.java)
-           // return null
+            // return null
         }
 
         override fun toJsonString(): String {
@@ -122,6 +135,9 @@ sealed interface SocketEvent {
 }
 
 abstract class IncomingEvent : SocketEvent {
+
+    fun getGson(): Gson =  GsonBuilder().setPrettyPrinting().create()
+
     override fun toJsonString(): String = ""
 }
 
@@ -136,4 +152,5 @@ object SocketName {
     const val RIDE_REQUESTED = "ride_requests"
     const val SEND_DRIVER_LOCATION = "driver_location"
     const val RIDER_CANCELLED = "rider_cancelled"
+    const val SURGE = "surge_url"
 }

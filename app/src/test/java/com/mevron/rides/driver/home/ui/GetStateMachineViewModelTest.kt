@@ -48,7 +48,7 @@ class GetStateMachineViewModelTest {
                 coEvery { useCase.invoke() }.coAnswers {
                     DomainModel.Success(
                         data = StateMachineDomainData(
-                            Pair("ORDER", StateMachineMetaData("", ""))
+                            Pair("ORDER", StateMachineMetaData.EMPTY)
                         )
                     )
                 }
@@ -56,7 +56,7 @@ class GetStateMachineViewModelTest {
                 viewModel.stateMachineState.test {
                     assertEquals(
                         StateMachineDomainData(
-                            Pair("ORDER", StateMachineMetaData("", ""))
+                            Pair("ORDER", StateMachineMetaData.EMPTY)
                         ),
                         awaitItem().data
                     )

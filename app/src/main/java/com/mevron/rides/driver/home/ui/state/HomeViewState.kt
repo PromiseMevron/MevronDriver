@@ -4,6 +4,10 @@ import com.mevron.rides.driver.home.data.model.home.*
 import com.mevron.rides.driver.home.domain.model.MapTripState
 import com.mevron.rides.driver.home.ui.DocumentSubmissionStatus
 
+data class SurgeUrlState(
+    val surgeUrl: String
+)
+
 data class HomeViewState(
     val isDriveActive: Boolean,
     val isOnline: Boolean,
