@@ -17,7 +17,7 @@ class UserCurrentLocationUseCaseTest {
 
     @Test
     fun `when locationRepository emit last location - useCase emit data`(): Unit = runBlocking {
-        val testLocationData = LocationData(latitude = 12.0)
+        val testLocationData = LocationData(lat = 12.0)
         every { locationRepository.lastLocation }.returns(MutableStateFlow(testLocationData))
         useCase().test {
             assertEquals(awaitItem(), testLocationData)

@@ -37,7 +37,10 @@ import com.mapbox.navigation.base.route.NavigationRoute
 import com.mapbox.navigation.base.route.NavigationRouterCallback
 import com.mapbox.navigation.base.route.RouterFailure
 import com.mapbox.navigation.base.route.RouterOrigin
+import com.mapbox.navigation.base.trip.model.RouteLegProgress
+import com.mapbox.navigation.base.trip.model.RouteProgress
 import com.mapbox.navigation.core.MapboxNavigationProvider
+import com.mapbox.navigation.core.arrival.ArrivalObserver
 import com.mapbox.navigation.core.directions.session.RoutesObserver
 import com.mapbox.navigation.core.formatter.MapboxDistanceFormatter
 import com.mapbox.navigation.core.replay.MapboxReplayer
@@ -84,6 +87,7 @@ import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.map.widgets.OnStatusChangedListener
 import com.mevron.rides.driver.home.ui.*
 import java.util.*
+import kotlin.math.abs
 
 private const val TAG = "_MapBoxMapView"
 private const val ANIMATION_DURATION = 1000L
@@ -238,6 +242,21 @@ class MapBoxMapView @JvmOverloads constructor(
 
     private val offRouteObserver = OffRouteObserver { onOffRoute ->
         // TODO Handle when off route (Mostly reroute)
+    }
+
+    private val arrivalObserver = object : ArrivalObserver {
+
+        override fun onWaypointArrival(routeProgress: RouteProgress) {
+            // do something when the user arrives at a waypoint
+        }
+
+        override fun onNextRouteLegStart(routeLegProgress: RouteLegProgress) {
+            // do something when the user starts a new leg
+        }
+
+        override fun onFinalDestinationArrival(routeProgress: RouteProgress) {
+            // TODO we need to handle the icon when we reach final destination
+        }
     }
 
     private val roadShieldCallback = RoadShieldCallback { _, shieldMap, _ ->
@@ -475,6 +494,7 @@ class MapBoxMapView @JvmOverloads constructor(
             unregisterRouteProgressObserver(replayProgressObserver)
             unregisterOffRouteObserver(offRouteObserver)
             unregisterVoiceInstructionsObserver(voiceInstructionsObserver)
+            unregisterArrivalObserver(arrivalObserver)
         }
     }
 
@@ -490,12 +510,22 @@ class MapBoxMapView @JvmOverloads constructor(
             initLocationComponent()
             setupGesturesListener()
             mapReadyListener?.onMapReady()
+            navigationCamera.requestNavigationCameraToOverview()
+            mapReady = true
         }
     }
 
     override fun getMapAsync() {
         mapView?.getMapboxMap()?.loadStyleUri(Style.MAPBOX_STREETS) {
             mapReadyListener?.onMapReady()
+            navigationCamera.requestNavigationCameraToOverview()
+            mapReady = true
+        }
+    }
+
+    override fun renderSurgeFromUrl(url: String) {
+        mapView?.getMapboxMap()?.getStyle()?.let {
+            renderSurge(it, url)
         }
     }
 
@@ -505,6 +535,7 @@ class MapBoxMapView @JvmOverloads constructor(
         mapboxNavigation.registerRouteProgressObserver(routeProgressObserver)
         mapboxNavigation.registerLocationObserver(locationObserver)
         mapboxNavigation.registerVoiceInstructionsObserver(voiceInstructionsObserver)
+        mapboxNavigation.registerArrivalObserver(arrivalObserver)
 
         if (mapboxNavigation.getRoutes().isEmpty()) {
             // if simulation is enabled (ReplayLocationEngine set to NavigationOptions)
@@ -633,16 +664,53 @@ class MapBoxMapView @JvmOverloads constructor(
             ?.addOnIndicatorPositionChangedListener(onIndicatorPositionChangedListener)
         mapView?.location
             ?.addOnIndicatorBearingChangedListener(onIndicatorBearingChangedListener)
-        mapView?.gestures?.addOnMoveListener(onMoveListener)
     }
+
+    private var theOldPoint = 0.0
+    private var isNewIndicatorLocation = true
+    private var mapReady = false
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
-        centerMapCamera(it)
+        if (!mapReady || isNewIndicatorLocation) {
+            mapView?.getMapboxMap()?.setCamera(CameraOptions.Builder().bearing(it).build())
+            if (mapReady) {
+                isNewIndicatorLocation = false
+            }
+        }
+
+        if (abs(theOldPoint - it) > 50) {
+            isNewIndicatorLocation = true
+            theOldPoint = it
+        }
     }
 
+    private var isNewIndicatorPosition = true
     private val onIndicatorPositionChangedListener = OnIndicatorPositionChangedListener {
-        centerMapCamera(it)
-        mapView?.gestures?.focalPoint = mapView?.getMapboxMap()?.pixelForCoordinate(it)
+        if (isNewIndicatorPosition) {
+            mapView?.getMapboxMap()?.setCamera(CameraOptions.Builder().center(it).build())
+            mapView?.gestures?.focalPoint = mapView?.getMapboxMap()?.pixelForCoordinate(it)
+            isNewIndicatorPosition = false
+        }
+        if (currentDistanceTravelled(it) >= 49) {
+            isNewIndicatorPosition = true
+        }
+    }
+
+    private var oldPoint = Point.fromLngLat(0.0, 0.0)
+
+    private fun currentDistanceTravelled(newPoint: Point): Double {
+
+        val results = FloatArray(1)
+        Location.distanceBetween(
+            oldPoint.latitude(), oldPoint.longitude(),
+            newPoint.latitude(), newPoint.longitude(),
+            results
+        )
+
+        if (results[0] >= 50.0) {
+            oldPoint = newPoint
+        }
+        return results[0].toDouble()
     }
 
     /**

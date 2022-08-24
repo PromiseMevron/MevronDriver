@@ -10,4 +10,5 @@ interface MevronMapView {
     fun onPause()
     fun routeToPosition(latitude: Double, longitude: Double, bearing: Float)
     fun getMapAsync()
+    fun renderSurgeFromUrl(url: String)
 }

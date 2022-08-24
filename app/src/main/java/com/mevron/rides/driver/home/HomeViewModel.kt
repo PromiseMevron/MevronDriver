@@ -3,8 +3,8 @@ package com.mevron.rides.driver.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mevron.rides.driver.authentication.domain.repository.IPreferenceRepository
 import com.mevron.rides.driver.authentication.domain.usecase.GetSharedPreferenceUseCase
+import com.mevron.rides.driver.authentication.domain.usecase.GetSurgeUseCase
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.home.domain.model.HomeScreenDomainModel
 import com.mevron.rides.driver.home.domain.model.MapTripState
@@ -17,10 +17,12 @@ import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.state.HomeViewState
 import com.mevron.rides.driver.home.ui.state.transform
 import com.mevron.rides.driver.remote.TripManagementModel
-import com.mevron.rides.driver.remote.geoservice.domain.usecase.GetGoogleResponseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,11 +32,25 @@ class HomeViewModel @Inject constructor(
     private val getDocumentStatusUseCase: GetDocumentStatusUseCase,
     private val getMapStateUseCase: GetMapTripStateUseCase,
     private val tripManageUseCase: TripManagementActionUseCase,
-    private val preferenceUseCase: GetSharedPreferenceUseCase
+    private val preferenceUseCase: GetSharedPreferenceUseCase,
+    private val getSurgeUseCase: GetSurgeUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<HomeViewState> =
         MutableStateFlow(HomeViewState.EMPTY)
+
+    private val mutableSurgeState = MutableStateFlow("")
+
+    val surgeState: StateFlow<String>
+        get() = mutableSurgeState
+
+    fun startObservingSurge() {
+        viewModelScope.launch {
+            getSurgeUseCase().collect {
+                mutableSurgeState.value = it
+            }
+        }
+    }
 
     val state: StateFlow<HomeViewState>
         get() = mutableState

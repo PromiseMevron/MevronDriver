@@ -5,9 +5,11 @@ import com.mevron.rides.driver.authentication.domain.repository.IPreferenceRepos
 import com.mevron.rides.driver.domain.ISocketManager
 import com.mevron.rides.driver.domain.SocketEvent
 import com.mevron.rides.driver.domain.SocketName.CONNECTED
+import com.mevron.rides.driver.domain.SurgeResponse
 import com.mevron.rides.driver.home.data.model.MetaData
 import com.mevron.rides.driver.home.data.model.StateMachineResponse
 import com.mevron.rides.driver.home.domain.IMapStateRepository
+import com.mevron.rides.driver.home.domain.ISurgeRepository
 import com.mevron.rides.driver.home.domain.model.*
 import com.mevron.rides.driver.home.map.widgets.AcceptRideData
 import com.mevron.rides.driver.home.ui.ApproachingPassengerData
@@ -41,7 +43,8 @@ private const val SOCKET_URL = "http://staging.mevron.com:8086/"
  */
 class SocketManager @Inject constructor(
     private val mapStateRepository: IMapStateRepository,
-    private val prefrenceRepository: IPreferenceRepository
+    private val preferenceRepository: IPreferenceRepository,
+    private val surgeRepository: ISurgeRepository
 ) :
     ISocketManager {
 
@@ -96,7 +99,7 @@ class SocketManager @Inject constructor(
                         // socketInstance.emit(CONNECTED,"{\"uuid\":\"4b6c74e8-f135-426d-bd06-4e4dca70eae4\",\"type\":\"driver\"}")
                     }
 
-                    val uuid = prefrenceRepository.getStringForKey(Constants.UUID)
+                    val uuid = preferenceRepository.getStringForKey(Constants.UUID)
                     //  socketInstance.emit(CONNECTED, SocketEvent.Connected.toData(arrayOf("uuid", "type"), arrayOf(uuid, "driver")), {
                     //     Log.d(TAG, "Sending Location 45554 ")
                     // })
@@ -107,14 +110,15 @@ class SocketManager @Inject constructor(
                     //SocketEventSuccess
                     Log.d(TAG, "Sending Location 87878 $it")
                     if (it.isNotEmpty()) {
-                       // val item = it[0] as JSONObject
+                        // val item = it[0] as JSONObject
                         //val data = SocketEvent.EventManager.fromJson(item.toString())
-                       // Log.d(TAG, "Sending Location 22 $data")
-                        val uuid = prefrenceRepository.getStringForKey(Constants.UUID)
+                        // Log.d(TAG, "Sending Location 22 $data")
+                        val uuid = preferenceRepository.getStringForKey(Constants.UUID)
                         socketInstance.emit(CONNECTED, "{\"uuid\":\"${uuid}\",\"type\":\"driver\"}")
                         incomingRideRequestEvent(socketInstance)
                         cancelledEvent(socketInstance)
                         stateManagerEvent(socketInstance)
+                        observeSurgeEvent(socketInstance)
                     }
                     //
                     //  socketInstance.emit(EVENT, SocketEvent.EventManager.toData(arrayOf("uuid", "type"), arrayOf(uuid, "driver")))
@@ -127,15 +131,15 @@ class SocketManager @Inject constructor(
     }
 
     private fun stateManagerEvent(socketInstance: Socket) {
-       // Log.d("State Machine", "State Machine 1")
+        // Log.d("State Machine", "State Machine 1")
         socketInstance.on(SocketEvent.StateManagerEvent.name) {
             if (it.isNotEmpty()) {
-             //   Log.d("State Machine", "State Machine 2 $it")
+                //   Log.d("State Machine", "State Machine 2 $it")
                 val item = it[0] as JSONObject
                 val data = SocketEvent.StateManagerEvent.fromJson(item.toString())
                 Log.d("State Machine", "State Machine 3  $data")
                 val stateMachineDomainData = data?.toDomainData()
-             //   Log.d("State Machine", "State Machine  $stateMachineDomainData")
+                //   Log.d("State Machine", "State Machine  $stateMachineDomainData")
                 when (stateMachineDomainData?.state?.first?.let { it1 ->
                     StateMachineCurrentState.from(
                         it1
@@ -155,21 +159,24 @@ class SocketManager @Inject constructor(
                                 )
                             ).also { state ->
                                 state.tripId = data.metaData?.tripId
-                                prefrenceRepository.setStringForKey("TRIPID", data.metaData?.tripId ?: "")
-                            //    state.tripId = data.metaData?.tripId
+                                preferenceRepository.setStringForKey(
+                                    "TRIPID",
+                                    data.metaData?.tripId ?: ""
+                                )
+                                //    state.tripId = data.metaData?.tripId
                             }
                         )
                     }
 
                     StateMachineCurrentState.IDLE -> {
-                     //   mapStateRepository.setCurrentState(MapTripState.Idle)
+                        //   mapStateRepository.setCurrentState(MapTripState.Idle)
                     }
                     StateMachineCurrentState.IN_TRIP -> {
                         mapStateRepository.setCurrentState(
                             inTripRouting(
                                 stateMachineDomainData = stateMachineDomainData
                             ).also { state ->
-                              //  state.tripId = data.metaData?.tripId
+                                //  state.tripId = data.metaData?.tripId
                             }
                         )
                     }
@@ -184,7 +191,7 @@ class SocketManager @Inject constructor(
                                     currency = data.metaData?.currency ?: ""
                                 )
                             ).also { state ->
-                              //  state.tripId = data.metaData?.tripId
+                                //  state.tripId = data.metaData?.tripId
                             }
                         )
                     }
@@ -199,7 +206,7 @@ class SocketManager @Inject constructor(
                                     currency = data.metaData?.currency ?: ""
                                 )
                             ).also { state ->
-                             //   state.tripId = data.metaData?.tripId
+                                //   state.tripId = data.metaData?.tripId
                             }
                         )
                     }
@@ -223,13 +230,25 @@ class SocketManager @Inject constructor(
         }
     }
 
+    private fun observeSurgeEvent(socketInstance: Socket) {
+        socketInstance.on(SocketEvent.SurgeEvent.name) {
+            if (it.isNotEmpty()) {
+                val item = it[0] as JSONObject
+                val data: SurgeResponse? = SocketEvent.SurgeEvent.fromJson(item.toString())
+                surgeRepository.setSurgeUrl(data?.url ?: "")
+            } else {
+                surgeRepository.setSurgeUrl("")
+            }
+        }
+    }
+
     private fun incomingRideRequestEvent(socketInstance: Socket) {
         socketInstance.on(SocketEvent.IncomingRideRequestEvent.name) {
             Log.d(TAG, "Sending Location 090909 $it")
             if (it.isNotEmpty()) {
                 val item = it[0] as JSONObject
                 val data = SocketEvent.IncomingRideRequestEvent.fromJson(item.toString())
-                prefrenceRepository.setStringForKey(
+                preferenceRepository.setStringForKey(
                     Constants.TRIP_ID,
                     data?.rideRequestMetaData?.tripId ?: ""
                 )
@@ -246,7 +265,10 @@ class SocketManager @Inject constructor(
                         )
                     ).also { state ->
                         state.tripId = data?.rideRequestMetaData?.tripId
-                        prefrenceRepository.setStringForKey("TRIPID", data?.rideRequestMetaData?.tripId ?: "")
+                        preferenceRepository.setStringForKey(
+                            "TRIPID",
+                            data?.rideRequestMetaData?.tripId ?: ""
+                        )
                     }
                 )
             }
