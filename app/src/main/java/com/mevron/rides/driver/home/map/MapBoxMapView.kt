@@ -102,7 +102,6 @@ class MapBoxMapView @JvmOverloads constructor(
     private var mapView: MapView? = null
     private var maneuverView: MapboxManeuverView? = null
     private var soundButton: MapboxSoundButton? = null
-    private var routeOverview: MapboxRouteOverviewButton? = null
     private var recenter: MapboxRecenterButton? = null
     private lateinit var onStatusChangedListener: OnStatusChangedListener
     private lateinit var onActionButtonClick: OnActionButtonClick
@@ -723,14 +722,6 @@ class MapBoxMapView @JvmOverloads constructor(
         mapboxNavigation.startTripSession()
     }
 
-    private fun centerMapCamera(center: Point, zoomLevel: Double = ZOOM_LEVEL_RESTING) {
-        mapView?.getMapboxMap()?.setCamera(
-            CameraOptions.Builder()
-                .zoom(zoomLevel)
-                .center(center).build()
-        )
-    }
-
     private fun centerMapCamera(center: Double? = null, zoomLevel: Double = ZOOM_LEVEL_RESTING) {
         val lng = currentLng
         val lat = currentLat
@@ -801,7 +792,6 @@ class MapBoxMapView @JvmOverloads constructor(
         acceptRideView = findViewById(R.id.tripView)
         maneuverView = findViewById(R.id.maneuverView)
         soundButton = findViewById(R.id.soundButton)
-        routeOverview = findViewById(R.id.routeOverview)
         recenter = findViewById(R.id.recenter)
 
         // initialize widgets
@@ -818,12 +808,9 @@ class MapBoxMapView @JvmOverloads constructor(
         // initialize view interactions
         recenter?.setOnClickListener {
             placeFocusOnMe()
-            routeOverview?.showTextAndExtend(ANIMATION_DURATION)
+            recenter?.showTextAndExtend(ANIMATION_DURATION)
         }
-        routeOverview?.setOnClickListener {
-            navigationCamera.requestNavigationCameraToOverview()
-            routeOverview?.showTextAndExtend(ANIMATION_DURATION)
-        }
+
         soundButton?.setOnClickListener {
             isVoiceInstructionsMuted = !isVoiceInstructionsMuted
         }
@@ -860,7 +847,6 @@ class MapBoxMapView @JvmOverloads constructor(
         mapboxReplayer.stop()
         soundButton?.visibility = View.INVISIBLE
         maneuverView?.visibility = View.INVISIBLE
-        routeOverview?.visibility = View.INVISIBLE
     }
 
     private fun setRouteAndStartNavigation(routes: List<NavigationRoute>) {
@@ -883,7 +869,6 @@ class MapBoxMapView @JvmOverloads constructor(
 
         // show UI elements
         soundButton?.visibility = View.VISIBLE
-        routeOverview?.visibility = View.VISIBLE
         showTripView()
 
         // move the camera to overview when new route is available
@@ -920,8 +905,7 @@ class MapBoxMapView @JvmOverloads constructor(
                     )
                 )
                 .layersList(listOf(mapboxNavigation.getZLevel(), null))
-                .build(),
-            callback = object : NavigationRouterCallback {
+                .build(), callback = object : NavigationRouterCallback {
                 override fun onRoutesReady(
                     routes: List<NavigationRoute>,
                     routerOrigin: RouterOrigin
