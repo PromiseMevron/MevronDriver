@@ -869,7 +869,7 @@ class MapBoxMapView @JvmOverloads constructor(
 
         // show UI elements
         soundButton?.visibility = View.VISIBLE
-        showTripView()
+      //  showTripView()
 
         // move the camera to overview when new route is available
         navigationCamera.requestNavigationCameraToOverview()
