@@ -308,7 +308,9 @@ class BalanceViewModel @Inject constructor(
         successFund: Boolean? = null,
         successCard: Boolean? = null,
         error: String? = null,
-        payLink: String? = null
+        payLink: String? = null,
+        addCard: Boolean? = null,
+        shouldGoBack: Boolean? = null
     ) {
         val currentState = mutableState.value
         val addFundState = addFundMutableState.value
@@ -327,7 +329,9 @@ class BalanceViewModel @Inject constructor(
                 successFund = successFund ?: currentState.successFund,
                 successCard = successCard ?: currentState.successCard,
                 errorLink = error ?: currentState.errorLink,
-                payLink = payLink ?: currentState.payLink
+                payLink = payLink ?: currentState.payLink,
+                addCard = addCard ?: currentState.addCard,
+                shouldGoBack = shouldGoBack ?: currentState.shouldGoBack
             )
         }
         addFundMutableState.update {

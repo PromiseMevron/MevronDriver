@@ -61,6 +61,17 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
+                    binding.backButton.setOnClickListener {
+                        if (binding.webView.visibility == View.GONE) {
+                            activity?.onBackPressed()
+                        } else {
+                            if (state.addCard) {
+                                viewModel.onEvent( CashOutAddFundEvent.GetCards)
+                            }
+                            binding.webView.visibility = View.GONE
+                        }
+                    }
+
                     if (state.cardData.isNotEmpty()){
                         Log.d("THE CARDS ARE", "THE CARDS ARE ${state.cardData}")
                         val dataToUse = state.cardData.filter {
@@ -112,17 +123,7 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
             viewModel.getPayLink()
         }
 
-        binding.backButton.setOnClickListener {
-            if (binding.webView.visibility == View.GONE) {
-                activity?.onBackPressed()
-            } else {
-                if (binding.webView.canGoBack()) {
-                    binding.webView.goBack()
-                } else {
-                    binding.webView.visibility = View.GONE
-                }
-            }
-        }
+
     }
 
     private fun loadWebView(webUrl: String) {

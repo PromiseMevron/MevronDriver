@@ -18,7 +18,9 @@ data class GetWalletDetailState(
     val successCard: Boolean,
     val data: List<PaymentBalanceDetailsDomainDatum>,
     val cardData: List<CardData>,
-    val payLink: String
+    val payLink: String,
+    val addCard: Boolean,
+    val shouldGoBack: Boolean
 ){
     companion object {
         val EMPTY = GetWalletDetailState(
@@ -36,7 +38,9 @@ data class GetWalletDetailState(
             successFund = false,
             successCard = false,
             errorLink = "",
-            payLink = ""
+            payLink = "",
+            addCard = false,
+            shouldGoBack = false
         )
     }
 }
