@@ -51,7 +51,6 @@ class BalanceFragment : Fragment(), OnBalanceDetailButtonClickListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       viewModel.onEvent(CashOutAddFundEvent.GetWalletDetail)
         topView.setEventsClickListener(this)
         bottomView.setEventListener(this)
         lifecycleScope.launchWhenResumed {
@@ -76,6 +75,11 @@ class BalanceFragment : Fragment(), OnBalanceDetailButtonClickListener,
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onEvent(CashOutAddFundEvent.GetWalletDetail)
     }
     private fun setUpAdapter(data: List<PaymentBalanceDetailsDomainDatum>){
         val adapter = BalanceAdapter(requireContext())

@@ -273,5 +273,15 @@
         tools:layout="@layout/fragment_referral"
         android:name="com.mevron.rides.driver.sidemenu.settingsandprofile.ui.ReferralFragment"
         android:label="ReferralFragment" />
+    <fragment
+        android:id="@+id/referalDetailFragment"
+        tools:layout="@layout/fragment_referal_detail"
+        android:name="com.mevron.rides.driver.sidemenu.settingsandprofile.ui.ReferalDetailFragment"
+        android:label="ReferalDetailFragment" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_referalDetailFragment" app:destination="@id/referalDetailFragment" />
 
 </navigation>

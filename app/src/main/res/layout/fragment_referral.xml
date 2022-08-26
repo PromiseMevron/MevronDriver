@@ -294,9 +294,9 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-       <!-- <include
+        <include
             android:id="@+id/mevron_referal_bottom"
-            layout="@layout/referal_bottom" />-->
+            layout="@layout/referal_bottom" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

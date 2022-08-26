@@ -2,6 +2,8 @@ package com.mevron.rides.driver.util
 
 object Constants {
 
+    const val REFERRAL = "REFERRAL"
+    const val REFERRAL_STATUS = "REFERRAL_STATUS"
     const val BASE_URL = "https://sandbox.mevron.com/"
    // const val BASE_URL = "http://staging.mevron.com:8083/"
     const val DATABASE_NAME = "alphally_db"
