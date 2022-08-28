@@ -98,12 +98,14 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
                     }*/)
                     }
 
-                    if (state.successFund)
+                    if (state.successFund) {
                         Toast.makeText(
                             requireContext(),
-                            "Fund Added Successfully",
+                            "Card Added Successfully",
                             Toast.LENGTH_LONG
                         ).show()
+                        binding.webView.visibility = View.GONE
+                    }
 
                     if (state.payLink.isNotEmpty()){
                         loadWebView(state.payLink)
@@ -134,7 +136,13 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
                 request: WebResourceRequest?
             ): Boolean {
                 val url = request?.url.toString()
-                view?.loadUrl(url)
+                if (url.contains("confirm-payment/", ignoreCase = true)){
+                    viewModel.updateState(confirmLink = url)
+                    viewModel.confirmPayment()
+                    binding.webView.visibility = View.GONE
+                    // Toast.makeText(requireContext(), "Payment successful", Toast.LENGTH_LONG).show()
+                    // activity?.onBackPressed()
+                }
                 return super.shouldOverrideUrlLoading(view, request)
             }
 

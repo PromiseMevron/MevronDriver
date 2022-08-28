@@ -3,29 +3,43 @@ package com.mevron.rides.driver.sidemenu
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.flutterwave.raveandroid.RavePayActivity
 import com.flutterwave.raveandroid.RaveUiManager
 import com.flutterwave.raveandroid.rave_java_commons.RaveConstants
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.cashout.domain.model.GetBankDatum
+import com.mevron.rides.driver.cashout.ui.event.CashOutAddFundEvent
 import com.mevron.rides.driver.databinding.PaymentsFragmentBinding
 import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.remote.model.getcard.AddCard
 import com.mevron.rides.driver.remote.model.getcard.CardData
+import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.BankSelected
+import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.BanksAdapter
 import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint
-class PaymentsFragment : Fragment(), PaySelected2  {
+class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
 
     companion object {
         fun newInstance() = PaymentsFragment()
@@ -34,10 +48,9 @@ class PaymentsFragment : Fragment(), PaySelected2  {
     private val viewModel: PaymentsViewModel by viewModels()
 
     private lateinit var binding: PaymentsFragmentBinding
-
-    var ref = "txRef 1111 dgd"
     private var mDialog: Dialog? = null
     private lateinit var adapter: PaymentAdapter2
+    private lateinit var bankAdapter: BanksAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,122 +63,120 @@ class PaymentsFragment : Fragment(), PaySelected2  {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adapter = PaymentAdapter2(this)
+        bankAdapter = BanksAdapter(this)
+        binding.recyclerView.adapter = adapter
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.settings.builtInZoomControls = true
+        binding.webView.settings.useWideViewPort = true
+        viewModel.getPaymentMethods()
+
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
 
-        getCards()
+        lifecycleScope.launchWhenResumed {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { state ->
+                    binding.backButton.setOnClickListener {
+                        if (binding.webView.visibility == View.GONE) {
+                            activity?.onBackPressed()
+                        } else {
+                            if (state.addCard) {
+                                viewModel.getPaymentMethods()
+                            }
+                            binding.webView.visibility = View.GONE
+                        }
+                    }
+
+                    if (state.cardData.isNotEmpty()){
+                        binding.otherMethods.visibility = View.VISIBLE
+                        Log.d("THE CARDS ARE", "THE CARDS ARE ${state.cardData}")
+                        val dataToUse = state.cardData.filter {
+                            it.uuid != null &&  it.lastDigits != null
+                        }
+                        if (dataToUse.isEmpty()) {
+                            binding.otherMethods.visibility = View.GONE
+                        }
+                        else {
+                            binding.otherMethods.visibility = View.VISIBLE
+                        }
+                        adapter = PaymentAdapter2(this@PaymentsFragment)
+                        binding.recyclerView.adapter = adapter
+                        adapter.submitList(dataToUse/*.map {
+                        CardData(
+                            bin = it.bin,
+                            brand = it.brand,
+                            expiryYear = it.expiryYear,
+                            expiryMonth = it.expiryMonth,
+                            lastDigits = it.lastDigits,
+                            uuid = it.uuid,
+                            type = it.type
+                        )
+                    }*/)
+                    }else{
+                        binding.otherMethods.visibility = View.GONE
+                    }
+
+                    if (state.bankData.isNotEmpty()){
+                        binding.preferredMethods.visibility = View.VISIBLE
+                        Log.d("THE Banks ARE", "THE BANKS ARE ${state.cardData}")
+                        val dataToUse = state.bankData.filter {
+                            it.uuid != null &&  it.bank_name != null
+                        }
+                        if (dataToUse.isEmpty()) {
+                            binding.preferredMethods.visibility = View.GONE
+                        }
+                        else {
+                            binding.preferredMethods.visibility = View.VISIBLE
+                        }
+                        bankAdapter = BanksAdapter(this@PaymentsFragment)
+                        binding.bankRecyclerView.adapter = bankAdapter
+                        bankAdapter.submitList(dataToUse/*.map {
+                        CardData(
+                            bin = it.bin,
+                            brand = it.brand,
+                            expiryYear = it.expiryYear,
+                            expiryMonth = it.expiryMonth,
+                            lastDigits = it.lastDigits,
+                            uuid = it.uuid,
+                            type = it.type
+                        )
+                    }*/)
+                    }else{
+                        binding.preferredMethods.visibility = View.GONE
+                    }
+
+                    if (state.successFund) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Card Added Successfully",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        binding.webView.visibility = View.GONE
+                    }
+
+                    if (state.paymentLink.isNotEmpty()){
+                        loadWebView(state.paymentLink)
+                        binding.webView.visibility = View.VISIBLE
+                        viewModel.updateState(payLink = "")
+                    }
+                }
+            }
+        }
 
         binding.addCard.setOnClickListener {
-        ravePayment()
+            viewModel.getPayLink()
         }
 
         binding.addCard1.setOnClickListener {
-            ravePayment()
+            viewModel.getPayLink()
         }
 
 
     }
 
-
-    fun ravePayment(){
-        RaveUiManager(this).setAmount(100.0)
-            .setCurrency("NGN")
-            .setEmail("occ@dd.com")
-            .setfName("Promise")
-            .setlName("Ochornma")
-            .setPublicKey("FLWPUBK_TEST-51e5d0f6c6a58ee544f762c74dc0a3ad-X")
-            .setEncryptionKey("FLWSECK_TESTae2b068106c0")
-            .setTxRef(ref)
-            .acceptAccountPayments(false)
-            .acceptCardPayments(true)
-            .acceptMpesaPayments(false)
-            .acceptAchPayments(false)
-            .acceptGHMobileMoneyPayments(false)
-            .acceptUgMobileMoneyPayments(false)
-            .acceptZmMobileMoneyPayments(false)
-            .acceptRwfMobileMoneyPayments(false)
-            .acceptSaBankPayments(false)
-            .acceptUkPayments(false)
-            .allowSaveCardFeature(false)
-            .acceptBankTransferPayments(false)
-            .acceptUssdPayments(false)
-            .acceptBarterPayments(false)
-            .acceptFrancMobileMoneyPayments(false, "NG")
-            .onStagingEnv(true)
-            .showStagingLabel(false)
-            .withTheme(R.style.MyCustomTheme)
-            .initialize()
-    }
-
-    fun addCard(ref: String){
-
-        toggleBusyDialog(true,"Adding card...")
-        val data = AddCard(ref)
-
-        viewModel.addCard(data).observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-
-            it.let {  res ->
-                when(res){
-
-                    is  GenericStatus.Success ->{
-                        toggleBusyDialog(false)
-                        getCards()
-                        Toast.makeText(context, res.data?.success?.message, Toast.LENGTH_LONG).show()
-                    }
-
-                    is  GenericStatus.Error ->{
-                        toggleBusyDialog(false)
-                        Toast.makeText(context, res.error?.error?.message, Toast.LENGTH_LONG).show()
-                    }
-
-                    is GenericStatus.Unaunthenticated -> {
-                        toggleBusyDialog(false)
-                    }
-                }
-            }
-        })
-
-    }
-
-    fun getCards(){
-        viewModel.getACards().observe(viewLifecycleOwner, androidx.lifecycle.Observer  {
-            it.let {  res ->
-                when(res){
-
-                    is  GenericStatus.Success ->{
-                        adapter = PaymentAdapter2(this)
-                        binding.recyclerView.adapter = adapter
-                        res.data?.success?.cardData?.let { data ->adapter.submitList(data)  }!!
-                    }
-
-                    is  GenericStatus.Error ->{
-
-                        Toast.makeText(context, res.error?.error?.message ?: "Error in fetching cards", Toast.LENGTH_LONG).show()
-                    }
-
-                    is GenericStatus.Unaunthenticated -> {
-                        toggleBusyDialog(false)
-                    }
-                }
-            }
-        })
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        if (requestCode == RaveConstants.RAVE_REQUEST_CODE && data != null) {
-            val message = data.getStringExtra("response")
-            if (resultCode == RavePayActivity.RESULT_SUCCESS) {
-                addCard(ref)
-            } else if (resultCode == RavePayActivity.RESULT_ERROR) {
-                Toast.makeText(context, "ERROR $message", Toast.LENGTH_SHORT).show()
-            } else if (resultCode == RavePayActivity.RESULT_CANCELLED) {
-                Toast.makeText(context, "CANCELLED $message", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
     private fun toggleBusyDialog(busy: Boolean, desc: String? = null){
         if(busy){
             if(mDialog == null){
@@ -183,9 +194,49 @@ class PaymentsFragment : Fragment(), PaySelected2  {
             mDialog?.dismiss()
         }
     }
+    private fun loadWebView(webUrl: String) {
+        binding.webView.loadUrl(webUrl)
+        binding.webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                val url = request?.url.toString()
+                Log.d("PAYLINK", url)
+                if (url.contains("confirm-payment/", ignoreCase = true)){
+                    viewModel.updateState(confirmLink = url)
+                    viewModel.confirmPayment()
+                    binding.webView.visibility = View.GONE
+                    // Toast.makeText(requireContext(), "Payment successful", Toast.LENGTH_LONG).show()
+                    // activity?.onBackPressed()
+                }
+                return super.shouldOverrideUrlLoading(view, request)
+            }
 
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+            }
+
+            override fun onReceivedError(
+                view: WebView,
+                request: WebResourceRequest,
+                error: WebResourceError
+            ) {
+                super.onReceivedError(view, request, error)
+            }
+        }
+    }
     override fun selected(data: CardData) {
         val action = PaymentsFragmentDirections.actionPaymentsFragmentToCardDetailsFragment(data)
+        findNavController().navigate(action)
+    }
+
+    override fun selectedBank(data: GetBankDatum) {
+        val action = PaymentsFragmentDirections.actionGlobalBankDetailFragment(data)
         findNavController().navigate(action)
     }
 

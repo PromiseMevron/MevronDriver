@@ -44,7 +44,7 @@ class RideActivityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val format: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-       val dFormat  = SimpleDateFormat("MMMM dd");
+       val dFormat  = SimpleDateFormat("MMM dd");
         val calendar = Calendar.getInstance()
         calendar.firstDayOfWeek = Calendar.MONDAY
         calendar[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
@@ -70,6 +70,11 @@ class RideActivityFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.state.collect {
                     adapter.submitList(it.items)
+                    if (it.items.isEmpty()){
+                        binding.emptyData.visibility = View.VISIBLE
+                    }else{
+                        binding.emptyData.visibility = View.GONE
+                    }
                     binding.disaplyDate.text = it.displayDate
                     binding.displayButtton.text = it.displayDate
                     binding.onlineAmountDrive.text = it.data.online

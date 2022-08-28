@@ -13,4 +13,5 @@ interface IPayOutRepository {
     suspend fun bankSpecification(): DomainModel
     suspend fun getCards(): DomainModel
     suspend fun getPaymentLink(data: GetLinkAmount): DomainModel
+   suspend fun confirmPayment(uiid: String): DomainModel
 }

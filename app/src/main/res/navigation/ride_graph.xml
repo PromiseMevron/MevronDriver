@@ -123,7 +123,11 @@
         android:id="@+id/bankDetailFragment"
         tools:layout="@layout/bank_detail_fragment"
         android:name="com.mevron.rides.driver.sidemenu.BankDetailFragment"
-        android:label="BankDetailFragment" />
+        android:label="BankDetailFragment" >
+        <argument
+            android:name="bank"
+            app:argType="com.mevron.rides.driver.cashout.domain.model.GetBankDatum" />
+    </fragment>
     <fragment
         android:id="@+id/addVehicleFragment2"
         tools:layout="@layout/add_vehicle_fragment"
@@ -283,5 +287,6 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_referalDetailFragment" app:destination="@id/referalDetailFragment" />
+    <action android:id="@+id/action_global_bankDetailFragment" app:destination="@id/bankDetailFragment" />
 
 </navigation>

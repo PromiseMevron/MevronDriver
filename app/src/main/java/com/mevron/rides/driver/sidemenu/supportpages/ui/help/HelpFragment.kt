@@ -3,12 +3,17 @@ package com.mevron.rides.driver.sidemenu.supportpages.ui.help
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -39,6 +44,8 @@ class HelpFragment : Fragment() {
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
+
+        loadWebView()
 
         binding.callButton.setOnClickListener {
             makePhoneCall()
@@ -82,6 +89,41 @@ class HelpFragment : Fragment() {
                 Toast.makeText(context, "Permission DENIED", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun loadWebView() {
+        binding.webView.loadUrl("https://mevron.com/driver/support")
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.settings.allowFileAccess = true
+        binding.webView.settings.allowFileAccessFromFileURLs = true
+        binding.webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                val url = request?.url.toString()
+                view?.loadUrl(url)
+                return super.shouldOverrideUrlLoading(view, request)
+            }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+            }
+
+            override fun onReceivedError(
+                view: WebView,
+                request: WebResourceRequest,
+                error: WebResourceError
+            ) {
+                // Toast.makeText(requireContext(), error.description, Toast.LENGTH_LONG).show()
+                super.onReceivedError(view, request, error)
+            }
+        }
+
     }
 
 }

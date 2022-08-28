@@ -317,9 +317,16 @@
             android:layout_marginTop="@dimen/_40sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-
-
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_empty_data"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/top_layer"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:id="@+id/empty_data"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

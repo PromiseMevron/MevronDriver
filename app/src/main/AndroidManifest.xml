@@ -40,11 +40,13 @@
         tools:targetApi="m">
         <activity
             android:name=".IntroActivity"
+            android:screenOrientation="portrait"
             android:exported="true" >
 
         </activity>
         <activity
             android:name=".ride.RideActivity"
+            android:screenOrientation="portrait"
             android:exported="true" >
 
 
@@ -52,6 +54,7 @@
         <activity
             android:name=".auth.AuthActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" >
         </activity>
 
@@ -61,6 +64,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
 
             <intent-filter>

@@ -132,6 +132,9 @@ interface MevronAPI {
     suspend fun deleteCard(@Path("uiid") identifier: String): Response<GeneralResponse>
 
 
+    @DELETE("api/v1/driver/auth/bank/delete/{uiid}")
+    suspend fun deleteBank(@Path("uiid") identifier: String): Response<GeneralResponse>
+
     @POST("api/v1/driver/auth/payment-method/create")
     suspend fun addCard(@Body data: AddCard): Response<GeneralResponse>
 

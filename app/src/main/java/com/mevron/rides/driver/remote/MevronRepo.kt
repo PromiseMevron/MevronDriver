@@ -180,6 +180,10 @@ class MevronRepo @Inject constructor ( private val api: MevronAPI, private val d
         return api.deleteCard(id)
     }
 
+    suspend fun deleteBank(id: String): Response<GeneralResponse> {
+        return api.deleteBank(id)
+    }
+
     suspend fun setPreference(data: PrefrenceData): Response<GeneralResponse> {
         return api.setPreference(data)
     }

@@ -50,6 +50,9 @@ class NotificationFragment : Fragment() {
 
                     if (state.data.isNotEmpty()) {
                         setUpAdapter(state.data)
+                        binding.emptyData.visibility = View.GONE
+                    }else{
+                        binding.emptyData.visibility = View.VISIBLE
                     }
                 }
             }

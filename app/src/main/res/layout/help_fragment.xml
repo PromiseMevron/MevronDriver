@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".settings.HelpFragment">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="#ffffff"
         android:layout_width="match_parent"
@@ -44,10 +43,10 @@
             tools:targetApi="p" />
 
         <WebView
+            android:layout_marginTop="@dimen/_100sdp"
+            android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/text1"/>
-
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/make_default"
         android:layout_marginTop="60dp"
-        android:background="#1F2A2A72"
+        android:background="#2A2A72"
         android:text="@string/submit"
         android:id="@+id/submit_button"
         android:textColor="#9c9c9c"/>

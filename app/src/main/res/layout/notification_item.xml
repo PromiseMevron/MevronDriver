@@ -14,7 +14,7 @@
         <ImageView
             android:layout_width="@dimen/_18sdp"
             android:layout_height="@dimen/_18sdp"
-            tools:src="@drawable/ic_notifi_other"
+            android:src="@drawable/ic_notifi_other"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/_20sdp"
             app:layout_constraintStart_toStartOf="parent"
@@ -24,6 +24,7 @@
             android:layout_width="@dimen/_18sdp"
             android:layout_height="@dimen/_18sdp"
             android:src="@drawable/ic_next"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

@@ -3,401 +3,374 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:background="@color/white"
         android:layout_height="match_parent">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".sidemenu.PaymentsFragment">
-
-    <ImageButton
-        android:layout_width="@dimen/_45sdp"
-        android:layout_height="@dimen/_45sdp"
-        android:backgroundTint="@android:color/transparent"
-        android:id="@+id/back_button"
-        android:src="@drawable/ic_back_button"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/back_button"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/back_button"
-        android:id="@+id/no_method_layout">
-
-        <TextView
-            android:id="@+id/heading"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/add_a_payment_method_to_recieve_payouts"
-            android:fontFamily="@font/poppins_semibold"
-            android:textSize="@dimen/_18ssp"
-            android:gravity="start"
-            android:textFontWeight="600"
-            android:textColor="#383838"
-            android:lineHeight="@dimen/_28sdp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/_34sdp"
-            android:layout_marginStart="@dimen/_14sdp"
-            tools:targetApi="p" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_85sdp"
-            app:layout_constraintTop_toBottomOf="@id/heading"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:id="@+id/add_bank">
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            tools:context=".sidemenu.PaymentsFragment">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_bank_add"
-                android:id="@+id/ic_add_bank"
+            <ImageButton
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:backgroundTint="@android:color/transparent"
+                android:id="@+id/back_button"
+                android:src="@drawable/ic_back_button"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/_14sdp"/>
+                android:contentDescription="@string/back_button"/>
 
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/bank_account"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="@dimen/_13ssp"
-                android:gravity="start"
-                android:textFontWeight="600"
-                app:layout_constraintTop_toTopOf="@id/ic_add_bank"
-                android:textColor="#383838"
-                android:lineHeight="@dimen/_22sdp"
-                app:layout_constraintStart_toEndOf="@id/ic_add_bank"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/_14sdp"
-                tools:targetApi="p" />
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/back_button"
+                android:id="@+id/no_method_layout">
 
-            <TextView
-                android:id="@+id/text1"
-                android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_a_payment_method_to_recieve_payouts"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textSize="@dimen/_18ssp"
+                    android:gravity="start"
+                    android:textFontWeight="600"
+                    android:textColor="#383838"
+                    android:lineHeight="@dimen/_28sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/_34sdp"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    tools:targetApi="p" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_85sdp"
+                    app:layout_constraintTop_toBottomOf="@id/heading"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:id="@+id/add_bank">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_bank_add"
+                        android:id="@+id/ic_add_bank"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="@dimen/_14sdp"/>
+
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bank_account"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="@dimen/_13ssp"
+                        android:gravity="start"
+                        android:textFontWeight="600"
+                        app:layout_constraintTop_toTopOf="@id/ic_add_bank"
+                        android:textColor="#383838"
+                        android:lineHeight="@dimen/_22sdp"
+                        app:layout_constraintStart_toEndOf="@id/ic_add_bank"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        tools:targetApi="p" />
+
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recieve_payout_once_a_week_without_any_fee"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="@dimen/_10ssp"
+                        android:gravity="start"
+                        android:textFontWeight="600"
+                        app:layout_constraintTop_toBottomOf="@id/text"
+                        android:textColor="#383838"
+                        android:lineHeight="@dimen/_22sdp"
+                        app:layout_constraintStart_toEndOf="@id/ic_add_bank"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        tools:targetApi="p" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_85sdp"
+                    app:layout_constraintTop_toBottomOf="@id/add_bank"
+                    android:id="@+id/add_card">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_card_add"
+                        android:id="@+id/ic_card_add"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="@dimen/_14sdp"/>
+
+                    <TextView
+                        android:id="@+id/tex2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/debit_card"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="@dimen/_13ssp"
+                        android:gravity="start"
+                        android:textFontWeight="600"
+                        app:layout_constraintTop_toTopOf="@id/ic_card_add"
+                        android:textColor="#383838"
+                        android:lineHeight="@dimen/_22sdp"
+                        app:layout_constraintStart_toEndOf="@id/ic_card_add"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        tools:targetApi="p" />
+
+                    <TextView
+                        android:id="@+id/text3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recieve_earnings_instantly_with_a_0_50_withdrawal_fee"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="@dimen/_10ssp"
+                        android:gravity="start"
+                        android:textFontWeight="600"
+                        app:layout_constraintTop_toBottomOf="@id/tex2"
+                        android:textColor="#383838"
+                        app:layout_constraintStart_toEndOf="@id/ic_card_add"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        tools:targetApi="p" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/recieve_payout_once_a_week_without_any_fee"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="@dimen/_10ssp"
-                android:gravity="start"
-                android:textFontWeight="600"
-                app:layout_constraintTop_toBottomOf="@id/text"
-                android:textColor="#383838"
-                android:lineHeight="@dimen/_22sdp"
-                app:layout_constraintStart_toEndOf="@id/ic_add_bank"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/_14sdp"
-                tools:targetApi="p" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_85sdp"
-            app:layout_constraintTop_toBottomOf="@id/add_bank"
-            android:id="@+id/add_card">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_card_add"
-                android:id="@+id/ic_card_add"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="@dimen/_14sdp"/>
-
-            <TextView
-                android:id="@+id/tex2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/debit_card"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="@dimen/_13ssp"
-                android:gravity="start"
-                android:textFontWeight="600"
-                app:layout_constraintTop_toTopOf="@id/ic_card_add"
-                android:textColor="#383838"
-                android:lineHeight="@dimen/_22sdp"
-                app:layout_constraintStart_toEndOf="@id/ic_card_add"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/_14sdp"
-                tools:targetApi="p" />
-
-            <TextView
-                android:id="@+id/text3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/recieve_earnings_instantly_with_a_0_50_withdrawal_fee"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="@dimen/_10ssp"
-                android:gravity="start"
-                android:textFontWeight="600"
-                app:layout_constraintTop_toBottomOf="@id/tex2"
-                android:textColor="#383838"
-                app:layout_constraintStart_toEndOf="@id/ic_card_add"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/_14sdp"
-                tools:targetApi="p" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        app:layout_constraintTop_toBottomOf="@id/back_button"
-        android:id="@+id/there_method_layout">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:id="@+id/preferred_methods"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="@dimen/_90sdp">
-
-            <TextView
-                android:id="@+id/heading4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/preferred_payout_method"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="@dimen/_18ssp"
-                android:gravity="start"
-                android:textFontWeight="600"
-                android:textColor="#383838"
-                android:lineHeight="@dimen/_28sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/_34sdp"
-                android:layout_marginStart="@dimen/_14sdp"
-                tools:targetApi="p" />
-
-            <ImageView
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_30sdp"
-                tools:src="@drawable/ic_mastercard"
-                app:layout_constraintTop_toBottomOf="@id/heading4"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/image"
-                android:layout_marginStart="@dimen/_16sdp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ECOBank"
-                android:lineHeight="@dimen/_24sdp"
-                app:layout_constraintStart_toEndOf="@id/image"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="@dimen/_14ssp"
-                android:textColor="#383838"
-                android:textFontWeight="500"
-                android:layout_marginStart="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_14sdp"
-                app:layout_constraintTop_toBottomOf="@id/heading4"
-                android:id="@+id/type_name"
-                tools:targetApi="p" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*****123"
-                app:layout_constraintStart_toEndOf="@id/image"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="@dimen/_10ssp"
-                android:textColor="#666666"
-                android:textFontWeight="500"
-                android:layout_marginStart="@dimen/_16sdp"
-                app:layout_constraintTop_toBottomOf="@id/type_name"
-                android:id="@+id/type_detail"
-                tools:targetApi="p" />
-
-            <ImageView
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:src="@drawable/ic_next"
-                app:layout_constraintTop_toBottomOf="@id/heading4"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/next"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:visibility="visible"
-                android:layout_marginEnd="@dimen/_16sdp"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@id/back_button"
+                android:id="@+id/there_method_layout">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:id="@+id/other_methods"
-            app:layout_constraintTop_toBottomOf="@id/preferred_methods"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/heading3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/other_payment_methods"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="@dimen/_18ssp"
-                android:gravity="start"
-                android:textFontWeight="600"
-                android:layout_marginTop="@dimen/_24sdp"
-                android:textColor="#383838"
-                android:lineHeight="@dimen/_28sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/_34sdp"
-                android:layout_marginStart="@dimen/_14sdp"
-                tools:targetApi="p" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recycler_view"
-                android:layout_marginTop="@dimen/_20sdp"
-                tools:listitem="@layout/pay_type_item"
-                app:layout_constraintTop_toBottomOf="@id/heading3"
-                tools:itemCount="2"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:layout_marginBottom="@dimen/_20sdp"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/heading1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/payment"
-            android:fontFamily="@font/poppins_semibold"
-            android:textSize="@dimen/_18ssp"
-            android:gravity="start"
-            android:textFontWeight="600"
-            android:layout_marginTop="@dimen/_24sdp"
-            android:textColor="#383838"
-            android:lineHeight="@dimen/_28sdp"
-            app:layout_constraintTop_toBottomOf="@id/other_methods"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/_34sdp"
-            android:layout_marginStart="@dimen/_14sdp"
-            tools:targetApi="p" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/heading1"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/heading2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/add_a_new_payment_method"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="@dimen/_15ssp"
-                android:gravity="start"
-                android:textFontWeight="500"
-                android:textColor="#383838"
-                android:lineHeight="@dimen/_28sdp"
-
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/_34sdp"
-                android:layout_marginStart="@dimen/_14sdp"
-                tools:targetApi="p" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_60sdp"
-               app:layout_constraintTop_toBottomOf="@id/heading2"
-                android:id="@+id/add_bank1">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_bank_add"
-                    android:id="@+id/ic_add_bank1"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/preferred_methods"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="@dimen/_14sdp"/>
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/heading4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/preferred_payout_method"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="@dimen/_18ssp"
+                        android:gravity="start"
+                        android:textFontWeight="600"
+                        android:textColor="#383838"
+                        android:lineHeight="@dimen/_28sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="@dimen/_34sdp"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        tools:targetApi="p" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/bank_recycler_view"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        tools:listitem="@layout/bank_items"
+                        app:layout_constraintTop_toBottomOf="@id/heading4"
+                        tools:itemCount="2"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:layout_marginBottom="@dimen/_20sdp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/other_methods"
+                    app:layout_constraintTop_toBottomOf="@id/preferred_methods"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/heading3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/other_payment_methods"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="@dimen/_18ssp"
+                        android:gravity="start"
+                        android:textFontWeight="600"
+                        android:layout_marginTop="@dimen/_24sdp"
+                        android:textColor="#383838"
+                        android:lineHeight="@dimen/_28sdp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="@dimen/_34sdp"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        tools:targetApi="p" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recycler_view"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        tools:listitem="@layout/pay_type_item"
+                        app:layout_constraintTop_toBottomOf="@id/heading3"
+                        tools:itemCount="2"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:layout_marginBottom="@dimen/_20sdp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
-                    android:id="@+id/text11"
+                    android:id="@+id/heading1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/bank_account"
+                    android:text="@string/payment"
                     android:fontFamily="@font/poppins_semibold"
-                    android:textSize="@dimen/_13ssp"
+                    android:textSize="@dimen/_18ssp"
                     android:gravity="start"
                     android:textFontWeight="600"
-                    app:layout_constraintTop_toTopOf="@id/ic_add_bank1"
+                    android:layout_marginTop="@dimen/_24sdp"
                     android:textColor="#383838"
-                    android:lineHeight="@dimen/_22sdp"
-                    app:layout_constraintBottom_toBottomOf="@id/ic_add_bank1"
-                    app:layout_constraintStart_toEndOf="@id/ic_add_bank1"
+                    android:lineHeight="@dimen/_28sdp"
+                    app:layout_constraintTop_toBottomOf="@id/other_methods"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/_34sdp"
                     android:layout_marginStart="@dimen/_14sdp"
                     tools:targetApi="p" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/heading1"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_60sdp"
-                app:layout_constraintTop_toBottomOf="@id/add_bank1"
-                android:id="@+id/add_card1">
+                    <TextView
+                        android:id="@+id/heading2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add_a_new_payment_method"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:textSize="@dimen/_15ssp"
+                        android:gravity="start"
+                        android:textFontWeight="500"
+                        android:textColor="#383838"
+                        android:lineHeight="@dimen/_28sdp"
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_card_add"
-                    android:id="@+id/ic_card_add1"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="@dimen/_14sdp"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="@dimen/_34sdp"
+                        android:layout_marginStart="@dimen/_14sdp"
+                        tools:targetApi="p" />
 
-                <TextView
-                    android:id="@+id/tex21"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/debit_card"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:textSize="@dimen/_13ssp"
-                    android:gravity="start"
-                    android:textFontWeight="600"
-                    app:layout_constraintTop_toTopOf="@id/ic_card_add1"
-                    app:layout_constraintBottom_toBottomOf="@id/ic_card_add1"
-                    android:textColor="#383838"
-                    android:lineHeight="@dimen/_22sdp"
-                    app:layout_constraintStart_toEndOf="@id/ic_card_add1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginStart="@dimen/_14sdp"
-                    tools:targetApi="p" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_60sdp"
+                        app:layout_constraintTop_toBottomOf="@id/heading2"
+                        android:id="@+id/add_bank1">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_bank_add"
+                            android:id="@+id/ic_add_bank1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginStart="@dimen/_14sdp"/>
 
+                        <TextView
+                            android:id="@+id/text11"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/bank_account"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:textSize="@dimen/_13ssp"
+                            android:gravity="start"
+                            android:textFontWeight="600"
+                            app:layout_constraintTop_toTopOf="@id/ic_add_bank1"
+                            android:textColor="#383838"
+                            android:lineHeight="@dimen/_22sdp"
+                            app:layout_constraintBottom_toBottomOf="@id/ic_add_bank1"
+                            app:layout_constraintStart_toEndOf="@id/ic_add_bank1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginStart="@dimen/_14sdp"
+                            tools:targetApi="p" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_60sdp"
+                        app:layout_constraintTop_toBottomOf="@id/add_bank1"
+                        android:id="@+id/add_card1">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_card_add"
+                            android:id="@+id/ic_card_add1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginStart="@dimen/_14sdp"/>
+
+                        <TextView
+                            android:id="@+id/tex21"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/debit_card"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:textSize="@dimen/_13ssp"
+                            android:gravity="start"
+                            android:textFontWeight="600"
+                            app:layout_constraintTop_toTopOf="@id/ic_card_add1"
+                            app:layout_constraintBottom_toBottomOf="@id/ic_card_add1"
+                            android:textColor="#383838"
+                            android:lineHeight="@dimen/_22sdp"
+                            app:layout_constraintStart_toEndOf="@id/ic_card_add1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginStart="@dimen/_14sdp"
+                            tools:targetApi="p" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>\
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/webView"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/_50sdp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>

@@ -6,7 +6,9 @@ import com.mevron.rides.driver.cashout.data.network.PaymentAPI
 import com.mevron.rides.driver.cashout.domain.model.*
 import com.mevron.rides.driver.cashout.domain.repository.IPayOutRepository
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.remote.model.getcard.CardData
 import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
+import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.model.payment.PaymentMethodResponse
 
 class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
 
@@ -76,6 +78,19 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         }
     }
 
+    override suspend fun confirmPayment(uiid: String): DomainModel {
+        return try {
+            val response = api.confirmPayment(uiid.replace("%3F", "?"))
+            if (response.isSuccessful) {
+                DomainModel.Success(data = Unit)
+            } else {
+                DomainModel.Error(Throwable(response.errorBody().toString()))
+            }
+        } catch (error: Throwable) {
+            DomainModel.Error(Throwable("Error adding fund $error"))
+        }
+    }
+
     private fun PaymentDetailsResponse.toDomainModel() = DomainModel.Success(
         data = PaymentDetailsDomainData(
             balance = this.paySuccess.payData.balance,
@@ -107,19 +122,13 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         )
     )
 
-    private fun GetCardResponse.toDomainModel() = DomainModel.Success(
+    private fun PaymentMethodResponse.toDomainModel() = DomainModel.Success(
         data = GetCardData(
-            cardData = this.success.cardData/*.map {
-                GetCardData.GetCardDatum(
-                    bin = it.bin,
-                    brand = it.brand,
-                    expiryMonth = it.expiryMonth,
-                    expiryYear = it.expiryYear,
-                    lastDigits = it.lastDigits,
-                    type = it.type,
-                    uuid = it.uuid
-                )
-            }*/
+            cardData = this.success.data.card.map {
+                CardData(bin = it.bin, brand = it.brand, expiryYear = it.expiryYear, expiryMonth = it.expiryMonth, lastDigits = it.lastDigits, type = it.type, uuid = it.uuid)
+            }, bankData = this.success.data.bank.map {
+                GetBankDatum(account_number = it.account_number, bank_code = it.bank_code, bank_name = it.bank_name, default = it.default == 1, uuid = it.uuid, account_name = it.account_name)
+            }
         )
     )
 

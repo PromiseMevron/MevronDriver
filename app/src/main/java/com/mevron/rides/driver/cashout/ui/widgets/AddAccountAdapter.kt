@@ -46,7 +46,7 @@ class AddAccountAdapter(val param: AccountFieldFilled):
     override fun onBindViewHolder(holder: AddAccountHolder, position: Int) {
         val item = getItem(position)
         holder.binding.holderTitle.text = item.title
-        holder.binding.holderField
+      //  holder.binding.holderField
         holder.binding.holderField.setOnFocusChangeListener { _, b ->
             val value = holder.binding.holderField.text.toString().trim()
             if (!b){

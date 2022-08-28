@@ -25,7 +25,8 @@ class BalanceViewModel @Inject constructor(
     private val useCase: GetWalletDetailsUseCase,
     private val cashOutUseCase: CashOutUseCase,
     private val addFundUseCase: AddFundUseCase,
-    private val getCardsUseCase: GetCardsUseCase
+    private val getCardsUseCase: GetCardsUseCase,
+    private val confirmUseCase: ConfirmPaymentUseCase
 ) :
     ViewModel() {
 
@@ -294,6 +295,21 @@ class BalanceViewModel @Inject constructor(
         return ""
     }
 
+    fun confirmPayment() {
+        val uuid = mutableState.value.confirmLink
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = confirmUseCase(uuid)) {
+                else -> {
+                    updateState(
+                        loading = false,
+                        error = "",
+                        successFund = true
+                    )
+                }
+            }
+        }
+    }
+
     fun updateState(
         loading: Boolean? = null,
         errorMessage: String? = null,
@@ -310,7 +326,8 @@ class BalanceViewModel @Inject constructor(
         error: String? = null,
         payLink: String? = null,
         addCard: Boolean? = null,
-        shouldGoBack: Boolean? = null
+        shouldGoBack: Boolean? = null,
+        confirmLink: String? = null,
     ) {
         val currentState = mutableState.value
         val addFundState = addFundMutableState.value
@@ -331,7 +348,8 @@ class BalanceViewModel @Inject constructor(
                 errorLink = error ?: currentState.errorLink,
                 payLink = payLink ?: currentState.payLink,
                 addCard = addCard ?: currentState.addCard,
-                shouldGoBack = shouldGoBack ?: currentState.shouldGoBack
+                shouldGoBack = shouldGoBack ?: currentState.shouldGoBack,
+                confirmLink = confirmLink ?: currentState.confirmLink
             )
         }
         addFundMutableState.update {

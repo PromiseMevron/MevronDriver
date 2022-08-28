@@ -22,14 +22,14 @@ class GetTripsRepository(private val api: TripsAPI) : IGetTripsRepository {
 
 
     private fun AllTripsResponse.toDomainModel() = DomainModel.Success(
-        data = this.success.allTripsData.apply {
+        data = this.success.allTripsData.let {it1 ->
             GetTripDomainData(
-                amount = "${this.currency}${this.earning}",
-                endDate = endDate,
-                online = online,
-                rides = rides,
-                startDate = startDate,
-                results = results.map {
+                amount = "${it1.currency}${it1.earning}",
+                endDate = it1.endDate,
+                online = it1.online,
+                rides = it1.rides,
+                startDate = it1.startDate,
+                results = it1.results.map {it ->
                     AllTripsResult(
                         amount = it.amount,
                         time = it.time,
