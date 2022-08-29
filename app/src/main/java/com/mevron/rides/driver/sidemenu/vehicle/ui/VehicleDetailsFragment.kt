@@ -51,6 +51,8 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
+        val id = arguments?.let { VehicleDetailsFragmentArgs.fromBundle(it)}?.id
+        viewModel.updateState(uuid = id)
         viewModel.onEvent(VehicleEvent.MakeAPICallDetails)
         adapter = VehicleDetailAdapter(this, requireContext())
         binding.documentRecycler.adapter = adapter
@@ -87,7 +89,7 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
     }
 
     private fun topBackgroundImage(state: VehicleState) {
-        if (state.detail.image.isNotEmpty()) {
+        if (!state.detail.image.isNullOrEmpty()) {
             Picasso.get().load(state.detail.image).placeholder(R.drawable.ic_car)
                 .error(R.drawable.ic_car).into(binding.carImage)
             Picasso.get().load(state.detail.image).placeholder(R.drawable.ic_car)

@@ -91,6 +91,52 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         }
     }
 
+    override suspend fun addNigBanks(data: AddAccountPayload): DomainModel {
+        return try {
+            val response = api.addNigBanks(data)
+            if (response.isSuccessful) {
+                DomainModel.Success(data = Unit)
+            } else {
+                DomainModel.Error(Throwable(response.errorBody().toString()))
+            }
+        } catch (error: Throwable) {
+            DomainModel.Error(Throwable("Error adding bank $error"))
+        }
+    }
+
+    override suspend fun resolveASccountNumber(data: AddAccountPayload): DomainModel {
+        return try {
+            val response = api.resolveASccountNumber(data)
+            if (response.isSuccessful) {
+                DomainModel.Success(data = response.body()?.data?.let {
+                    ResolveBankDomainData(account_name = it.account_name, account_number = it.account_number)
+                } ?: ResolveBankDomainData("", ""))
+            } else {
+                DomainModel.Error(Throwable(response.errorBody().toString()))
+            }
+        } catch (error: Throwable) {
+            DomainModel.Error(Throwable("Error adding bank $error"))
+        }
+    }
+
+    override suspend fun getBankList(): DomainModel {
+        return try {
+            val response = api.getBankList()
+            if (response.isSuccessful) {
+                DomainModel.Success(data = response.body()?.data?.let {
+                    BankListDomainData(bankData = it.map {it2 ->
+                        BankList(code = it2.code, name = it2.name)
+                    })
+
+                } ?: ResolveBankDomainData("Not Found", ""))
+            } else {
+                DomainModel.Error(Throwable(response.errorBody().toString()))
+            }
+        } catch (error: Throwable) {
+            DomainModel.Error(Throwable("Error adding bank $error"))
+        }
+    }
+
     private fun PaymentDetailsResponse.toDomainModel() = DomainModel.Success(
         data = PaymentDetailsDomainData(
             balance = this.paySuccess.payData.balance,

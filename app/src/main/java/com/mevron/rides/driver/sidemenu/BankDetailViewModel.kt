@@ -14,22 +14,54 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BankDetailViewModel @Inject constructor (private val repository: MevronRepo)  : ViewModel() {
+class BankDetailViewModel @Inject constructor(private val repository: MevronRepo) : ViewModel() {
 
     fun deleteBank(id: String): LiveData<GenericStatus<GeneralResponse>> {
 
         val result = MutableLiveData<GenericStatus<GeneralResponse>>()
 
         CoroutineScope(Dispatchers.IO).launch {
-            try{
+            try {
                 val response = repository.deleteBank(id)
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     result.postValue(GenericStatus.Success(response.body()))
+                } else {
+                    result.postValue(
+                        GenericStatus.Error(
+                            HTTPErrorHandler.handleErrorWithCode(
+                                response
+                            )
+                        )
+                    )
                 }
-                else{
-                    result.postValue(GenericStatus.Error(HTTPErrorHandler.handleErrorWithCode(response)))
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                result.postValue(GenericStatus.Error(HTTPErrorHandler.httpFailWithCode(ex)))
+            }
+        }
+        return result
+
+    }
+
+    fun updateBank(id: String): LiveData<GenericStatus<GeneralResponse>> {
+
+        val result = MutableLiveData<GenericStatus<GeneralResponse>>()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = repository.updateBank(id)
+                if (response.isSuccessful) {
+                    result.postValue(GenericStatus.Success(response.body()))
+                } else {
+                    result.postValue(
+                        GenericStatus.Error(
+                            HTTPErrorHandler.handleErrorWithCode(
+                                response
+                            )
+                        )
+                    )
                 }
-            }catch (ex: Exception){
+            } catch (ex: Exception) {
                 ex.printStackTrace()
                 result.postValue(GenericStatus.Error(HTTPErrorHandler.httpFailWithCode(ex)))
             }

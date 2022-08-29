@@ -64,7 +64,8 @@ class VehicleFragment : Fragment(), SelectVehicle {
 
     override fun selectVehicle(uuid: String) {
         viewModel.updateState(uuid = uuid)
-        findNavController().navigate(R.id.action_vehicleFragment_to_vehicleDetailsFragment)
+        val action = VehicleFragmentDirections.actionVehicleFragmentToVehicleDetailsFragment(uuid)
+        findNavController().navigate(action)
     }
 
 

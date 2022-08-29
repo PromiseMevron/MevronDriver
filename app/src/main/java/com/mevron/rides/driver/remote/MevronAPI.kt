@@ -22,6 +22,7 @@ import com.mevron.rides.driver.sidemenu.supportpages.data.model.NotificationResp
 import com.mevron.rides.driver.sidemenu.emerg.data.model.UpdateEmergencyContact
 import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.GetPrefrenceModel
 import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.PrefrenceData
+import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.SetDataActive
 
 import com.mevron.rides.driver.updateprofile.domain.model.AddVehicleRequest
 import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
@@ -131,9 +132,11 @@ interface MevronAPI {
     @DELETE("api/v1/driver/auth/payment-method/{uiid}/remove")
     suspend fun deleteCard(@Path("uiid") identifier: String): Response<GeneralResponse>
 
-
-    @DELETE("api/v1/driver/auth/bank/delete/{uiid}")
+    @DELETE("api/v1/driver/auth/bank-account/delete/{uiid}")
     suspend fun deleteBank(@Path("uiid") identifier: String): Response<GeneralResponse>
+
+    @POST("api/v1/driver/auth/bank-account/update/{uiid}")
+    suspend fun updateBank(@Path("uiid") identifier: String, @Body status: SetDataActive): Response<GeneralResponse>
 
     @POST("api/v1/driver/auth/payment-method/create")
     suspend fun addCard(@Body data: AddCard): Response<GeneralResponse>

@@ -37,7 +37,6 @@ import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
-
 @AndroidEntryPoint
 class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
 
@@ -172,6 +171,10 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
 
         binding.addCard1.setOnClickListener {
             viewModel.getPayLink()
+        }
+
+        binding.addBank1.setOnClickListener {
+            findNavController().navigate(R.id.action_global_addAccountFragment)
         }
 
 

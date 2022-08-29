@@ -186,6 +186,9 @@
         <action
             android:id="@+id/action_vehicleDetailsFragment_to_vehicleImagesFragment"
             app:destination="@id/vehicleImagesFragment" />
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/vehicleFragment"
@@ -288,5 +291,10 @@
     </fragment>
     <action android:id="@+id/action_global_referalDetailFragment" app:destination="@id/referalDetailFragment" />
     <action android:id="@+id/action_global_bankDetailFragment" app:destination="@id/bankDetailFragment" />
+    <fragment
+        android:id="@+id/addAccountFragment"
+        tools:layout="@layout/add_account_fragment"
+        android:name="com.mevron.rides.driver.cashout.ui.AddAccountFragment"
+        android:label="AddAccountFragment" /><action android:id="@+id/action_global_addAccountFragment" app:destination="@id/addAccountFragment"/>
 
 </navigation>

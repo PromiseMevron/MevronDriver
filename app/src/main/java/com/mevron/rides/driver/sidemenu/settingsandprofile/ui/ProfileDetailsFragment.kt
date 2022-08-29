@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.ProfileDetailsFragmentBinding
+import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.event.SettingsProfileEvent
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -50,6 +51,7 @@ class ProfileDetailsFragment : Fragment() {
         binding.seeAllReview.setOnClickListener {
             findNavController().navigate(R.id.action_profileDetailsFragment_to_allReviewFragment)
         }
+        viewModel.handleEvent(SettingsProfileEvent.FetchFromApi)
 
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -77,7 +79,7 @@ class ProfileDetailsFragment : Fragment() {
                             binding.text6.visibility = View.VISIBLE
                         }
                         if (!this.profilePicture.isNullOrEmpty())
-                            Picasso.get().load(this.profilePicture).centerCrop()
+                            Picasso.get().load(this.profilePicture)
                                 .into(binding.profileImage)
                     }
                     if (state.error.isNotEmpty()) {

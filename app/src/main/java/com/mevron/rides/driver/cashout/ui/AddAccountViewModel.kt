@@ -2,26 +2,27 @@ package com.mevron.rides.driver.cashout.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mevron.rides.driver.cashout.data.model.AddAccountPayload
 import com.mevron.rides.driver.cashout.data.model.AddBankAccountSpecification
 import com.mevron.rides.driver.cashout.data.model.BankInfo
 import com.mevron.rides.driver.cashout.data.model.BankRawInfo
-import com.mevron.rides.driver.cashout.domain.model.AddAccount
-import com.mevron.rides.driver.cashout.domain.model.AddAccountDomainData
-import com.mevron.rides.driver.cashout.domain.model.PaymentDomainData
-import com.mevron.rides.driver.cashout.domain.usecase.AddBankAccountUseCase
-import com.mevron.rides.driver.cashout.domain.usecase.GetBankSpecificationUseCase
+import com.mevron.rides.driver.cashout.domain.model.*
+import com.mevron.rides.driver.cashout.domain.usecase.*
 import com.mevron.rides.driver.cashout.ui.event.AddAccountEvent
 import com.mevron.rides.driver.cashout.ui.state.AddAccountState
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class AddAccountViewModel @Inject constructor(
-    private val useCase: AddBankAccountUseCase, private val getUseCase: GetBankSpecificationUseCase
+    private val useCase: AddBankAccountUseCase, private val getUseCase: GetBankSpecificationUseCase,
+    private val bankListUseCase: GetBankListUseCase,  private val resolveUseCase: ResolveAcountNumberUseCase, private val addBankUseCase: AddBankUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<AddAccountState> =
@@ -77,6 +78,75 @@ class AddAccountViewModel @Inject constructor(
         }
     }
 
+    fun getBankList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = bankListUseCase()) {
+                is DomainModel.Success -> {
+                    val data = result.data as BankListDomainData
+                    updateState(
+                        loading = false,
+                        bankList = data.bankData
+                    )
+                }
+                is DomainModel.Error -> mutableState.update {
+                    mutableState.value.copy(
+                        loading = false,
+                        getSuccess = false,
+                        errorMessage = "Failure to get requires account details"
+                    )
+                }
+            }
+        }
+    }
+
+    fun resolveAccount() {
+        val accountNumber = mutableState.value.accountNumber
+        val bankCode = mutableState.value.bankCode
+        val bankName = mutableState.value.bankName
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = resolveUseCase(AddAccountPayload(account_number = accountNumber, account_bank = bankCode))) {
+                is DomainModel.Success -> {
+                    val data = result.data as ResolveBankDomainData
+                    updateState(
+                        loading = false,
+                        customerName = data.account_name
+                    )
+                }
+                is DomainModel.Error -> mutableState.update {
+                    mutableState.value.copy(
+                        loading = false,
+                        getSuccess = false,
+                        errorMessage = "Failure to get requires account details"
+                    )
+                }
+            }
+        }
+    }
+
+    fun addNewAccount() {
+        val accountNumber = mutableState.value.accountNumber
+        val bankCode = mutableState.value.bankCode
+        val bankName = mutableState.value.bankName
+        val accountName = mutableState.value.customerName
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = addBankUseCase(AddAccountPayload(account_number = accountNumber, bank_code = bankCode, account_name = accountName, bank_name = bankName))) {
+                is DomainModel.Success -> {
+                    updateState(
+                        loading = false,
+                        postSuccess = true
+                    )
+                }
+                is DomainModel.Error -> mutableState.update {
+                    mutableState.value.copy(
+                        loading = false,
+                        getSuccess = false,
+                        errorMessage = "Failure to get requires account details"
+                    )
+                }
+            }
+        }
+    }
+
     fun onEvent(event: AddAccountEvent) {
         when (event) {
             is AddAccountEvent.OnContinueClick -> {
@@ -100,7 +170,12 @@ class AddAccountViewModel @Inject constructor(
         updateRecord: Boolean? = null,
         isDefault: Int? = null,
         data: BankRawInfo? = null,
-        setUpData: List<AddAccount>? = null
+        setUpData: List<AddAccount>? = null,
+        customerName: String? = null,
+        accountNumber: String? = null,
+        bankName: String? = null,
+        bankCode: String? = null,
+        bankList: List<BankList>? = null
     ) {
         val currentState = mutableState.value
         var theData: MutableList<BankInfo> = arrayListOf()
@@ -138,6 +213,11 @@ class AddAccountViewModel @Inject constructor(
                 isDefault = isDefault ?: currentState.isDefault,
                 data = theData,
                 setUpData = setUpData ?: currentState.setUpData,
+                customerName = customerName ?: currentState.customerName,
+                accountNumber = accountNumber ?: currentState.accountNumber,
+                bankCode = bankCode ?: currentState.bankCode,
+                bankName = bankName ?: currentState.bankName,
+                bankList = bankList ?: currentState.bankList
             )
         }
     }

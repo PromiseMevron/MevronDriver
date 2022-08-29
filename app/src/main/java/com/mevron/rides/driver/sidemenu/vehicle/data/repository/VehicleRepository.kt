@@ -43,7 +43,7 @@ class VehicleRepository(private val api: VehicleApi) : IVehicleRepository {
             AllVehicleDomainDatum(
                 it.color,
                 it.id,
-                it.image,
+                it.image ?: "",
                 it.make,
                 it.model,
                 it.plateNumber,

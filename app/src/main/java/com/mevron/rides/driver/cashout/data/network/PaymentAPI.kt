@@ -2,6 +2,8 @@ package com.mevron.rides.driver.cashout.data.network
 
 import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.cashout.data.model.*
+import com.mevron.rides.driver.cashout.data.model.banklist.BnakListResponse
+import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.model.payment.PaymentMethodResponse
 import retrofit2.Response
@@ -35,4 +37,13 @@ interface PaymentAPI {
 
     @GET
     suspend fun confirmPayment(@Url theUrl: String): Response<GeneralResponse>
+
+    @POST("api/v1/driver/auth/bank-account/create")
+    suspend fun addNigBanks(@Body data: AddAccountPayload): Response<GeneralResponse>
+
+    @POST("api/v1/driver/auth/bank/resolve-account")
+    suspend fun resolveASccountNumber(@Body data: AddAccountPayload): Response<ResolveAccount>
+
+    @GET("api/v1/driver/auth/bank/list")
+    suspend fun getBankList(): Response<BnakListResponse>
 }

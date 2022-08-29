@@ -1,5 +1,6 @@
 package com.mevron.rides.driver.cashout.domain.repository
 
+import com.mevron.rides.driver.cashout.data.model.AddAccountPayload
 import com.mevron.rides.driver.cashout.data.model.AddBankAccountSpecification
 import com.mevron.rides.driver.cashout.data.model.CashActionData
 import com.mevron.rides.driver.cashout.data.model.GetLinkAmount
@@ -14,4 +15,7 @@ interface IPayOutRepository {
     suspend fun getCards(): DomainModel
     suspend fun getPaymentLink(data: GetLinkAmount): DomainModel
    suspend fun confirmPayment(uiid: String): DomainModel
+    suspend fun addNigBanks(data: AddAccountPayload): DomainModel
+    suspend fun resolveASccountNumber(data: AddAccountPayload): DomainModel
+    suspend fun getBankList(): DomainModel
 }

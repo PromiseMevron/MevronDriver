@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
 <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".cashout.ui.AddAccountFragment">
 
     <ImageButton
@@ -40,25 +40,198 @@
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/add_a_bank_account" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/add_account_item"
-        tools:itemCount="5"
-        android:id="@+id/recycler_view"
+        android:id="@+id/account_number_layout"
         app:layout_constraintTop_toBottomOf="@id/back_button"
         android:layout_marginTop="24dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/holder_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:lineHeight="56dp"
+            android:textAlignment="center"
+            android:textColor="@color/grey_3"
+            android:textFontWeight="600"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/guideline11"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="p"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/account_number" />
+
+        <EditText
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/holder_title"
+            android:layout_width="0dp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:layout_marginTop="4dp"
+            android:layout_height="52dp"
+            android:imeOptions="actionNext"
+            android:layout_weight="2"
+            android:id="@+id/holder_field"
+            android:hint=""
+            android:focusableInTouchMode="true"
+            android:descendantFocusability="beforeDescendants"
+            android:background="@drawable/rounded_corner_field"
+            app:layout_constraintStart_toEndOf="@+id/guideline11"
+            app:layout_constraintEnd_toStartOf="@+id/guideline22"
+            android:textColor="#383838"
+            android:inputType="number"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03333" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96667" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/bank_name_layout"
+        app:layout_constraintTop_toBottomOf="@id/account_number_layout"
+        android:layout_marginTop="24dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/holder_title2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:lineHeight="56dp"
+            android:textAlignment="center"
+            android:textColor="@color/grey_3"
+            android:textFontWeight="600"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/guideline12"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="p"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/bank_name" />
+
+        <EditText
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/holder_title2"
+            android:layout_width="0dp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:layout_marginTop="4dp"
+            android:layout_height="52dp"
+            android:focusableInTouchMode="false"
+            android:imeOptions="actionDone"
+            android:layout_weight="2"
+            android:id="@+id/holder_field2"
+            android:hint=""
+            android:descendantFocusability="beforeDescendants"
+            android:background="@drawable/rounded_corner_field"
+            app:layout_constraintStart_toEndOf="@+id/guideline12"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            android:textColor="#383838"
+            android:inputType="none"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03333" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96667" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/account_name_layout"
+        app:layout_constraintTop_toBottomOf="@id/bank_name_layout"
+        android:layout_marginTop="24dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/holder_title3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:lineHeight="56dp"
+            android:textAlignment="center"
+            android:textColor="@color/grey_3"
+            android:textFontWeight="600"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/guideline13"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="p"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/account_holder_name" />
+
+        <EditText
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/holder_title3"
+            android:layout_width="0dp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:layout_marginTop="4dp"
+            android:layout_height="52dp"
+            android:layout_weight="2"
+            android:id="@+id/holder_field3"
+            android:imeOptions="actionDone"
+            android:hint=""
+            android:focusableInTouchMode="false"
+            android:descendantFocusability="beforeDescendants"
+            android:background="@drawable/rounded_corner_field"
+            app:layout_constraintStart_toEndOf="@+id/guideline13"
+            app:layout_constraintEnd_toStartOf="@+id/guideline24"
+            android:textColor="#383838"
+            android:inputType="none"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03333" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.96667" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view"
+        app:layout_constraintBottom_toTopOf="@id/submit_button"
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toEndOf="@+id/guideline1"
         android:textColor="@color/grey_3"
         android:checked="false"
+        android:visibility="gone"
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/set_as_default_method_to_receive_payouts"
         android:id="@+id/make_default"/>
@@ -68,10 +241,12 @@
         android:layout_height="56dp"
         app:layout_constraintStart_toEndOf="@+id/guideline1"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@id/make_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/_20sdp"
         android:layout_marginTop="60dp"
         android:background="#2A2A72"
         android:text="@string/submit"
+        android:enabled="true"
         android:id="@+id/submit_button"
         android:textColor="#9c9c9c"/>
 
@@ -96,7 +271,55 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.96667" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#33000000"
+        android:visibility="gone"
+        android:id="@+id/banklist_layout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/banks_recycler"
+            android:background="@color/white"
+            tools:listitem="@layout/bank_list_item"
+            app:layout_constraintStart_toStartOf="@id/guideline_banks2"
+            app:layout_constraintEnd_toEndOf="@id/guideline_banks1"
+            app:layout_constraintTop_toTopOf="@id/guideline_banks4"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_banks3"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_banks1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_banks2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_banks3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_banks4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.15" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+
 </layout>

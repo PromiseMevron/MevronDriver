@@ -49,9 +49,16 @@ class BankDetailFragment : Fragment() {
         binding.bankNameDetail.text = banks.bank_name
         binding.accountNumberDetail.text = banks.account_number
         binding.defaultPayment.isChecked = banks.default
+        binding.defaultPayment.isEnabled = !banks.default
 
         binding.removeBank.setOnClickListener {
             deleteBank()
+        }
+
+        binding.defaultPayment.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked){
+                updateBank()
+            }
         }
     }
 
@@ -64,6 +71,32 @@ class BankDetailFragment : Fragment() {
                     is  GenericStatus.Success ->{
                         toggleBusyDialog(false)
                         Toast.makeText(context, "Bank Deleted Successfully", Toast.LENGTH_LONG).show()
+                        activity?.onBackPressed()
+                    }
+
+                    is  GenericStatus.Error ->{
+                        toggleBusyDialog(false)
+
+                        Toast.makeText(context, res.error?.error?.message, Toast.LENGTH_LONG).show()
+                    }
+
+                    is GenericStatus.Unaunthenticated -> {
+                        toggleBusyDialog(false)
+                    }
+                }
+            }
+        })
+    }
+
+    fun updateBank(){
+        toggleBusyDialog(true, "Updating Account Status")
+        viewModel.updateBank(banks.uuid).observe(viewLifecycleOwner, androidx.lifecycle.Observer  {
+            it.let {  res ->
+                when(res){
+
+                    is  GenericStatus.Success ->{
+                        toggleBusyDialog(false)
+                        Toast.makeText(context, "Bank Updated Successfully", Toast.LENGTH_LONG).show()
                         activity?.onBackPressed()
                     }
 

@@ -10,5 +10,5 @@ data class VehicleDetailData(
     val make: String,
     val model: String,
     val plateNumber: String,
-    val year: String
+    val year: String,
 )
