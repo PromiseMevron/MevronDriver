@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.mevron.rides.driver.authentication.domain.usecase.GetSharedPreferenceUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.GetSurgeUseCase
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.home.data.model.home.DeviceID
 import com.mevron.rides.driver.home.domain.model.HomeScreenDomainModel
 import com.mevron.rides.driver.home.domain.model.MapTripState
+import com.mevron.rides.driver.home.domain.usecase.FCMTokenUseCase
 import com.mevron.rides.driver.home.domain.usecase.GetDocumentStatusUseCase
 import com.mevron.rides.driver.home.domain.usecase.GetMapTripStateUseCase
 import com.mevron.rides.driver.home.domain.usecase.ToggleOnlineStatusUseCase
@@ -18,6 +20,7 @@ import com.mevron.rides.driver.home.ui.state.HomeViewState
 import com.mevron.rides.driver.home.ui.state.transform
 import com.mevron.rides.driver.remote.TripManagementModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,7 +36,8 @@ class HomeViewModel @Inject constructor(
     private val getMapStateUseCase: GetMapTripStateUseCase,
     private val tripManageUseCase: TripManagementActionUseCase,
     private val preferenceUseCase: GetSharedPreferenceUseCase,
-    private val getSurgeUseCase: GetSurgeUseCase
+    private val getSurgeUseCase: GetSurgeUseCase,
+    private val fcmTokenUseCase: FCMTokenUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<HomeViewState> =
@@ -279,6 +283,44 @@ class HomeViewModel @Inject constructor(
 
     fun updateStatusLoading(){
         mutableState.update { it.transform(getStatus = false) }
+    }
+
+    fun updateToken(id: String) {
+
+        mutableState.update {
+            it.transform(
+                deviceID = id
+            )
+        }
+        if (mutableState.value.deviceID.isEmpty()) {
+            return
+        }
+        val theId = mutableState.value.deviceID
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = fcmTokenUseCase(DeviceID(device_id = theId))
+
+                if (result is DomainModel.Success) {
+                    mutableState.update {
+                        it.transform(
+                            tokenSuccessful = true
+                        )
+                    }
+                } else {
+                    mutableState.update {
+                        it.transform(
+                            tokenSuccessful = true
+                        )
+                    }
+                }
+            } catch (ex: Exception) {
+                mutableState.update {
+                    it.transform(
+                        tokenSuccessful = true
+                    )
+                }
+            }
+        }
     }
 
 }

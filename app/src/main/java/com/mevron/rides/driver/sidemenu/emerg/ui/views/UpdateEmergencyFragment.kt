@@ -81,7 +81,7 @@ class UpdateEmergencyFragment : Fragment() {
         binding.night.setOnClickListener {
             viewModel.updateState(time = 2)
             night = !night
-            if (before) {
+            if (night) {
                 binding.night.setBackgroundResource(R.drawable.rounded_border_colored)
                 binding.night.setTextColor(resources.getColor(R.color.primary))
             } else {
@@ -93,7 +93,7 @@ class UpdateEmergencyFragment : Fragment() {
         binding.manual.setOnClickListener {
             viewModel.updateState(time = 3)
             manual = !manual
-            if (before) {
+            if (manual) {
                 binding.manual.setBackgroundResource(R.drawable.rounded_border_colored)
                 binding.manual.setTextColor(resources.getColor(R.color.primary))
             } else {

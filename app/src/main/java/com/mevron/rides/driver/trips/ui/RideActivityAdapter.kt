@@ -57,7 +57,7 @@ class RideActivityAdapter() :
         holder.binding.date.text = getItem(position).date
         var amount = 0
         for (i in getItem(position).items) {
-            amount += (i.amount).toInt()
+            amount += ((i.amount).toDoubleOrNull() ?: 0.0).toInt()
         }
         holder.binding.amount.text = amount.toString()
     }

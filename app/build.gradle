@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 
 }
 
@@ -168,6 +169,13 @@ dependencies {
     implementation 'com.google.mlkit:face-detection:16.1.5'
     //implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.0.0'
     implementation("com.google.guava:guava:31.0.1-android")
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:30.3.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.1.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.7'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.12'
+    implementation 'com.google.firebase:firebase-appdistribution-api-ktx:16.0.0-beta03'
 
     //pallet
    // implementation("androidx.palette:palette com.android.support:palette-v7")

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
          * ","type":"account","uuid":""
          */
         val editor = sPref.edit()
-        editor.putString(Constants.TOKEN, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksInV1aWQiOiI0YjZjNzRlOC1mMTM1LTQyNmQtYmQwNi00ZTRkY2E3MGVhZTQiLCJ0eXBlIjoiZHJpdmVyIiwiaWF0IjoxNjU3ODg2MjA4fQ.G1P93LchZq5o6NdnqK9k9UO7sh-ToU-JpfUTHoFs-TM")
+        editor.putString(Constants.TOKEN, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksInV1aWQiOiI0YjZjNzRlOC1mMTM1LTQyNmQtYmQwNi00ZTRkY2E3MGVhZTQiLCJ0eXBlIjoiZHJpdmVyIiwiaWF0IjoxNjYxNzY4Mjg5fQ.6jnb4SZuBSsKOOrm5pL_6csOYJ2S5QhEIUKGbzMTFzE")
         editor.putString(Constants.UUID, "4b6c74e8-f135-426d-bd06-4e4dca70eae4")
         editor.apply()
       //  SocketHandler.setSocket("", "", "")

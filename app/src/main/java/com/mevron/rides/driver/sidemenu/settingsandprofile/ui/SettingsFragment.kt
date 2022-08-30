@@ -77,7 +77,7 @@ class SettingsFragment : Fragment() {
                     )*/
 
                     if (state.signOutSuccess){
-                        context?.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)?.edit()?.clear()?.commit()
+                        context?.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)?.edit()?.clear()?.apply()
                         startActivity(Intent(requireActivity(), MainActivity::class.java))
                         activity?.finishAffinity()
                     }

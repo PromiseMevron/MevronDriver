@@ -802,7 +802,7 @@ class MapBoxMapView @JvmOverloads constructor(
         approachPassengerWidget = findViewById(R.id.approachPassengerWidget)
         paymentAndRatingWidget = findViewById(R.id.paymentWidget)
         ratingRiderWidget = findViewById(R.id.ratingWidget)
-
+      //  placeFocusOnMe()
         // TODO setup listeners and callbacks for widgets
 
         // initialize view interactions
@@ -819,6 +819,7 @@ class MapBoxMapView @JvmOverloads constructor(
         mapView?.compass?.updateSettings { enabled = false }
 
         soundButton?.unmute()
+       // placeFocusOnMe()
     }
 
     private fun placeFocusOnMe() {

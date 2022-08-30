@@ -326,7 +326,7 @@
     <string name="long_distance_trips">Long Distance Trips</string>
     <string name="show_trips_which_will_be_more_than_45min">Show trips which will be more than 45min</string>
     <string name="save">Save</string>
-    <string name="help_amp_support"><![CDATA[Help & Support]]></string>
+    <string name="help_amp_support">Support</string>
 
     <string name="keep_your_friends_and_family_informed_by_sharing_your_trip_status">Keep your friends and family informed, by sharing your trip status.</string>
     <string name="add_contacts">Add Contacts</string>

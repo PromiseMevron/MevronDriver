@@ -76,6 +76,7 @@ class SettingsViewModel @Inject constructor(
                     mutableState.value.copy(
                         isLoading = false,
                         isSuccess = false,
+                        signOutSuccess = false,
                         error = "Error in signing out"
                     )
                 }

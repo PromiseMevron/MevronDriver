@@ -1,5 +1,6 @@
 package com.mevron.rides.driver.cashout.ui
 
+import android.app.Dialog
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +25,7 @@ import com.mevron.rides.driver.remote.model.getcard.CardData
 import com.mevron.rides.driver.ride.RideRequestFragmentArgs
 import com.mevron.rides.driver.sidemenu.PaySelected2
 import com.mevron.rides.driver.sidemenu.PaymentAdapter2
+import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -32,6 +34,7 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
     private lateinit var binding: CashOutCardsLayoutFragmentBinding
     private val viewModel: BalanceViewModel by viewModels()
     private lateinit var adapter: PaymentAdapter2
+    private var mDialog: Dialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +74,11 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
                             binding.webView.visibility = View.GONE
                         }
                     }
+
+                    toggleBusyDialog(
+                        state.loading,
+                        desc = if (state.loading) "Processing..." else null
+                    )
 
                     if (state.cardData.isNotEmpty()){
                         Log.d("THE CARDS ARE", "THE CARDS ARE ${state.cardData}")
@@ -163,6 +171,27 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
             }
         }
     }
+
+
+    private fun toggleBusyDialog(busy: Boolean, desc: String? = null) {
+        if (busy) {
+            if (mDialog == null) {
+                val view = LayoutInflater.from(requireContext())
+                    .inflate(R.layout.dialog_busy_layout, null)
+                mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
+            } else {
+                if (!desc.isNullOrBlank()) {
+                    val view = LayoutInflater.from(requireContext())
+                        .inflate(R.layout.dialog_busy_layout, null)
+                    mDialog = LauncherUtil.showPopUp(requireContext(), view, desc)
+                }
+            }
+            mDialog?.show()
+        } else {
+            mDialog?.dismiss()
+        }
+    }
+
 
     override fun selected(data: CardData) {
         viewModel.updateState(cardNumber = data.uuid)

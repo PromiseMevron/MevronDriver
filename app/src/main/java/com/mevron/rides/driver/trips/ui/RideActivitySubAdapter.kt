@@ -29,7 +29,7 @@ class RideActivitySubAdapter() : ListAdapter<Trip, VehiHolder>(
         val data = getItem(position)
         holder.binding.amount.text = data.amount
         holder.binding.time.text = data.time
-        holder.binding.location.text = ""
+        holder.binding.location.text = data.name
     }
 }
 

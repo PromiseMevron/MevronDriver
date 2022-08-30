@@ -296,5 +296,25 @@
         tools:layout="@layout/add_account_fragment"
         android:name="com.mevron.rides.driver.cashout.ui.AddAccountFragment"
         android:label="AddAccountFragment" /><action android:id="@+id/action_global_addAccountFragment" app:destination="@id/addAccountFragment"/>
+    <fragment
+        android:id="@+id/uploadLicenceFragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.UploadLicenceFragment"
+        android:label="upload_licence_fragment"
+        tools:layout="@layout/upload_licence_fragment" />
+    <fragment
+        android:id="@+id/socialSecurityFragment2"
+        tools:layout="@layout/social_security_fragment"
+        android:name="com.mevron.rides.driver.updateprofile.ui.SocialSecurityFragment"
+        android:label="SocialSecurityFragment" />
+    <fragment
+        android:id="@+id/uploadStickerFragment2"
+        android:name="com.mevron.rides.driver.updateprofile.ui.UploadStickerFragment"
+        android:label="upload_sticker_fragment"
+        tools:layout="@layout/upload_sticker_fragment" />
+    <fragment
+        android:id="@+id/uploadInsuranceFragment2"
+        android:name="com.mevron.rides.driver.updateprofile.ui.UploadInsuranceFragment"
+        android:label="upload_insurance_fragment"
+        tools:layout="@layout/upload_insurance_fragment" />
 
 </navigation>

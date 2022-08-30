@@ -15,7 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.messaging.FirebaseMessaging
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
 import com.mevron.rides.driver.home.domain.model.*
@@ -247,8 +249,23 @@ class HomeFragment : Fragment(),
         }
     }
 
+    private fun fetchAndUpdateToken() {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener(OnCompleteListener { task ->
+                // 2
+                if (!task.isSuccessful) {
+                    return@OnCompleteListener
+                }
+                // 3
+                val token = task.result
+                viewModel.updateToken(token)
+            })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fetchAndUpdateToken()
         viewModel.onEventReceived(HomeViewEvent.OnDocumentSubmissionStatusClick)
         binding.mapView2.approachingPassengerEventListener(this)
         binding.mapView2.setTripViewActionClickListener(this)
@@ -299,6 +316,11 @@ class HomeFragment : Fragment(),
                     stateMachineViewModel.getStateMachine()
                     viewModel.updateStatusLoading()
                 }
+
+                if (state.tokenSuccessful){
+                    binding.tokenView.visibility = View.GONE
+                }
+
                 binding.mevronHomeBottom.documentSubmissionStatus.toggleStatus(state.documentSubmissionStatus)
                 binding.mevronHomeBottom.schedulePickup.bindData(state.scheduledPickup)
                 binding.mevronHomeBottom.weeklyGoals.bindData(state.weeklyChallenge)

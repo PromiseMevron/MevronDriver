@@ -49,22 +49,28 @@ class RideActivityFragment : Fragment() {
         calendar.firstDayOfWeek = Calendar.MONDAY
         calendar[Calendar.DAY_OF_WEEK] = Calendar.MONDAY
         //calendar.add(Calendar.DATE, -90);
-
-        val days = arrayOfNulls<String>(7)
-        val daysDisplay = arrayOfNulls<String>(7)
-        for (i in 0..6) {
-            days[i] = format.format(calendar.time)
-            daysDisplay[i] = dFormat.format(calendar.time)
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-        }
-        viewModel.updateState(startDate = days[0], endDate = days[6], displayDate = "${daysDisplay[0]} - ${daysDisplay[6]}")
-        viewModel.handleEvent(GetTripsEvent.GetTrips)
-
+        addDate(format, dFormat, calendar)
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
         adapter = RideActivityAdapter()
         binding.recyclerView.adapter = adapter
+
+        binding.prevWeek1.setOnClickListener {
+            addDate(format, dFormat, calendar, -1)
+        }
+
+        binding.prevWeek.setOnClickListener {
+            addDate(format, dFormat, calendar, -1)
+        }
+
+        binding.nextWeek.setOnClickListener {
+            addDate(format, dFormat, calendar)
+        }
+
+        binding.nextWeek1.setOnClickListener {
+            addDate(format, dFormat, calendar)
+        }
 
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -83,5 +89,22 @@ class RideActivityFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun addDate(format: DateFormat, dFormat: SimpleDateFormat, calendar: Calendar, number: Int = 1){
+        val days = arrayOfNulls<String>(7)
+        val daysDisplay = arrayOfNulls<String>(7)
+        for (i in 0..6) {
+            days[i] = format.format(calendar.time)
+            daysDisplay[i] = dFormat.format(calendar.time)
+            calendar.add(Calendar.DAY_OF_MONTH, number)
+        }
+
+        if (number == 1){
+            viewModel.updateState(startDate = days[0], endDate = days[6], displayDate = "${daysDisplay[0]} - ${daysDisplay[6]}")
+        }else{
+            viewModel.updateState(startDate = days[6], endDate = days[0], displayDate = "${daysDisplay[6]} - ${daysDisplay[0]}")
+        }
+        viewModel.handleEvent(GetTripsEvent.GetTrips)
     }
 }
