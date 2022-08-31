@@ -541,8 +541,8 @@ class MapBoxMapView @JvmOverloads constructor(
             // but we're not simulating yet,
             // push a single location sample to establish origin
             //3.3513038,6.5224128
-            val lng = currentLng ?: 3.3513038
-            val lat = currentLat ?: 6.5224128
+            val lng = currentLng ?: 0.0
+            val lat = currentLat ?: 0.0
             mapboxReplayer.pushEvents(
                 listOf(
                     ReplayRouteMapper.mapToUpdateLocation(

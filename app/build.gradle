@@ -6,6 +6,7 @@ plugins {
     id 'androidx.navigation.safeargs'
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 
 }
 
@@ -175,7 +176,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx:21.1.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.7'
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.12'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.12'
+    implementation 'com.google.firebase:firebase-analytics:21.1.0'
     implementation 'com.google.firebase:firebase-appdistribution-api-ktx:16.0.0-beta03'
+
 
     //pallet
    // implementation("androidx.palette:palette com.android.support:palette-v7")
