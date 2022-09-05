@@ -30,7 +30,7 @@ class HomeScreenRepository(private val api: HomeScreenApi) : IHomeScreenReposito
             }
         }
 
-    override suspend fun sendToken(id: DeviceID): DomainModel =
+   /* override suspend fun sendToken(id: DeviceID): DomainModel =
         try {
             val result = api.updateToken(id)
             if (result.isSuccessful) {
@@ -40,7 +40,7 @@ class HomeScreenRepository(private val api: HomeScreenApi) : IHomeScreenReposito
             }
         } catch (error: Throwable) {
             DomainModel.Success(data = Unit)
-        }
+        }*/
 }
 
 private fun HomeScreenDataResponse.toDomainModel() = this.successData.contentData.let {

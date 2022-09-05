@@ -188,7 +188,6 @@ class FaceLivenessDetectionFragment() : Fragment() {
                         val faceDetectorOptions =
                             PreferenceUtils.getFaceDetectorOptions(requireContext())
 
-
                         FaceDetectorProcessor(requireContext(), faceDetectorOptions).apply {
                             setFaceListener(object : FaceListener {
                                 override fun onFaceSuccess(faces: List<Face>, bitmap: Bitmap) {
@@ -209,7 +208,7 @@ class FaceLivenessDetectionFragment() : Fragment() {
                                         if (faces.size == 1) {
                                             isSingleFaceDetected.value = true
                                             binding.faceDetectedTxt.visibility = View.VISIBLE
-
+                                            cropImage(bitmap, faces[0])
                                             for (face in faces) {
                                                 val leftEye =
                                                     "%.2f".format(face.leftEyeOpenProbability)
@@ -313,8 +312,8 @@ class FaceLivenessDetectionFragment() : Fragment() {
                                                 //println("snap image %%%%%%%%%% $isValidImage")
 
                                                 if (isValidImage) {
-                                                    cropImage(bitmap, face)
-                                                    break
+                                                 //   cropImage(bitmap, face)
+                                                  //  break
                                                 }
                                             }
 

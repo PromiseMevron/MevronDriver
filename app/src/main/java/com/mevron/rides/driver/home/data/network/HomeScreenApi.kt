@@ -3,6 +3,7 @@ package com.mevron.rides.driver.home.data.network
 import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.home.data.model.home.DeviceID
 import com.mevron.rides.driver.home.data.model.home.HomeScreenDataResponse
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -16,5 +17,5 @@ interface HomeScreenApi {
     suspend fun getHomeStatus(): Response<HomeScreenDataResponse>
 
     @POST("api/v1/driver/auth/update-device-id")
-    suspend fun updateToken(@Body id: DeviceID): Response<GeneralResponse>
+     fun updateToken(@Body id: DeviceID): Call<Any>
 }

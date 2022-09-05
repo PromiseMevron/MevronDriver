@@ -29,6 +29,6 @@ class LayoutError @JvmOverloads constructor(
     }
 
     fun setErrorLabel(errorLabel: String) {
-        this.errorLabel.text = errorLabel
+       // this.errorLabel.text = errorLabel
     }
 }

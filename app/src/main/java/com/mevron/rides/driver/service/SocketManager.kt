@@ -171,6 +171,9 @@ class SocketManager @Inject constructor(
                     StateMachineCurrentState.IDLE -> {
                         //   mapStateRepository.setCurrentState(MapTripState.Idle)
                     }
+                    StateMachineCurrentState.CANCEL -> {
+                           mapStateRepository.setCurrentState(MapTripState.Idle)
+                    }
                     StateMachineCurrentState.IN_TRIP -> {
                         mapStateRepository.setCurrentState(
                             inTripRouting(

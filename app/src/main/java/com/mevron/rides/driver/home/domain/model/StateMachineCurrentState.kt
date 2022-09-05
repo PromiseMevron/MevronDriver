@@ -6,6 +6,7 @@ object State {
     const val IN_TRIP = "INTRIP"
     const val PAYMENT = "PAYMENT"
     const val RATING = "RATING"
+    const val CANCEL = "CANCEL"
 }
 
 object InTripState {
@@ -20,6 +21,7 @@ enum class StateMachineCurrentState(val state: String) {
     IN_TRIP("INTRIP"),
     PAYMENT("PAYMENT"),
     UNKNOWN("UNKNOWN"),
+    CANCEL("CANCEL"),
     RATING("RATING");
 
     companion object {
@@ -29,6 +31,7 @@ enum class StateMachineCurrentState(val state: String) {
                 State.ORDER -> ORDER
                 State.IN_TRIP -> IN_TRIP
                 State.PAYMENT -> PAYMENT
+                State.CANCEL -> CANCEL
                 State.RATING -> RATING
                 else -> UNKNOWN
             }

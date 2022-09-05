@@ -21,6 +21,7 @@ class RatingRiderWidget @JvmOverloads constructor(
     private var doneButton: ImageButton
     private var cancelButton: ImageButton
     private var ratingText: TextView
+    private var amountText: TextView
     private var theRating: AppCompatRatingBar
     private var listener: RatingEventListener? = null
 
@@ -28,6 +29,7 @@ class RatingRiderWidget @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.rating_layout, this, true)
         ratingText = findViewById(R.id.customer_to_pay)
+        amountText = findViewById(R.id.customer_to_pay_amount)
         doneButton = findViewById(R.id.done_rating)
         cancelButton = findViewById(R.id.close_rating)
         riderImageView = findViewById(R.id.rider_profile_image)
@@ -48,8 +50,9 @@ class RatingRiderWidget @JvmOverloads constructor(
 
     fun setData(data: PayData) {
         ratingText.text = "Rate your experience with ${data.name}?"
+        amountText.text = "Ride Amount: ${data.currency}${data.amount}"
         if (!data.image.isNullOrEmpty())
-            Picasso.get().load(Uri.parse(data.amount)).into(riderImageView)
+            Picasso.get().load(Uri.parse(data.image)).into(riderImageView)
     }
 
     fun setListener(listener: RatingEventListener) {

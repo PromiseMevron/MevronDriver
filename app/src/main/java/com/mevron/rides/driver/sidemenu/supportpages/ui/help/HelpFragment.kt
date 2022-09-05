@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.sidemenu.supportpages.ui.help
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -18,8 +19,10 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HelpFragmentBinding
+import com.mevron.rides.driver.util.Constants
 
 class HelpFragment : Fragment() {
 
@@ -30,6 +33,8 @@ class HelpFragment : Fragment() {
     private lateinit var viewModel: HelpViewModel
     private lateinit var binding: HelpFragmentBinding
     private val requestCall = 1
+    val sPref= App.ApplicationContext.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +75,8 @@ class HelpFragment : Fragment() {
                 )
             }
         } else {
-            val dial = "tel:08033214929"
+            // val dial = "tel:${sPref.getString(SUPPORT_NUMBER, "")}"
+            val dial = "tel:09029374474"
             startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
         }
 

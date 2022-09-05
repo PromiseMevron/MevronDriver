@@ -51,7 +51,7 @@
         <com.mevron.rides.driver.shared.ui.LoadingView
             android:id="@+id/tokenView"
             android:layout_width="match_parent"
-            tools:visibility="gone"
+            android:visibility="gone"
             android:layout_height="match_parent"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -285,7 +285,7 @@ class HomeViewModel @Inject constructor(
         mutableState.update { it.transform(getStatus = false) }
     }
 
-    fun updateToken(id: String) {
+  /*  fun updateToken(id: String) {
 
         mutableState.update {
             it.transform(
@@ -321,6 +321,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
-    }
+    }*/
 
 }

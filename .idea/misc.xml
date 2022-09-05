@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.13072916666666667" />
-        <entry key="../../../../layout/custom_preview.xml" value="0.165" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.335" />
         <entry key="app/src/main/res/drawable-v24/ic_back_button.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_email.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable-v24/ic_error_otp.xml" value="0.2222222222222222" />
@@ -48,6 +48,7 @@
         <entry key="app/src/main/res/drawable/ic_earning.xml" value="0.146" />
         <entry key="app/src/main/res/drawable/ic_earning_un.xml" value="0.146" />
         <entry key="app/src/main/res/drawable/ic_edit_profile.xml" value="0.1835" />
+        <entry key="app/src/main/res/drawable/ic_empty_data.xml" value="0.154" />
         <entry key="app/src/main/res/drawable/ic_go_online.xml" value="0.2225" />
         <entry key="app/src/main/res/drawable/ic_gradient_back.xml" value="0.1875" />
         <entry key="app/src/main/res/drawable/ic_hamburger.xml" value="0.1835" />
@@ -125,6 +126,8 @@
         <entry key="app/src/main/res/layout/balance_items.xml" value="0.25" />
         <entry key="app/src/main/res/layout/bank_detail_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/bank_item.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/bank_items.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/bank_list_item.xml" value="0.11875" />
         <entry key="app/src/main/res/layout/bullet_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/car_add_items.xml" value="0.335" />
         <entry key="app/src/main/res/layout/car_add_items_bottom.xml" value="0.25" />
@@ -156,6 +159,7 @@
         <entry key="app/src/main/res/layout/fragment_face_liveness_detection.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/fragment_face_liveness_detection_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/fragment_facial_recognition.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/fragment_referal_detail.xml" value="0.16197916666666667" />
         <entry key="app/src/main/res/layout/fragment_referral.xml" value="0.2328125" />
         <entry key="app/src/main/res/layout/help_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/highlight_item.xml" value="0.19157608695652173" />
@@ -188,9 +192,10 @@
         <entry key="app/src/main/res/layout/payments_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/phone_login_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/preference_bottom_layout.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/profile_details_fragment.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/profile_details_fragment.xml" value="0.15533333333333332" />
         <entry key="app/src/main/res/layout/profile_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/rating_layout.xml" value="0.17074275362318841" />
+        <entry key="app/src/main/res/layout/referal_bottom.xml" value="0.1609375" />
         <entry key="app/src/main/res/layout/referal_item.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/regist1_fragment.xml" value="0.2616033755274262" />
         <entry key="app/src/main/res/layout/review_items.xml" value="0.19157608695652173" />

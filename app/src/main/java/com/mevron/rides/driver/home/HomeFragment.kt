@@ -1,6 +1,8 @@
 package com.mevron.rides.driver.home
 
+
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.messaging.FirebaseMessaging
 import com.mevron.rides.driver.R
@@ -35,6 +36,7 @@ import com.mevron.rides.driver.service.PermissionsRequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(),
@@ -179,7 +181,7 @@ class HomeFragment : Fragment(),
                     passengerInfo = getString(
                         R.string.picking_up
                     ) + data?.riderName,
-                    timeLeftToPickPassengerInfo = "",
+                    timeLeftToPickPassengerInfo = "Picking up ${data?.riderName}",
                     passengerDroppedErrorLabel = ""
                 )
                 binding.mapView2.renderTripState(MapTripState.StartRideState(data = startRide))
@@ -219,7 +221,7 @@ class HomeFragment : Fragment(),
                     passengerInfo = getString(
                         R.string.picking_up
                     ) + data?.riderName,
-                    timeLeftToPickPassengerInfo = "",
+                    timeLeftToPickPassengerInfo = "Picking up ${data?.riderName}",
                     passengerDroppedErrorLabel = ""
                 )
                 binding.mapView2.renderTripState(MapTripState.StartRideState(data = startRide))
@@ -249,23 +251,18 @@ class HomeFragment : Fragment(),
         }
     }
 
-    private fun fetchAndUpdateToken() {
-        FirebaseMessaging.getInstance().token
-            .addOnCompleteListener(OnCompleteListener { task ->
-                // 2
-                if (!task.isSuccessful) {
-                    return@OnCompleteListener
-                }
-                // 3
-                val token = task.result
-                viewModel.updateToken(token)
-            })
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fetchAndUpdateToken()
+      //  fetchAndUpdateToken()
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            if (it.isSuccessful){
+                Log.d("TOKEN FOR FIREBASE", "TOKEN FOR FIREBASE ${it.result}")
+            }
+        }
         viewModel.onEventReceived(HomeViewEvent.OnDocumentSubmissionStatusClick)
         binding.mapView2.approachingPassengerEventListener(this)
         binding.mapView2.setTripViewActionClickListener(this)
@@ -318,7 +315,7 @@ class HomeFragment : Fragment(),
                 }
 
                 if (state.tokenSuccessful){
-                    binding.tokenView.visibility = View.GONE
+                  //  binding.tokenView.visibility = View.GONE
                 }
 
                 binding.mevronHomeBottom.documentSubmissionStatus.toggleStatus(state.documentSubmissionStatus)
