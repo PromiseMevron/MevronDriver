@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mevron.rides.driver.R
+import com.squareup.picasso.Picasso
 
 class ArrivedAtPickupWidget @JvmOverloads constructor(
     context: Context,
@@ -48,7 +49,9 @@ class ArrivedAtPickupWidget @JvmOverloads constructor(
     }
 
     fun setImage(url: String) {
-
+        if (!url.isNullOrEmpty()){
+            Picasso.get().load(url).error(R.drawable.profile_dummy).placeholder(R.drawable.profile_dummy).into(passengerAvatar)
+        }
     }
 
     fun bind(data: ArrivedData) {

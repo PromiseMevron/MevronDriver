@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.mevron.rides.driver.auth.AuthActivity
+import com.vmadalin.easypermissions.EasyPermissions
 
 class IntroActivity : AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST_LOCATION = 10000
@@ -19,11 +20,13 @@ class IntroActivity : AppCompatActivity() {
         setContentView(R.layout.activity_intro)
         val button = findViewById<Button>(R.id.start_button)
         button.setOnClickListener {
-            checkLocationPermission()
+            startActivity(Intent(this, AuthActivity::class.java))
+            finish()
+         //   checkLocationPermission()
         }
     }
 
-    private fun checkLocationPermission() {
+/*    private fun checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -34,8 +37,7 @@ class IntroActivity : AppCompatActivity() {
         ) {
             requestLocationPermission()
         } else {
-            startActivity(Intent(this, AuthActivity::class.java))
-            finish()
+
         }
     }
 
@@ -61,15 +63,24 @@ class IntroActivity : AppCompatActivity() {
                 MY_PERMISSIONS_REQUEST_LOCATION
             )
         }
+    }*/
+
+    private fun hasPermission(): Boolean{
+        return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION) || EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION)
     }
 
+    private fun requestPermission(){
+        EasyPermissions.requestPermissions(this, "We need access to the location to be able to serve you properly", MY_PERMISSIONS_REQUEST_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+/*
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+      *//*  when (requestCode) {
             MY_PERMISSIONS_REQUEST_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -95,6 +106,6 @@ class IntroActivity : AppCompatActivity() {
                 return
             }
 
-        }
-    }
+        }*//*
+    }*/
 }

@@ -344,7 +344,8 @@ class SocketManager @Inject constructor(
                     timeLeftToPassengerInfo = "",
                     pickUpPassengerInfo = "Picking up " + data?.riderName,
                     dropOffAtInfo = "",
-                    pickUpLocationInfo = ""
+                    pickUpLocationInfo = "",
+                    riderNumber = ""
                 )
 
                 (MapTripState.ApproachingPassengerState(data = approachingPassengerData))

@@ -27,10 +27,6 @@ import reactivecircus.flowbinding.android.view.clicks
 @AndroidEntryPoint
 class SaveAddressDetailsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SaveAddressDetailsFragment()
-    }
-
     private val viewModel: SaveAddressDetailsViewModel by viewModels()
     private lateinit var binding: SaveAddressDetailsFragmentBinding
     private var mDialog: Dialog? = null
@@ -66,6 +62,16 @@ class SaveAddressDetailsFragment : Fragment() {
         )
         binding.address.setText(location.address)
 
+        binding.backButton.setOnClickListener {
+            Toast.makeText(requireContext(), "22222", Toast.LENGTH_LONG).show()
+            activity?.onBackPressed()
+        }
+
+        binding.editAddress.setOnClickListener {
+            Toast.makeText(requireContext(), "33333", Toast.LENGTH_LONG).show()
+            activity?.onBackPressed()
+        }
+
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
@@ -74,9 +80,9 @@ class SaveAddressDetailsFragment : Fragment() {
                         desc = if (state.isLoading) "Submitting Data ...." else null
                     )
 
-                    if (state.backButton) {
+                 /*   if (state.backButton) {
                         activity?.onBackPressed()
-                    }
+                    }*/
 
                     if (state.isSuccess) {
                         Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show()
@@ -85,6 +91,7 @@ class SaveAddressDetailsFragment : Fragment() {
 
                     if (state.error.isNotEmpty()) {
                         Toast.makeText(context, "Failure to save address", Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
                     }
 
                     // binding.saveAddress.isEnabled = state.isCorrect
@@ -93,13 +100,13 @@ class SaveAddressDetailsFragment : Fragment() {
             }
         }
 
-        binding.editAddress.clicks().onEach {
-            viewModel.handleEvent(SaveAddressDetailsEvent.BackButtonPressed)
-        }.launchIn(lifecycleScope)
+        /*  binding.editAddress.clicks().onEach {
+              viewModel.handleEvent(SaveAddressDetailsEvent.BackButtonPressed)
+          }.launchIn(lifecycleScope)
 
-        binding.backButton.clicks().onEach {
-            viewModel.handleEvent(SaveAddressDetailsEvent.BackButtonPressed)
-        }.launchIn(lifecycleScope)
+          binding.backButton.clicks().onEach {
+              viewModel.handleEvent(SaveAddressDetailsEvent.BackButtonPressed)
+          }.launchIn(lifecycleScope)*/
 
         binding.saveAddress.clicks().onEach {
             viewModel.handleEvent(SaveAddressDetailsEvent.SaveAddressClicked)

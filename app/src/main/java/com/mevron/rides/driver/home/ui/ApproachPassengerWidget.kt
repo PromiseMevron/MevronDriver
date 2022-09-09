@@ -34,6 +34,7 @@ class ApproachPassengerWidget @JvmOverloads constructor(
     private var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private var root: View
     private var bottomSheetRoot: ConstraintLayout
+    private var data: ApproachingPassengerData? = null
 
     private var eventsClickListener: ApproachPassengerWidgetEventClickListener? = null
 
@@ -111,7 +112,7 @@ class ApproachPassengerWidget @JvmOverloads constructor(
     }
 
     override fun onCallClicked() {
-        eventsClickListener?.onCallClicked()
+        eventsClickListener?.onCallClicked(data?.riderNumber ?: "")
     }
 
     override fun onMessageClicked() {
@@ -127,6 +128,7 @@ class ApproachPassengerWidget @JvmOverloads constructor(
     }
 
     fun bindData(data: ApproachingPassengerData) {
+        this.data = data
         arrivedAtPassengerWidget.bind(
             ArrivedData(
                 data.passengerName,
@@ -149,7 +151,7 @@ class ApproachPassengerWidget @JvmOverloads constructor(
 }
 
 interface ApproachPassengerWidgetEventClickListener {
-    fun onCallClicked()
+    fun onCallClicked(phone: String)
     fun onMessageClicked()
     fun onCancelRideClicked()
     fun onStopNewRideRequestClicked()
@@ -165,5 +167,6 @@ data class ApproachingPassengerData(
     val timeLeftToPassengerInfo: String,
     val pickUpPassengerInfo: String,
     val dropOffAtInfo: String,
-    val pickUpLocationInfo: String
+    val pickUpLocationInfo: String,
+    val riderNumber: String
 )

@@ -18,7 +18,8 @@ data class AddVehicleState(
     val backClicked: Boolean,
     val isSubmittingData: Boolean,
     val isDataSubmitted: Boolean,
-    val isLoading: Boolean
+    val isLoading: Boolean,
+    val isFromSideBar: Boolean
 ) {
 
     val isBottomSheetOpened: Boolean
@@ -40,7 +41,8 @@ data class AddVehicleState(
             backClicked = false,
             isSubmittingData = false,
             isDataSubmitted = false,
-            isLoading = false
+            isLoading = false,
+            isFromSideBar = false
         )
     }
 }

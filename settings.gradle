@@ -9,6 +9,9 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         maven { url 'https://jitpack.io' }
+        maven {
+            url "https://zendesk.jfrog.io/artifactory/repo"
+        }
         // Map Box requires this
         google()
         mavenCentral()

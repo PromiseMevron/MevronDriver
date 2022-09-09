@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mevron.rides.driver.authentication.domain.usecase.GetSharedPreferenceUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.GetSurgeUseCase
+import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCase
 import com.mevron.rides.driver.domain.DomainModel
-import com.mevron.rides.driver.home.data.model.home.DeviceID
 import com.mevron.rides.driver.home.domain.model.HomeScreenDomainModel
 import com.mevron.rides.driver.home.domain.model.MapTripState
 import com.mevron.rides.driver.home.domain.usecase.FCMTokenUseCase
@@ -19,6 +19,9 @@ import com.mevron.rides.driver.home.ui.event.HomeViewEvent
 import com.mevron.rides.driver.home.ui.state.HomeViewState
 import com.mevron.rides.driver.home.ui.state.transform
 import com.mevron.rides.driver.remote.TripManagementModel
+import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.GetProfileData
+import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.usecase.GetProfileUseCase
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +39,9 @@ class HomeViewModel @Inject constructor(
     private val getMapStateUseCase: GetMapTripStateUseCase,
     private val tripManageUseCase: TripManagementActionUseCase,
     private val preferenceUseCase: GetSharedPreferenceUseCase,
+    private val setPreferenceUseCase: SetPreferenceUseCase,
     private val getSurgeUseCase: GetSurgeUseCase,
+    private val profileUseCase: GetProfileUseCase,
     private val fcmTokenUseCase: FCMTokenUseCase
 ) : ViewModel() {
 
@@ -59,6 +64,8 @@ class HomeViewModel @Inject constructor(
     val state: StateFlow<HomeViewState>
         get() = mutableState
 
+
+
     fun onEventReceived(event: HomeViewEvent) =
         when (event) {
             HomeViewEvent.OnDocumentSubmissionStatusClick -> getDocument()
@@ -79,6 +86,19 @@ class HomeViewModel @Inject constructor(
             HomeViewEvent.AcceptRideClick -> acceptRide()
             HomeViewEvent.StartRideClick -> startRide(code = "")
         }
+
+    fun getProfile() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = profileUseCase()) {
+
+                is DomainModel.Success -> {
+                    val data = result.data as GetProfileData
+                    setPreferenceUseCase(Constants.SUPPORT_NUMBER, data.supportNumber ?: "")
+                }
+                else -> {}
+            }
+        }
+    }
 
     private fun acceptRide() {
         val currentTripState = state.value.currentMapTripState
@@ -194,6 +214,28 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun cancelRide() {
+        val currentTripState = state.value.currentMapTripState
+        Log.d("TAG", "crossed the check $currentTripState")
+        //    if (currentTripState !is MapTripState.StartRideState) return
+        Log.d("TAG", "crossed the check")
+        viewModelScope.launch {
+            val result = tripManageUseCase(
+                TripManagementModel(
+                    type = "cancel_ongoing",
+                    trip_id = currentTripState.tripId ?: preferenceUseCase("TRIPID"),
+                )
+            )
+            if (result is DomainModel.Success) {
+                mutableState.update { it.transform(getStatus = true) }
+                // update This should be a fire and forget
+
+            } else {
+                mutableState.update { it.transform(errorMessage = (result as DomainModel.Error).error.localizedMessage) }
+            }
+        }
+    }
+
     fun collectCash(amount: String) {
         val currentTripState = state.value.currentMapTripState
         Log.d("TAG", "crossed the check $currentTripState")
@@ -269,8 +311,9 @@ class HomeViewModel @Inject constructor(
 
     private fun convertToDocumentStatus(value: Int): DocumentSubmissionStatus {
         return when (value) {
-            0 -> DocumentSubmissionStatus.PENDING
+            0 -> DocumentSubmissionStatus.NONE
             1 -> DocumentSubmissionStatus.REVIEW
+            2 -> DocumentSubmissionStatus.REJECTED
             else -> DocumentSubmissionStatus.OKAY
         }
     }

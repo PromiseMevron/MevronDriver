@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.updateprofile.data.network
 
 import com.mevron.rides.driver.data.model.DefaultResponse
+import com.mevron.rides.driver.sidemenu.vehicle.data.model.addvehicle.AddVehicleResponse
 import com.mevron.rides.driver.updateprofile.domain.model.AddVehicleRequest
 import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
 import okhttp3.MultipartBody
@@ -13,7 +14,7 @@ import retrofit2.http.Part
 interface UpdateProfileApi {
 
     @POST("api/v1/driver/auth/vehicle/create")
-    suspend fun addVehicle(@Body data: AddVehicleRequest): Response<DefaultResponse>
+    suspend fun addVehicle(@Body data: AddVehicleRequest): Response<AddVehicleResponse>
 
     @Multipart
     @POST("api/v1/driver/auth/upload/driver-license")

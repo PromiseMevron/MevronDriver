@@ -43,6 +43,7 @@ tools:context=".IntroActivity">
     app:background="@color/white"
     app:backgroundTint="@color/white"
     app:cornerRadius="5dp"
+    android:visibility="visible"
     android:textAllCaps="false"
     android:textSize="@dimen/_12ssp"
     app:layout_constraintBottom_toBottomOf="parent"

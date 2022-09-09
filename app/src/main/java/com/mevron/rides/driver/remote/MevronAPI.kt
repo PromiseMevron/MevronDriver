@@ -38,27 +38,27 @@ interface MevronAPI {
     @POST("api/v1/driver/validate-otp")
     suspend fun verifyOTP(@Body data: VerifyOTPRequest): Response<OTPResponse>
 
-    @POST("api/v1/driver/auth/update-account")
+    @POST("api/v1/driver/auth/update-profile")
     suspend fun createAccount(@Body data: CreateAccountRequest): Response<GeneralResponse>
 
-    @POST("api/v1/driver/auth/vehicle/create")
+    @POST("api/v1/acquisation/driver/auth/update-profile")
     suspend fun addVehicle(@Body data: AddVehicleRequest): Response<GeneralResponse>
 
     @Multipart
-    @POST("api/v1/driver/auth/upload/driver-license")
-    suspend fun uploadLicence(@Part image: MultipartBody.Part): Response<GeneralResponse>
+    @POST("api/v1/driver/auth/upload/driver-license/{uiid}")
+    suspend fun uploadLicence(@Part image: MultipartBody.Part, @Path("uiid") identifier: String): Response<GeneralResponse>
 
     @Multipart
-    @POST("api/v1/driver/auth/upload/vehicle-registration-sticker")
-    suspend fun uploadSticker(@Part image: MultipartBody.Part): Response<GeneralResponse>
+    @POST("api/v1/driver/auth/upload/vehicle-registration-sticker/{uiid}")
+    suspend fun uploadSticker(@Part image: MultipartBody.Part, @Path("uiid") identifier: String): Response<GeneralResponse>
 
     @Multipart
     @POST("api/v1/driver/auth/upload/profile-photo")
     suspend fun uploadProfile(@Part image: MultipartBody.Part): Response<GeneralResponse>
 
     @Multipart
-    @POST("api/v1/driver/auth/upload/vehicle-insurance")
-    suspend fun uploadInsurance(@Part image: MultipartBody.Part): Response<GeneralResponse>
+    @POST("api/v1/driver/auth/upload/vehicle-insurance/{uiid}")
+    suspend fun uploadInsurance(@Part image: MultipartBody.Part, @Path("uiid") identifier: String): Response<GeneralResponse>
 
     @POST("api/v1/driver/auth/update/social-security-number")
     suspend fun uploadSecurityNumber(@Body data: SecurityNumRequest): Response<GeneralResponse>

@@ -4,13 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.mevron.rides.driver.R
-import com.mevron.rides.driver.databinding.ViewDocumentSubmissionPendingBinding
-import com.mevron.rides.driver.widgets.viewBinding
 
 class DocumentSubmissionPendingWidget @JvmOverloads constructor(
     context: Context,
@@ -40,7 +37,7 @@ class DocumentSubmissionPendingWidget @JvmOverloads constructor(
 
     private fun renderPending() {
         showView()
-        background.setBackgroundColor(ContextCompat.getColor(context, R.color.document_pending))
+        background.setBackgroundColor(ContextCompat.getColor(context, R.color.grey_7))
         attentionMessageTitle.text =
             context.getString(R.string.documents_submission_pending)
         attentionMessageSubTitle.visibility = View.VISIBLE
@@ -54,14 +51,23 @@ class DocumentSubmissionPendingWidget @JvmOverloads constructor(
         attentionMessageSubTitle.visibility = View.GONE
     }
 
+    private fun renderRejected() {
+        showView()
+        background.setBackgroundColor(ContextCompat.getColor(context, R.color.document_rejected))
+        attentionMessageTitle.text =
+            context.getString(R.string.the_details_you_submitted_are_invalid_or_incorrect_hence_wasn_t_approved_please_resubmit_your_details)
+        attentionMessageSubTitle.visibility = View.VISIBLE
+    }
+
     fun toggleStatus(documentSubmissionStatus: DocumentSubmissionStatus) =
         when (documentSubmissionStatus) {
-            DocumentSubmissionStatus.PENDING -> renderPending()
+            DocumentSubmissionStatus.NONE -> renderPending()
             DocumentSubmissionStatus.REVIEW -> renderReview()
             DocumentSubmissionStatus.OKAY -> hideView()
+            DocumentSubmissionStatus.REJECTED -> renderRejected()
         }
 }
 
 enum class DocumentSubmissionStatus {
-    PENDING, REVIEW, OKAY
+    NONE, REVIEW, OKAY, REJECTED
 }

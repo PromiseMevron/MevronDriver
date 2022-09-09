@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class OTPData(
     @SerializedName("accessToken")
     val accessToken: String,
-    @SerializedName("riderType")
-    val riderType: String = "old",
     @SerializedName("type")
     val type: String,
     @SerializedName("uuid")

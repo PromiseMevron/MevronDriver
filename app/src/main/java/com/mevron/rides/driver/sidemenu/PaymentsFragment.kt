@@ -78,6 +78,7 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
+                    toggleBusyDialog(state.isLoading, desc = if (state.isLoading) "Processing" else null)
                     binding.backButton.setOnClickListener {
                         if (binding.webView.visibility == View.GONE) {
                             activity?.onBackPressed()

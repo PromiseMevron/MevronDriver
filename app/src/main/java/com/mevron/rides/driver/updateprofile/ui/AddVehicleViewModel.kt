@@ -406,7 +406,8 @@ class AddVehicleViewModel @Inject constructor(
         backClicked: Boolean? = null,
         isSubmittingData: Boolean? = null,
         isDataSubmitted: Boolean? = null,
-        isLoading: Boolean? = null
+        isLoading: Boolean? = null,
+        isFromSideBar: Boolean? = null
     ) {
         val currentState = mutableState.value
         mutableState.update {
@@ -423,7 +424,8 @@ class AddVehicleViewModel @Inject constructor(
                 backClicked = backClicked.takeIfNull(currentState.backClicked),
                 isSubmittingData = isSubmittingData.takeIfNull(currentState.isSubmittingData),
                 isDataSubmitted = isDataSubmitted.takeIfNull(currentState.isDataSubmitted),
-                isLoading = isLoading.takeIfNull(currentState.isLoading)
+                isLoading = isLoading.takeIfNull(currentState.isLoading),
+                isFromSideBar = isFromSideBar.takeIfNull(currentState.isFromSideBar)
             )
         }
     }

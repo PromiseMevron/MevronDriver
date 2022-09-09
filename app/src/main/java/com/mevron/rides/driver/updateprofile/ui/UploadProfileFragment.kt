@@ -27,6 +27,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -65,13 +66,15 @@ class UploadProfileFragment : Fragment() {
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Bitmap>("key")?.observe(viewLifecycleOwner) {result ->
             // Do something with the result.
             binding.uploadedImage.setImageBitmap(result)
+            createFile(result)
         }
 
         binding.reUpload.setOnClickListener {
-            showImagePickerDialog()
+           // showImagePickerDialog()
         }
         binding.uploadClick.setOnClickListener {
-            showImagePickerDialog()
+            findNavController().navigate(R.id.action_uploadProfileFragment_to_faceLivenessDetectionFragment)
+            //  showImagePickerDialog()
         }
 
         binding.upload.setOnClickListener {
@@ -130,6 +133,65 @@ class UploadProfileFragment : Fragment() {
             }
         })
 
+    }
+
+    private fun createFile(returnedImage: Bitmap?){
+        val file = File(requireContext().cacheDir, "mevron_app")
+        file.createNewFile()
+
+//Convert bitmap to byte array
+        val bitmap = returnedImage
+        val bos =  ByteArrayOutputStream();
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, bos)
+        val bitmapdata = bos.toByteArray()
+
+//write the bytes in file
+        var fos: FileOutputStream?  = null;
+        try {
+            fos =  FileOutputStream(file);
+        } catch (e: Exception) {
+            e.printStackTrace();
+        }
+        try {
+            fos?.write(bitmapdata);
+            fos?.flush();
+            fos?.close();
+        } catch (e: Exception) {
+            e.printStackTrace();
+        }
+        val reqFile: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val body: MultipartBody.Part =
+            MultipartBody.Part.createFormData("document", file.name, reqFile)
+        toggleBusyDialog(true, "Uploading Profile...")
+
+        viewModel.uploadProfile(body).observe(viewLifecycleOwner, Observer {
+
+            it.let { res ->
+                when(res){
+                    is GenericStatus.Error -> {
+                        toggleBusyDialog(false)
+                        val snackbar = res.error?.error?.message?.let { it1 ->
+                            Snackbar
+                                .make(binding.root, it1, Snackbar.LENGTH_LONG).setAction("Retry", View.OnClickListener {
+
+                                })
+                        }
+                        snackbar?.show()
+
+
+
+
+                    }
+
+                    is  GenericStatus.Success ->{
+                        toggleBusyDialog(false)
+                        findNavController().navigate(R.id.action_uploadProfileFragment_to_socialSecurityFragment)
+                        //  findNavController().navigate(R.id.action_uploadInsuranceFragment_to_uploadStickerFragment)
+                    }
+                    else -> {}
+                }
+            }
+        })
     }
 
     private fun toggleBusyDialog(busy: Boolean, desc: String? = null){
@@ -193,7 +255,5 @@ class UploadProfileFragment : Fragment() {
             }
         }
     }
-
-
 
 }

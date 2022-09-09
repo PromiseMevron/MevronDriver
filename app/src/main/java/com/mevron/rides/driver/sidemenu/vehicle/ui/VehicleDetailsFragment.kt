@@ -13,9 +13,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.palette.graphics.Palette
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.VehicleDetailsFragmentBinding
+import com.mevron.rides.driver.home.model.documents.Document
 import com.mevron.rides.driver.sidemenu.vehicle.ui.event.VehicleEvent
 import com.mevron.rides.driver.sidemenu.vehicle.ui.state.VehicleState
 import com.squareup.picasso.Picasso
@@ -36,6 +38,7 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
     private val viewModel: VehicleViewModel by viewModels()
     private lateinit var binding: VehicleDetailsFragmentBinding
     private lateinit var adapter: VehicleDetailAdapter
+    private var uiid: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +56,7 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
         }
         val id = arguments?.let { VehicleDetailsFragmentArgs.fromBundle(it)}?.id
         viewModel.updateState(uuid = id)
+        uiid = id ?: ""
         viewModel.onEvent(VehicleEvent.MakeAPICallDetails)
         adapter = VehicleDetailAdapter(this, requireContext())
         binding.documentRecycler.adapter = adapter
@@ -123,8 +127,41 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
         }
     }
 
-    override fun selectVehicle() {
-
+    override fun selectVehicle(document: Document) {
+        if (document.name == "Driver License" && document.status == 0){
+            val action = VehicleDetailsFragmentDirections.actionGlobalDocumentFragment(true)
+            findNavController().navigate(action)
+        }
+        if (document.name == "Vehicle Registration Sticker" && document.status == 0){
+            val action = VehicleDetailsFragmentDirections.actionGlobalStickerFragment(true, uiid)
+            findNavController().navigate(action)
+        }
+        if (document.name == "Vehicle Insurance" && document.status == 0){
+            val action = VehicleDetailsFragmentDirections.actionGlobalInsuranceFragment(true, uiid)
+            findNavController().navigate(action)
+        }
+        if (document.name == "Profile Photo" && document.status == 0){
+            findNavController().navigate(R.id.action_global_profileFragment)
+        }
+        if (document.name == "Driver License" && document.status == 2){
+            val action = VehicleDetailsFragmentDirections.actionGlobalDocumentFragment(true)
+            findNavController().navigate(action)
+        }
+        if (document.name == "Vehicle Registration Sticker" && document.status == 2){
+            val action = VehicleDetailsFragmentDirections.actionGlobalStickerFragment(true, uiid)
+            findNavController().navigate(action)
+        }
+        if (document.name == "Vehicle Insurance" && document.status == 2){
+            val action = VehicleDetailsFragmentDirections.actionGlobalInsuranceFragment(true, uiid)
+            findNavController().navigate(action)
+        }
+        if (document.name == "Profile Photo" && document.status == 2){
+            findNavController().navigate(R.id.action_global_profileFragment)
+        }
+        if (document.status != 0 && document.status != 2){
+                val action = VehicleDetailsFragmentDirections.actionVehicleDetailsFragmentToVehicleImagesFragment(document.url, document.name)
+                findNavController().navigate(action)
+        }
     }
 
 

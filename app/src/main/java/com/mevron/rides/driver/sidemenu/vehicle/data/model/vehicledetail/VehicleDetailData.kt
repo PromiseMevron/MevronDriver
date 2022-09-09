@@ -1,6 +1,6 @@
 package com.mevron.rides.driver.sidemenu.vehicle.data.model.vehicledetail
 
-import com.mevron.rides.driver.documentcheck.data.model.Document
+import com.mevron.rides.driver.home.model.documents.Document
 
 data class VehicleDetailData(
     val color: String,

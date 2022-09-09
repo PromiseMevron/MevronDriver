@@ -97,7 +97,8 @@ class AddSavedPlaceFragment : Fragment(), AddressSelected {
             AddSavedPlaceFragmentDirections.actionGlobalSaveAddressFragment(
                 title,
                 holder,
-                type
+                type,
+                ""
             )
         findNavController().navigate(action)
     }

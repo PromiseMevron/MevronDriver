@@ -1,15 +1,23 @@
 package com.mevron.rides.driver.home
 
 
+import android.Manifest
+import android.app.Dialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -18,6 +26,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.messaging.FirebaseMessaging
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
@@ -33,6 +42,7 @@ import com.mevron.rides.driver.location.ui.event.LocationEvent
 import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.service.PermissionRequestRationaleListener
 import com.mevron.rides.driver.service.PermissionsRequestManager
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -55,6 +65,7 @@ class HomeFragment : Fragment(),
     private lateinit var permissionRequestManager: PermissionsRequestManager
     private val locationViewModel: LocationViewModel by viewModels()
     private var dialog: AlertDialog? = null
+    private val requestCall = 1
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -169,6 +180,20 @@ class HomeFragment : Fragment(),
             else -> {}
         }
     }
+    private fun showRideCancellationDialog() {
+        val dialog = activity?.let { Dialog(it) }!!
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.cancel_dialog)
+        val yesBtn = dialog.findViewById(R.id.do_cancel) as MaterialButton
+        val noBtn = dialog.findViewById(R.id.dont) as MaterialButton
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+            viewModel.cancelRide()
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+    }
 
     private fun inTripRouting(stateMachineDomainData: StateMachineDomainData) {
         val status =
@@ -196,7 +221,8 @@ class HomeFragment : Fragment(),
                         R.string.picking_up
                     ) + data?.riderName,
                     dropOffAtInfo = "",
-                    pickUpLocationInfo = ""
+                    pickUpLocationInfo = "",
+                    riderNumber = ""
                 )
                 binding.mapView2.renderTripState(MapTripState.ApproachingPassengerState(data = approachingPassengerData))
             }
@@ -236,7 +262,8 @@ class HomeFragment : Fragment(),
                         R.string.picking_up
                     ) + data?.riderName,
                     dropOffAtInfo = "",
-                    pickUpLocationInfo = ""
+                    pickUpLocationInfo = "",
+                    riderNumber = ""
                 )
                 binding.mapView2.renderTripState(MapTripState.ApproachingPassengerState(data = approachingPassengerData))
             }
@@ -257,6 +284,7 @@ class HomeFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
       //  fetchAndUpdateToken()
+        viewModel.getProfile()
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
             if (it.isSuccessful){
@@ -402,9 +430,19 @@ class HomeFragment : Fragment(),
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        if (requestCode == requestCall) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(context, "Click again to call customer", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Permission DENIED", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         permissionRequestManager.onRequestPermissionResult(requestCode, permissions, grantResults) {
             // TODO we want to show a dialog as to why they need to show permission
         }
+
+
     }
 
     override fun onDriveClick() {
@@ -441,20 +479,44 @@ class HomeFragment : Fragment(),
         }
     }
 
-    override fun onCallClicked() {
-        TODO("Not yet implemented")
+    private fun makePhoneCall(phone: String) {
+
+        if (activity?.let {
+                ContextCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.CALL_PHONE
+                )
+            } != PackageManager.PERMISSION_GRANTED
+        ) {
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it,
+                    arrayOf(Manifest.permission.CALL_PHONE),
+                    requestCall
+                )
+            }
+        } else {
+            val dial = "tel:${phone}"
+            //  val dial = "tel:09029374474"
+            startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
+        }
+
+    }
+
+    override fun onCallClicked(phone: String) {
+        makePhoneCall(phone)
     }
 
     override fun onMessageClicked() {
-        TODO("Not yet implemented")
+
     }
 
     override fun onCancelRideClicked() {
-        TODO("Not yet implemented")
+        showRideCancellationDialog()
     }
 
     override fun onStopNewRideRequestClicked() {
-        TODO("Not yet implemented")
+
     }
 
     override fun onDriverArrivedClick() {
@@ -462,11 +524,11 @@ class HomeFragment : Fragment(),
     }
 
     override fun onNavigateToHomeClicked() {
-        TODO("Not yet implemented")
+
     }
 
     override fun onDropOffClicked() {
-        TODO("Not yet implemented")
+
     }
 
     override fun onCashOutClicked() {

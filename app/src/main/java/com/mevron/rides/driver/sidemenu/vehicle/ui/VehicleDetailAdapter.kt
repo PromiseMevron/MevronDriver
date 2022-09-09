@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.DocumentItemBinding
-import com.mevron.rides.driver.documentcheck.data.model.Document
+import com.mevron.rides.driver.home.model.documents.Document
 
 class VehicleDetailAdapter(val sel: SelectVehicleDetail, val context: Context) :
     ListAdapter<Document, VehicleDetailAdapter.VehiHolder>(
@@ -48,7 +48,9 @@ class VehicleDetailAdapter(val sel: SelectVehicleDetail, val context: Context) :
         holder.binding.carDoc.text = doc.name
         when (setUpDocView(doc.status)) {
             DocStatus.Okay -> {
+                holder.binding.check.setImageResource(R.drawable.ic_check_green)
                 holder.binding.docStatus.visibility = View.GONE
+                holder.binding.next.visibility = View.VISIBLE
                 holder.binding.backGround.setBackgroundColor(
                     context.resources.getColor(
                         R.color.document_ok,
@@ -57,7 +59,9 @@ class VehicleDetailAdapter(val sel: SelectVehicleDetail, val context: Context) :
                 )
             }
             DocStatus.Pending -> {
+                holder.binding.check.setImageResource(R.drawable.ic_under_review)
                 holder.binding.docStatus.visibility = View.VISIBLE
+                holder.binding.next.visibility = View.GONE
                 holder.binding.backGround.setBackgroundColor(
                     context.resources.getColor(
                         R.color.document_under_review,
@@ -67,19 +71,33 @@ class VehicleDetailAdapter(val sel: SelectVehicleDetail, val context: Context) :
                 holder.binding.docStatus.text = context.getString(R.string.under_review)
             }
             DocStatus.None -> {
+                holder.binding.check.setImageResource(R.drawable.ic_none)
                 holder.binding.docStatus.visibility = View.VISIBLE
+                holder.binding.next.visibility = View.VISIBLE
                 holder.binding.backGround.setBackgroundColor(
                     context.resources.getColor(
-                        R.color.document_pending,
+                        R.color.grey_7,
                         null
                     )
                 )
                 holder.binding.docStatus.text =
                     "${context.getString(R.string.upload_photo)} ${doc.name}"
             }
+            DocStatus.Disapproved -> {
+                holder.binding.check.setImageResource(R.drawable.ic_alert_red)
+                holder.binding.docStatus.visibility = View.VISIBLE
+                holder.binding.next.visibility = View.VISIBLE
+                holder.binding.backGround.setBackgroundColor(
+                    context.resources.getColor(
+                        R.color.document_rejected,
+                        null
+                    )
+                )
+                holder.binding.docStatus.text = context.getString(R.string.the_details_you_submitted_are_invalid_or_incorrect_hence_wasn_t_approved_please_resubmit_your_details)
+            }
         }
         holder.binding.root.setOnClickListener {
-            sel.selectVehicle()
+            sel.selectVehicle(doc)
         }
     }
 
@@ -88,17 +106,20 @@ class VehicleDetailAdapter(val sel: SelectVehicleDetail, val context: Context) :
             DocStatus.None
         else if (status == 1)
             DocStatus.Pending
+        else if (status == 2)
+            DocStatus.Disapproved
         else
             DocStatus.Okay
     }
 }
 
 interface SelectVehicleDetail {
-    fun selectVehicle()
+    fun selectVehicle(document: Document)
 }
 
 enum class DocStatus {
     Okay,
     Pending,
-    None
+    None,
+    Disapproved
 }

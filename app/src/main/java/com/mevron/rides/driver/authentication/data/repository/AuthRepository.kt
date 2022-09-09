@@ -52,7 +52,7 @@ class AuthRepository(private val authApi: AuthApi) : IAuthRepository {
     private fun VerifyOTPResponse.toDomainModel() = DomainModel.Success(
         data = VerifyOTPDomainModel(
             accessToken = this.otpSuccess.otpData.accessToken,
-            riderType = this.otpSuccess.otpData.riderType,
+            riderType = this.otpSuccess.otpData.type,
             type = this.otpSuccess.otpData.type,
             uuid = this.otpSuccess.otpData.uuid
         )

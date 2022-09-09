@@ -1,5 +1,6 @@
 package com.mevron.rides.driver.authentication.ui.verifyotp
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -19,12 +20,15 @@ import com.mevron.rides.driver.authentication.ui.verifyotp.event.VerifyOTPEvent
 import com.mevron.rides.driver.databinding.OTFragmentBinding
 import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.util.LauncherUtil
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class OTPFragment : Fragment() {
+class OTPFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
+    private val MY_PERMISSIONS_REQUEST_LOCATION = 10000
     companion object {
         fun newInstance() = OTPFragment()
     }
@@ -51,7 +55,7 @@ class OTPFragment : Fragment() {
         binding.otpView.itemCount = 6
         phoneNumber = arguments?.let { OTPFragmentArgs.fromBundle(it).phone }!!
         phoneWrite = arguments?.let { OTPFragmentArgs.fromBundle(it).phone }!!
-        phoneWrite = "${context?.getString(R.string.we_have_sent_you_a_six_digit_code_on_your)}${phoneNumber}"
+        phoneWrite = "${context?.getString(R.string.we_have_sent_you_a_six_digit_code_on_your)} $phoneNumber"
         binding.text2.text = phoneWrite
         verifyOTPViewModel.updateState(phoneNumber = phoneNumber)
 
@@ -168,9 +172,47 @@ class OTPFragment : Fragment() {
                 )
             findNavController().navigate(action)
         }else{
+            openRideActivity()
+        }
+    }
+
+    private fun hasPermission(): Boolean{
+        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) || EasyPermissions.hasPermissions(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+    }
+
+    private fun requestPermission(){
+        EasyPermissions.requestPermissions(this, "We need access to the location to be able to serve you properly", MY_PERMISSIONS_REQUEST_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    private fun openRideActivity(){
+        if (hasPermission()){
             startActivity(Intent(activity, RideActivity::class.java))
             activity?.finish()
+        }else{
+            requestPermission()
         }
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)){
+            SettingsDialog.Builder(requireContext()).build().show()
+        }else{
+            requestPermission()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        openRideActivity()
+
     }
 
 }

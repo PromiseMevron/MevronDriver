@@ -23,6 +23,8 @@ import com.mevron.rides.driver.App
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HelpFragmentBinding
 import com.mevron.rides.driver.util.Constants
+import com.mevron.rides.driver.util.Constants.SUPPORT_NUMBER
+import zendesk.android.Zendesk
 
 class HelpFragment : Fragment() {
 
@@ -55,6 +57,9 @@ class HelpFragment : Fragment() {
         binding.callButton.setOnClickListener {
             makePhoneCall()
         }
+        binding.chatButton.setOnClickListener {
+            Zendesk.instance.messaging.showMessaging(requireContext())
+        }
     }
 
 
@@ -75,8 +80,8 @@ class HelpFragment : Fragment() {
                 )
             }
         } else {
-            // val dial = "tel:${sPref.getString(SUPPORT_NUMBER, "")}"
-            val dial = "tel:09029374474"
+            val dial = "tel:${sPref.getString(SUPPORT_NUMBER, "")}"
+          //  val dial = "tel:09029374474"
             startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
         }
 
@@ -98,7 +103,7 @@ class HelpFragment : Fragment() {
     }
 
     private fun loadWebView() {
-        binding.webView.loadUrl("https://mevron.com/driver/support")
+        binding.webView.loadUrl("https://mevron.com/drive/support")
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.settings.allowFileAccess = true
         binding.webView.settings.allowFileAccessFromFileURLs = true

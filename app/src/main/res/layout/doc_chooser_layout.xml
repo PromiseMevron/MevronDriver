@@ -11,6 +11,7 @@
     app:behavior_peekHeight="200dp">
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/from_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

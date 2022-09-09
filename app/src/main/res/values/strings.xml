@@ -384,7 +384,7 @@
     <string name="enter_amount">Enter Amount</string>
     <string name="add_custom_cash_out">Add a Custom Cash Out</string>
     <string name="add_card">Add Card</string>
-    <string name="upload_photo">\"Upload Photo of \"</string>
+    <string name="upload_photo">Upload Photo of </string>
     <string name="under_review">Submitted, under review</string>
     <string name="vehicle_number">Vehicle Number</string>
     <string name="do_you_want_to_logout_from_this_device">Do you want to logout from this device?</string>
@@ -402,5 +402,10 @@
     <string name="rate_your_experience_with">Rate your experience with</string>
     <string name="use_other_payment_methods">Use other Payment Methods</string>
     <string name="account_holder_name">Account Holder Name</string>
+    <string name="smile_into_the_camera">Smile into the camera</string>
+    <string name="the_details_you_submitted_are_invalid_or_incorrect_hence_wasn_t_approved_please_resubmit_your_details">The details you submitted are invalid or incorrect, hence wasn’t approved. Please resubmit your details</string>
+    <string name="stop_new_ride_requests">Stop new ride requests</string>
+    <string name="cancel_ride">Cancel Ride</string>
+    <string name="cancel_this_ride">Cancel this ride?</string>
 
 </resources>

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.VehicleImagesFragmentBinding
+import com.squareup.picasso.Picasso
 
 class VehicleImagesFragment : Fragment() {
 
@@ -27,6 +28,12 @@ class VehicleImagesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val url = VehicleImagesFragmentArgs.fromBundle(requireArguments()).url
+        val name = VehicleImagesFragmentArgs.fromBundle(requireArguments()).name
+        binding.text4.text = name
+        if (!url.isNullOrEmpty()){
+            Picasso.get().load(url).into(binding.image)
+        }
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }

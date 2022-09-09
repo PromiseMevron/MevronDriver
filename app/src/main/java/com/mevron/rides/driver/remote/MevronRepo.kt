@@ -48,8 +48,8 @@ class MevronRepo @Inject constructor ( private val api: MevronAPI, private val d
         return api.addVehicle(data)
     }
 
-    suspend fun uploadLicence(data: MultipartBody.Part): Response<GeneralResponse>{
-        return api.uploadLicence(data)
+    suspend fun uploadLicence(data: MultipartBody.Part, uuid: String = ""): Response<GeneralResponse>{
+        return api.uploadLicence(data, uuid)
     }
 
     suspend fun uploadProfile(data: MultipartBody.Part): Response<GeneralResponse>{
@@ -57,12 +57,12 @@ class MevronRepo @Inject constructor ( private val api: MevronAPI, private val d
     }
 
 
-    suspend fun uploadSticker(data: MultipartBody.Part): Response<GeneralResponse>{
-        return api.uploadSticker(data)
+    suspend fun uploadSticker(data: MultipartBody.Part, uuid: String = ""): Response<GeneralResponse>{
+        return api.uploadSticker(data, uuid)
     }
 
-    suspend fun uploadInsurance(data: MultipartBody.Part): Response<GeneralResponse>{
-        return api.uploadInsurance(data)
+    suspend fun uploadInsurance(data: MultipartBody.Part, uuid: String = ""): Response<GeneralResponse>{
+        return api.uploadInsurance(data, uuid)
     }
 
     suspend fun uploadSecurityNum(data: SecurityNumRequest): Response<GeneralResponse> {

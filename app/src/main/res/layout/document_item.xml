@@ -22,8 +22,9 @@
     <ImageView
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:src="@drawable/ic_check"
+        android:src="@drawable/ic_check_green"
         android:id="@+id/check"
+        android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="@dimen/_14sdp"
@@ -64,7 +65,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Promise Ochornma"
+            tools:text="@string/the_details_you_submitted_are_invalid_or_incorrect_hence_wasn_t_approved_please_resubmit_your_details"
             android:layout_marginStart="@dimen/_14sdp"
             app:layout_constraintStart_toEndOf="@id/check"
             app:layout_constraintEnd_toStartOf="@id/next"
@@ -74,7 +75,6 @@
             android:fontFamily="@font/poppins_semibold"
             android:textSize="@dimen/_9ssp"
             android:textColor="#383838"
-            android:maxLines="1"
             android:visibility="gone"
             android:id="@+id/doc_status"
             android:textFontWeight="400"

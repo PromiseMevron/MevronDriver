@@ -83,6 +83,7 @@ class FaceLivenessDetectionFragment() : Fragment() {
         updateLookLefttEyeCheck()
 
 
+
         /*   binding.toolbar5.setNavigationOnClickListener {
                findNavController().navigateUp()
            }*/
@@ -94,24 +95,23 @@ class FaceLivenessDetectionFragment() : Fragment() {
             .get(CameraXViewModel::class.java)
             .processCameraProvider
             .observe(
-                viewLifecycleOwner,
-                { provider: ProcessCameraProvider? ->
-                    cameraProvider = provider
-                    if (allPermissionsGranted()) {
-                        println("permission granted")
-                        bindAllCameraUseCases()
-                    } else {
-                        try {
-                            if (!allPermissionsGranted()) {
-                                runtimePermissions
-                            }
-                        } catch (exc: Exception) {
-                            exc.printStackTrace()
+                viewLifecycleOwner
+            ) { provider: ProcessCameraProvider? ->
+                cameraProvider = provider
+                if (allPermissionsGranted()) {
+                    println("permission granted")
+                    bindAllCameraUseCases()
+                } else {
+                    try {
+                        if (!allPermissionsGranted()) {
+                            runtimePermissions
                         }
-
+                    } catch (exc: Exception) {
+                        exc.printStackTrace()
                     }
+
                 }
-            )
+            }
 
 
     }
@@ -208,7 +208,7 @@ class FaceLivenessDetectionFragment() : Fragment() {
                                         if (faces.size == 1) {
                                             isSingleFaceDetected.value = true
                                             binding.faceDetectedTxt.visibility = View.VISIBLE
-                                            cropImage(bitmap, faces[0])
+                                           // cropImage(bitmap, faces[0])
                                             for (face in faces) {
                                                 val leftEye =
                                                     "%.2f".format(face.leftEyeOpenProbability)
@@ -312,8 +312,8 @@ class FaceLivenessDetectionFragment() : Fragment() {
                                                 //println("snap image %%%%%%%%%% $isValidImage")
 
                                                 if (isValidImage) {
-                                                 //   cropImage(bitmap, face)
-                                                  //  break
+                                                    cropImage(bitmap, face)
+                                                    break
                                                 }
                                             }
 
@@ -429,7 +429,7 @@ class FaceLivenessDetectionFragment() : Fragment() {
         val lookRightCheck = _lookRightCheck
         val smileCheck = _smileCheck
 
-        val allValid = singleCheck && blinkCheck && lookLeftCheck && lookRightCheck && smileCheck
+        val allValid = singleCheck /*&& blinkCheck && lookLeftCheck && lookRightCheck */&& smileCheck
 
         println("All valid $allValid")
         println("Bitmap  $bitmap")

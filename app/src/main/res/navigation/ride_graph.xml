@@ -84,30 +84,6 @@
             app:destination="@id/updateAddressFragment" />
     </fragment>
     <fragment
-        android:id="@+id/saveAddressFragment"
-        tools:layout="@layout/save_address_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.saveaddress.SaveAddressFragment"
-        android:label="SaveAddressFragment" >
-        <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="placeholder"
-            app:argType="string" />
-        <argument
-            android:name="type"
-            app:argType="string" />
-    </fragment>
-    <fragment
-        android:id="@+id/saveAddressDetailsFragment"
-        tools:layout="@layout/save_address_details_fragment"
-        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.addressdetail.SaveAddressDetailsFragment"
-        android:label="SaveAddressDetailsFragment" >
-
-        <argument android:name="location"
-            app:argType="com.mevron.rides.driver.util.LocationModel" />
-    </fragment>
-    <fragment
         android:id="@+id/updateAddressFragment"
         android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.UpdateAddressFragment"
         android:label="update_address_fragment"
@@ -117,8 +93,6 @@
             app:argType="com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetSavedAddressData" />
     </fragment>
     <action android:id="@+id/action_global_addSavedPlaceFragment" app:destination="@id/addSavedPlaceFragment" />
-    <action android:id="@+id/action_global_saveAddressFragment" app:destination="@id/saveAddressFragment" />
-    <action android:id="@+id/action_global_saveAddressDetailsFragment" app:destination="@id/saveAddressDetailsFragment" />
     <fragment
         android:id="@+id/bankDetailFragment"
         tools:layout="@layout/bank_detail_fragment"
@@ -132,7 +106,11 @@
         android:id="@+id/addVehicleFragment2"
         tools:layout="@layout/add_vehicle_fragment"
         android:name="com.mevron.rides.driver.updateprofile.ui.AddVehicleFragment"
-        android:label="AddVehicleFragment" />
+        android:label="AddVehicleFragment" >
+        <argument
+            android:name="fromSideBar"
+            app:argType="boolean" />
+    </fragment>
     <fragment
         android:id="@+id/cardDetailsFragment"
         tools:layout="@layout/card_details_fragment"
@@ -201,12 +179,22 @@
         <action
             android:id="@+id/action_vehicleFragment_to_addVehicleFragment2"
             app:destination="@id/addVehicleFragment2" />
+        <action
+            android:id="@+id/action_vehicleFragment_to_addNewVehicleFragment"
+            app:destination="@id/addNewVehicleFragment" />
     </fragment>
     <fragment
         android:id="@+id/vehicleImagesFragment"
         android:name="com.mevron.rides.driver.sidemenu.vehicle.ui.VehicleImagesFragment"
         android:label="vehicle_images_fragment"
-        tools:layout="@layout/vehicle_images_fragment" />
+        tools:layout="@layout/vehicle_images_fragment" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="true" />
+        <argument android:name="name"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/emergencyFragment"
         android:name="com.mevron.rides.driver.sidemenu.emerg.ui.views.EmergencyFragment"
@@ -316,5 +304,71 @@
         android:name="com.mevron.rides.driver.updateprofile.ui.UploadInsuranceFragment"
         android:label="upload_insurance_fragment"
         tools:layout="@layout/upload_insurance_fragment" />
+    <fragment
+        android:id="@+id/insuranceFragment"
+        android:name="com.mevron.rides.driver.sidemenu.vehicle.ui.InsuranceFragment"
+        android:label="fragment_insurance"
+        tools:layout="@layout/fragment_insurance" >
+        <argument
+            android:name="isUpdateStatus"
+            app:argType="boolean" />
+        <argument android:name="id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/documentFragment"
+        android:name="com.mevron.rides.driver.sidemenu.vehicle.ui.DocumentFragment"
+        android:label="fragment_document"
+        tools:layout="@layout/fragment_document" >
+        <argument
+            android:name="isUpdateStatus"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/stickerFragment"
+        android:name="com.mevron.rides.driver.sidemenu.vehicle.ui.StickerFragment"
+        android:label="fragment_sticker"
+        tools:layout="@layout/fragment_sticker" >
+        <argument
+            android:name="isUpdateStatus"
+            app:argType="boolean" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment><action android:id="@+id/action_global_insuranceFragment" app:destination="@id/insuranceFragment"/><action android:id="@+id/action_global_documentFragment" app:destination="@id/documentFragment"/><action android:id="@+id/action_global_stickerFragment" app:destination="@id/stickerFragment"/><action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment"/>
+    <fragment
+        android:id="@+id/saveAddressDetailsFragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.addressdetail.SaveAddressDetailsFragment"
+        android:label="SaveAddressDetailsFragment" >
+        <argument
+            android:name="location"
+            app:argType="com.mevron.rides.driver.util.LocationModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/saveAddressFragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.saveaddress.SaveAddressFragment"
+        android:label="SaveAddressFragment" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="holder"
+            app:argType="string" />
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <argument
+            android:name="placeholder"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_saveAddressDetailsFragment" app:destination="@id/saveAddressDetailsFragment" />
+    <action android:id="@+id/action_global_saveAddressFragment" app:destination="@id/saveAddressFragment" />
+    <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment" />
+    <action android:id="@+id/action_global_vehicleImagesFragment" app:destination="@id/vehicleImagesFragment" />
+    <fragment
+        android:id="@+id/addNewVehicleFragment"
+        tools:layout="@layout/fragment_add_new_vehicle"
+        android:name="com.mevron.rides.driver.sidemenu.vehicle.ui.AddNewVehicleFragment"
+        android:label="AddNewVehicleFragment" />
 
 </navigation>

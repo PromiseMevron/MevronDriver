@@ -31,11 +31,13 @@ class Register1Fragment : Fragment(), ViewTreeObserver.OnScrollChangedListener {
         binding.recyclerView.viewTreeObserver.addOnScrollChangedListener(this)
 
         binding.hasACall.setOnClickListener {
-            findNavController().navigate(R.id.action_regist1Fragment_to_addVehicleFragment)
+            val action = Register1FragmentDirections.actionRegist1FragmentToAddVehicleFragment(false)
+            findNavController().navigate(action)
         }
 
         binding.needACall.setOnClickListener {
-            findNavController().navigate(R.id.action_regist1Fragment_to_addVehicleFragment)
+            val action = Register1FragmentDirections.actionRegist1FragmentToAddVehicleFragment(false)
+            findNavController().navigate(action)
         }
 
         binding.backButton.setOnClickListener {

@@ -18,6 +18,6 @@ interface AuthApi {
     @POST("api/v1/acquisation/driver/validate-otp")
     suspend fun verifyOTP(@Body verifyOTPRequest: VerifyOTPRequest): Response<VerifyOTPResponse>
 
-    @POST("api/v1/acquisation/driver/auth/update-account")
+    @POST("api/v1/acquisation/driver/auth/update-profile")
     suspend fun createAccount(@Body data: CreateAccountRequest): Response<CreateAccountResponse>
 }

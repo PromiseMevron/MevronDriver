@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.VehicleFragmentBinding
 import com.mevron.rides.driver.sidemenu.vehicle.ui.event.VehicleEvent
+import com.mevron.rides.driver.updateprofile.ui.Register1FragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -44,7 +45,10 @@ class VehicleFragment : Fragment(), SelectVehicle {
         viewModel.updateState(isLoading = false)
         viewModel.onEvent(VehicleEvent.MakeAPICall)
         binding.addAVehicle.setOnClickListener {
-            findNavController().navigate(R.id.action_vehicleFragment_to_addVehicleFragment2)
+           // val action = VehicleFragmentDirections.actionVehicleFragmentToAddVehicleFragment2(true)
+           // findNavController().navigate(action)
+            findNavController().navigate(R.id.action_vehicleFragment_to_addNewVehicleFragment)
+           // findNavController().navigate(R.id.action_vehicleFragment_to_addVehicleFragment2)
         }
         adapter = VehicleAdapter(this)
         binding.riderRecycler.adapter = adapter

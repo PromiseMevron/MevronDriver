@@ -2,12 +2,13 @@ package com.mevron.rides.driver.documentcheck.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mevron.rides.driver.documentcheck.data.model.CarProperties
-import com.mevron.rides.driver.documentcheck.data.model.Document
+import com.mevron.rides.driver.documentcheck.data.model.CarProperty
 import com.mevron.rides.driver.documentcheck.data.model.GetDocumentResponse
 import com.mevron.rides.driver.documentcheck.domain.usecase.GetDocumentsStatusUseCase
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
+import com.mevron.rides.driver.home.model.documents.CarProperties
+import com.mevron.rides.driver.home.model.documents.Document
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,8 +42,8 @@ class DocumentCheckViewModel @Inject constructor(
                     updateState(
                         loading = false,
                         errorMessage = "",
-                        documentStatus = data.docSuccess.docData.documents.toMutableList(),
-                        carProperties = data.docSuccess.docData.carProperties
+                        documentStatus = data.success.data.documents.toMutableList(),
+                        carProperties = data.success.data.car_properties.toMutableList()
                     )
                 }
                 is DomainModel.Error -> mutableState.update {
@@ -58,7 +59,7 @@ class DocumentCheckViewModel @Inject constructor(
     fun updateState(
         loading: Boolean? = null,
         errorMessage: String? = null,
-        carProperties: CarProperties? = null,
+        carProperties: MutableList<CarProperty>? = null,
         documentStatus: MutableList<Document>? = null,
     ) {
         val currentState = mutableState.value

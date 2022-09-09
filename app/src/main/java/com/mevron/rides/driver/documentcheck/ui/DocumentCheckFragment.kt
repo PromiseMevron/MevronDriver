@@ -11,16 +11,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.DocumentCheckFragmentBinding
-import com.mevron.rides.driver.sidemenu.vehicle.ui.SelectVehicleDetail
-import com.mevron.rides.driver.sidemenu.vehicle.ui.VehicleDetailAdapter
+import com.mevron.rides.driver.home.model.documents.Document
+import com.mevron.rides.driver.sidemenu.vehicle.ui.*
 import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class DocumentCheckFragment : Fragment(), SelectVehicleDetail {
+class DocumentCheckFragment : Fragment(), SelectVehicleDetail, SelectVehicleDetailDocument {
 
     private val viewModel: DocumentCheckViewModel by viewModels()
     private lateinit var binding: DocumentCheckFragmentBinding
@@ -43,16 +44,23 @@ class DocumentCheckFragment : Fragment(), SelectVehicleDetail {
         val adapter = VehicleDetailAdapter(this, requireContext())
         binding.recyclerView.adapter = adapter
 
+        val adapter2 = VehicleDetailListedAdapter(this, requireContext())
+        binding.recyclerViewVehicle.adapter = adapter2
+
+        viewModel.updateState(loading = false)
+        viewModel.onEvent(DocumentEvent.GetStatus)
+
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
-                    toggleBusyDialog(
+                 /*   toggleBusyDialog(
                         state.loading,
                         desc = if (state.loading) "Processing..." else null
-                    )
+                    )*/
                     adapter.submitList(state.documentStatus)
+                    adapter2.submitList(state.carProperties)
                     binding.carProp.text =
-                        "${getString(R.string.driver_documents)}\n${state.carProperties.make} - ${state.carProperties.plateNumber}"
+                        "${getString(R.string.driver_documents)}"
                 }
             }
         }
@@ -77,8 +85,53 @@ class DocumentCheckFragment : Fragment(), SelectVehicleDetail {
         }
     }
 
-    override fun selectVehicle() {
+    override fun selectVehicle(document: Document) {
+        viewModel.updateState(loading = false)
+        if (document.name == "Driver License" && document.status == 0){
+            val action = DocumentFragmentDirections.actionGlobalDocumentFragment(true)
+            findNavController().navigate(action)
+        }
 
+        if (document.name == "Profile Photo" && document.status == 0){
+            findNavController().navigate(R.id.action_global_profileFragment)
+        }
+        if (document.name == "Driver License" && document.status == 2){
+            val action = DocumentFragmentDirections.actionGlobalDocumentFragment(true)
+            findNavController().navigate(action)
+        }
+
+        if (document.name == "Profile Photo" && document.status == 2){
+            findNavController().navigate(R.id.action_global_profileFragment)
+        }
+        if (document.status != 0 && document.status != 2){
+            val action = DocumentFragmentDirections.actionGlobalVehicleImagesFragment(document.url, document.name)
+            findNavController().navigate(action)
+        }
+    }
+
+    override fun selectVehicleDocument(document: Document, id: String) {
+        if (document.name == "Vehicle Registration Sticker" && document.status == 0){
+            val action = DocumentFragmentDirections.actionGlobalStickerFragment(true, id)
+            findNavController().navigate(action)
+        }
+        if (document.name == "Vehicle Insurance" && document.status == 0){
+            val action = DocumentFragmentDirections.actionGlobalInsuranceFragment(true, id)
+            findNavController().navigate(action)
+        }
+
+        if (document.name == "Vehicle Registration Sticker" && document.status == 2){
+            val action = DocumentFragmentDirections.actionGlobalStickerFragment(true, id)
+            findNavController().navigate(action)
+        }
+        if (document.name == "Vehicle Insurance" && document.status == 2){
+            val action = DocumentFragmentDirections.actionGlobalInsuranceFragment(true, id)
+            findNavController().navigate(action)
+        }
+
+        if (document.status != 0 && document.status != 2){
+            val action = DocumentFragmentDirections.actionGlobalVehicleImagesFragment(document.url, document.name)
+            findNavController().navigate(action)
+        }
     }
 
 

@@ -31,6 +31,7 @@
         <entry key="app/src/main/res/drawable/ic_back_white.xml" value="0.168" />
         <entry key="app/src/main/res/drawable/ic_black_background.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_call_help.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_cancel_img.xml" value="0.107" />
         <entry key="app/src/main/res/drawable/ic_cancel_x.xml" value="0.2523076923076923" />
         <entry key="app/src/main/res/drawable/ic_car.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_chat_help.xml" value="0.1665" />
@@ -129,6 +130,7 @@
         <entry key="app/src/main/res/layout/bank_items.xml" value="0.1" />
         <entry key="app/src/main/res/layout/bank_list_item.xml" value="0.11875" />
         <entry key="app/src/main/res/layout/bullet_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/cancel_dialog.xml" value="0.175" />
         <entry key="app/src/main/res/layout/car_add_items.xml" value="0.335" />
         <entry key="app/src/main/res/layout/car_add_items_bottom.xml" value="0.25" />
         <entry key="app/src/main/res/layout/car_color_add.xml" value="0.24010416666666667" />
@@ -145,8 +147,9 @@
         <entry key="app/src/main/res/layout/color_item.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/dialog_busy_layout.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/layout/doc_chooser_layout.xml" value="0.24010416666666667" />
-        <entry key="app/src/main/res/layout/document_check_fragment.xml" value="0.24010416666666667" />
-        <entry key="app/src/main/res/layout/document_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/document_check_fragment.xml" value="0.16849451645064806" />
+        <entry key="app/src/main/res/layout/document_item.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/document_vehicle_item.xml" value="0.175" />
         <entry key="app/src/main/res/layout/driver_prefrence_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/earning_cashout_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/earning_today_activity_layout.xml" value="0.25" />
@@ -156,11 +159,15 @@
         <entry key="app/src/main/res/layout/emergency_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/emergency_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/empty_header.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/fragment_add_new_vehicle.xml" value="0.12083333333333333" />
+        <entry key="app/src/main/res/layout/fragment_document.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/fragment_face_liveness_detection.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/fragment_face_liveness_detection_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/fragment_facial_recognition.xml" value="0.19157608695652173" />
+        <entry key="app/src/main/res/layout/fragment_insurance.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/fragment_referal_detail.xml" value="0.16197916666666667" />
         <entry key="app/src/main/res/layout/fragment_referral.xml" value="0.2328125" />
+        <entry key="app/src/main/res/layout/fragment_sticker.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/help_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/highlight_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/home_bottom.xml" value="0.25" />

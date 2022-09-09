@@ -2,6 +2,7 @@ package com.mevron.rides.driver.updateprofile.data.repository
 
 import com.mevron.rides.driver.data.model.DefaultResponse
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.sidemenu.vehicle.data.model.addvehicle.AddVehicleResponse
 import com.mevron.rides.driver.updateprofile.data.network.UpdateProfileApi
 import com.mevron.rides.driver.updateprofile.domain.model.AddVehicleRequest
 import com.mevron.rides.driver.updateprofile.domain.model.SecurityNumRequest
@@ -14,7 +15,7 @@ class UpdateProfileRepository(
 ) : IUpdateProfileRepository {
 
     override suspend fun addVehicle(data: AddVehicleRequest): DomainModel =
-        mapToDomainModel(updateProfileApi.addVehicle(data))
+        mapVehicleToDomainModel(updateProfileApi.addVehicle(data))
 
     override suspend fun uploadLicence(image: MultipartBody.Part): DomainModel =
         mapToDomainModel(updateProfileApi.uploadLicence(image))
@@ -34,6 +35,13 @@ class UpdateProfileRepository(
     private fun mapToDomainModel(it: Response<DefaultResponse>) =
         if (it.isSuccessful) {
             DomainModel.Success(data = Unit)
+        } else {
+            DomainModel.Error(Throwable(it.errorBody().toString()))
+        }
+
+    private fun mapVehicleToDomainModel(it: Response<AddVehicleResponse>) =
+        if (it.isSuccessful) {
+            DomainModel.Success(data = it.body()?.success?.data?.uuid ?: "")
         } else {
             DomainModel.Error(Throwable(it.errorBody().toString()))
         }

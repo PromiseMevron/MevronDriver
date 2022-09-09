@@ -83,6 +83,9 @@ class AddAccountFragment : Fragment(), AccountFieldFilled, BankSelected {
                     )
 
                     if (state.postSuccess){
+                        binding.holderField.setText("")
+                        binding.holderField2.setText("")
+                        binding.holderField3.setText("")
                         Toast.makeText(context, "Account detail added successfully", Toast.LENGTH_LONG).show()
                     }
                    // setUpButton(state.data.isEmpty())
@@ -106,6 +109,7 @@ class AddAccountFragment : Fragment(), AccountFieldFilled, BankSelected {
             if (binding.holderField.text.toString().length != 10 && binding.holderField.text.toString().isNotEmpty()){
                 Toast.makeText(requireContext(), "Enter Account Number", Toast.LENGTH_LONG).show()
             }else{
+
                 viewModel.addNewAccount()
             }
         }

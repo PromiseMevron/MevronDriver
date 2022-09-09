@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_addVehicleFragment_to_uploadDocumFragment"
             app:destination="@id/uploadDocumFragment" />
+        <argument
+            android:name="fromSideBar"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/uploadDocumFragment"

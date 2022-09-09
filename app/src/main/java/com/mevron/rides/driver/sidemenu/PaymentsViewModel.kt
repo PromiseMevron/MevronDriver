@@ -73,9 +73,11 @@ class PaymentsViewModel @Inject constructor (private val useCase: GetPaymentLink
         viewModelScope.launch(Dispatchers.IO) {
             val result = getCardsUseCase()
             if (result is DomainModel.Success) {
+                updateState(isLoading = false)
                 val dd = result.data as GetCardData
                 updateState(paymentCards = dd, isLoading = false)
             } else {
+                updateState(isLoading = false)
                 updateState(error = (result as DomainModel.Error).error.toString())
             }
         }
@@ -87,6 +89,7 @@ class PaymentsViewModel @Inject constructor (private val useCase: GetPaymentLink
         )
 
     fun confirmPayment() {
+        updateState(isLoading = true)
         val uuid = mutableState.value.confirmLink
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = confirmUseCase(uuid)) {

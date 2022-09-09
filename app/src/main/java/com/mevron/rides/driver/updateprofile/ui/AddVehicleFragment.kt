@@ -75,7 +75,8 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.backButton.setOnClickListener { addVehicleViewModel.onEventReceived(AddVehicleEvent.BackClicked) }
-
+        val isSideMenu = AddVehicleFragmentArgs.fromBundle(requireArguments()).fromSideBar
+        addVehicleViewModel.updateState(isFromSideBar = isSideMenu)
         initBottomSheetBehavior()
 
         initColorAdapter()
@@ -114,7 +115,12 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
 
     private fun handleDataSubmittedSuccess(state: AddVehicleState) {
         if (state.isDataSubmitted) {
-            findNavController().navigate(R.id.action_addVehicleFragment_to_uploadDocumFragment)
+            if (state.isFromSideBar){
+              //  val action = AddVehicleFragmentDirections.actionGlobalInsuranceFragment(false)
+               // findNavController().navigate(action)
+            }else{
+                findNavController().navigate(R.id.action_addVehicleFragment_to_uploadDocumFragment)
+            }
             addVehicleViewModel.updateState(
                 isDataSubmitted = false,
                 isSubmittingData = false
