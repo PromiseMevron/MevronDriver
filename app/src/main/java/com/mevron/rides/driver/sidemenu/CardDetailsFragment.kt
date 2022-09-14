@@ -47,6 +47,8 @@ class CardDetailsFragment : Fragment() {
 
         binding.cardNumber.text = "****${cards.lastDigits}"
         binding.expiryNumber.text = "${cards.expiryMonth}/${cards.expiryYear}"
+        binding.cardName.text = "*****"
+        binding.cardLogo.setImageResource(cards.getCardImage())
 
         binding.removeCard.setOnClickListener {
             deleteCard()

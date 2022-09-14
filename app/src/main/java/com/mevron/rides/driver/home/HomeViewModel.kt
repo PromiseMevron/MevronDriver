@@ -3,10 +3,12 @@ package com.mevron.rides.driver.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.mevron.rides.driver.authentication.domain.usecase.GetSharedPreferenceUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.GetSurgeUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCase
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.home.data.model.home.DeviceID
 import com.mevron.rides.driver.home.domain.model.HomeScreenDomainModel
 import com.mevron.rides.driver.home.domain.model.MapTripState
 import com.mevron.rides.driver.home.domain.usecase.FCMTokenUseCase
@@ -65,6 +67,13 @@ class HomeViewModel @Inject constructor(
         get() = mutableState
 
 
+    fun updateCancelValue(value: String) {
+        mutableState.update {
+            it.transform(
+                reasonForCancel = value,
+            )
+        }
+    }
 
     fun onEventReceived(event: HomeViewEvent) =
         when (event) {
@@ -92,8 +101,16 @@ class HomeViewModel @Inject constructor(
             when (val result = profileUseCase()) {
 
                 is DomainModel.Success -> {
+                    val gson = Gson()
                     val data = result.data as GetProfileData
+                    val user = gson.toJson(data)
                     setPreferenceUseCase(Constants.SUPPORT_NUMBER, data.supportNumber ?: "")
+                    setPreferenceUseCase(Constants.PROFILE,user )
+                    mutableState.update {
+                        it.transform(
+                            gottenProfile = true,
+                        )
+                    }
                 }
                 else -> {}
             }
@@ -314,6 +331,7 @@ class HomeViewModel @Inject constructor(
             0 -> DocumentSubmissionStatus.NONE
             1 -> DocumentSubmissionStatus.REVIEW
             2 -> DocumentSubmissionStatus.REJECTED
+            4 -> DocumentSubmissionStatus.EXPIRED
             else -> DocumentSubmissionStatus.OKAY
         }
     }
@@ -328,35 +346,22 @@ class HomeViewModel @Inject constructor(
         mutableState.update { it.transform(getStatus = false) }
     }
 
-  /*  fun updateToken(id: String) {
-
-        mutableState.update {
-            it.transform(
-                deviceID = id
-            )
-        }
-        if (mutableState.value.deviceID.isEmpty()) {
-            return
-        }
-        val theId = mutableState.value.deviceID
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val result = fcmTokenUseCase(DeviceID(device_id = theId))
-
-                if (result is DomainModel.Success) {
-                    mutableState.update {
-                        it.transform(
-                            tokenSuccessful = true
-                        )
-                    }
-                } else {
-                    mutableState.update {
-                        it.transform(
-                            tokenSuccessful = true
-                        )
-                    }
+    fun updateToken(id: String) {
+        Log.d("TOKEN FOR FIREBASE", "TOKEN FOR FIREBASE 2 $id")
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d("TOKEN FOR FIREBASE", "TOKEN FOR FIREBASE 3 $id")
+            val result = fcmTokenUseCase(DeviceID(device_id = id))
+            if (result is DomainModel.Success) {
+                Log.d("TOKEN FOR FIREBASE", "TOKEN FOR FIREBASE 4 $id")
+                mutableState.update {
+                    it.transform(
+                        tokenSuccessful = true
+                    )
                 }
-            } catch (ex: Exception) {
+            }
+
+            if (result is DomainModel.Error) {
+                Log.d("TOKEN FOR FIREBASE", "TOKEN FOR FIREBASE 5 $id")
                 mutableState.update {
                     it.transform(
                         tokenSuccessful = true
@@ -364,6 +369,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
-    }*/
+    }
 
 }

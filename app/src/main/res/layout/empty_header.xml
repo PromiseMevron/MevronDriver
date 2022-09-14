@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_120sdp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="@dimen/_20sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -15,5 +16,37 @@
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_50sdp"
         android:id="@+id/close_drawer"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:src="@drawable/ic_add_vehicle_drawer"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/close_drawer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/close_drawer"
+        android:id="@+id/add_vehicle"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="160dp"
+        android:layout_height="48dp"
+        android:background="@drawable/rounded_border_car_drawer"
+        tools:text="Honda"
+        android:visibility="visible"
+        android:layout_marginEnd="10dp"
+        android:textSize="16sp"
+        android:elevation="10dp"
+        android:textAllCaps="false"
+        android:textColor="#8a8a8a"
+        app:layout_constraintTop_toTopOf="@id/close_drawer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/close_drawer"
+        app:cornerRadius="24dp"
+        android:id="@+id/default_vehicle_click"
+        android:drawableEnd="@drawable/ic_drop_ash"/>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

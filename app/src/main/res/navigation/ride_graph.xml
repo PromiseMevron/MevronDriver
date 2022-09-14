@@ -369,6 +369,7 @@
         android:id="@+id/addNewVehicleFragment"
         tools:layout="@layout/fragment_add_new_vehicle"
         android:name="com.mevron.rides.driver.sidemenu.vehicle.ui.AddNewVehicleFragment"
-        android:label="AddNewVehicleFragment" />
+        android:label="AddNewVehicleFragment" /><action android:id="@+id/action_global_emergencyFragment" app:destination="@id/emergencyFragment"/>
+    <action android:id="@+id/action_global_helpFragment" app:destination="@id/helpFragment" />
 
 </navigation>

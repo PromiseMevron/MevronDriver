@@ -2,8 +2,12 @@ package com.mevron.rides.driver.authentication.ui.createaccount
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mevron.rides.driver.authentication.data.models.createaccount.GetCityRequest
 import com.mevron.rides.driver.authentication.domain.model.CreateAccountRequest
+import com.mevron.rides.driver.authentication.domain.model.GetCitiesData
+import com.mevron.rides.driver.authentication.domain.model.GetCityDomainData
 import com.mevron.rides.driver.authentication.domain.usecase.CreateAccountUseCase
+import com.mevron.rides.driver.authentication.domain.usecase.GetCityUseCase
 import com.mevron.rides.driver.authentication.domain.usecase.SetPreferenceUseCase
 import com.mevron.rides.driver.authentication.ui.createaccount.event.CreateAccountEvent
 import com.mevron.rides.driver.authentication.ui.createaccount.state.CreateAccountState
@@ -21,7 +25,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AccountCreationViewModelV2 @Inject constructor(
     private val useCase: CreateAccountUseCase,
-    private val setPreferenceUseCase: SetPreferenceUseCase
+    private val setPreferenceUseCase: SetPreferenceUseCase,
+    private val getCitiesData: GetCityUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<CreateAccountState> =
@@ -58,13 +63,31 @@ class AccountCreationViewModelV2 @Inject constructor(
         }
     }
 
+     fun getCities() {
+        viewModelScope.launch(Dispatchers.IO)  {
+            when (val result = getCitiesData(GetCityRequest(countryName = state.value.country))){
+                is DomainModel.Error -> mutableState.update {
+                    mutableState.value.copy(
+                    )
+                }
+                is DomainModel.Success -> {
+                    val data = result.data as GetCityDomainData
+                    updateState(
+                       cityData = data.cities
+                    )
+                }
+            }
+        }
+    }
+
     private fun CreateAccountState.buildRequest(): CreateAccountRequest =
         CreateAccountRequest(
             city = city,
             email = email,
             firstName = firstName,
             lastName = lastName,
-            referralCode = referral
+            referralCode = referral,
+            type = type
         )
 
 
@@ -75,12 +98,16 @@ class AccountCreationViewModelV2 @Inject constructor(
          phoneNumber: String? = null,
          name: String? = null,
          city: String? = null,
+         cityName: String? = null,
          referral: String? = null,
          isLoading: Boolean? = false,
          isRequestSuccess: Boolean? = false,
          email: String? = null,
          error: String? = null,
-         detailsComplete: Boolean? = false
+         country: String? = null,
+         detailsComplete: Boolean? = null,
+         cityData: List<GetCitiesData>? = null,
+         type: String? = null
     ) {
         val currentValue = mutableState.value
         val fullName = name?.split(" ")
@@ -107,7 +134,11 @@ class AccountCreationViewModelV2 @Inject constructor(
                 error = error?: currentValue.error,
                 email = email?: currentValue.email,
                 detailsComplete = detailsComplete ?: currentValue.detailsComplete,
-                validEmail = email?.isValidEmail() ?: currentValue.validEmail
+                validEmail = email?.isValidEmail() ?: currentValue.validEmail,
+                country = country ?: currentValue.country,
+                cityData = cityData ?: currentValue.cityData,
+                cityName = cityName ?: currentValue.cityName,
+                type = type ?: currentValue.type
             )
         }
     }

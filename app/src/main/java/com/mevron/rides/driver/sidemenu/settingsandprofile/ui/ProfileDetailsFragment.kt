@@ -62,6 +62,7 @@ class ProfileDetailsFragment : Fragment() {
                         binding.rideNumbers.text = this.tripsCompleted
                         binding.acceptNumbers.text = "${this.acceptanceRate}%"
                         binding.cancelNumbers.text = "${this.cancellationRate}%"
+                        binding.userType.text = this.type?.capitalize()
                         adapter.submitList(this.reviews)
                         if (this.reviews.isEmpty()) {
                             binding.noReview.visibility = View.VISIBLE

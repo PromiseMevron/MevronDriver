@@ -6,4 +6,5 @@ interface IVehicleRepository {
     suspend fun getVehicles(): DomainModel
     suspend fun getVehicleDetails(id: String): DomainModel
     suspend fun deleteVehicle(id: String): DomainModel
+    suspend fun updateVehicle(id: String): DomainModel
 }

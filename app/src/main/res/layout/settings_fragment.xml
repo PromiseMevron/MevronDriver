@@ -303,7 +303,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="@dimen/_14sdp"
-                    android:src="@drawable/ic_place"/>
+                    android:src="@drawable/ic_place_2"/>
 
                 <TextView
                     android:layout_width="wrap_content"

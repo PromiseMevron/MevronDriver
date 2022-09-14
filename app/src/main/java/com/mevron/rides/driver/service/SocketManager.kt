@@ -319,7 +319,8 @@ class SocketManager @Inject constructor(
         riderName ?: "",
         destinationAddress ?: "",
         pickupAddress ?: "",
-        amount ?: "", currency ?: ""
+        amount ?: "", currency ?: "",
+        riderPhoneNumber ?: ""
     )
 
     private fun inTripRouting(stateMachineDomainData: StateMachineDomainData): MapTripState {
@@ -345,7 +346,7 @@ class SocketManager @Inject constructor(
                     pickUpPassengerInfo = "Picking up " + data?.riderName,
                     dropOffAtInfo = "",
                     pickUpLocationInfo = "",
-                    riderNumber = ""
+                    riderNumber = data?.riderPhoneNumber ?: ""
                 )
 
                 (MapTripState.ApproachingPassengerState(data = approachingPassengerData))

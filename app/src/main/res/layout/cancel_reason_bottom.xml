@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cancel_bottom"
+        android:visibility="gone"
+        android:background="@drawable/rounded_corner">
+
+
+        <ImageView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_close_drawer"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/close"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_5sdp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/name_display"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/share_the_reason_for_cancelling_the_ride"
+                android:textColor="#383838"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/_50sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/_18ssp"/>
+
+            <TextView
+                android:id="@+id/name_display2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/help_us_to_improve_the_services_better"
+                android:textColor="#9C9C9C"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/name_display"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/_10ssp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_280sdp"
+                app:layout_constraintTop_toBottomOf="@id/name_display2"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="vertical"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:layout_marginStart="@dimen/_14sdp">
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/inefficient_route"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_border_update"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="@string/no_face_cover_or_mask"
+                    android:textAllCaps="false"
+                    android:textColor="#383838"
+                    android:textSize="@dimen/_14sdp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/inefficient_route_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_border_colored"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="@string/no_face_cover_or_mask"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    android:textColor="#383838"
+                    android:textSize="@dimen/_14sdp" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/can_t_find_the_rider"
+                    android:id="@+id/booked_by_mistake"
+                    android:textColor="#383838"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:background="@drawable/rounded_border_cancel"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/can_t_find_the_rider"
+                    android:id="@+id/booked_by_mistake_1"
+                    android:textColor="#383838"
+                    android:visibility="gone"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:background="@drawable/rounded_border_colored"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/nowhere_to_stop"
+                    android:id="@+id/change_in_plan"
+                    android:textColor="#383838"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:background="@drawable/rounded_border_cancel"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/nowhere_to_stop"
+                    android:id="@+id/change_in_plan_1"
+                    android:textColor="#383838"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:background="@drawable/rounded_border_colored"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/rider_s_items_don_t_fit"
+                    android:id="@+id/other22"
+                    android:textColor="#383838"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:background="@drawable/rounded_border_cancel"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/rider_s_items_don_t_fit"
+                    android:id="@+id/other22_1"
+                    android:textColor="#383838"
+                    android:visibility="gone"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:background="@drawable/rounded_border_colored"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/too_many_riders"
+                    android:id="@+id/other"
+                    android:textColor="#383838"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:background="@drawable/rounded_border_cancel"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/too_many_riders"
+                    android:id="@+id/other_1"
+                    android:textColor="#383838"
+                    android:visibility="gone"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:background="@drawable/rounded_border_colored"/>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/submit_feedback"
+                    android:id="@+id/submit_feedback"
+                    android:textColor="#ffffff"
+                    app:cornerRadius="8dp"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_14sdp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:background="@color/primary"/>
+            </LinearLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

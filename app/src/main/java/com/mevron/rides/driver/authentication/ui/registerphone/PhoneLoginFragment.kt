@@ -63,7 +63,7 @@ class PhoneLoginFragment : Fragment() {
                         handleError(state.error)
                     }
                     if (state.requestSuccess) {
-                        handleSuccess(state.countryCodeAndPhoneNumber)
+                        handleSuccess(state)
                     }
                     startCheckOfNumber(state.canCheckNumber, state)
                 }
@@ -79,13 +79,15 @@ class PhoneLoginFragment : Fragment() {
 
         registerPhoneViewModel.updateState(
             country = binding.countryPicker.selectedCountryName,
-            countryCode = binding.countryPicker.selectedCountryCode
+            countryCode = binding.countryPicker.selectedCountryCode,
+            countryNameCode = binding.countryPicker.selectedCountryNameCode
         )
 
         binding.countryPicker.setOnCountryChangeListener {
             registerPhoneViewModel.updateState(
                 country = binding.countryPicker.selectedCountryName,
-                countryCode = binding.countryPicker.selectedCountryCode
+                countryCode = binding.countryPicker.selectedCountryCode,
+                countryNameCode = binding.countryPicker.selectedCountryNameCode
             )
         }
 
@@ -170,9 +172,9 @@ class PhoneLoginFragment : Fragment() {
             }.show()
     }
 
-    private fun handleSuccess(phoneAndCountryCode: String) {
+    private fun handleSuccess(state: RegisterPhoneState) {
         val action =
-            PhoneLoginFragmentDirections.actionPhoneLoginFragmentToOTPFragment(phoneAndCountryCode)
+            PhoneLoginFragmentDirections.actionPhoneLoginFragmentToOTPFragment(state.countryCodeAndPhoneNumber, state.country)
         binding.phoneNumber.setText("")
         findNavController().navigate(action)
         registerPhoneViewModel.updateState(requestSuccess = false)

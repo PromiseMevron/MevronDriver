@@ -17,5 +17,6 @@ data class GetProfileData(
     val reviews: List<Review> = mutableListOf(),
     val tripsCompleted: String = "",
     val uuid: String = "",
-    val supportNumber: String? = ""
+    val supportNumber: String? = "",
+    val type: String? = "",
 )

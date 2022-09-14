@@ -107,7 +107,7 @@ class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingPro
                 phoneNumberStatus,
                 profilePicture ?: "",
                 rating ?: "",
-                uuid ?: "",
+                uuid = uuid ?: "",
                 about = about,
                 acceptanceRate = acceptanceRate,
                 cancellationRate = cancellationRate,
@@ -115,6 +115,7 @@ class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingPro
                 currency = currency,
                 reviews = reviews,
                 tripsCompleted = tripsCompleted,
+                type = type ?: ""
             )
         }
     )

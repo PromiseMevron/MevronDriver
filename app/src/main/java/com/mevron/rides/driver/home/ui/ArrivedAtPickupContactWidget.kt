@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mevron.rides.driver.R
 import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 
 class ArrivedAtPickupWidget @JvmOverloads constructor(
     context: Context,
@@ -21,7 +22,7 @@ class ArrivedAtPickupWidget @JvmOverloads constructor(
     private var arrivedActionButton: ImageButton
     private var callButton: View
     private var messageButton: View
-    private var passengerAvatar: ImageView
+    private var passengerAvatar: CircleImageView
     private var ratingText: TextView
     private var ratingBackground: View
     private var passengerName: TextView

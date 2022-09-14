@@ -108,6 +108,22 @@
             android:textFontWeight="600"
             tools:targetApi="p" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="Promise Ochornma"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/user_name"
+            android:fontFamily="@font/poppins_regular"
+            android:textSize="@dimen/_14ssp"
+            android:textColor="#ffffff"
+            android:maxLines="1"
+            android:id="@+id/user_type"
+            android:textFontWeight="200"
+            tools:targetApi="p" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -357,9 +373,11 @@
         app:layout_constraintTop_toBottomOf="@id/no_review"
         android:fontFamily="@font/poppins_regular"
         android:layout_marginTop="@dimen/_2sdp"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_8ssp"
         android:textColor="#666666"
         android:maxLines="1"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_14sdp"
         android:id="@+id/no_review_body"
         android:textFontWeight="600"
         tools:targetApi="p" />

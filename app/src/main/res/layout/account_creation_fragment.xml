@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
-
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 <ScrollView
 
     android:layout_width="match_parent"
@@ -214,24 +214,23 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:id="@+id/licence_plate_number_text_view" />
 
-
-    <EditText
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/city_rider"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
         android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_14sdp"
         app:layout_constraintTop_toBottomOf="@id/licence_plate_number_text_view"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@drawable/rounded_corner_field"
+        android:focusableInTouchMode="false"
+        android:gravity="center_vertical"
+        android:hint="@string/lagos"
         android:paddingStart="@dimen/_10sdp"
         android:paddingEnd="@dimen/_10sdp"
-        android:layout_height="52dp"
-        android:layout_weight="2"
-        android:id="@+id/city_rider"
-        android:hint="Lagos"
-        android:background="@drawable/rounded_corner_field"
         android:textColor="#383838"
-        android:inputType="text"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -256,7 +255,6 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_height="52dp"
         android:layout_weight="2"
-
         android:id="@+id/referal_field"
         android:hint=""
         android:paddingStart="@dimen/_10sdp"
@@ -267,11 +265,65 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#25255A"
+        android:textColor="#8a8a8a"
         android:textSize="@dimen/_10ssp"
-        android:text="By continuing, I agree to the terms of use &amp; privacy policy."
+        android:text="@string/vehicle_type"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/referal_field"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/vehivle_type_text" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:weightSum="1"
+        android:buttonTint="@color/primary"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vehivle_type_text"
+        android:id="@+id/sortRadioGroup">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bike"
+            android:id="@+id/bike"
+            android:buttonTint="@color/primary"
+            android:checked="false"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tricycle"
+            android:id="@+id/tricycle"
+            android:buttonTint="@color/primary"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/car"
+            android:id="@+id/car"
+            android:buttonTint="@color/primary"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#8a8a8a"
+        android:textSize="@dimen/_10ssp"
+        android:text="@string/by_continuing_i_agree_to_the_terms_of_use_amp_privacy_policy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sortRadioGroup"
         android:layout_marginStart="@dimen/_14sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:id="@+id/terms" />
@@ -293,8 +345,13 @@
         app:layout_constraintTop_toBottomOf="@id/terms"
         android:id="@+id/create_account"/>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
+        <include
+            android:id="@+id/add_city"
+            layout="@layout/city_add_layout" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 </layout>

@@ -50,16 +50,18 @@
         app:layout_constraintStart_toStartOf="@+id/messageBackground"
         app:layout_constraintTop_toTopOf="@+id/messageBackground" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/passengerAvatar"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:background="#100"
+        android:background="@android:color/transparent"
         android:textSize="@dimen/_20sdp"
+        android:src="@drawable/profile_dummy"
         app:layout_constraintBottom_toTopOf="@+id/passengerName"
         app:layout_constraintEnd_toStartOf="@+id/messageBackground"
         app:layout_constraintStart_toEndOf="@+id/callBackground"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_20sdp"
         tools:text="1 min remaining" />
 
     <View

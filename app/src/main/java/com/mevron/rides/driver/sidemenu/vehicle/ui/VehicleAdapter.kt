@@ -11,7 +11,7 @@ import com.mevron.rides.driver.databinding.VehicleItemBinding
 import com.mevron.rides.driver.sidemenu.vehicle.domain.model.AllVehicleDomainDatum
 import com.squareup.picasso.Picasso
 
-class VehicleAdapter(val sel: SelectVehicle) :
+class VehicleAdapter(val sel: SelectVehicle, val useCheck: Boolean = false, val clickedPosition: Int = -1) :
     ListAdapter<AllVehicleDomainDatum, VehicleAdapter.VehiHolder>(VehicleDiffUtil()) {
 
     class VehiHolder(val binding: VehicleItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -49,10 +49,18 @@ class VehicleAdapter(val sel: SelectVehicle) :
     override fun onBindViewHolder(holder: VehiHolder, position: Int) {
         val item = getItem(position)
         holder.binding.root.setOnClickListener {
-            sel.selectVehicle(item.uuid)
+            sel.selectVehicle(item.uuid, position)
         }
         holder.binding.carName.text = item.model
         holder.binding.carNumber.text = item.plateNumber
+        if (useCheck){
+            if (clickedPosition == -1)
+            holder.binding.endImage.setImageResource(if (item.preference) R.drawable.ic_check else R.drawable.unchecked)
+            else
+                holder.binding.endImage.setImageResource(if (position == clickedPosition) R.drawable.ic_check else R.drawable.unchecked)
+        }else{
+            holder.binding.endImage.setImageResource(R.drawable.ic_next)
+        }
         if (!item.image.isNullOrEmpty()) {
             Picasso.get().load(item.image).placeholder(R.drawable.ic_circle_car)
                 .error(R.drawable.ic_circle_car).into(holder.binding.theCarImage)
@@ -61,5 +69,5 @@ class VehicleAdapter(val sel: SelectVehicle) :
 }
 
 interface SelectVehicle {
-    fun selectVehicle(uuid: String)
+    fun selectVehicle(uuid: String, clickedPosition: Int = -1)
 }

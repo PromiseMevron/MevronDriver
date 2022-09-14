@@ -6,6 +6,7 @@ import com.mevron.rides.driver.sidemenu.vehicle.data.model.vehicledetail.Vehicle
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface VehicleApi {
@@ -18,4 +19,7 @@ interface VehicleApi {
 
     @DELETE("/api/v1/driver/auth/vehicle/remove/{uiid}")
     suspend fun deleteVehicles(@Path("uiid") id: String): Response<GeneralResponse>
+
+    @POST("/api/v1/driver/auth/vehicle/status/{uiid}")
+    suspend fun updateVehicles(@Path("uiid") id: String): Response<GeneralResponse>
 }

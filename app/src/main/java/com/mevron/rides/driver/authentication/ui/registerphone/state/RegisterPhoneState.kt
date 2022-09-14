@@ -12,7 +12,8 @@ data class RegisterPhoneState(
     val number: String,
     val isValidNumber: Boolean,
     val isCorrectNumber: Boolean,
-    var canCheckNumber: Boolean
+    var canCheckNumber: Boolean,
+    var countryNameCode: String
 ) {
 
     val countryCodeAndPhoneNumber: String
@@ -31,7 +32,8 @@ data class RegisterPhoneState(
             phoneCodeExpiration = "",
             number = "",
             isValidNumber = false,
-            canCheckNumber = false
+            canCheckNumber = false,
+            countryNameCode = ""
         )
     }
 }

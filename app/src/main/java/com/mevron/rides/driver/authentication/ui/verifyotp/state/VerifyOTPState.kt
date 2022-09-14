@@ -8,7 +8,8 @@ data class VerifyOTPState(
     val isLoading: Boolean,
     val uiid: String,
     val error: String,
-    val accessToken: String
+    val accessToken: String,
+    val country: String
 ) {
     companion object {
         val EMPTY = VerifyOTPState(
@@ -19,7 +20,8 @@ data class VerifyOTPState(
             isLoading = false,
             uiid = "",
             accessToken = "",
-            error = ""
+            error = "",
+            country = ""
         )
     }
 }

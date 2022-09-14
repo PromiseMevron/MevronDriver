@@ -37,6 +37,14 @@ class VehicleRepository(private val api: VehicleApi) : IVehicleRepository {
         }
     }
 
+    override suspend fun updateVehicle(id: String): DomainModel = api.updateVehicles(id).let {
+        if (it.isSuccessful) {
+            it.body()?.toDomainModel()
+                ?: DomainModel.Error(Throwable("failure to fetch all vehicles"))
+        } else {
+            DomainModel.Error(Throwable(it.errorBody().toString()))
+        }
+    }
 
     private fun AllVehiclesResponse.toDomainModel() = DomainModel.Success(
         data = AllVehicleDomainData(data = this.allVehicle.allVehicleData.map {
@@ -48,7 +56,8 @@ class VehicleRepository(private val api: VehicleApi) : IVehicleRepository {
                 it.model,
                 it.plateNumber,
                 it.uuid,
-                it.year
+                it.year,
+                preference = it.preference == "1"
             )
         })
     )

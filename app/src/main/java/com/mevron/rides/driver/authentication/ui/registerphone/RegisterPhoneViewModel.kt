@@ -63,7 +63,7 @@ class RegisterPhoneViewModel @Inject constructor(
 
     private fun RegisterPhoneState.buildRequest(): RegisterPhoneRequest =
         RegisterPhoneRequest(
-            country = country,
+            country = countryNameCode,
             phoneNumber = countryCodeAndPhoneNumber
         )
 
@@ -73,6 +73,7 @@ class RegisterPhoneViewModel @Inject constructor(
     fun updateState(
         loading: Boolean? = false,
         country: String? = null,
+        countryNameCode: String? = null,
         countryCode: String? = null,
         phoneNumber: String? = null,
         requestSuccess: Boolean? = false,
@@ -97,7 +98,8 @@ class RegisterPhoneViewModel @Inject constructor(
                 phoneCodeExpiration = phoneCodeExpiration ?: currentValue.phoneCodeExpiration,
                 number = number ?: currentValue.number,
                 isValidNumber = number != null && number.length !in 11..14,
-                canCheckNumber = canCheckNumber ?: currentValue.canCheckNumber
+                canCheckNumber = canCheckNumber ?: currentValue.canCheckNumber,
+                countryNameCode = countryNameCode ?: currentValue.countryNameCode
             )
         }
     }

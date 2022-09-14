@@ -26,7 +26,7 @@
     <color name="button_enabled">#1F2A2A72</color>
     <color name="button_disabled">#9C9C9C</color>
     <color name="document_rejected">#14E01E1E</color>
-    <color name="document_under_review">#FF9B04</color>
+    <color name="document_under_review">#FFEED5</color>
     <color name="document_ok">#140B973A</color>
     <color name="transparent">#00000000</color>
     <color name="error">#E01E1E</color>

@@ -15,6 +15,7 @@ import android.view.Window
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.camera.core.impl.utils.ContextUtil.getApplicationContext
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -42,9 +43,7 @@ import com.mevron.rides.driver.location.ui.event.LocationEvent
 import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.service.PermissionRequestRationaleListener
 import com.mevron.rides.driver.service.PermissionsRequestManager
-import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -59,7 +58,8 @@ class HomeFragment : Fragment(),
     AcceptSlideCompleteListener,
     GoingToDestinationSlideCompleteListener,
     PaymentWidgetEventListener,
-    RatingEventListener {
+    RatingEventListener,
+    HelpAndSupportEventListener{
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var permissionRequestManager: PermissionsRequestManager
@@ -189,7 +189,8 @@ class HomeFragment : Fragment(),
         val noBtn = dialog.findViewById(R.id.dont) as MaterialButton
         yesBtn.setOnClickListener {
             dialog.dismiss()
-            viewModel.cancelRide()
+            binding.cancelReasonLayout.cancelBottom.visibility = View.VISIBLE
+           // viewModel.cancelRide()
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -222,7 +223,7 @@ class HomeFragment : Fragment(),
                     ) + data?.riderName,
                     dropOffAtInfo = "",
                     pickUpLocationInfo = "",
-                    riderNumber = ""
+                    riderNumber = data?.riderPhoneNumber ?: ""
                 )
                 binding.mapView2.renderTripState(MapTripState.ApproachingPassengerState(data = approachingPassengerData))
             }
@@ -263,7 +264,7 @@ class HomeFragment : Fragment(),
                     ) + data?.riderName,
                     dropOffAtInfo = "",
                     pickUpLocationInfo = "",
-                    riderNumber = ""
+                    riderNumber = data?.riderPhoneNumber ?: ""
                 )
                 binding.mapView2.renderTripState(MapTripState.ApproachingPassengerState(data = approachingPassengerData))
             }
@@ -278,7 +279,169 @@ class HomeFragment : Fragment(),
         }
     }
 
+    private fun setAlphaCancelForButtons(value: String){
+        viewModel.updateCancelValue(value)
+    }
 
+    private fun cancelRideClicks(){
+        binding.cancelReasonLayout.inefficientRoute.setOnClickListener {
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.GONE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.VISIBLE
+
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.VISIBLE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.GONE
+            binding.cancelReasonLayout.changeInPlan.visibility = View.VISIBLE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.GONE
+            binding.cancelReasonLayout.other.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other1.visibility = View.GONE
+            binding.cancelReasonLayout.other22.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other221.visibility = View.GONE
+
+            setAlphaCancelForButtons("No face cover or mask")
+        }
+
+        binding.cancelReasonLayout.inefficientRoute1.setOnClickListener {
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.VISIBLE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.GONE
+
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.VISIBLE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.GONE
+            binding.cancelReasonLayout.changeInPlan.visibility = View.VISIBLE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.GONE
+            binding.cancelReasonLayout.other.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other1.visibility = View.GONE
+            binding.cancelReasonLayout.other22.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other221.visibility = View.GONE
+
+            setAlphaCancelForButtons("")
+        }
+
+        binding.cancelReasonLayout.bookedByMistake.setOnClickListener {
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.GONE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.VISIBLE
+
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.VISIBLE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.GONE
+            binding.cancelReasonLayout.changeInPlan.visibility = View.VISIBLE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.GONE
+            binding.cancelReasonLayout.other.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other1.visibility = View.GONE
+            binding.cancelReasonLayout.other22.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other221.visibility = View.GONE
+
+            setAlphaCancelForButtons("Can’t find the rider")
+        }
+
+        binding.cancelReasonLayout.bookedByMistake1.setOnClickListener {
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.VISIBLE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.GONE
+
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.VISIBLE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.GONE
+            binding.cancelReasonLayout.changeInPlan.visibility = View.VISIBLE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.GONE
+            binding.cancelReasonLayout.other.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other1.visibility = View.GONE
+            binding.cancelReasonLayout.other22.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other221.visibility = View.GONE
+
+            setAlphaCancelForButtons("")
+        }
+
+        binding.cancelReasonLayout.changeInPlan.setOnClickListener {
+            binding.cancelReasonLayout.changeInPlan.visibility = View.GONE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.VISIBLE
+
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.VISIBLE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.GONE
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.VISIBLE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.GONE
+            binding.cancelReasonLayout.other.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other1.visibility = View.GONE
+            binding.cancelReasonLayout.other22.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other221.visibility = View.GONE
+            setAlphaCancelForButtons("Nowhere to stop")
+        }
+
+
+
+        binding.cancelReasonLayout.changeInPlan1.setOnClickListener {
+            binding.cancelReasonLayout.changeInPlan.visibility = View.VISIBLE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.GONE
+
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.VISIBLE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.GONE
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.VISIBLE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.GONE
+            binding.cancelReasonLayout.other.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other1.visibility = View.GONE
+            binding.cancelReasonLayout.other22.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other221.visibility = View.GONE
+            setAlphaCancelForButtons("")
+        }
+
+        binding.cancelReasonLayout.other.setOnClickListener {
+            binding.cancelReasonLayout.other.visibility = View.GONE
+            binding.cancelReasonLayout.other1.visibility = View.VISIBLE
+
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.VISIBLE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.GONE
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.VISIBLE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.GONE
+            binding.cancelReasonLayout.changeInPlan.visibility = View.VISIBLE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.GONE
+            binding.cancelReasonLayout.other22.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other221.visibility = View.GONE
+            setAlphaCancelForButtons("Too many riders")
+        }
+
+        binding.cancelReasonLayout.other1.setOnClickListener {
+            binding.cancelReasonLayout.other.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other1.visibility = View.GONE
+
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.VISIBLE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.GONE
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.VISIBLE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.GONE
+            binding.cancelReasonLayout.changeInPlan.visibility = View.VISIBLE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.GONE
+            binding.cancelReasonLayout.other22.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other221.visibility = View.GONE
+
+            setAlphaCancelForButtons("")
+        }
+
+        binding.cancelReasonLayout.other22.setOnClickListener {
+            binding.cancelReasonLayout.other22.visibility = View.GONE
+            binding.cancelReasonLayout.other221.visibility = View.VISIBLE
+
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.VISIBLE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.GONE
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.VISIBLE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.GONE
+            binding.cancelReasonLayout.changeInPlan.visibility = View.VISIBLE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.GONE
+            binding.cancelReasonLayout.other.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other1.visibility = View.GONE
+            setAlphaCancelForButtons("Rider’s items don’t fit")
+        }
+
+        binding.cancelReasonLayout.other221.setOnClickListener {
+            binding.cancelReasonLayout.other22.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other221.visibility = View.GONE
+
+            binding.cancelReasonLayout.inefficientRoute.visibility = View.VISIBLE
+            binding.cancelReasonLayout.inefficientRoute1.visibility = View.GONE
+            binding.cancelReasonLayout.bookedByMistake.visibility = View.VISIBLE
+            binding.cancelReasonLayout.bookedByMistake1.visibility = View.GONE
+            binding.cancelReasonLayout.changeInPlan.visibility = View.VISIBLE
+            binding.cancelReasonLayout.changeInPlan1.visibility = View.GONE
+            binding.cancelReasonLayout.other.visibility = View.VISIBLE
+            binding.cancelReasonLayout.other1.visibility = View.GONE
+
+            setAlphaCancelForButtons("")
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -286,8 +449,26 @@ class HomeFragment : Fragment(),
       //  fetchAndUpdateToken()
         viewModel.getProfile()
 
+        binding.cancelReasonLayout.close.setOnClickListener {
+            binding.cancelReasonLayout.cancelBottom.visibility = View.GONE
+        }
+
+        binding.cancelReasonLayout.submitFeedback.setOnClickListener {
+            if (viewModel.state.value.reasonForCancel.isEmpty()){
+                Toast.makeText(requireContext(), "Please select a reason for cancellation", Toast.LENGTH_LONG).show()
+            }else{
+                binding.cancelReasonLayout.cancelBottom.visibility = View.GONE
+                viewModel.cancelRide()
+            }
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic("AllDrivers").addOnSuccessListener {
+
+        }
+        cancelRideClicks()
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
             if (it.isSuccessful){
+                val token = it.result
+                viewModel.updateToken(token)
                 Log.d("TOKEN FOR FIREBASE", "TOKEN FOR FIREBASE ${it.result}")
             }
         }
@@ -299,6 +480,7 @@ class HomeFragment : Fragment(),
         binding.mapView2.setSlideCompleteListener(this)
         binding.mapView2.paymentEventListener(this)
         binding.mapView2.ratingEventListener(this)
+        binding.mevronHomeBottom.helpAndSupport.setUpClick(this)
 
         binding.mevronHomeBottom.documentSubmissionStatus.setOnClickListener {
             findNavController().navigate(R.id.action_global_documentCheckFragment)
@@ -343,7 +525,7 @@ class HomeFragment : Fragment(),
                 }
 
                 if (state.tokenSuccessful){
-                  //  binding.tokenView.visibility = View.GONE
+                    binding.tokenView.visibility = View.GONE
                 }
 
                 binding.mevronHomeBottom.documentSubmissionStatus.toggleStatus(state.documentSubmissionStatus)
@@ -570,5 +752,13 @@ class HomeFragment : Fragment(),
     override fun onStop() {
         super.onStop()
         binding.mapView2.onStop()
+    }
+
+    override fun helpClicked() {
+        findNavController().navigate(R.id.action_global_helpFragment)
+    }
+
+    override fun emergencyContactClicked() {
+        findNavController().navigate(R.id.action_global_emergencyFragment)
     }
 }

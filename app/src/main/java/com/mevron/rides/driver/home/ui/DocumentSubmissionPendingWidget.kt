@@ -59,15 +59,24 @@ class DocumentSubmissionPendingWidget @JvmOverloads constructor(
         attentionMessageSubTitle.visibility = View.VISIBLE
     }
 
+    private fun renderExpired() {
+        showView()
+        background.setBackgroundColor(ContextCompat.getColor(context, R.color.document_rejected))
+        attentionMessageTitle.text =
+            context.getString(R.string.expired_doument)
+        attentionMessageSubTitle.visibility = View.VISIBLE
+    }
+
     fun toggleStatus(documentSubmissionStatus: DocumentSubmissionStatus) =
         when (documentSubmissionStatus) {
             DocumentSubmissionStatus.NONE -> renderPending()
             DocumentSubmissionStatus.REVIEW -> renderReview()
             DocumentSubmissionStatus.OKAY -> hideView()
             DocumentSubmissionStatus.REJECTED -> renderRejected()
+            DocumentSubmissionStatus.EXPIRED -> renderExpired()
         }
 }
 
 enum class DocumentSubmissionStatus {
-    NONE, REVIEW, OKAY, REJECTED
+    NONE, REVIEW, OKAY, REJECTED, EXPIRED
 }

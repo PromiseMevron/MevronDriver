@@ -22,11 +22,12 @@ data class StateMachineMetaData(
     val destinationAddress: String?,
     val pickupAddress: String?,
     val amount: String?,
-    val  currency: String?
+    val  currency: String?,
+    val riderPhoneNumber: String?
 
 
 ) {
     companion object {
-        val EMPTY = StateMachineMetaData("", "", "", "", "", "", "", "", "", "", "", "", "", "", "")
+        val EMPTY = StateMachineMetaData("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "")
     }
 }

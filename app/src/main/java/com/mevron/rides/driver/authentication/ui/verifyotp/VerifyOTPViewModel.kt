@@ -89,6 +89,7 @@ class VerifyOTPViewModel @Inject constructor(
     fun updateState(
         phoneNumber: String? = null,
         code: String? = null,
+        country: String? = null,
         isNew: Boolean? = true,
         isRequestSuccess: Boolean? = false,
         isLoading: Boolean? = false,
@@ -106,7 +107,8 @@ class VerifyOTPViewModel @Inject constructor(
                 isLoading = isLoading ?: currentValue.isLoading,
                 accessToken = accessToken ?: currentValue.accessToken,
                 uiid = uiid ?: currentValue.uiid,
-                error = error ?: currentValue.error
+                error = error ?: currentValue.error,
+                country = country ?: currentValue.country
             )
         }
     }

@@ -39,5 +39,7 @@ data class MetaData(
     @SerializedName("amount")
     val amount: String?,
     @SerializedName("currency")
-    val currency: String?
+    val currency: String?,
+    @SerializedName("riderPhoneNumber")
+    val riderPhoneNumber: String?
 )

@@ -29,6 +29,9 @@ class Register1Fragment : Fragment(), ViewTreeObserver.OnScrollChangedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.viewTreeObserver.addOnScrollChangedListener(this)
+        val ride = arguments?.let { Register1FragmentArgs.fromBundle(it).ride }!!
+        binding.text11.text = "I have a ${ride}"
+        binding.text21.text = "I need a ${ride}"
 
         binding.hasACall.setOnClickListener {
             val action = Register1FragmentDirections.actionRegist1FragmentToAddVehicleFragment(false)

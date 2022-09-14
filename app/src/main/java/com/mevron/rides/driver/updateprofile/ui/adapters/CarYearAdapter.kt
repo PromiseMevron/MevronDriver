@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.updateprofile.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -29,6 +30,7 @@ class CarYearAdapter(val select: CarYearSelectedListener) :
     override fun onBindViewHolder(holder: CarYearHolder, position: Int) {
         val makes = getItem(position)
         holder.binding.word.text = makes.year
+        holder.binding.locationImage.visibility = View.GONE
         holder.binding.root.setOnClickListener {
             select.onYearSelected(makes.year)
         }

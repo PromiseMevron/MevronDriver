@@ -6,9 +6,8 @@
 
 
 <androidx.constraintlayout.widget.ConstraintLayout
-
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_70sdp">
+    android:layout_height="90dp">
 
     <ImageView
         android:layout_width="@dimen/_40sdp"
@@ -23,12 +22,12 @@
     <ImageView
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:src="@drawable/ic_next"
+        tools:src="@drawable/ic_next"
+        android:id="@+id/end_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/_14sdp"/>
-
 
 
     <TextView

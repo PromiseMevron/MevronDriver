@@ -95,6 +95,19 @@ class VehicleDetailAdapter(val sel: SelectVehicleDetail, val context: Context) :
                 )
                 holder.binding.docStatus.text = context.getString(R.string.the_details_you_submitted_are_invalid_or_incorrect_hence_wasn_t_approved_please_resubmit_your_details)
             }
+            DocStatus.Expired -> {
+                holder.binding.check.setImageResource(R.drawable.ic_alert_red)
+                holder.binding.docStatus.visibility = View.VISIBLE
+                holder.binding.next.visibility = View.VISIBLE
+                holder.binding.backGround.setBackgroundColor(
+                    context.resources.getColor(
+                        R.color.document_rejected,
+                        null
+                    )
+                )
+                holder.binding.docStatus.text = context.getString(R.string.expired_doument)
+
+            }
         }
         holder.binding.root.setOnClickListener {
             sel.selectVehicle(doc)
@@ -108,8 +121,10 @@ class VehicleDetailAdapter(val sel: SelectVehicleDetail, val context: Context) :
             DocStatus.Pending
         else if (status == 2)
             DocStatus.Disapproved
-        else
+        else if (status == 3)
             DocStatus.Okay
+        else
+            DocStatus.Expired
     }
 }
 
@@ -121,5 +136,6 @@ enum class DocStatus {
     Okay,
     Pending,
     None,
-    Disapproved
+    Disapproved,
+    Expired
 }

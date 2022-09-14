@@ -18,4 +18,7 @@ interface HomeScreenApi {
 
     @POST("api/v1/driver/auth/update-device-id")
      fun updateToken(@Body id: DeviceID): Call<Any>
+
+    @POST("api/v1/driver/auth/update-device-id")
+    suspend fun sendToken(@Body id: DeviceID): Response<Any>
 }

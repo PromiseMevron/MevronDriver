@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.updateprofile.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -38,6 +39,7 @@ class CarMakeAdapter(val select: CarMakeSelectionListener) :
 
     override fun onBindViewHolder(holder: CarMakeHolder, position: Int) {
         val makes = getItem(position)
+        holder.binding.locationImage.visibility = View.GONE
         holder.binding.word.text = makes.make
         holder.binding.root.setOnClickListener {
             select.onCarMakeSelected(makes.make)

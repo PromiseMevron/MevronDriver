@@ -5,5 +5,6 @@ data class CreateAccountRequest(
     val email: String,
     val firstName: String,
     val lastName: String,
+    val type: String,
     var referralCode: String? = null
 )

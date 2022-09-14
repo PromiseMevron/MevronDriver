@@ -10,6 +10,7 @@ import com.mevron.rides.driver.sidemenu.vehicle.domain.model.AllVehicleDomainDat
 import com.mevron.rides.driver.sidemenu.vehicle.domain.usecase.DeleteVehicleUseCase
 import com.mevron.rides.driver.sidemenu.vehicle.domain.usecase.GetVehicleDetailUseCase
 import com.mevron.rides.driver.sidemenu.vehicle.domain.usecase.GetVehiclesUseCase
+import com.mevron.rides.driver.sidemenu.vehicle.domain.usecase.UpdateVehicleUseCase
 import com.mevron.rides.driver.sidemenu.vehicle.ui.event.VehicleEvent
 import com.mevron.rides.driver.sidemenu.vehicle.ui.state.VehicleState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class VehicleViewModel @Inject constructor(
     private val useCase: GetVehiclesUseCase,
     private val detailUseCase: GetVehicleDetailUseCase,
-    private val deleteVehicleUseCase: DeleteVehicleUseCase
+    private val deleteVehicleUseCase: DeleteVehicleUseCase,
+    private val updateVehicleUseCase: UpdateVehicleUseCase
 ) : ViewModel() {
 
     private val mutableState: MutableStateFlow<VehicleState> =
@@ -47,14 +49,28 @@ class VehicleViewModel @Inject constructor(
                     mutableState.value.copy(
                         isLoading = false,
                         isSuccess = false,
-                        error = "failure in getting vehicles"
+                        error = "failure in getting vehicles",
+                        peakHeight = 0
                     )
                 }
                 is DomainModel.Success -> {
                     val data = result.data as AllVehicleDomainData
+                    val defaultCar = data.data.find {
+                        it.preference
+                    }?.make
+                    val peakHeight = if (data.data.isEmpty()){
+                        330
+                    }else if (data.data.size == 1){
+                        650
+                    }else{
+                        900
+                    }
+
                     updateState(
                         isLoading = false,
-                        vehicle = data.data.toMutableList()
+                        vehicle = data.data.toMutableList(),
+                        peakHeight = peakHeight,
+                        default = defaultCar
                     )
                 }
             }
@@ -105,6 +121,23 @@ class VehicleViewModel @Inject constructor(
         }
     }
 
+     fun updateAVehicle() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val id = mutableState.value.uuid
+            when (updateVehicleUseCase(id)) {
+                is DomainModel.Error -> mutableState.update {
+                    mutableState.value.copy(
+                    )
+                }
+                is DomainModel.Success -> {
+                    updateState(
+
+                    )
+                }
+            }
+        }
+    }
+
     fun updateState(
         isLoading: Boolean? = null,
         isRequestSuccess: Boolean? = null,
@@ -112,7 +145,9 @@ class VehicleViewModel @Inject constructor(
         backButton: Boolean? = null,
         error: String? = null,
         detail: VehicleDetailData? = null,
-        uuid: String? = null
+        uuid: String? = null,
+        peakHeight: Int? = null,
+        default: String? = null
     ) {
         val currentState = mutableState.value
         mutableState.update {
@@ -122,7 +157,9 @@ class VehicleViewModel @Inject constructor(
                 vehicle = vehicle ?: currentState.vehicle,
                 backButton = backButton ?: currentState.backButton,
                 error = error ?: currentState.error,
-                detail = detail ?: currentState.detail, uuid = uuid ?: currentState.uuid
+                detail = detail ?: currentState.detail, uuid = uuid ?: currentState.uuid,
+                peakHeight = peakHeight ?: currentState.peakHeight,
+                defaultCar = default ?: currentState.defaultCar
             )
         }
     }

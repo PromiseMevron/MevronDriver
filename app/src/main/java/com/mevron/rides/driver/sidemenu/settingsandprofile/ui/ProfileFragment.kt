@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.compose.ui.text.capitalize
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -78,6 +79,7 @@ class ProfileFragment : Fragment() {
                         binding.riderName.setText(this.firstName + " " + this.lastName)
                         binding.riderEmail.setText(this.email)
                         binding.phoneNumber.setText(this.phoneNumber)
+                        binding.userType.text = this.type?.capitalize()
                         if (!this.profilePicture.isNullOrEmpty() && returnedImage == null)
                         Picasso.get().load(this.profilePicture)
                             .into(binding.profileImage)

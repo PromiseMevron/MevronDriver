@@ -25,6 +25,8 @@ data class HomeViewState(
     val collectedAmount: String,
     val tokenSuccessful: Boolean,
     val deviceID: String,
+    val reasonForCancel: String,
+    val gottenProfile: Boolean
 ) {
     companion object {
         val EMPTY = HomeViewState(
@@ -40,7 +42,9 @@ data class HomeViewState(
             scheduledPickup = mutableListOf(),
             getStatus = false,
             deviceID = "",
+            reasonForCancel = "",
             tokenSuccessful = false,
+            gottenProfile = false,
             earnings = Earnings(
                 balance = "",
                 currency = "",
@@ -86,7 +90,9 @@ fun HomeViewState.transform(
     tripId: String? = null,
     collectedAmount: String? = null,
     tokenSuccessful: Boolean? = null,
-    deviceID: String? = null
+    deviceID: String? = null,
+    reasonForCancel: String? = null,
+    gottenProfile: Boolean? = null
 ) = copy(
     isDriveActive = isDriveActive ?: this.isDriveActive,
     isOnline = isOnline ?: this.isOnline,
@@ -103,5 +109,7 @@ fun HomeViewState.transform(
     tripId = tripId ?: this.tripId,
     collectedAmount = collectedAmount ?: this.collectedAmount,
     deviceID = deviceID ?: this.deviceID,
-    tokenSuccessful = tokenSuccessful ?: this.tokenSuccessful
+    tokenSuccessful = tokenSuccessful ?: this.tokenSuccessful,
+    reasonForCancel = reasonForCancel ?: this.reasonForCancel,
+    gottenProfile = gottenProfile ?: this.gottenProfile
 )

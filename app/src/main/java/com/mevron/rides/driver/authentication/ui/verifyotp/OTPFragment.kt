@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.authentication.ui.verifyotp.event.VerifyOTPEvent
+import com.mevron.rides.driver.authentication.ui.verifyotp.state.VerifyOTPState
 import com.mevron.rides.driver.databinding.OTFragmentBinding
 import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.util.LauncherUtil
@@ -55,9 +56,10 @@ class OTPFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.otpView.itemCount = 6
         phoneNumber = arguments?.let { OTPFragmentArgs.fromBundle(it).phone }!!
         phoneWrite = arguments?.let { OTPFragmentArgs.fromBundle(it).phone }!!
+        val country = arguments?.let { OTPFragmentArgs.fromBundle(it).country }!!
         phoneWrite = "${context?.getString(R.string.we_have_sent_you_a_six_digit_code_on_your)} $phoneNumber"
         binding.text2.text = phoneWrite
-        verifyOTPViewModel.updateState(phoneNumber = phoneNumber)
+        verifyOTPViewModel.updateState(phoneNumber = phoneNumber, country = country)
 
 
         binding.otpView.setOtpCompletionListener {
@@ -78,7 +80,7 @@ class OTPFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     }
 
                     if (state.isRequestSuccess) {
-                        handleSuccess(state.isNew)
+                        handleSuccess(state)
                     }
 
                 }
@@ -163,12 +165,12 @@ class OTPFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }.show()
     }
 
-    private fun handleSuccess(isNew: Boolean) {
+    private fun handleSuccess(state: VerifyOTPState) {
         binding.incorrectNumber.visibility = View.INVISIBLE
-        if (isNew){
+        if (state.isNew){
             val action =
                 OTPFragmentDirections.actionOTPFragmentToAccountCreationFragment(
-                    phoneNumber
+                    phoneNumber, state.country
                 )
             findNavController().navigate(action)
         }else{

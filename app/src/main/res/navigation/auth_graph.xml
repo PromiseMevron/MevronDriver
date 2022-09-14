@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_OTPFragment_to_accountCreationFragment"
             app:destination="@id/accountCreationFragment" />
+        <argument
+            android:name="country"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/accountCreationFragment"
@@ -37,6 +40,9 @@
         <argument
             android:name="phone"
             app:argType="string" />
+        <argument
+            android:name="country"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/regist1Fragment"
@@ -46,6 +52,9 @@
         <action
             android:id="@+id/action_regist1Fragment_to_addVehicleFragment"
             app:destination="@id/addVehicleFragment" />
+        <argument
+            android:name="ride"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/addVehicleFragment"

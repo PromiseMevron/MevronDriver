@@ -8,5 +8,6 @@ data class AllVehicleData(
     val model: String,
     val plateNumber: String,
     val uuid: String,
-    val year: String
+    val year: String,
+    val preference: String
 )

@@ -12,7 +12,7 @@
             android:id="@+id/help_and_support_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_14sdp"
+
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:fontFamily="@font/poppins_regular"
@@ -27,13 +27,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:targetApi="p" />
 
-        <View
-            android:id="@+id/top_box"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/help_and_support_header" />
 
         <ImageView
             android:id="@+id/help_image_1"
@@ -41,8 +34,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_question_circle"
-            app:layout_constraintLeft_toLeftOf="@id/top_box"
-            app:layout_constraintTop_toTopOf="@id/top_box" />
+            app:layout_constraintLeft_toLeftOf="@+id/top_box"
+            app:layout_constraintTop_toTopOf="@+id/top_box" />
 
         <TextView
             android:id="@+id/help1"
@@ -58,7 +51,7 @@
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/help_image_1"
-            app:layout_constraintTop_toTopOf="@id/top_box"
+            app:layout_constraintTop_toTopOf="@+id/top_box"
             tools:targetApi="p" />
 
         <TextView
@@ -75,6 +68,15 @@
             app:layout_constraintStart_toEndOf="@id/help_image_1"
             app:layout_constraintTop_toBottomOf="@id/help1"
             tools:targetApi="p" />
+
+        <View
+            android:id="@+id/top_box"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/help_and_support_header" />
+
 
 
         <View
@@ -131,6 +133,16 @@
             app:layout_constraintStart_toEndOf="@id/help_image_2"
             app:layout_constraintTop_toBottomOf="@id/help2"
             tools:targetApi="p" />
+
+        <View
+            android:id="@+id/bottom_box"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_box" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

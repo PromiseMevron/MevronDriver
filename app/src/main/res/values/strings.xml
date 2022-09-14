@@ -404,8 +404,24 @@
     <string name="account_holder_name">Account Holder Name</string>
     <string name="smile_into_the_camera">Smile into the camera</string>
     <string name="the_details_you_submitted_are_invalid_or_incorrect_hence_wasn_t_approved_please_resubmit_your_details">The details you submitted are invalid or incorrect, hence wasn’t approved. Please resubmit your details</string>
+    <string name="expired_doument">Expired</string>
     <string name="stop_new_ride_requests">Stop new ride requests</string>
     <string name="cancel_ride">Cancel Ride</string>
-    <string name="cancel_this_ride">Cancel this ride?</string>
+    <string name="cancel_this_ride">Do you want cancel this pickup?</string>
+    <string name="share_the_reason_for_cancelling_the_ride">Share the reason for cancelling the ride</string>
+    <string name="help_us_to_improve_the_services_better">Choose an issue</string>
+    <string name="no_face_cover_or_mask">No face cover or mask</string>
+    <string name="can_t_find_the_rider">Can’t find the rider</string>
+    <string name="nowhere_to_stop">Nowhere to stop</string>
+    <string name="rider_s_items_don_t_fit">Rider’s items don’t fit</string>
+    <string name="too_many_riders">Too many riders</string>
+    <string name="submit_feedback">Submit Feedback</string>
+    <string name="select_vehicle">Select your vehicle</string>
+    <string name="lagos">Lagos</string>
+    <string name="by_continuing_i_agree_to_the_terms_of_use_amp_privacy_policy">By continuing, I agree to the <font color='#25255A'> terms of use </font> &amp; <font color='#25255A'>privacy policy.</font></string>
+    <string name="vehicle_type">Vehicle type</string>
+    <string name="bike">Bike</string>
+    <string name="tricycle">Tricycle</string>
+    <string name="car">Car</string>
 
 </resources>

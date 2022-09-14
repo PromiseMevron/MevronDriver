@@ -30,17 +30,20 @@ class HomeScreenRepository(private val api: HomeScreenApi) : IHomeScreenReposito
             }
         }
 
-   /* override suspend fun sendToken(id: DeviceID): DomainModel =
-        try {
-            val result = api.updateToken(id)
-            if (result.isSuccessful) {
-                DomainModel.Success(data = Unit)
+    override suspend fun sendToken(id: DeviceID): DomainModel =
+        api.sendToken(id).let {
+            if (it.isSuccessful) {
+                DomainModel.Success(
+                    data = Unit
+                )
             } else {
-                DomainModel.Success(data = Unit)
+                val error = it.errorBody()
+                DomainModel.Success(
+                    data = Unit
+                )
             }
-        } catch (error: Throwable) {
-            DomainModel.Success(data = Unit)
-        }*/
+        }
+
 }
 
 private fun HomeScreenDataResponse.toDomainModel() = this.successData.contentData.let {

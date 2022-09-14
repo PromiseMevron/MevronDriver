@@ -10,7 +10,9 @@ data class VehicleState(
     val detail: VehicleDetailData,
     val vehicle: MutableList<AllVehicleDomainDatum>,
     val uuid: String,
-    val backButton: Boolean
+    val peakHeight: Int,
+    val backButton: Boolean,
+    val defaultCar: String
 ) {
     companion object {
         val EMPTY = VehicleState(
@@ -20,7 +22,9 @@ data class VehicleState(
             backButton = false,
             uuid = "",
             vehicle = mutableListOf(),
-            detail = VehicleDetailData("", mutableListOf(), 0, "", "", "", "", "")
+            peakHeight = 0,
+            detail = VehicleDetailData("", mutableListOf(), 0, "", "", "", "", ""),
+            defaultCar = ""
         )
     }
 }

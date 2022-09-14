@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
        // SocketHandler.establishConnection()
         val token = sPref.getString(Constants.TOKEN, null)
         val uuid = sPref.getString(Constants.UUID, null)
-        if (token.isNullOrEmpty() || uuid.isNullOrEmpty()){
+        val email = sPref.getString(Constants.EMAIL, null)
+        if (token.isNullOrEmpty() || uuid.isNullOrEmpty() || email.isNullOrEmpty()){
             startActivity(Intent(this, IntroActivity::class.java))
             finish()
         }else{
@@ -83,13 +84,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    private fun hasPermission(): Boolean{
-       return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION) || EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-    }
-
-    private fun requestPermission(){
-        EasyPermissions.requestPermissions(this, "We need access to the location to be able to serve you properly", MY_PERMISSIONS_REQUEST_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
-    }
 
     private fun openRideActivity(){
         if (hasPermission()){
@@ -98,6 +92,14 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         }else{
             requestPermission()
         }
+    }
+
+    private fun hasPermission(): Boolean{
+        return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION) || EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+    }
+
+    private fun requestPermission(){
+        EasyPermissions.requestPermissions(this, "We need access to the location to be able to serve you properly", MY_PERMISSIONS_REQUEST_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {

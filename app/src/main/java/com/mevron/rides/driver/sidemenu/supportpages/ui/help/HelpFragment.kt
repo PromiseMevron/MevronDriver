@@ -24,9 +24,11 @@ import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HelpFragmentBinding
 import com.mevron.rides.driver.util.Constants
 import com.mevron.rides.driver.util.Constants.SUPPORT_NUMBER
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import zendesk.android.Zendesk
 
-class HelpFragment : Fragment() {
+class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     companion object {
         fun newInstance() = HelpFragment()
@@ -62,33 +64,51 @@ class HelpFragment : Fragment() {
         }
     }
 
+    private fun hasPermission(): Boolean{
+        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CALL_PHONE)
+    }
 
-    private fun makePhoneCall() {
+    private fun requestPermission(){
+        EasyPermissions.requestPermissions(this, "We need access to the call apps to be able to place a call", requestCall, Manifest.permission.CALL_PHONE)
+    }
 
-        if (activity?.let {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.CALL_PHONE
-                )
-            } != PackageManager.PERMISSION_GRANTED
-        ) {
-            activity?.let {
-                ActivityCompat.requestPermissions(
-                    it,
-                    arrayOf(Manifest.permission.CALL_PHONE),
-                    requestCall
-                )
-            }
-        } else {
-            val dial = "tel:${sPref.getString(SUPPORT_NUMBER, "")}"
-          //  val dial = "tel:09029374474"
-            startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)){
+            SettingsDialog.Builder(requireContext()).build().show()
+        }else{
+            requestPermission()
         }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+       makePhoneCall()
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
 
     }
 
 
-    override fun onRequestPermissionsResult(
+
+    private fun makePhoneCall() {
+        if (hasPermission()){
+            val dial = "tel:${sPref.getString(SUPPORT_NUMBER, "")}"
+            //  val dial = "tel:09029374474"
+            startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
+        } else{
+            requestPermission()
+        }
+    }
+
+
+   /* override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String?>,
         grantResults: IntArray
@@ -100,7 +120,7 @@ class HelpFragment : Fragment() {
                 Toast.makeText(context, "Permission DENIED", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+    }*/
 
     private fun loadWebView() {
         binding.webView.loadUrl("https://mevron.com/drive/support")

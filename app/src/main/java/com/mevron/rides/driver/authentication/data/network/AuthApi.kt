@@ -2,6 +2,8 @@ package com.mevron.rides.driver.authentication.data.network
 
 import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
 import com.mevron.rides.driver.authentication.data.models.createaccount.CreateAccountResponse
+import com.mevron.rides.driver.authentication.data.models.createaccount.GetCitiesResponse
+import com.mevron.rides.driver.authentication.data.models.createaccount.GetCityRequest
 import com.mevron.rides.driver.authentication.domain.model.RegisterPhoneRequest
 import com.mevron.rides.driver.authentication.data.models.registerphone.RegisterPhoneResponse
 import com.mevron.rides.driver.authentication.data.models.validateotprequest.VerifyOTPResponse
@@ -20,4 +22,7 @@ interface AuthApi {
 
     @POST("api/v1/acquisation/driver/auth/update-profile")
     suspend fun createAccount(@Body data: CreateAccountRequest): Response<CreateAccountResponse>
+
+    @POST("api/v1/acquisation/driver/get-city")
+    suspend fun getCities(@Body data: GetCityRequest): Response<GetCitiesResponse>
 }

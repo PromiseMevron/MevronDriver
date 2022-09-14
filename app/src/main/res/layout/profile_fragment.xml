@@ -83,7 +83,21 @@
 
 
 
-
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="Promise Ochornma"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/profile_image"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="#000000"
+                android:maxLines="1"
+                android:id="@+id/user_type"
+                android:textFontWeight="200"
+                tools:targetApi="p" />
 
 
             <TextView
@@ -93,7 +107,7 @@
                 android:textSize="@dimen/_10ssp"
                 android:text="@string/name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/profile_image"
+                app:layout_constraintTop_toBottomOf="@id/user_type"
                 android:layout_marginStart="@dimen/_14sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:id="@+id/name" />

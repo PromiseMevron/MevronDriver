@@ -51,8 +51,13 @@
         <com.mevron.rides.driver.shared.ui.LoadingView
             android:id="@+id/tokenView"
             android:layout_width="match_parent"
-            android:visibility="gone"
+            tools:visibility="gone"
             android:layout_height="match_parent"/>
+
+        <include
+            android:id="@+id/cancel_reason_layout"
+            layout="@layout/cancel_reason_bottom"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
