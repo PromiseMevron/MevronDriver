@@ -2,6 +2,7 @@ package com.mevron.rides.driver.sidemenu.driverprefrence.data.repository
 
 import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.remote.HTTPErrorHandler
 import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.GetPrefrenceModel
 import com.mevron.rides.driver.sidemenu.driverprefrence.data.model.PrefrenceData
 import com.mevron.rides.driver.sidemenu.driverprefrence.data.network.PrefrenceAPI
@@ -12,22 +13,25 @@ import com.mevron.rides.driver.sidemenu.savedplaces.data.model.GetSavedAddress
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.AddressDomainData
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetAddressDomainData
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetSavedAddressData
+import com.mevron.rides.driver.util.Constants
 
 class PrefrenceRepository(private val api: PrefrenceAPI): IPrefrenceRepository {
 
     override suspend fun getdriverPref(email: String, token: String): DomainModel  = api.getPreference(email = email, token = token).let {
         if (it.isSuccessful) {
-            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("No saved address found"))
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
     override suspend fun savedriverPref(data: PrefrenceData): DomainModel  = api.setPreference(data).let {
         if (it.isSuccessful) {
-            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("No saved address found"))
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 

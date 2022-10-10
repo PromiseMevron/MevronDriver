@@ -67,7 +67,7 @@ class ReferralViewModel @Inject constructor(
                 is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         isLoading = false,
-                        error = "Failure to fetch referral history"
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
             }
@@ -92,7 +92,7 @@ class ReferralViewModel @Inject constructor(
                 is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         isLoading = false,
-                        error = "Failure to set referral"
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
             }

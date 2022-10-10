@@ -2,23 +2,31 @@ package com.mevron.rides.driver.authentication.ui.verifyotp
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.mevron.rides.driver.IntroActivity
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.authentication.domain.model.VerifyOTPRequest
 import com.mevron.rides.driver.authentication.ui.verifyotp.event.VerifyOTPEvent
 import com.mevron.rides.driver.authentication.ui.verifyotp.state.VerifyOTPState
 import com.mevron.rides.driver.databinding.OTFragmentBinding
+import com.mevron.rides.driver.remote.GenericStatus
 import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.util.LauncherUtil
 import com.vmadalin.easypermissions.EasyPermissions
@@ -30,6 +38,8 @@ import kotlinx.coroutines.flow.collect
 class OTPFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private val MY_PERMISSIONS_REQUEST_LOCATION = 10000
+    private var counter = 30
+    private lateinit var timer: CountDownTimer
     companion object {
         fun newInstance() = OTPFragment()
     }
@@ -92,7 +102,53 @@ class OTPFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
         binding.nextButton.isEnabled = true
 
+        countDownTimer()
 
+        binding.resendOtp.setOnClickListener {
+            verifyOTPViewModel.resendOTP(VerifyOTPRequest(phoneNumber = verifyOTPViewModel.state.value.phoneNumber)).observe(viewLifecycleOwner, Observer {
+                it.let {  res ->
+                    when(res){
+
+                        is  GenericStatus.Success ->{
+                            binding.resendOtpCounter.visibility = View.VISIBLE
+                            binding.resendOtp.visibility = View.GONE
+                            countDownTimer()
+                            Toast.makeText(context, "OTP has been sent to your phone number", Toast.LENGTH_LONG).show()
+                        }
+
+                        is  GenericStatus.Error ->{
+                            toggleBusyDialog(false)
+                            Toast.makeText(context, res.error?.error?.message, Toast.LENGTH_LONG).show()
+                        }
+
+                        is GenericStatus.Unaunthenticated -> {
+                            toggleBusyDialog(false)
+                            Toast.makeText(context, res.error?.error?.message, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            })
+        }
+
+
+    }
+
+    private fun countDownTimer(){
+        binding.resendOtpCounter.visibility = View.VISIBLE
+        binding.resendOtp.visibility = View.GONE
+        timer = object : CountDownTimer(30000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                binding.resendText.text = "Resend Code in ${counter}s"
+                counter--
+            }
+
+            override fun onFinish() {
+                binding.resendOtpCounter.visibility = View.GONE
+                binding.resendOtp.visibility = View.VISIBLE
+                counter = 30
+            }
+        }
+        timer.start()
     }
 
      /* fun validateOTP(data: VerifyOTPRequest){
@@ -188,8 +244,18 @@ class OTPFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun openRideActivity(){
         if (hasPermission()){
-            startActivity(Intent(activity, RideActivity::class.java))
-            activity?.finish()
+            val mLocationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val mGPS = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+            if (mGPS) {
+                startActivity(Intent(requireActivity(), RideActivity::class.java))
+                activity?.finish()
+            }
+            else {
+                Toast.makeText(requireContext(), "Enable Location and try again", Toast.LENGTH_LONG).show()
+                startActivity(Intent(activity, IntroActivity::class.java))
+                activity?.finish()
+            }
         }else{
             requestPermission()
         }

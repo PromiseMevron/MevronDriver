@@ -10,6 +10,7 @@ import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.model.Referral
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.usecase.GetReferalDetailUseCase
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.event.ReferalEvent
 import com.mevron.rides.driver.sidemenu.settingsandprofile.ui.state.ReferralDetailState
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +52,7 @@ class ReferalDetailViewModel @Inject constructor(private val useCase: GetReferal
                 is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         isLoading = false,
-                        error = "Failure to set referral"
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
             }

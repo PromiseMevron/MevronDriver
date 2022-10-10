@@ -41,7 +41,7 @@ class DriverPrefrenceViewModel @Inject constructor(
                     mutableState.value.copy(
                         isLoading = false,
                         isSuccess = false,
-                        error = "Error in fetching your saved preferences"
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {
@@ -71,7 +71,7 @@ class DriverPrefrenceViewModel @Inject constructor(
                     mutableState.value.copy(
                         isLoading = false,
                         isPostSuccess = false,
-                        errorPost = "Error in saving your preferences"
+                        errorPost = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {

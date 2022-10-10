@@ -20,6 +20,7 @@ class BalanceDetailsTopView @JvmOverloads constructor(
     private var dueDate: TextView
     private var cashOut: ImageButton
     private var addFund: ImageButton
+    private var backButton: ImageButton
     private var onBalanceDetailButtonClickListener: OnBalanceDetailButtonClickListener? = null
 
     init {
@@ -27,9 +28,11 @@ class BalanceDetailsTopView @JvmOverloads constructor(
         balance = findViewById(R.id.balance)
         dueDate = findViewById(R.id.due_date)
         cashOut = findViewById(R.id.cash_out)
+        backButton = findViewById(R.id.back_button)
         addFund = findViewById(R.id.add_fund)
         cashOut.setOnClickListener(this)
         addFund.setOnClickListener(this)
+        backButton.setOnClickListener(this)
     }
 
     fun setUpView(date: String, amount: String){
@@ -44,6 +47,8 @@ class BalanceDetailsTopView @JvmOverloads constructor(
         when (view?.id) {
             R.id.cash_out -> onBalanceDetailButtonClickListener?.onCashOutClicked()
             R.id.add_fund -> onBalanceDetailButtonClickListener?.onDetailOutClicked()
+            R.id.back_button -> onBalanceDetailButtonClickListener?.onCashOutBackClicked()
+
         }
     }
 }
@@ -51,4 +56,5 @@ class BalanceDetailsTopView @JvmOverloads constructor(
 interface OnBalanceDetailButtonClickListener {
     fun onCashOutClicked()
     fun onDetailOutClicked()
+    fun onCashOutBackClicked()
 }

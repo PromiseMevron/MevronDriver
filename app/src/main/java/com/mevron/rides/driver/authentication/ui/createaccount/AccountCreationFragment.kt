@@ -91,7 +91,24 @@ class AccountCreationFragment : Fragment(), CitySelectedListener {
         createAccountViewModel.updateState(phoneNumber = phoneNumber, country = country)
         createAccountViewModel.getCities()
 
-        binding.addCity.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.addCity.searchBarField.textChanges().skipInitialValue().onEach {filter ->
+            val searchWord = filter ?: ""
+            if (searchWord.isEmpty()){
+                makeAdapter.submitList(createAccountViewModel.state.value.cityData)
+                return@onEach
+            }
+            val cities = mutableListOf<GetCitiesData>()
+            if (createAccountViewModel.state.value.cityData.isNotEmpty()){
+                for (city in createAccountViewModel.state.value.cityData){
+                    if (city.name.contains(searchWord, ignoreCase = true)){
+                        cities.add(city)
+                    }
+                }
+                makeAdapter.submitList(cities)
+            }
+        }.launchIn(lifecycleScope)
+
+      /*  binding.addCity.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val searchWord = query ?: ""
                 if (searchWord.isEmpty()){
@@ -128,7 +145,7 @@ class AccountCreationFragment : Fragment(), CitySelectedListener {
                 }
                 return false
             }
-        })
+        })*/
 
         binding.sortRadioGroup.setOnCheckedChangeListener { group, _ ->
             val selectedId: Int = group.checkedRadioButtonId
@@ -212,9 +229,17 @@ class AccountCreationFragment : Fragment(), CitySelectedListener {
 
         }.launchIn(lifecycleScope)
 
-        binding.riderName.textChanges().skipInitialValue().onEach {
+        binding.riderLname.textChanges().skipInitialValue().onEach {
             createAccountViewModel.updateState(
-                name = binding.riderName.getString().trim()
+                lName = binding.riderLname.getString().trim()
+            )
+            updateDetailComplete()
+
+        }.launchIn(lifecycleScope)
+
+        binding.riderFname.textChanges().skipInitialValue().onEach {
+            createAccountViewModel.updateState(
+                fName = binding.riderFname.getString().trim()
             )
             updateDetailComplete()
 
@@ -231,17 +256,12 @@ class AccountCreationFragment : Fragment(), CitySelectedListener {
     }
 
     private fun updateDetailComplete() {
-        val fullName = binding.riderName.getString().split(" ")
-        val fName = fullName[0]
-        var lName = ""
-        for (i in 1 until (fullName.size)) {
-            lName += fullName[i]
-        }
+
         createAccountViewModel.updateState(
             detailsComplete = binding.riderEmail.getString()
-                .isValidEmail() && binding.riderName.getString().isNotEmpty()
+                .isValidEmail() && binding.riderFname.getString().isNotEmpty() && binding.riderLname.getString().isNotEmpty()
                     && binding.cityRider.text
-                .isNotEmpty() && fName.isNotEmpty() && lName.isNotEmpty() && createAccountViewModel.state.value.type.isNotEmpty()
+                .isNotEmpty() && createAccountViewModel.state.value.type.isNotEmpty()
         )
     }
 
@@ -249,7 +269,7 @@ class AccountCreationFragment : Fragment(), CitySelectedListener {
         if (valid) {
             binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field)
         } else {
-            binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field_red)
+            binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field)
         }
     }
 
@@ -266,7 +286,7 @@ class AccountCreationFragment : Fragment(), CitySelectedListener {
     }
 
     fun submitDetails() {
-        val name = binding.riderName.getString()
+        val name = binding.riderFname.getString() + binding.riderFname.getString()
       //  val city = binding.cityRider.getString()
         val email = binding.riderEmail.getString()
         val refer = binding.referalField.getString()
@@ -282,7 +302,7 @@ class AccountCreationFragment : Fragment(), CitySelectedListener {
             data.referralCode = refer
         }
         if (!email.isValidEmail()) {
-            binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field_red)
+            binding.riderEmail.setBackgroundResource(R.drawable.rounded_corner_field)
             return
         }
 

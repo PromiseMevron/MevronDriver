@@ -12,6 +12,7 @@ import com.mevron.rides.driver.cashout.ui.state.AddFundState
 import com.mevron.rides.driver.cashout.ui.state.GetWalletDetailState
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,7 +57,7 @@ class BalanceViewModel @Inject constructor(
                 is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         loading = false,
-                        errorMessage = "Failure to get your wallet details",
+                        errorMessage = result.error.message ?: Constants.UNEXPECTED_ERROR,
                         balance = ""
                     )
                 }
@@ -85,7 +86,7 @@ class BalanceViewModel @Inject constructor(
                 is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         loading = false,
-                        errorMessage = "Failure to cashing out",
+                        errorMessage = result.error.message ?: Constants.UNEXPECTED_ERROR,
                     )
                 }
             }
@@ -116,7 +117,7 @@ class BalanceViewModel @Inject constructor(
                 is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         loading = false,
-                        errorMessage = "Failure to add Fund",
+                        errorMessage = result.error.message ?: Constants.UNEXPECTED_ERROR,
                     )
                 }
             }
@@ -140,7 +141,7 @@ class BalanceViewModel @Inject constructor(
                 is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         loading = false,
-                        errorMessage = "Failure to get card",
+                        errorMessage = result.error.message ?: Constants.UNEXPECTED_ERROR,
                     )
                 }
             }

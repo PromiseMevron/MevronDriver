@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -73,29 +74,30 @@ class SaveAddressFragment : Fragment(), PlaceAdapter.OnItemClicked {
             Places.initialize(it.applicationContext, "AIzaSyACHmEwJsDug1l3_IDU_E4WEN4Qo_i_NoE")
             placesClient = Places.createClient(it)
         }
-        viewModel.updateState(isLoading = false)
 
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
                     binding.stateOfLocation.text = state.title
                     binding.addressField.hint = state.placeHolder
-                    toggleBusyDialog(
-                        state.isLoading,
-                        desc = if (state.isLoading) "Submitting Data..." else null
-                    )
+
                     if (state.autoCompletePredictions.isNotEmpty()) {
                         setUpRecyclerView(state)
                     }
                     if (state.backPressed) {
-                        activity?.onBackPressed()
+                     //   val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                      //  navController.navigateUp()
                     }
                     if (state.isSuccess) {
+                        toggleBusyDialog(false)
                         Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show()
                         activity?.onBackPressed()
+                       // val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                       // navController.navigateUp()
                     }
                     if (state.error.isNotEmpty()) {
-                        Toast.makeText(context, "Failure to save address", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
                     }
                     if (state.queryChanged) {
                         viewModel.initSearchConfig(
@@ -121,7 +123,8 @@ class SaveAddressFragment : Fragment(), PlaceAdapter.OnItemClicked {
 
         binding.close.setOnClickListener {
           //  viewModel.handleEvent(SaveAddressEvent.OnBackButtonPressed)
-            activity?.onBackPressed()
+            val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigateUp()
         }
 
         binding.addressField.textChanges().skipInitialValue().onEach {
@@ -162,6 +165,12 @@ class SaveAddressFragment : Fragment(), PlaceAdapter.OnItemClicked {
     }
 
     override fun returnedPred(pred: AutocompletePrediction) {
+        val type = viewModel.state.value.type
+        if (type != "others"){
+        toggleBusyDialog(
+            true
+        )
+        }
         viewModel.processEventLocation(prediction = pred, placesClient = placesClient)
     }
 

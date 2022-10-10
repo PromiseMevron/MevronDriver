@@ -10,7 +10,7 @@ import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.EmergencyAddContactBinding
 import com.mevron.rides.driver.sidemenu.emerg.data.model.Contact
 
-class AddEmergencyAdapter(val add: SaveNumber) :
+class AddEmergencyAdapter(val add: SaveNumber, val positions: ArrayList<Int> = arrayListOf()) :
     ListAdapter<Contact, AddEmergencyAdapter.AddEmergHolder>(AddEmergencyDiffUti()) {
 
     class AddEmergHolder(val binding: EmergencyAddContactBinding) :
@@ -40,16 +40,16 @@ class AddEmergencyAdapter(val add: SaveNumber) :
     override fun onBindViewHolder(holder: AddEmergHolder, position: Int) {
         val cnt = getItem(position)
         holder.binding.checkb.setOnCheckedChangeListener(null)
+        holder.binding.checkb.isChecked = cnt.isSelected
         holder.binding.checkb.setOnCheckedChangeListener { _, b ->
-            holder.binding.checkb.isSelected = b
-            val ct =
+            cnt.isSelected = b
+              val ct =
                 Contact(name = cnt.name, phoneNumber = cnt.phoneNumber, isSelected = b, id = cnt.id)
             add.addRemoveContact(ct)
         }
         holder.binding.name.text = cnt.name
         holder.binding.number.text = cnt.phoneNumber
-        holder.binding.root.setOnClickListener {
-            holder.binding.checkb.isSelected = !holder.binding.checkb.isSelected
+       /* holder.binding.root.setOnClickListener {
             val ct = Contact(
                 name = cnt.name,
                 phoneNumber = cnt.phoneNumber,
@@ -57,7 +57,7 @@ class AddEmergencyAdapter(val add: SaveNumber) :
                 id = cnt.id
             )
             add.addRemoveContact(ct)
-        }
+        }*/
     }
 
 }

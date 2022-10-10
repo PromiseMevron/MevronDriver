@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -61,14 +62,21 @@ class EmergencyFragment : Fragment(), SelectedContact {
                         viewModel.handleEvent(EmergencyEvent.MakeAPICall)
                     }
 
+                    if (state.error.isNotEmpty()){
+                        Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
+                    }
+
                     if (state.isSuccess) {
                        /// activity?.onBackPressed()
                     }
-
                     if (state.result.isNotEmpty()) {
-                        setUpAdapter(state.result)
-
+                        binding.emptyData.visibility = View.GONE
+                    }else{
+                        binding.emptyData.visibility = View.VISIBLE
                     }
+                    setUpAdapter(state.result)
+
                 }
             }
         }

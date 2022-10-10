@@ -7,6 +7,8 @@ import com.mevron.rides.driver.home.data.network.StateMachineApi
 import com.mevron.rides.driver.home.domain.IStateMachineRepository
 import com.mevron.rides.driver.home.domain.model.StateMachineDomainData
 import com.mevron.rides.driver.home.domain.model.StateMachineMetaData
+import com.mevron.rides.driver.remote.HTTPErrorHandler
+import com.mevron.rides.driver.util.Constants
 
 class StateMachineRepository(private val api: StateMachineApi) : IStateMachineRepository {
 
@@ -14,9 +16,10 @@ class StateMachineRepository(private val api: StateMachineApi) : IStateMachineRe
         val result = api.getStateMachine()
         return if (result.isSuccessful) {
             result.body()?.toDomainData()
-                ?: DomainModel.Error(Throwable("Error getting state machine data"))
+                ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable(result.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(result)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 

@@ -107,7 +107,7 @@
                 android:paddingEnd="@dimen/_10ssp"
                 android:background="@drawable/rounded_corner_field"
                 android:textColor="#626262"
-                android:hint="845 647 3215"
+                android:hint="0805 647 3215"
                 android:inputType="phone" />
 
            <!-- <com.hbb20.CountryCodePicker

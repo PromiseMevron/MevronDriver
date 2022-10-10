@@ -9,6 +9,7 @@ import com.mevron.rides.driver.sidemenu.supportpages.domain.model.Supports
 import com.mevron.rides.driver.sidemenu.supportpages.domain.usecase.GetNotificationUseCase
 import com.mevron.rides.driver.sidemenu.supportpages.ui.notification.event.NotificationEvents
 import com.mevron.rides.driver.sidemenu.supportpages.ui.notification.state.NotificationState
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +34,7 @@ class NotificationViewModel @Inject constructor(private val useCase: GetNotifica
                     mutableState.value.copy(
                         isLoading = false,
                         isSuccess = false,
-                        error = ""
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {
@@ -61,7 +62,8 @@ class NotificationViewModel @Inject constructor(private val useCase: GetNotifica
         isLoading: Boolean? = null,
         isRequestSuccess: Boolean? = null,
         notification: MutableList<Supports>? = null,
-        backButton: Boolean? = null
+        backButton: Boolean? = null,
+        error: String? = null
     ) {
         val currentState = mutableState.value
         mutableState.update {
@@ -69,7 +71,8 @@ class NotificationViewModel @Inject constructor(private val useCase: GetNotifica
                 isLoading = isLoading ?: currentState.isLoading,
                 isSuccess = isRequestSuccess ?: currentState.isSuccess,
                 data = notification ?: currentState.data,
-                backButton = backButton ?: currentState.backButton
+                backButton = backButton ?: currentState.backButton,
+                error = error ?: currentState.error
             )
         }
     }

@@ -71,9 +71,10 @@ class PhoneLoginFragment : Fragment() {
         }
 
         binding.phoneNumber.textChanges().skipInitialValue().onEach {
-            registerPhoneViewModel.updateState(
-                phoneNumber = it.toString().trim().drop(1).replace(" ", "")
-            )
+            if (it.isNotEmpty())
+                registerPhoneViewModel.updateState(
+                    phoneNumber = if (it.toString().first().toString() == "0") it.toString().trim().drop(1).replace(" ", "").replace("-", "") else it.toString().trim().replace(" ", "").replace("-", "")
+                )
             checkNumberValidity(binding.countryPicker)
         }.launchIn(lifecycleScope)
 

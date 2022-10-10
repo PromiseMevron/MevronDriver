@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigation
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.SaveAddressDetailsFragmentBinding
 import com.mevron.rides.driver.sidemenu.savedplaces.data.model.SaveAddressRequest
@@ -54,6 +56,7 @@ class SaveAddressDetailsFragment : Fragment() {
         ).location
         viewModel.updateState(isLoading = false)
 
+
         viewModel.updateState(
             address = location.address,
             type = "others",
@@ -62,14 +65,52 @@ class SaveAddressDetailsFragment : Fragment() {
         )
         binding.address.setText(location.address)
 
+        binding.homeAddress.setOnClickListener {
+            val type = viewModel.state.value.type
+            if (type != "home") {
+                viewModel.updateState(type = "home")
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border_save_address_selected)
+                    ?.let { it1 -> binding.homeAddress.background = it1 }
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border_save_button)
+                    ?.let { it1 -> binding.workAddress.background = it1 }
+            }else{
+                viewModel.updateState(type = "others")
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border_save_button)
+                    ?.let { it1 -> binding.homeAddress.background = it1 }
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border_save_button)
+                    ?.let { it1 -> binding.workAddress.background = it1 }
+            }
+        }
+
+        binding.workAddress.setOnClickListener {
+            val type = viewModel.state.value.type
+            if (type != "work") {
+                viewModel.updateState(type = "work")
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border_save_address_selected)
+                    ?.let { it1 -> binding.workAddress.background = it1 }
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border_save_button)
+                    ?.let { it1 -> binding.homeAddress.background = it1 }
+            }else{
+                viewModel.updateState(type = "others")
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border_save_button)
+                    ?.let { it1 -> binding.homeAddress.background = it1 }
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_border_save_button)
+                    ?.let { it1 -> binding.workAddress.background = it1 }
+            }
+        }
+
+        binding.homeAddress.setOnClickListener {
+            viewModel.updateState(type = "work")
+        }
+
         binding.backButton.setOnClickListener {
-            Toast.makeText(requireContext(), "22222", Toast.LENGTH_LONG).show()
-            activity?.onBackPressed()
+            val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigateUp()
         }
 
         binding.editAddress.setOnClickListener {
-            Toast.makeText(requireContext(), "33333", Toast.LENGTH_LONG).show()
-            activity?.onBackPressed()
+            val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigateUp()
         }
 
         lifecycleScope.launchWhenResumed {
@@ -86,11 +127,12 @@ class SaveAddressDetailsFragment : Fragment() {
 
                     if (state.isSuccess) {
                         Toast.makeText(context, "Saved", Toast.LENGTH_LONG).show()
-                        activity?.onBackPressed()
+                      //  val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                     //   navController.navigateUp()
                     }
 
                     if (state.error.isNotEmpty()) {
-                        Toast.makeText(context, "Failure to save address", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
                         viewModel.updateState(error = "")
                     }
 

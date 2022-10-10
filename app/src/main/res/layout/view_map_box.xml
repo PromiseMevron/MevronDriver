@@ -8,7 +8,8 @@
         android:id="@+id/mapBoxMapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:mapbox_cameraZoom="9.0" />
+        mapbox:mapbox_cameraZoom="9.0"
+        xmlns:mapbox="http://schemas.android.com/apk/res-auto" />
 
     <com.mapbox.navigation.ui.maneuver.view.MapboxManeuverView
         android:id="@+id/maneuverView"

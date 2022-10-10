@@ -12,6 +12,7 @@ import com.mevron.rides.driver.cashout.ui.event.AddAccountEvent
 import com.mevron.rides.driver.cashout.ui.state.AddAccountState
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,7 +49,7 @@ class AddAccountViewModel @Inject constructor(
                     mutableState.value.copy(
                         loading = false,
                         postSuccess = false,
-                        errorMessage = "Failure to update your account details"
+                        errorMessage = result.error.message ?: Constants.UNEXPECTED_ERROR
                     )
                 }
             }

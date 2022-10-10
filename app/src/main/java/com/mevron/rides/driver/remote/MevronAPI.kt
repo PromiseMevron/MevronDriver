@@ -53,6 +53,11 @@ interface MevronAPI {
     suspend fun uploadSticker(@Part image: MultipartBody.Part, @Path("uiid") identifier: String): Response<GeneralResponse>
 
     @Multipart
+    @POST("api/v1/driver/auth/upload/vehicle-banner/{uiid}")
+    suspend fun uploadVehicleImage(@Part image: MultipartBody.Part, @Path("uiid") identifier: String): Response<GeneralResponse>
+
+
+    @Multipart
     @POST("api/v1/driver/auth/upload/profile-photo")
     suspend fun uploadProfile(@Part image: MultipartBody.Part): Response<GeneralResponse>
 
@@ -72,6 +77,9 @@ interface MevronAPI {
 
     @GET("api/v1/driver/auth/get-car-year")
     suspend fun getCarYear(@QueryMap params: HashMap<String, String>): Response<GetCarYear>
+
+    @POST("api/v1/acquisation/driver/resend-otp")
+    suspend fun resendOTP(@Body data: VerifyOTPRequest): Response<GeneralResponse>
 
     @POST("api/v1/trip/driver/auth/trip")
     suspend fun tripManagement(@Body data: TripManagementModel): Response<GeneralResponse>

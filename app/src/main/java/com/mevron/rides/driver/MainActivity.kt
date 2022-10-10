@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
        // SocketHandler.establishConnection()
         val token = sPref.getString(Constants.TOKEN, null)
         val uuid = sPref.getString(Constants.UUID, null)
-        val email = sPref.getString(Constants.EMAIL, null)
+        val email = sPref.getString(Constants.COMPLETE, null)
         if (token.isNullOrEmpty() || uuid.isNullOrEmpty() || email.isNullOrEmpty()){
             startActivity(Intent(this, IntroActivity::class.java))
             finish()
@@ -87,8 +88,18 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     private fun openRideActivity(){
         if (hasPermission()){
-            startActivity(Intent(this, RideActivity::class.java))
-            finish()
+
+            val mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val mGPS = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+            if (mGPS) {
+                startActivity(Intent(this, RideActivity::class.java))
+                finish()
+            }
+            else {
+                Toast.makeText(this, "Enable Location and try again", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, IntroActivity::class.java))
+            }
         }else{
             requestPermission()
         }

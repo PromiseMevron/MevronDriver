@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -62,8 +63,17 @@ class AddSavedPlaceFragment : Fragment(), AddressSelected {
                         migrateToUpdate()
                     }
 
-                    if (state.data.isNotEmpty()) {
-                        setUpAdapter(state.data)
+                    setUpAdapter(state.data)
+
+                    if (state.data.isEmpty()){
+                        binding.emptyData.visibility = View.VISIBLE
+                    }else{
+                        binding.emptyData.visibility = View.GONE
+                    }
+
+                    if (state.error.isNotEmpty()){
+                        Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
                     }
                 }
             }

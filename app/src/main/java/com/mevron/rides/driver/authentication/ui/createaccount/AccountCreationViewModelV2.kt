@@ -49,7 +49,7 @@ class AccountCreationViewModelV2 @Inject constructor(
                     mutableState.value.copy(
                         isLoading = false,
                         isRequestSuccess = false,
-                        error = result.buildString()
+                        error = result.error.message ?: Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {
@@ -97,6 +97,8 @@ class AccountCreationViewModelV2 @Inject constructor(
     fun updateState(
          phoneNumber: String? = null,
          name: String? = null,
+         fName: String? = null,
+         lName: String? = null,
          city: String? = null,
          cityName: String? = null,
          referral: String? = null,
@@ -110,7 +112,7 @@ class AccountCreationViewModelV2 @Inject constructor(
          type: String? = null
     ) {
         val currentValue = mutableState.value
-        val fullName = name?.split(" ")
+      /*  val fullName = name?.split(" ")
         val fName = fullName?.get(0)
         var lName: String? = ""
         fullName?.size?.let {
@@ -120,7 +122,7 @@ class AccountCreationViewModelV2 @Inject constructor(
         }
         if (lName.isNullOrEmpty()){
             lName = null
-        }
+        }*/
 
         mutableState.update {
             currentValue.copy(

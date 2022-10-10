@@ -76,7 +76,8 @@ class ProfileFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
                     state.profile.apply {
-                        binding.riderName.setText(this.firstName + " " + this.lastName)
+                        binding.riderFname.setText(this.firstName)
+                        binding.riderLname.setText(this.lastName)
                         binding.riderEmail.setText(this.email)
                         binding.phoneNumber.setText(this.phoneNumber)
                         binding.userType.text = this.type?.capitalize()
@@ -86,6 +87,7 @@ class ProfileFragment : Fragment() {
                     }
                     if (state.error.isNotEmpty()) {
                         Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
                     }
                 }
             }
@@ -117,7 +119,7 @@ class ProfileFragment : Fragment() {
 //Convert bitmap to byte array
         val bitmap = returnedImage
         val bos =  ByteArrayOutputStream();
-        bitmap?.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, bos)
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos)
         val bitmapdata = bos.toByteArray()
 
 //write the bytes in file
@@ -137,7 +139,7 @@ class ProfileFragment : Fragment() {
         val reqFile: RequestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
         val body: MultipartBody.Part =
             MultipartBody.Part.createFormData("document", file.name, reqFile)
-        toggleBusyDialog(true, "Uploading Profile...")
+        toggleBusyDialog(true, "Uploading Profile Picture...")
 
         viewModel.uploadProfile(body).observe(viewLifecycleOwner, Observer {
 
@@ -157,7 +159,7 @@ class ProfileFragment : Fragment() {
 
                     is  GenericStatus.Success ->{
                         toggleBusyDialog(false)
-                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), "Profile picture uploaded successfully", Toast.LENGTH_LONG).show()
                         //  findNavController().navigate(R.id.action_uploadInsuranceFragment_to_uploadStickerFragment)
                     }
                     else -> {}

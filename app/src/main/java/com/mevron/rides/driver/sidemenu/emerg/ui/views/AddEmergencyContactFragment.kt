@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.mevron.rides.driver.R
+import com.mevron.rides.driver.authentication.domain.model.GetCitiesData
 import com.mevron.rides.driver.databinding.AddEmergencyContactFragmentBinding
 import com.mevron.rides.driver.sidemenu.emerg.data.model.Contact
 import com.mevron.rides.driver.sidemenu.emerg.data.model.Set
@@ -29,6 +31,9 @@ import com.mevron.rides.driver.util.Constants
 import com.mevron.rides.driver.util.LauncherUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.widget.textChanges
 
 @AndroidEntryPoint
 class AddEmergencyContactFragment : Fragment(), SaveNumber {
@@ -42,6 +47,7 @@ class AddEmergencyContactFragment : Fragment(), SaveNumber {
 
     private lateinit var adapter: AddEmergencyAdapter
     var mDialog: Dialog? = null
+    val positions: ArrayList<Int> = arrayListOf()
 
 
     var contactList: ArrayList<Contact> = ArrayList()
@@ -68,21 +74,46 @@ class AddEmergencyContactFragment : Fragment(), SaveNumber {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.addressField.textChanges().skipInitialValue().onEach {filter ->
+            val searchWord = filter ?: ""
+            if (searchWord.isEmpty()){
+                adapter.submitList(contactList)
+                return@onEach
+            }
+            val cities = mutableListOf<Contact>()
+            if (contactList.isNotEmpty()){
+                for (city in contactList){
+                    if (city.name?.contains(searchWord, ignoreCase = true) == true){
+                        cities.add(city)
+                    }
+                }
+                adapter.submitList(cities)
+            }
+
+        }.launchIn(lifecycleScope)
+
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
                     if (state.backButton) {
                         activity?.onBackPressed()
                     }
+                    if (state.error.isNotEmpty()){
+                        Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
+                    }
 
                     if (state.openNextPage) {
-                        viewModel.handleEvent(EmergencyEvent.MakeAPICall)
+                     //   viewModel.handleEvent(EmergencyEvent.MakeAPICall)
                     }
 
                     if (state.data.isNotEmpty()) {
                         viewModel.updateState(updateAddress = true)
                     }
                     if (state.isSuccess) {
+                        toggleBusyDialog(false, "Submitting")
+                        Toast.makeText(requireContext(), "Saved", Toast.LENGTH_LONG).show()
                         activity?.onBackPressed()
                     }
                 }
@@ -102,21 +133,25 @@ class AddEmergencyContactFragment : Fragment(), SaveNumber {
                 contactListSend.add(set)
             }
             viewModel.updateState(savedAddresses = contactListSend)
+            viewModel.handleEvent(EmergencyEvent.MakeAPICall)
+            toggleBusyDialog(true, "Submitting")
         }
 
         getContactList()
     }
 
     override fun addRemoveContact(cnt: Contact) {
-        if (cnt.isSelected) {
+        if (positions.contains(cnt.id)){
+            val index = positions.indexOfFirst { it == cnt.id }
+            contactListToSend.removeAt(index)
+            positions.removeAt(index)
+        }else{
             contactListToSend.add(cnt)
-        } else {
-            for (i in 0 until (contactListToSend.size - 1)) {
-                if (cnt.id == contactListToSend[i].id) {
-                    contactListToSend.removeAt(i)
-                }
-            }
+            positions.add(cnt.id)
         }
+       // adapter = AddEmergencyAdapter(this, positions)
+     //   binding.contactsRecyclerView.adapter = adapter
+     ///   adapter.submitList(contactList)
     }
 
     private fun getContactList() {
@@ -165,7 +200,7 @@ class AddEmergencyContactFragment : Fragment(), SaveNumber {
                         )
                     }
                 }
-                adapter = AddEmergencyAdapter(this)
+                adapter = AddEmergencyAdapter(this, positions)
                 adapter.submitList(contactList)
                 binding.contactsRecyclerView.adapter = adapter
             }

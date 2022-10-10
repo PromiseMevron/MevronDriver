@@ -66,7 +66,8 @@ data class HomeViewState(
                     online = "",
                     rides = 0,
                     tripList = mutableListOf()
-                )
+                ),
+                currencySymbol = ""
             ),
             tripId = "",
             collectedAmount = ""

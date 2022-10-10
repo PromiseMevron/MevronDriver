@@ -9,6 +9,7 @@ import com.mevron.rides.driver.sidemenu.emerg.data.model.Set
 import com.mevron.rides.driver.sidemenu.emerg.domain.usecase.SaveContactUseCase
 import com.mevron.rides.driver.sidemenu.emerg.ui.EmergencyEvent
 import com.mevron.rides.driver.sidemenu.emerg.ui.EmergencyState
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +36,7 @@ class AddEmergencyContactViewModel @Inject constructor(private val useCase: Save
                     mutableState.value.copy(
                         isLoading = false,
                         isSuccess = false,
-                        error = "failure to carry out operation"
+                        error = result.error.localizedMessage ?:Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {
@@ -64,6 +65,7 @@ class AddEmergencyContactViewModel @Inject constructor(private val useCase: Save
         savedAddresses: MutableList<Set>? = null,
         updateAddress: Boolean? = null,
         backButton: Boolean? = null,
+        error: String? = null
     ) {
         val currentState = mutableState.value
         mutableState.update {
@@ -73,6 +75,7 @@ class AddEmergencyContactViewModel @Inject constructor(private val useCase: Save
                 data = savedAddresses ?: currentState.data,
                 openNextPage = updateAddress ?: currentState.openNextPage,
                 backButton = backButton ?: currentState.backButton,
+                error = error ?: currentState.error
             )
         }
     }

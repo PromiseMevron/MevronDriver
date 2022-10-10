@@ -40,7 +40,7 @@ class EarningCashOut @JvmOverloads constructor(
 
     @SuppressLint("SetTextI18n")
     fun setUpData(data: Earnings) {
-        balance.text = "${data.currency}${data.balance}"
+        balance.text = "${data.currencySymbol}${data.balance}"
         payout.text = "Your payout is scheduled on ${data.nextPaymentDate}"
     }
     override fun onClick(view: View?) {

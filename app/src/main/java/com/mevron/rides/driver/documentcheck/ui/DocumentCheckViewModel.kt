@@ -9,6 +9,7 @@ import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
 import com.mevron.rides.driver.home.model.documents.CarProperties
 import com.mevron.rides.driver.home.model.documents.Document
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,7 +50,7 @@ class DocumentCheckViewModel @Inject constructor(
                 is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         loading = false,
-                        error = "Failure to get documents",
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR,
                     )
                 }
             }

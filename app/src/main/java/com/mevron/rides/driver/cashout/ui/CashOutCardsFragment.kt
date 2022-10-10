@@ -1,6 +1,7 @@
 package com.mevron.rides.driver.cashout.ui
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -75,6 +77,11 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
                         }
                     }
 
+                    if (state.errorMessage.isNotEmpty()){
+                        Toast.makeText(requireContext(), state.errorMessage, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(errorMessage = "")
+                    }
+
                     toggleBusyDialog(
                         state.loading,
                         desc = if (state.loading) "Processing..." else null
@@ -113,6 +120,7 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
                             Toast.LENGTH_LONG
                         ).show()
                         binding.webView.visibility = View.GONE
+                        activity?.onBackPressed()
                     }
 
                     if (state.payLink.isNotEmpty()){
@@ -129,8 +137,25 @@ class CashOutCardsFragment : Fragment(), PaySelected2 {
         }
 
         binding.addCard.setOnClickListener {
-            viewModel.updateState(addFund = "100")
-            viewModel.getPayLink()
+            val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("To add your card to mevron, we will charge a fee that will be refunded into your wallet")
+            builder.setTitle("Info!")
+            builder.setCancelable(true)
+            builder.setPositiveButton("Proceed",
+                DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->
+                    viewModel.updateState(addFund = "100", addCard = true)
+                    viewModel.getPayLink()
+                    toggleBusyDialog(
+                        true)
+                } as DialogInterface.OnClickListener)
+
+            builder.setNegativeButton("No",
+                DialogInterface.OnClickListener { dialog: DialogInterface, which: Int ->
+                    dialog.cancel()
+                } as DialogInterface.OnClickListener)
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
         }
 
 

@@ -63,6 +63,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun updateErrorToEmpty(){
+        mutableState.update {
+            it.transform(
+                errorMessage = "",
+            )
+        }
+    }
+
     val state: StateFlow<HomeViewState>
         get() = mutableState
 

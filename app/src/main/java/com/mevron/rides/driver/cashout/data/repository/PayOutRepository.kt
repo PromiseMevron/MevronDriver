@@ -6,9 +6,11 @@ import com.mevron.rides.driver.cashout.data.network.PaymentAPI
 import com.mevron.rides.driver.cashout.domain.model.*
 import com.mevron.rides.driver.cashout.domain.repository.IPayOutRepository
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.remote.HTTPErrorHandler
 import com.mevron.rides.driver.remote.model.getcard.CardData
 import com.mevron.rides.driver.remote.model.getcard.GetCardResponse
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.model.payment.PaymentMethodResponse
+import com.mevron.rides.driver.util.Constants
 
 class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
 
@@ -16,7 +18,8 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         if (it.isSuccessful) {
             it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Wallet details not found"))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -24,7 +27,8 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         if (it.isSuccessful) {
             it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in cash out"))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -32,7 +36,8 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         if (it.isSuccessful) {
             it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in adding fund"))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -42,7 +47,8 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
                 it.body()?.toDomainModel()
                     ?: DomainModel.Error(Throwable("Error in adding bank account"))
             } else {
-                DomainModel.Error(Throwable(it.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(it)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         }
 
@@ -51,7 +57,8 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
             it.body()?.toDomainModel()
                 ?: DomainModel.Error(Throwable("Error in getting required specifications"))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -59,7 +66,8 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
         if (it.isSuccessful) {
             it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in fetching cards"))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -71,10 +79,11 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
                     data = PaymentLinkDomain(response.body()?.link ?: "")
                 )
             } else {
-                DomainModel.Error(Throwable(response.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(response)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         } catch (error: Throwable) {
-            DomainModel.Error(Throwable("Error fetching payment links $error"))
+            DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -84,10 +93,11 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
             if (response.isSuccessful) {
                 DomainModel.Success(data = Unit)
             } else {
-                DomainModel.Error(Throwable(response.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(response)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         } catch (error: Throwable) {
-            DomainModel.Error(Throwable("Error adding fund $error"))
+            DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -97,10 +107,11 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
             if (response.isSuccessful) {
                 DomainModel.Success(data = Unit)
             } else {
-                DomainModel.Error(Throwable(response.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(response)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         } catch (error: Throwable) {
-            DomainModel.Error(Throwable("Error adding bank $error"))
+            DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -112,10 +123,11 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
                     ResolveBankDomainData(account_name = it.account_name, account_number = it.account_number)
                 } ?: ResolveBankDomainData("", ""))
             } else {
-                DomainModel.Error(Throwable(response.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(response)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         } catch (error: Throwable) {
-            DomainModel.Error(Throwable("Error adding bank $error"))
+            DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -130,16 +142,17 @@ class PayOutRepository(private val api: PaymentAPI) : IPayOutRepository {
 
                 } ?: ResolveBankDomainData("Not Found", ""))
             } else {
-                DomainModel.Error(Throwable(response.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(response)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         } catch (error: Throwable) {
-            DomainModel.Error(Throwable("Error adding bank $error"))
+            DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         }
     }
 
     private fun PaymentDetailsResponse.toDomainModel() = DomainModel.Success(
         data = PaymentDetailsDomainData(
-            balance = this.paySuccess.payData.balance,
+            balance = "${this.paySuccess.payData.currencySymbol}${this.paySuccess.payData.balance}",
             nextPaymentDate = this.paySuccess.payData.nextPaymentDate,
             data = this.paySuccess.payData.payData.map {
                 PaymentDetailsDomainDatum(

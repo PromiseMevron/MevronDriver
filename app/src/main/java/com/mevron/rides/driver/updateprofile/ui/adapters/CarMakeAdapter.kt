@@ -16,7 +16,7 @@ class CarMakeAdapter(val select: CarMakeSelectionListener) :
 
     class CarMakesDiffUtil : DiffUtil.ItemCallback<CarMake>() {
         override fun areItemsTheSame(oldItem: CarMake, newItem: CarMake): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.make == newItem.make
         }
 
         override fun areContentsTheSame(oldItem: CarMake, newItem: CarMake): Boolean {

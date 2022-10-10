@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -80,6 +81,11 @@ class RideActivityFragment : Fragment() {
                         binding.emptyData.visibility = View.VISIBLE
                     }else{
                         binding.emptyData.visibility = View.GONE
+                    }
+
+                    if (it.error.isNotEmpty()){
+                        Toast.makeText(requireContext(), it.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
                     }
                     binding.disaplyDate.text = it.displayDate
                     binding.displayButtton.text = it.displayDate

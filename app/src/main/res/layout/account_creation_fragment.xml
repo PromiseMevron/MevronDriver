@@ -47,12 +47,12 @@
         android:layout_height="wrap_content"
         android:textColor="#8a8a8a"
         android:textSize="@dimen/_10ssp"
-        android:text="@string/name"
+        android:text="@string/first_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/back_button"
         android:layout_marginStart="@dimen/_14sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:id="@+id/name" />
+        android:id="@+id/fname" />
 
 
     <EditText
@@ -60,15 +60,47 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="@dimen/_14sdp"
         android:layout_marginEnd="@dimen/_14sdp"
-        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/fname"
         android:layout_width="0dp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_height="52dp"
         android:paddingStart="@dimen/_10sdp"
         android:paddingEnd="@dimen/_10sdp"
         android:layout_weight="2"
-        android:id="@+id/rider_name"
-        android:hint="@string/e_g_john_doe"
+        android:id="@+id/rider_fname"
+        android:hint="@string/e_g_john"
+        android:background="@drawable/rounded_corner_field"
+        android:textColor="#383838"
+        android:inputType="textPersonName"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#8a8a8a"
+        android:textSize="@dimen/_10ssp"
+        android:text="@string/last_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rider_fname"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/lname" />
+
+
+    <EditText
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="@dimen/_14sdp"
+        android:layout_marginEnd="@dimen/_14sdp"
+        app:layout_constraintTop_toBottomOf="@id/lname"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_height="52dp"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:layout_weight="2"
+        android:id="@+id/rider_lname"
+        android:hint="@string/e_g_doe"
         android:background="@drawable/rounded_corner_field"
         android:textColor="#383838"
         android:inputType="textPersonName"/>
@@ -80,7 +112,7 @@
         android:textSize="@dimen/_10ssp"
         android:text="@string/email"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rider_name"
+        app:layout_constraintTop_toBottomOf="@id/rider_lname"
         android:layout_marginStart="@dimen/_14sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:id="@+id/email" />

@@ -31,12 +31,15 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.messaging.FirebaseMessaging
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.HomeFragmentBinding
+import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.home.domain.model.*
 import com.mevron.rides.driver.home.map.MapReadyListener
+import com.mevron.rides.driver.home.map.ZOOM_LEVEL_CITY_DETAIL
 import com.mevron.rides.driver.home.map.widgets.AcceptRideData
 import com.mevron.rides.driver.home.map.widgets.OnActionButtonClick
 import com.mevron.rides.driver.home.ui.*
 import com.mevron.rides.driver.home.ui.event.HomeViewEvent
+import com.mevron.rides.driver.home.ui.state.transform
 import com.mevron.rides.driver.home.ui.widgeteventlisteners.DriverStatusClickListener
 import com.mevron.rides.driver.location.ui.LocationViewModel
 import com.mevron.rides.driver.location.ui.event.LocationEvent
@@ -44,6 +47,7 @@ import com.mevron.rides.driver.ride.RideActivity
 import com.mevron.rides.driver.service.PermissionRequestRationaleListener
 import com.mevron.rides.driver.service.PermissionsRequestManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
@@ -523,6 +527,10 @@ class HomeFragment : Fragment(),
                     stateMachineViewModel.getStateMachine()
                     viewModel.updateStatusLoading()
                 }
+                if (state.errorMessage.isNotEmpty()){
+                    Toast.makeText(requireContext(), state.errorMessage, Toast.LENGTH_LONG).show()
+                    viewModel.updateErrorToEmpty()
+                }
 
                 if (state.tokenSuccessful){
                     binding.tokenView.visibility = View.GONE
@@ -550,9 +558,9 @@ class HomeFragment : Fragment(),
                     if (!locationViewModel.locationNotLoaded()) {
                         binding.mapView2.getMapForNavigationAsync()
                         binding.mapView2.routeToPosition(
-                            locationData.lat,
-                            locationData.long,
-                            locationData.direction
+                            7.4176769,
+                            3.9021294,
+                            -17.6F
                         )
                     }
                     locationViewModel.setLocationLoaded(true)
@@ -586,6 +594,7 @@ class HomeFragment : Fragment(),
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
+        binding.mapView2.centerMapCamera(zoomLevel = ZOOM_LEVEL_CITY_DETAIL)
     }
 
     private fun startLocationUpdate() {
@@ -626,6 +635,8 @@ class HomeFragment : Fragment(),
 
 
     }
+
+
 
     override fun onDriveClick() {
         viewModel.onEventReceived(HomeViewEvent.OnDriveClick)

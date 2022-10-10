@@ -59,7 +59,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_next_yellow"
+        android:src="@drawable/ic_next"
         android:layout_marginEnd="@dimen/_14sdp"/>
     <LinearLayout
         android:layout_width="match_parent"

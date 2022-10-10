@@ -49,7 +49,7 @@ class CarPropertiesRepository(
     private fun CarMakesResponse.toDomainModel() =
         DomainModel.Success(
             data = CarMakesDomainData(makes = this.carMakesSuccessData.carMakesList.map {
-                CarMake(it.make, it.id)
+                CarMake(it.make)
             })
         )
 

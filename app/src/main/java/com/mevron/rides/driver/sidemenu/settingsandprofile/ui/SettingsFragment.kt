@@ -69,6 +69,7 @@ class SettingsFragment : Fragment() {
                     }
                     if (state.error.isNotEmpty()) {
                         Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
                     }
 
                    /* toggleBusyDialog(
@@ -77,9 +78,7 @@ class SettingsFragment : Fragment() {
                     )*/
 
                     if (state.signOutSuccess){
-                        context?.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)?.edit()?.clear()?.apply()
-                        startActivity(Intent(requireActivity(), MainActivity::class.java))
-                        activity?.finishAffinity()
+
                     }
                 }
             }
@@ -161,6 +160,9 @@ class SettingsFragment : Fragment() {
         yesBtn.setOnClickListener {
             dialog.dismiss()
            viewModel.handleEvent(SettingsProfileEvent.SignOut)
+            context?.getSharedPreferences(Constants.SHARED_PREF_KEY, Context.MODE_PRIVATE)?.edit()?.clear()?.apply()
+            startActivity(Intent(requireActivity(), MainActivity::class.java))
+            activity?.finishAffinity()
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()

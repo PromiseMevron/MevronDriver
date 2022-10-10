@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="false"
     android:layout_height="match_parent">
 
 <androidx.drawerlayout.widget.DrawerLayout
@@ -13,7 +14,7 @@
     android:background="#000000"
     android:backgroundTint="#000000"
     android:keepScreenOn="true"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +41,7 @@
         android:layout_gravity="start"
         android:background="#ffffff"
         android:backgroundTint="#ffffff"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
         android:itemTextAppearance="@style/NavigationViewStyle"
         android:theme="@style/NavigationViewStyle"
         app:headerLayout="@layout/empty_header"

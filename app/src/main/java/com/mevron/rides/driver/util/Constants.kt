@@ -10,6 +10,7 @@ object Constants {
     const val SHARED_PREF_KEY = "alphally"
     const val TOKEN = "TOKEN"
     const val EMAIL = "EMAIL"
+    const val COMPLETE = "EMAIL"
     const val UUID = "UUID"
     const val LAT = "LAT"
     const val LNG = "LNG"
@@ -21,6 +22,7 @@ object Constants {
     const val MEVRON_CALL = "MEVRON_CALL"
     const val GOOGLE_CALL = "GOOGLE_CALL"
     const val SUPPORT_NUMBER = "SUPPORT_NUMBER"
+    const val UNEXPECTED_ERROR = "An unexpected error occurred and we are working to fix it. If it persists, please contact our support team."
 
     fun isNewNumberType(number: String): Boolean {
         return if (number.isEmpty() || number.length < 4) {

@@ -63,7 +63,7 @@ data class CarMakeState(
 ) {
 
     val currentMakes: List<CarMake>
-        get() = carMakeList.filter { it.make.contains(carMakeFilter.trim()) }
+        get() = carMakeList.filter { it.make.contains(carMakeFilter.trim(), ignoreCase = true) }
 
     val isEmpty: Boolean
         get() = carMakeList.isEmpty()
@@ -90,7 +90,7 @@ data class CarModelState(
         get() = carModelList.isEmpty()
 
     val currentModels: List<CarModel>
-        get() = carModelList.filter { it.model.contains(carModelFilter.trim()) }
+        get() = carModelList.filter { it.model.contains(carModelFilter.trim(), ignoreCase = true) }
 
     companion object {
 
@@ -120,7 +120,7 @@ data class CarYearState(
     val carYears: List<CarYearData>
 ) {
     val currentYears: List<CarYearData>
-        get() = this.carYears.filter { it.year.contains(carYearFilter.trim()) }
+        get() = this.carYears.filter { it.year.contains(carYearFilter.trim(), ignoreCase = true) }
 
     val isEmpty: Boolean
         get() = carYears.isEmpty()

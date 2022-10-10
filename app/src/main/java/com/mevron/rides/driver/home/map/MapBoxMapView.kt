@@ -540,9 +540,9 @@ class MapBoxMapView @JvmOverloads constructor(
             // if simulation is enabled (ReplayLocationEngine set to NavigationOptions)
             // but we're not simulating yet,
             // push a single location sample to establish origin
-            //3.3513038,6.5224128
-            val lng = currentLng ?: 0.0
-            val lat = currentLat ?: 0.0
+            //3.3513038,6.5224128 0.00
+            val lng = currentLng ?: 6.5224128
+            val lat = currentLat ?: 3.3513038
             mapboxReplayer.pushEvents(
                 listOf(
                     ReplayRouteMapper.mapToUpdateLocation(
@@ -589,7 +589,7 @@ class MapBoxMapView @JvmOverloads constructor(
             // shows/hide the recenter button depending on the camera state
             when (navigationCameraState) {
                 NavigationCameraState.TRANSITION_TO_FOLLOWING,
-                NavigationCameraState.FOLLOWING -> recenter?.visibility = View.INVISIBLE
+                NavigationCameraState.FOLLOWING -> recenter?.visibility = View.VISIBLE
                 NavigationCameraState.TRANSITION_TO_OVERVIEW,
                 NavigationCameraState.OVERVIEW,
                 NavigationCameraState.IDLE -> recenter?.visibility = View.VISIBLE
@@ -722,7 +722,7 @@ class MapBoxMapView @JvmOverloads constructor(
         mapboxNavigation.startTripSession()
     }
 
-    private fun centerMapCamera(center: Double? = null, zoomLevel: Double = ZOOM_LEVEL_RESTING) {
+   fun centerMapCamera(center: Double? = null, zoomLevel: Double = ZOOM_LEVEL_RESTING) {
         val lng = currentLng
         val lat = currentLat
         if (lng != null && lat != null) {

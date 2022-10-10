@@ -87,8 +87,8 @@ class ReferralFragment : Fragment(), SelectedReferal {
                 }
 
                 if (state.error.isNotEmpty()) {
-                    Log.d("Failure", state.error)
                     Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                    viewModel.updateState(error = "")
                 }
             }
 

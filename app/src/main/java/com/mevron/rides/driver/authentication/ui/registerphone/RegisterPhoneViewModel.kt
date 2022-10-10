@@ -9,6 +9,7 @@ import com.mevron.rides.driver.authentication.ui.registerphone.event.RegisterPho
 import com.mevron.rides.driver.authentication.ui.registerphone.state.RegisterPhoneState
 import com.mevron.rides.driver.domain.DomainModel
 import com.mevron.rides.driver.domain.update
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +46,7 @@ class RegisterPhoneViewModel @Inject constructor(
                     mutableState.value.copy(
                         loading = false,
                         requestSuccess = false,
-                        error = result.toState()
+                        error = result.error.message ?: Constants.UNEXPECTED_ERROR
                     )
                 }
             }

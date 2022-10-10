@@ -85,6 +85,7 @@ class ProfileDetailsFragment : Fragment() {
                     }
                     if (state.error.isNotEmpty()) {
                         Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
                     }
                 }
             }

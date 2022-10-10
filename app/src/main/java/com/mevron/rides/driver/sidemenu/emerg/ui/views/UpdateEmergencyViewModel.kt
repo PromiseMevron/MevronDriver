@@ -9,6 +9,7 @@ import com.mevron.rides.driver.sidemenu.emerg.domain.usecase.DeleteContactUseCas
 import com.mevron.rides.driver.sidemenu.emerg.domain.usecase.UpdateContactUseCase
 import com.mevron.rides.driver.sidemenu.emerg.ui.EmergencyEvent
 import com.mevron.rides.driver.sidemenu.emerg.ui.EmergencyState
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +39,7 @@ class UpdateEmergencyViewModel @Inject constructor(
                     mutableState.value.copy(
                         isLoading = false,
                         isSuccess = false,
-                        error = ""
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {
@@ -61,7 +62,7 @@ class UpdateEmergencyViewModel @Inject constructor(
                     mutableState.value.copy(
                         isLoading = false,
                         isSuccess = false,
-                        error = ""
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {
@@ -93,18 +94,11 @@ class UpdateEmergencyViewModel @Inject constructor(
         name: String? = null,
         phoneNumber: String? = null,
         id: String? = null,
-        time: Int? = null
+        time: MutableList<Int>? = null,
+        error: String? = null,
     ) {
         val currentState = mutableState.value
-        val theTime = currentState.time
-        time?.let {
-            if (!theTime.contains(it)) {
-                theTime.add(it)
-            }else {
-                val index = theTime.indexOf(it)
-                theTime.removeAt(index)
-            }
-        }
+
 
         mutableState.update {
             currentState.copy(
@@ -113,7 +107,8 @@ class UpdateEmergencyViewModel @Inject constructor(
                 name = name ?: currentState.name,
                 phone = phoneNumber ?: currentState.phone,
                 contactId = id ?: currentState.contactId,
-                time = theTime
+                time = time ?: currentState.time,
+                error = error ?: currentState.error
             )
         }
     }

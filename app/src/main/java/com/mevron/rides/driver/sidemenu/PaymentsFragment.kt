@@ -2,6 +2,7 @@ package com.mevron.rides.driver.sidemenu
 
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -70,7 +72,7 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
         binding.webView.settings.builtInZoomControls = true
         binding.webView.settings.useWideViewPort = true
         viewModel.getPaymentMethods()
-
+        toggleBusyDialog(true, desc = "Processing")
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
@@ -78,8 +80,8 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
-                    toggleBusyDialog(state.isLoading, desc = if (state.isLoading) "Processing" else null)
                     binding.backButton.setOnClickListener {
+                        toggleBusyDialog(false, desc = "Processing")
                         if (binding.webView.visibility == View.GONE) {
                             activity?.onBackPressed()
                         } else {
@@ -90,9 +92,13 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
                         }
                     }
 
+                    if (state.error.isNotEmpty()){
+                        Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
+                    }
+
                     if (state.cardData.isNotEmpty()){
                         binding.otherMethods.visibility = View.VISIBLE
-                        Log.d("THE CARDS ARE", "THE CARDS ARE ${state.cardData}")
                         val dataToUse = state.cardData.filter {
                             it.uuid != null &&  it.lastDigits != null
                         }
@@ -115,11 +121,15 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
                             type = it.type
                         )
                     }*/)
+                        toggleBusyDialog(false, desc = "Processing")
+
                     }else{
+                        toggleBusyDialog(false, desc = "Processing")
                         binding.otherMethods.visibility = View.GONE
                     }
 
                     if (state.bankData.isNotEmpty()){
+
                         binding.preferredMethods.visibility = View.VISIBLE
                         Log.d("THE Banks ARE", "THE BANKS ARE ${state.cardData}")
                         val dataToUse = state.bankData.filter {
@@ -144,8 +154,10 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
                             type = it.type
                         )
                     }*/)
+                        toggleBusyDialog(false, desc = "Processing")
                     }else{
                         binding.preferredMethods.visibility = View.GONE
+                        toggleBusyDialog(false, desc = "Processing")
                     }
 
                     if (state.successFund) {
@@ -154,6 +166,7 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
                             "Card Added Successfully",
                             Toast.LENGTH_LONG
                         ).show()
+                        toggleBusyDialog(false, desc = "Processing")
                         binding.webView.visibility = View.GONE
                     }
 
@@ -161,17 +174,52 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
                         loadWebView(state.paymentLink)
                         binding.webView.visibility = View.VISIBLE
                         viewModel.updateState(payLink = "")
+                        toggleBusyDialog(false, desc = "Processing")
                     }
                 }
             }
         }
 
         binding.addCard.setOnClickListener {
-            viewModel.getPayLink()
+            val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("To add your card to mevron, we will charge a fee that will be refunded into your wallet")
+            builder.setTitle("Info!")
+            builder.setCancelable(true)
+            builder.setPositiveButton("Proceed",
+                DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->
+                    toggleBusyDialog(true, desc = "Processing")
+                    viewModel.getPayLink()
+                } as DialogInterface.OnClickListener)
+
+            builder.setNegativeButton("No",
+                DialogInterface.OnClickListener { dialog: DialogInterface, which: Int ->
+                    dialog.cancel()
+                } as DialogInterface.OnClickListener)
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
         }
 
         binding.addCard1.setOnClickListener {
-            viewModel.getPayLink()
+
+            val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+            builder.setMessage("To add your card to mevron, we will charge a fee that will be refunded into your wallet")
+            builder.setTitle("Info!")
+            builder.setCancelable(true)
+            builder.setPositiveButton("Proceed",
+                DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->
+                    toggleBusyDialog(true, desc = "Processing")
+                    viewModel.getPayLink()
+                } as DialogInterface.OnClickListener)
+
+            builder.setNegativeButton("No",
+                DialogInterface.OnClickListener { dialog: DialogInterface, which: Int ->
+                    dialog.cancel()
+                } as DialogInterface.OnClickListener)
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+
         }
 
         binding.addBank1.setOnClickListener {
@@ -210,6 +258,7 @@ class PaymentsFragment : Fragment(), PaySelected2, BankSelected {
                 if (url.contains("confirm-payment/", ignoreCase = true)){
                     viewModel.updateState(confirmLink = url)
                     viewModel.confirmPayment()
+                    toggleBusyDialog(true, desc = "Processing")
                     binding.webView.visibility = View.GONE
                     // Toast.makeText(requireContext(), "Payment successful", Toast.LENGTH_LONG).show()
                     // activity?.onBackPressed()

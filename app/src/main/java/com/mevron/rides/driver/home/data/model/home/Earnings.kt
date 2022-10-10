@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class Earnings(
     val balance: String,
     val currency: String,
+    @SerializedName("currency_symbol")
+    val currencySymbol: String,
     @SerializedName("earning_goal")
     val earningGoal: EarningGoal,
     val nextPaymentDate: String,

@@ -65,6 +65,7 @@ class EmergencyViewModel @Inject constructor(private val useCase: GetContactUseC
         savedAddresses: MutableList<Set>? = null,
         updateAddress: Boolean? = null,
         backButton: Boolean? = null,
+        error: String? = null,
         result: MutableList<GetContactDomainData>? = null
     ) {
         val currentState = mutableState.value
@@ -75,7 +76,8 @@ class EmergencyViewModel @Inject constructor(private val useCase: GetContactUseC
                 data = savedAddresses ?: currentState.data,
                 openNextPage = updateAddress ?: currentState.openNextPage,
                 backButton = backButton ?: currentState.backButton,
-                result = result ?: currentState.result
+                result = result ?: currentState.result,
+                error = error ?: currentState.error
             )
         }
     }

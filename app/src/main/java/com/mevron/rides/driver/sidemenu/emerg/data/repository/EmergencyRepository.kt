@@ -2,6 +2,7 @@ package com.mevron.rides.driver.sidemenu.emerg.data.repository
 
 import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.remote.HTTPErrorHandler
 import com.mevron.rides.driver.sidemenu.emerg.data.model.AddContactRequest
 import com.mevron.rides.driver.sidemenu.emerg.data.model.GetContactsResponse
 import com.mevron.rides.driver.sidemenu.emerg.data.model.UpdateEmergencyContact
@@ -10,14 +11,16 @@ import com.mevron.rides.driver.sidemenu.emerg.domain.model.ContactResponse
 import com.mevron.rides.driver.sidemenu.emerg.domain.model.GetContactDomain
 import com.mevron.rides.driver.sidemenu.emerg.domain.model.GetContactDomainData
 import com.mevron.rides.driver.sidemenu.emerg.domain.repository.IEmergencyRepository
+import com.mevron.rides.driver.util.Constants
 
 class EmergencyRepository(private val api: EmergencyAPI) : IEmergencyRepository {
 
     override suspend fun getEmergencyContact() = api.getEmergency().let {
         if (it.isSuccessful) {
-            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("No Contact Saved"))
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -26,9 +29,10 @@ class EmergencyRepository(private val api: EmergencyAPI) : IEmergencyRepository 
         data: UpdateEmergencyContact
     ): DomainModel = api.updateEmergency(id, data).let {
         if (it.isSuccessful) {
-            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Failure to update contact"))
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -36,17 +40,19 @@ class EmergencyRepository(private val api: EmergencyAPI) : IEmergencyRepository 
         api.saveEmergency(data).let {
             if (it.isSuccessful) {
                 it.body()?.toDomainModel()
-                    ?: DomainModel.Error(Throwable("Failure to save contact"))
+                    ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
             } else {
-                DomainModel.Error(Throwable(it.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(it)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         }
 
     override suspend fun deleEmergencyContact(id: String) = api.deleteEmergency(id).let {
         if (it.isSuccessful) {
-            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Failure to save contact"))
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -56,7 +62,7 @@ class EmergencyRepository(private val api: EmergencyAPI) : IEmergencyRepository 
         }else{
             GetContactDomain(
                 savedAddresses = this.getContactSuccess.getContactData.map {
-                    GetContactDomainData(id = it.id, name = it.name, phone = it.phoneNumber)
+                    GetContactDomainData(id = it.id, name = it.name, phone = it.phoneNumber, details = it.details)
                 }
             )
         }

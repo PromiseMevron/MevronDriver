@@ -83,7 +83,7 @@ fun Context.hasCameraPermission(): Int {
 }
 
 fun Context.hasWriteToStoragePermission(): Int {
-    return hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    return hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 }
 
 fun Context.hideKeys(view: View){

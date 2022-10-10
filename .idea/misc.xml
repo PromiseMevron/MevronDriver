@@ -80,6 +80,7 @@
         <entry key="app/src/main/res/drawable/ic_place_2.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/ic_remove_card.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_resend.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/drawable/ic_resend_otp.xml" value="0.1285" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/ic_share_code.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_share_to_contact.xml" value="0.1755" />
@@ -101,6 +102,7 @@
         <entry key="app/src/main/res/drawable/rounded_border_colored.xml" value="0.11" />
         <entry key="app/src/main/res/drawable/rounded_border_green.xml" value="0.159" />
         <entry key="app/src/main/res/drawable/rounded_border_review_item.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/rounded_border_save_address_selected.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/rounded_border_save_button.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/rounded_border_update.xml" value="0.1835" />
         <entry key="app/src/main/res/drawable/rounded_corner.xml" value="0.1375" />
@@ -171,7 +173,7 @@
         <entry key="app/src/main/res/layout/emergency_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/emergency_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/empty_header.xml" value="0.19157608695652173" />
-        <entry key="app/src/main/res/layout/fragment_add_new_vehicle.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_add_new_vehicle.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/fragment_document.xml" value="0.19739583333333333" />
         <entry key="app/src/main/res/layout/fragment_face_liveness_detection.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/fragment_face_liveness_detection_item.xml" value="0.19157608695652173" />
@@ -180,6 +182,7 @@
         <entry key="app/src/main/res/layout/fragment_referal_detail.xml" value="0.16197916666666667" />
         <entry key="app/src/main/res/layout/fragment_referral.xml" value="0.2328125" />
         <entry key="app/src/main/res/layout/fragment_sticker.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/fragment_vehicle_image_upload.xml" value="0.11510416666666666" />
         <entry key="app/src/main/res/layout/help_fragment.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/highlight_item.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/home_bottom.xml" value="0.25" />

@@ -17,8 +17,6 @@ data class CarMakesSuccessData(
 )
 
 data class CarMakesData(
-    @SerializedName("Make")
-    val make: String,
-    @SerializedName("id")
-    val id: Int
+    @SerializedName("make")
+    val make: String
 )

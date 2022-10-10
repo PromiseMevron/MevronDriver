@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class VerifyOTPRequest(
     @SerializedName("code")
-    val code: String,
+    val code: String? = null,
     @SerializedName("phoneNumber")
     val phoneNumber: String
 )

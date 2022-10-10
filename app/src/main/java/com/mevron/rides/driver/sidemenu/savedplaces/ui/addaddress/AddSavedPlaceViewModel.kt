@@ -9,6 +9,7 @@ import com.mevron.rides.driver.sidemenu.savedplaces.domain.model.GetSavedAddress
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.usecases.GetAddressUseCase
 import com.mevron.rides.driver.sidemenu.savedplaces.ui.addaddress.event.AddSavedAddressEvent
 import com.mevron.rides.driver.sidemenu.savedplaces.ui.addaddress.state.AddSavedPlaceState
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +34,7 @@ class AddSavedPlaceViewModel @Inject constructor(private val useCase: GetAddress
                     mutableState.value.copy(
                         isLoading = false,
                         isSuccess = false,
-                        error = ""
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {
@@ -62,7 +63,8 @@ class AddSavedPlaceViewModel @Inject constructor(private val useCase: GetAddress
         isRequestSuccess: Boolean? = null,
         savedAddresses: MutableList<GetSavedAddressData>? = null,
         updateAddress: Boolean? = null,
-        backButton: Boolean? = null
+        backButton: Boolean? = null,
+        error: String? = null
     ) {
         val currentState = mutableState.value
         mutableState.update {
@@ -71,7 +73,8 @@ class AddSavedPlaceViewModel @Inject constructor(private val useCase: GetAddress
                 isSuccess = isRequestSuccess ?: currentState.isSuccess,
                 data = savedAddresses ?: currentState.data,
                 openNextPage = updateAddress ?: currentState.openNextPage,
-                backButton = backButton ?: currentState.backButton
+                backButton = backButton ?: currentState.backButton,
+                error = error ?: currentState.error
             )
         }
     }

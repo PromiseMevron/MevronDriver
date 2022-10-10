@@ -9,42 +9,48 @@ import com.mevron.rides.driver.authentication.data.network.AuthApi
 import com.mevron.rides.driver.authentication.domain.model.*
 import com.mevron.rides.driver.authentication.domain.repository.IAuthRepository
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.remote.HTTPErrorHandler
+import com.mevron.rides.driver.util.Constants
 
 class AuthRepository(private val authApi: AuthApi) : IAuthRepository {
 
     override suspend fun registerPhone(registerPhoneRequest: RegisterPhoneRequest): DomainModel =
         authApi.registerPhone(registerPhoneRequest).let {
             if (it.isSuccessful) {
-                it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Empty result found"))
+                it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
             } else {
-                DomainModel.Error(Throwable(it.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(it)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         }
 
     override suspend fun verifyOTP(verifyOTPRequest: VerifyOTPRequest): DomainModel =
         authApi.verifyOTP(verifyOTPRequest).let {
             if (it.isSuccessful) {
-                it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Empty result found"))
+                it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
             } else {
-                DomainModel.Error(Throwable(it.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(it)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         }
 
     override suspend fun createAccount(createAccountRequest: CreateAccountRequest): DomainModel =
         authApi.createAccount(createAccountRequest).let {
             if (it.isSuccessful) {
-                it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Empty result found"))
+                it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
             } else {
-                DomainModel.Error(Throwable(it.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(it)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         }
 
     override suspend fun getCities(getCityRequest: GetCityRequest): DomainModel =
         authApi.getCities(getCityRequest).let {
         if (it.isSuccessful) {
-            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Empty result found"))
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable(it.errorBody().toString()))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -60,7 +66,8 @@ class AuthRepository(private val authApi: AuthApi) : IAuthRepository {
             accessToken = this.otpSuccess.otpData.accessToken,
             riderType = this.otpSuccess.otpData.type,
             type = this.otpSuccess.otpData.type,
-            uuid = this.otpSuccess.otpData.uuid
+            uuid = this.otpSuccess.otpData.uuid,
+            proceed = this.otpSuccess.otpData.stage.lowercase() != "dashboard"
         )
     )
 

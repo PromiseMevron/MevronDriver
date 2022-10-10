@@ -46,9 +46,11 @@ class DocumentSubmissionPendingWidget @JvmOverloads constructor(
     private fun renderReview() {
         showView()
         background.setBackgroundColor(ContextCompat.getColor(context, R.color.document_under_review))
-        attentionMessageTitle.text =
-            context.getString(R.string.documents_submission_under_review)
-        attentionMessageSubTitle.visibility = View.GONE
+        attentionMessageTitle.text = "Document Status"
+            attentionMessageSubTitle.visibility = View.VISIBLE
+        attentionMessageSubTitle.text = context.getString(R.string.documents_submission_under_review)
+
+
     }
 
     private fun renderRejected() {

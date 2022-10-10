@@ -91,10 +91,12 @@ class DriverPrefrenceFragment : Fragment() {
 
                     if (state.error.isNotEmpty()) {
                         Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(error = "")
                     }
 
                     if (state.errorPost.isNotEmpty()) {
                         Toast.makeText(context, state.errorPost, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(errorPost = "")
                     }
 
                     if (state.isPostSuccess) {

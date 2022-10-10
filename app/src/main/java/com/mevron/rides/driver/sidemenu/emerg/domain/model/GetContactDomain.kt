@@ -9,5 +9,6 @@ data class  GetContactDomain(val savedAddresses: List<GetContactDomainData>?)
 data class GetContactDomainData(
     val id: String,
     val name: String,
-    val phone: String
+    val phone: String,
+    val details: List<Int>
 ): Parcelable

@@ -116,43 +116,57 @@ class AddNewVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSele
     }
 
     private fun handleSearchTextChanges() {
-        binding.addCarBottom.searchBar.setOnQueryTextListener(object :
-            SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
 
-                return false
-            }
+        binding.addCarBottom.searchBarField.textChanges().skipInitialValue().onEach {filter ->
+            addVehicleViewModel.filterMake(filter.toString())
+        }.launchIn(lifecycleScope)
 
-            override fun onQueryTextChange(filter: String?): Boolean {
-                addVehicleViewModel.filterMake(filter)
-                return false
-            }
-        })
+        binding.addCarModel.searchBarField.textChanges().skipInitialValue().onEach {filter ->
+            addVehicleViewModel.filterModel(filter.toString())
+        }.launchIn(lifecycleScope)
 
-        binding.addCarModel.searchBar.setOnQueryTextListener(object :
-            SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                return false
-            }
 
-            override fun onQueryTextChange(filter: String?): Boolean {
-                addVehicleViewModel.filterModel(filter)
+        binding.addCarYear.searchBarField.textChanges().skipInitialValue().onEach {filter ->
+            addVehicleViewModel.filterYear(filter.toString())
+        }.launchIn(lifecycleScope)
 
-                return false
-            }
-        })
+        /*   binding.addCarBottom.searchBar.setOnQueryTextListener(object :
+               SearchView.OnQueryTextListener {
+               override fun onQueryTextSubmit(p0: String?): Boolean {
 
-        binding.addCarYear.searchBar.setOnQueryTextListener(object :
-            SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                return false
-            }
+                   return false
+               }
 
-            override fun onQueryTextChange(filter: String?): Boolean {
-                addVehicleViewModel.filterYear(filter)
-                return false
-            }
-        })
+               override fun onQueryTextChange(filter: String?): Boolean {
+                   addVehicleViewModel.filterMake(filter)
+                   return false
+               }
+           })
+
+           binding.addCarModel.searchBar.setOnQueryTextListener(object :
+               SearchView.OnQueryTextListener {
+               override fun onQueryTextSubmit(p0: String?): Boolean {
+                   return false
+               }
+
+               override fun onQueryTextChange(filter: String?): Boolean {
+                   addVehicleViewModel.filterModel(filter)
+
+                   return false
+               }
+           })
+
+           binding.addCarYear.searchBar.setOnQueryTextListener(object :
+               SearchView.OnQueryTextListener {
+               override fun onQueryTextSubmit(p0: String?): Boolean {
+                   return false
+               }
+
+               override fun onQueryTextChange(filter: String?): Boolean {
+                   addVehicleViewModel.filterYear(filter)
+                   return false
+               }
+           })*/
     }
 
     private fun handleClickListeners() {
@@ -274,9 +288,9 @@ class AddNewVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSele
     }
 
     private fun setUpSubmitButtonEnabledForSearchBar() {
-        binding.addCarBottom.searchBar.isSubmitButtonEnabled = true
-        binding.addCarModel.searchBar.isSubmitButtonEnabled = true
-        binding.addCarYear.searchBar.isSubmitButtonEnabled = true
+       // binding.addCarBottom.searchBar.isSubmitButtonEnabled = true
+     //   binding.addCarModel.searchBar.isSubmitButtonEnabled = true
+     //   binding.addCarYear.searchBar.isSubmitButtonEnabled = true
     }
 
     private fun checkShouldActivateButton(editText: TextView) {
@@ -378,7 +392,7 @@ class AddNewVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSele
 
     private fun activateButton() {
         if (binding.year.text.isNotEmpty()) {
-            if (binding.year.text.toString().toInt() > 2014) {
+            if (binding.year.text.toString().toInt() > 2004) {
                 binding.yearOk.visibility = View.VISIBLE
             } else {
                 binding.yearOk.visibility = View.INVISIBLE
@@ -386,7 +400,7 @@ class AddNewVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSele
 
             if (binding.riderMake.text.isNotEmpty() && binding.riderModel.text.isNotEmpty() &&
                 binding.year.text.isNotEmpty() && binding.color.text.isNotEmpty() && binding.riderPlate.isNotEmpty()
-                && binding.year.text.toString().toInt() > 2014
+                && binding.year.text.toString().toInt() > 2004
             ) {
                 binding.addVehicle.setBackgroundColor(Color.parseColor("#25255A"))
                 binding.addVehicle.setTextColor(Color.parseColor("#ffffff"))

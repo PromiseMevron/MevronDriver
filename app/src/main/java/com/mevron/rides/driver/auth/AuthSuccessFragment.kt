@@ -1,14 +1,18 @@
 package com.mevron.rides.driver.auth
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.mevron.rides.driver.IntroActivity
 import com.mevron.rides.driver.R
 import com.mevron.rides.driver.databinding.AuthSuccessFragmentBinding
 import com.mevron.rides.driver.ride.RideActivity
@@ -48,8 +52,16 @@ class AuthSuccessFragment : Fragment(),EasyPermissions.PermissionCallbacks {
 
     private fun openRideActivity(){
         if (hasPermission()){
-            startActivity(Intent(activity, RideActivity::class.java))
-            activity?.finish()
+            val mLocationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val mGPS = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+            if (mGPS) {
+                startActivity(Intent(requireActivity(), RideActivity::class.java))
+                activity?.finish()
+            }
+            else {
+                Toast.makeText(requireContext(), "Enable Location and try again", Toast.LENGTH_LONG).show()
+            }
         }else{
             requestPermission()
         }

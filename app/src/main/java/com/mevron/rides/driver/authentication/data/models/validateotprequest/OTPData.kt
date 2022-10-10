@@ -8,5 +8,6 @@ data class OTPData(
     @SerializedName("type")
     val type: String,
     @SerializedName("uuid")
-    val uuid: String
+    val uuid: String,
+    val stage: String,
 )

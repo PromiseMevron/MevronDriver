@@ -82,7 +82,9 @@ class CashOutAddFundLayout @JvmOverloads constructor(
     }
 
     fun setUpCashOut(context: Context, balance: String) {
-        val balanceAmount = (balance.toDouble() / 2)
+        if (balance.isNotEmpty()){
+        val theBalance = balance.drop(1)
+        val balanceAmount = (theBalance.toDouble() / 2)
         titleText.text = context.getString(R.string.add_custom_cash_out)
         skipButton.visibility = VISIBLE
         doneButton.setOnClickListener {
@@ -115,6 +117,7 @@ class CashOutAddFundLayout @JvmOverloads constructor(
             }
 
         }
+    }
     }
 }
 

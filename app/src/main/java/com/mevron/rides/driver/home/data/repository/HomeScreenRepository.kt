@@ -6,6 +6,8 @@ import com.mevron.rides.driver.home.data.model.home.HomeScreenDataResponse
 import com.mevron.rides.driver.home.data.network.HomeScreenApi
 import com.mevron.rides.driver.home.domain.IHomeScreenRepository
 import com.mevron.rides.driver.home.domain.model.HomeScreenDomainModel
+import com.mevron.rides.driver.remote.HTTPErrorHandler
+import com.mevron.rides.driver.util.Constants
 
 class HomeScreenRepository(private val api: HomeScreenApi) : IHomeScreenRepository {
 
@@ -14,7 +16,8 @@ class HomeScreenRepository(private val api: HomeScreenApi) : IHomeScreenReposito
             if (it.isSuccessful) {
                 DomainModel.Success(data = Unit)
             } else {
-                DomainModel.Error(Throwable(it.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(it)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         }
 
@@ -23,10 +26,11 @@ class HomeScreenRepository(private val api: HomeScreenApi) : IHomeScreenReposito
             if (it.isSuccessful) {
                 DomainModel.Success(
                     data = it.body()?.toDomainModel()
-                        ?: DomainModel.Error(Throwable("No data found"))
+                        ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
                 )
             } else {
-                DomainModel.Error(Throwable(it.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(it)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         }
 

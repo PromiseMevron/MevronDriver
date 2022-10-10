@@ -9,6 +9,7 @@ import com.mevron.rides.driver.trips.domain.model.GetTripDomainData
 import com.mevron.rides.driver.trips.domain.usecase.GetTripUseCase
 import com.mevron.rides.driver.trips.ui.event.GetTripsEvent
 import com.mevron.rides.driver.trips.ui.state.GetTripState
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +40,7 @@ class RideActivityViewModel @Inject constructor(private val useCase: GetTripUseC
                 is DomainModel.Error -> mutableState.update {
                     mutableState.value.copy(
                         isLoading = false,
-                        error = "failure to fetch previous trips"
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {

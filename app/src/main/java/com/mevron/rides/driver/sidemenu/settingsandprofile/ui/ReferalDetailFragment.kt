@@ -65,6 +65,7 @@ class ReferalDetailFragment : Fragment() {
                 if (state.error.isNotEmpty()) {
                     Log.d("Failure", state.error)
                     Toast.makeText(context, state.error, Toast.LENGTH_LONG).show()
+                    viewModel.updateState(error = "")
                 }
                 if (state.startDate.isNotEmpty() && state.endDate.isNotEmpty()) {
                     viewModel.handleEvent(ReferalEvent.GetReferalDetail)

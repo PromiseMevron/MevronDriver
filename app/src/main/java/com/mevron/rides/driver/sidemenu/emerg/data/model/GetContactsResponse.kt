@@ -21,5 +21,6 @@ data class GetContacts(
 data class GetContactData(
     val id: String,
     val name: String,
-    val phoneNumber: String
+    val phoneNumber: String,
+    val details: List<Int>
 ):Parcelable

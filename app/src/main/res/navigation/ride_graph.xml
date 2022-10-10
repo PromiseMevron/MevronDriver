@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/updateAddressFragment"
-        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.UpdateAddressFragment"
+        android:name="com.mevron.rides.driver.sidemenu.savedplaces.ui.updateaddress.UpdateAddressFragment"
         android:label="update_address_fragment"
         tools:layout="@layout/update_address_fragment" >
         <argument
@@ -167,6 +167,9 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_vehicleDetailsFragment_to_vehicleImageUploadFragment2"
+            app:destination="@id/vehicleImageUploadFragment" />
     </fragment>
     <fragment
         android:id="@+id/vehicleFragment"
@@ -371,5 +374,14 @@
         android:name="com.mevron.rides.driver.sidemenu.vehicle.ui.AddNewVehicleFragment"
         android:label="AddNewVehicleFragment" /><action android:id="@+id/action_global_emergencyFragment" app:destination="@id/emergencyFragment"/>
     <action android:id="@+id/action_global_helpFragment" app:destination="@id/helpFragment" />
+    <fragment
+        android:id="@+id/vehicleImageUploadFragment"
+        android:name="com.mevron.rides.driver.sidemenu.vehicle.ui.VehicleImageUploadFragment"
+        android:label="fragment_vehicle_image_upload"
+        tools:layout="@layout/fragment_vehicle_image_upload" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

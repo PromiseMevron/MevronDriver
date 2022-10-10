@@ -82,6 +82,7 @@ class RideActivity : AppCompatActivity(), SelectVehicle {
         navView = findViewById(R.id.nav_view)
         blurBKG = findViewById(R.id.bg)
         val widthOfNav = (Screen.width)
+        navView.layoutParams.height = Screen.height
         navView.layoutParams.width = widthOfNav
         navView.requestLayout()
         navController = findNavController(R.id.nav_host_fragment)
@@ -189,6 +190,12 @@ class RideActivity : AppCompatActivity(), SelectVehicle {
         }
 
     }
+    override fun onNavigateUp(): Boolean {
+        val navcon = this.findNavController(R.id.nav_host_fragment)
+        return navcon.navigateUp()
+    }
+
+
 private fun updateSideMenu(){
     val json = sPref.getString(Constants.PROFILE, null)
     json?.let {
@@ -213,7 +220,7 @@ private fun updateSideMenu(){
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     override fun selectVehicle(uuid: String, clickedPosition: Int) {

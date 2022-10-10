@@ -219,7 +219,7 @@ class FaceLivenessDetectionFragment() : Fragment() {
                                                 val smile = "%.2f".format(face.smilingProbability)
                                                     .toDouble()
 
-                                                val compareSmile = smile.compareTo(0.7)
+                                                val compareSmile = smile.compareTo(0.3)
                                                 val compareRight = rightEye.compareTo(0.10)
                                                 val compareLeft = leftEye.compareTo(0.10)
 

@@ -28,6 +28,7 @@ import com.mevron.rides.driver.updateprofile.ui.adapters.CarYearSelectedListener
 import com.mevron.rides.driver.updateprofile.ui.adapters.ColorAdapter
 import com.mevron.rides.driver.updateprofile.ui.adapters.ColorSelectionListener
 import com.mevron.rides.driver.databinding.AddVehicleFragmentBinding
+import com.mevron.rides.driver.sidemenu.savedplaces.ui.saveaddress.event.SaveAddressEvent
 import com.mevron.rides.driver.updateprofile.ui.event.AddVehicleEvent
 import com.mevron.rides.driver.updateprofile.ui.state.AddVehicleError
 import com.mevron.rides.driver.updateprofile.ui.state.AddVehicleState
@@ -129,7 +130,21 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
     }
 
     private fun handleSearchTextChanges() {
-        binding.addCarBottom.searchBar.setOnQueryTextListener(object :
+
+        binding.addCarBottom.searchBarField.textChanges().skipInitialValue().onEach {filter ->
+            addVehicleViewModel.filterMake(filter.toString())
+        }.launchIn(lifecycleScope)
+
+        binding.addCarModel.searchBarField.textChanges().skipInitialValue().onEach {filter ->
+            addVehicleViewModel.filterModel(filter.toString())
+        }.launchIn(lifecycleScope)
+
+
+        binding.addCarYear.searchBarField.textChanges().skipInitialValue().onEach {filter ->
+            addVehicleViewModel.filterYear(filter.toString())
+        }.launchIn(lifecycleScope)
+
+     /*   binding.addCarBottom.searchBar.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
 
@@ -165,7 +180,7 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
                 addVehicleViewModel.filterYear(filter)
                 return false
             }
-        })
+        })*/
     }
 
     private fun handleClickListeners() {
@@ -287,9 +302,9 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
     }
 
     private fun setUpSubmitButtonEnabledForSearchBar() {
-        binding.addCarBottom.searchBar.isSubmitButtonEnabled = true
-        binding.addCarModel.searchBar.isSubmitButtonEnabled = true
-        binding.addCarYear.searchBar.isSubmitButtonEnabled = true
+      //  binding.addCarBottom.searchBar.isSubmitButtonEnabled = true
+      //  binding.addCarModel.searchBar.isSubmitButtonEnabled = true
+      //  binding.addCarYear.searchBar.isSubmitButtonEnabled = true
     }
 
     private fun checkShouldActivateButton(editText: TextView) {
@@ -391,7 +406,7 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
 
     private fun activateButton() {
         if (binding.year.text.isNotEmpty()) {
-            if (binding.year.text.toString().toInt() > 2014) {
+            if (binding.year.text.toString().toInt() > 2004) {
                 binding.yearOk.visibility = View.VISIBLE
             } else {
                 binding.yearOk.visibility = View.INVISIBLE
@@ -399,7 +414,7 @@ class AddVehicleFragment : Fragment(), CarMakeSelectionListener, CarModelSelecti
 
             if (binding.riderMake.text.isNotEmpty() && binding.riderModel.text.isNotEmpty() &&
                 binding.year.text.isNotEmpty() && binding.color.text.isNotEmpty() && binding.riderPlate.isNotEmpty()
-                && binding.year.text.toString().toInt() > 2014
+                && binding.year.text.toString().toInt() > 2004
             ) {
                 binding.addVehicle.setBackgroundColor(Color.parseColor("#25255A"))
                 binding.addVehicle.setTextColor(Color.parseColor("#ffffff"))

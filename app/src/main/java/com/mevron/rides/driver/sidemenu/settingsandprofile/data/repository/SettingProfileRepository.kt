@@ -2,6 +2,7 @@ package com.mevron.rides.driver.sidemenu.settingsandprofile.data.repository
 
 import com.mevron.rides.driver.auth.model.GeneralResponse
 import com.mevron.rides.driver.domain.DomainModel
+import com.mevron.rides.driver.remote.HTTPErrorHandler
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.GetProfileResponse
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.ReferalReport
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.SaveDetailsRequest
@@ -9,13 +10,15 @@ import com.mevron.rides.driver.sidemenu.settingsandprofile.data.model.SetReferal
 import com.mevron.rides.driver.sidemenu.settingsandprofile.data.network.SettingProfileAPI
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.model.*
 import com.mevron.rides.driver.sidemenu.settingsandprofile.domain.repository.ISettingProfileRepository
+import com.mevron.rides.driver.util.Constants
 
 class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingProfileRepository {
     override suspend fun getProfile(): DomainModel = api.getProfile().let {
         if (it.isSuccessful) {
-            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable("Error in getting profile"))
+            it.body()?.toDomainModel() ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable("Error in getting profile"))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -23,27 +26,30 @@ class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingPro
         api.updateTheProfile(data).let {
             if (it.isSuccessful) {
                 it.body()?.toDomainModel()
-                    ?: DomainModel.Error(Throwable("Error in updating the profile"))
+                    ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
             } else {
-                DomainModel.Error(Throwable("Error in updating the profile"))
+                val error = HTTPErrorHandler.handleErrorWithCode(it)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         }
 
     override suspend fun resendEmailLink(): DomainModel = api.resendEmailLink().let {
         if (it.isSuccessful) {
             it.body()?.toDomainModel()
-                ?: DomainModel.Error(Throwable("Error in resending the email verification mail"))
+                ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable("Error in resending the email verification mail"))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
 
     override suspend fun signOut(): DomainModel  = api.signOut().let {
         if (it.isSuccessful) {
             it.body()?.toDomainModel()
-                ?: DomainModel.Error(Throwable("Error in signing out"))
+                ?: DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         } else {
-            DomainModel.Error(Throwable("Error in signing out"))
+            val error = HTTPErrorHandler.handleErrorWithCode(it)
+            DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
         }
     }
     override suspend fun getAllReferal(): DomainModel {
@@ -62,10 +68,11 @@ class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingPro
                     )
                 )
             } else {
-                DomainModel.Error(Throwable(response.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(response)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         } catch (error: Throwable) {
-            DomainModel.Error(Throwable("Error setting referral"))
+            DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -76,10 +83,11 @@ class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingPro
                 val numbers = response.body()?.success?.refData?.rides ?: "0"
                 DomainModel.Success(data = ReferalNumber(rides = numbers))
             } else {
-                DomainModel.Error(Throwable(response.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(response)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         } catch (error: Throwable) {
-            DomainModel.Error(Throwable("Error setting referral"))
+            DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         }
     }
 
@@ -89,10 +97,11 @@ class SettingProfileRepository(private val api: SettingProfileAPI) : ISettingPro
             if (response.isSuccessful) {
                 DomainModel.Success(data = Unit)
             } else {
-                DomainModel.Error(Throwable(response.errorBody().toString()))
+                val error = HTTPErrorHandler.handleErrorWithCode(response)
+                DomainModel.Error(Throwable(error?.error?.message ?: Constants.UNEXPECTED_ERROR))
             }
         } catch (error: Throwable) {
-            DomainModel.Error(Throwable("Error setting referral"))
+            DomainModel.Error(Throwable(Constants.UNEXPECTED_ERROR))
         }
     }
 

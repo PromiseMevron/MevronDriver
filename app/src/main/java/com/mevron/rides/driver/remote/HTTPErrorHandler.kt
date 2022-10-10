@@ -2,6 +2,7 @@ package com.mevron.rides.driver.remote
 
 import com.google.gson.Gson
 import com.mevron.rides.driver.remote.error.ErrorModel
+import com.mevron.rides.driver.util.Constants
 import retrofit2.HttpException
 import retrofit2.Response
 import java.net.SocketTimeoutException
@@ -17,7 +18,7 @@ object HTTPErrorHandler {
             }else null
         }catch (ex: Exception){
             ex.printStackTrace()
-            ErrorModel(error = com.mevron.rides.driver.remote.error.Error("Unknown Error", "Failed"))
+            ErrorModel(error = com.mevron.rides.driver.remote.error.Error(Constants.UNEXPECTED_ERROR, "Failed"))
 
         }
     }

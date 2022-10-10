@@ -61,6 +61,10 @@ class MevronRepo @Inject constructor ( private val api: MevronAPI, private val d
         return api.uploadSticker(data, uuid)
     }
 
+    suspend fun uploadVehicleImage(data: MultipartBody.Part, uuid: String = ""): Response<GeneralResponse>{
+        return api.uploadVehicleImage(data, uuid)
+    }
+
     suspend fun uploadInsurance(data: MultipartBody.Part, uuid: String = ""): Response<GeneralResponse>{
         return api.uploadInsurance(data, uuid)
     }
@@ -81,7 +85,11 @@ class MevronRepo @Inject constructor ( private val api: MevronAPI, private val d
         return api.getCarYear(param)
     }
 
-    suspend fun tripManagement(data: TripManagementModel): Response<GeneralResponse>{
+    suspend fun resendOTP(data: VerifyOTPRequest): Response<GeneralResponse> {
+        return api.resendOTP(data)
+    }
+
+        suspend fun tripManagement(data: TripManagementModel): Response<GeneralResponse>{
         return api.tripManagement(data)
     }
 

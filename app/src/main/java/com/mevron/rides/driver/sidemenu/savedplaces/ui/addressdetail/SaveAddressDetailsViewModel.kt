@@ -14,6 +14,7 @@ import com.mevron.rides.driver.sidemenu.savedplaces.data.model.SaveAddressReques
 import com.mevron.rides.driver.sidemenu.savedplaces.domain.usecases.SaveAddressUseCase
 import com.mevron.rides.driver.sidemenu.savedplaces.ui.addressdetail.event.SaveAddressDetailsEvent
 import com.mevron.rides.driver.sidemenu.savedplaces.ui.addressdetail.state.SaveAddressDetailState
+import com.mevron.rides.driver.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +43,7 @@ class SaveAddressDetailsViewModel @Inject constructor(private val useCase: SaveA
                     mutableState.value.copy(
                         isLoading = false,
                         isSuccess = false,
-                        error = "Failure in saving details"
+                        error = result.error.localizedMessage ?: Constants.UNEXPECTED_ERROR
                     )
                 }
                 is DomainModel.Success -> {

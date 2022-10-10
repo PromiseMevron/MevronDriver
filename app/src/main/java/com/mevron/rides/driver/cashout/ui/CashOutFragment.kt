@@ -66,6 +66,11 @@ class CashOutFragment : Fragment(), TopLayerButtonClicked {
                         desc = if (state.loading) "Processing..." else null
                     )
 
+                    if (state.errorMessage.isNotEmpty()){
+                        Toast.makeText(requireContext(), state.errorMessage, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(errorMessage = "")
+                    }
+
                     if (state.successCard){
                         Toast.makeText(context, "Successful", Toast.LENGTH_LONG).show()
                         viewModel.updateState(success = false)

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -57,6 +58,10 @@ class DocumentCheckFragment : Fragment(), SelectVehicleDetail, SelectVehicleDeta
                         state.loading,
                         desc = if (state.loading) "Processing..." else null
                     )*/
+                    if (state.error.isNotEmpty()){
+                        Toast.makeText(requireContext(), state.error, Toast.LENGTH_LONG).show()
+                        viewModel.updateState(errorMessage = "")
+                    }
                     adapter.submitList(state.documentStatus)
                     adapter2.submitList(state.carProperties)
                     binding.carProp.text =

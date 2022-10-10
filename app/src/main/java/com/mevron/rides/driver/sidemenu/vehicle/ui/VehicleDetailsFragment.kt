@@ -20,6 +20,7 @@ import com.mevron.rides.driver.databinding.VehicleDetailsFragmentBinding
 import com.mevron.rides.driver.home.model.documents.Document
 import com.mevron.rides.driver.sidemenu.vehicle.ui.event.VehicleEvent
 import com.mevron.rides.driver.sidemenu.vehicle.ui.state.VehicleState
+import com.mevron.rides.driver.util.showImagePickerDialog
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -64,6 +65,12 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
             viewModel.onEvent(VehicleEvent.DeleteVehicle)
         }
 
+        binding.carImage.setOnClickListener {
+            val cardId = viewModel.state.value.uuid
+            val action = VehicleDetailsFragmentDirections.actionVehicleDetailsFragmentToVehicleImageUploadFragment2(cardId)
+            findNavController().navigate(action)
+        }
+
         lifecycleScope.launchWhenResumed {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
@@ -98,7 +105,7 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
                 .error(R.drawable.ic_car).into(binding.carImage)
             Picasso.get().load(state.detail.image).placeholder(R.drawable.ic_car)
                 .error(R.drawable.ic_car).into(binding.carEnlarged)
-            Executors.newSingleThreadExecutor().execute {
+         /*   Executors.newSingleThreadExecutor().execute {
                 try {
                     val inputStream: InputStream = URL(state.detail.image).openStream()
                     val bitmap: Bitmap? = BitmapFactory.decodeStream(inputStream)
@@ -120,7 +127,7 @@ class VehicleDetailsFragment : Fragment(), SelectVehicleDetail {
                 } catch (e: Exception) {
                     print(e.message)
                 }
-            }
+            }*/
         } else {
             binding.grayBackground.visibility = View.GONE
             binding.carEnlarged.visibility = View.GONE
